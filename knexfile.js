@@ -2,6 +2,10 @@
 
 require("dotenv").config();
 
+// Knex doesn't automatically set this, and it is needed for Heroku
+var pg = require("pg");
+pg.defaults.ssl = true;
+
 module.exports = {
   development: {
     client: "postgresql",
