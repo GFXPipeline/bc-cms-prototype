@@ -92,6 +92,12 @@ knex seed:make add_hello_world_page
 ```
 
 
-## Remote database usage
+## Heroku database usage
 
-This project assumes a deployment on Heroku, but can be used anywhere. Note that the reference to `process.env.DATABASE_URL` in `production` node of `./knexfile.js` assumes that this environment variable will be available as it is on Heroku.
+This project assumes a production deployment on Heroku, but can be used anywhere. Note that the reference to `process.env.DATABASE_URL` in `production` node of `./knexfile.js` assumes that this environment variable will be available as it is on Heroku.
+
+Depending on the Heroku Postgres database tier being used, it might be necessary to explicitly set SSL requirements. See [Configuring Free Heroku Node/PostgreSQL hosting with Knex](https://dpletzke.medium.com/configuring-free-heroku-node-postgresql-hosting-with-knex-b0e97a05c6af). Specifically, `heroku config:set PGSSLMODE=no-verify` might be necessary with the "Hobby" tier.
+
+Run migrations on Heroku: `heroku run knex migrate:latest`
+
+Run seeds on Heroku: `heroku run knex seed:run`
