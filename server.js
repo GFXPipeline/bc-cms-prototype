@@ -22,10 +22,14 @@ if (ENV === "development") {
   knex.on("query", console.log);
 }
 
+// Routes
+const userRoutes = require("./routes/user");
+
 // Use React app's build directory as static mount point
 app.use(express.static(path.join(__dirname, 'app', 'build')));
 
 // API routes
+app.use("/api/users", userRoutes);
 app.get("/api/pages", (req, res) => {
   knex("pages")
     .select(["*"])
