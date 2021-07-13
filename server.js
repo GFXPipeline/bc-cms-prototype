@@ -24,22 +24,14 @@ if (ENV === "development") {
 
 // Routes
 const userRoutes = require("./routes/user");
-
-// Use React app's build directory as static mount point
-app.use(express.static(path.join(__dirname, 'app', 'build')));
+const pageRoutes = require("./routes/page");
 
 // API routes
 app.use("/api/users", userRoutes);
-app.get("/api/pages", (req, res) => {
-  knex("pages")
-    .select(["*"])
-    .then((results) => {
-      res.status(200).json(results);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-});
+app.use("/api/pages", pageRoutes);
+
+// Use React app's build directory as static mount point
+app.use(express.static(path.join(__dirname, "app", "build")));
 
 // React routes
 app.get('*', function(req, res) {
