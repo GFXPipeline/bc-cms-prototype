@@ -18,7 +18,7 @@ function Pages() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios("/api/pages");
+        const result = await axios("/api/pages/all");
         setPages(result.data);
       } catch (error) {
         console.log(error);
@@ -33,7 +33,6 @@ function Pages() {
       <h2>Pages</h2>
       {pages?.length > 0 &&
         pages.map((page, index) => {
-          console.log(page);
           return (
             <StyledPage key={`page-${index}`}>
               <h3>{page.title}</h3>
