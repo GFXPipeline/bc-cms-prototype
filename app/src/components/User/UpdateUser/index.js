@@ -80,6 +80,7 @@ function UpdateUser() {
             <input
               id="update-user-username"
               type="text"
+              autoComplete="username"
               onChange={(e) => setUsername(e.target.value)}
               disabled={isSubmitting}
               value={username}
@@ -90,6 +91,7 @@ function UpdateUser() {
             <input
               id="update-user-password"
               type="password"
+              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
               disabled={isSubmitting}
               value={password}

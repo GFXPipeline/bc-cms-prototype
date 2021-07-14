@@ -79,6 +79,7 @@ function AddUser() {
             <input
               id="add-user-username"
               type="text"
+              autoComplete="username"
               onChange={(e) => setUsername(e.target.value)}
               disabled={isSubmitting}
               value={username}
@@ -89,6 +90,7 @@ function AddUser() {
             <input
               id="add-user-password"
               type="password"
+              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
               disabled={isSubmitting}
               value={password}
