@@ -27,12 +27,14 @@ Project file structure:
 
 Clone this repository and install dependencies with: `npm i`
 
+Using the template in `./.env.sample`, create a `./.env` file to hold environment variables. Add any secret string to the `JWT_SECRET` variable.
+
 Run in development mode with: `npm run start:dev`
 
 
 ## Database setup for local development
 
-PostgreSQL is used for data persistence through the `pg` package. Install [PostgreSQL](https://www.postgresql.org/) locally as desired, and then follow the instructions below to create an empty database that we will later seed. Using the template in `./.env.sample`, create a `./.env` file to hold database environment variables.
+PostgreSQL is used for data persistence through the `pg` package. Install [PostgreSQL](https://www.postgresql.org/) locally as desired, and then follow the instructions below to create an empty database that we will later seed.
 
 1. Open the `psql` shell using the superuser and default database:
 
