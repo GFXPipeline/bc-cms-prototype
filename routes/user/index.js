@@ -3,8 +3,16 @@
 const express = require("express");
 const router = express.Router();
 const knex = require("../../db").handle;
+const userService = require("../../_services/user.service");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+
+router.post("/authenticate", (req, res) => {
+  userService.authenticate(
+    { username: req.body.username, password: req.body.password },
+    res
+  );
+});
 
 router.post("/create", (req, res) => {
   const username = req.body.username;
