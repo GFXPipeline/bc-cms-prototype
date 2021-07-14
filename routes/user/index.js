@@ -87,7 +87,7 @@ router.post("/update", (req, res) => {
               );
 
               res.status(200).json({
-                created: true,
+                updated: true,
                 username: username,
               });
             })

@@ -35,7 +35,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function AddUser() {
+function UpdateUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,19 +45,20 @@ function AddUser() {
   function handleSubmit() {
     setIsSubmitting(true);
     axios
-      .post("/api/users/create", {
+      .post("/api/users/update", {
         username: username,
         password: password,
       })
       .then((res) => {
-        if (res?.data?.created) {
-          setSuccess(`Created account for username`);
+        if (res?.data?.updated) {
+          setSuccess(`Updated password for username`);
         } else {
-          setError(`Unable to create username`);
+          setError(`Unable to update password for username`);
         }
       })
       .catch((err) => {
-        setError("No response from server.");
+        // 4xx responses are caught here
+        setError("Unable to update password for username");
       });
   }
 
@@ -72,12 +73,12 @@ function AddUser() {
   return (
     <StyledDiv>
       <form>
-        <legend>Create a new user</legend>
+        <legend>Update a user password.</legend>
         <fieldset>
           <div>
-            <label htmlFor="add-user-username">Username:</label>
+            <label htmlFor="update-user-username">Username:</label>
             <input
-              id="add-user-username"
+              id="update-user-username"
               type="text"
               onChange={(e) => setUsername(e.target.value)}
               disabled={isSubmitting}
@@ -85,9 +86,9 @@ function AddUser() {
             />
           </div>
           <div>
-            <label htmlFor="add-user-password">Password:</label>
+            <label htmlFor="update-user-password">New password:</label>
             <input
-              id="add-user-password"
+              id="update-user-password"
               type="password"
               onChange={(e) => setPassword(e.target.value)}
               disabled={isSubmitting}
@@ -98,7 +99,7 @@ function AddUser() {
 
         {/* Submit button */}
         <button
-          id="add-user-submit-button"
+          id="update-user-submit-button"
           type="Submit"
           onClick={handleSubmit}
           disabled={!username || !password || isSubmitting}
@@ -108,7 +109,7 @@ function AddUser() {
 
         {/* Reset button */}
         <button
-          id="add-user-reset-button"
+          id="update-user-reset-button"
           // type="reset"
           disabled={!username && !password}
           onClick={handleReset}
@@ -131,4 +132,4 @@ function AddUser() {
   );
 }
 
-export default AddUser;
+export default UpdateUser;
