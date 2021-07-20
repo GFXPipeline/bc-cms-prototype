@@ -1,4 +1,3 @@
-require("dotenv").config();
 const bcrypt = require("bcrypt");
 const knex = require("../db").handle;
 const jwt = require("jsonwebtoken");
@@ -34,7 +33,7 @@ async function authenticate({ username, password }, res) {
               expiresIn: "1d",
             });
 
-            res.json({ token });
+            res.json({ username, token });
           } else {
             // Password doesn't match
             console.log(`Passwords don't match for username ${username}`);
