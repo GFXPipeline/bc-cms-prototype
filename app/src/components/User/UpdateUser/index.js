@@ -2,8 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
+import { authHeader } from "../../../_helpers/auth-header";
+
 const StyledDiv = styled.div`
   background-color: lightgrey;
+  padding: 16px;
 
   form {
     fieldset {
@@ -39,34 +42,48 @@ function UpdateUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
+
     setIsSubmitting(true);
+
+    const requestOptions = {
+      headers: authHeader(),
+    };
+
     axios
-      .post("/api/users/update", {
-        username: username,
-        password: password,
-      })
+      .post(
+        "/api/users/update",
+        {
+          username: username,
+          password: password,
+        },
+        requestOptions
+      )
       .then((res) => {
         if (res?.data?.updated) {
-          setSuccess(`Updated password for username`);
+          setIsSuccess(true);
         } else {
-          setError(`Unable to update password for username`);
+          setIsError(true);
         }
       })
-      .catch((err) => {
-        // 4xx responses are caught here
-        setError("Unable to update password for username");
+      .catch((error) => {
+        // 4xx and 5xxx responses are caught here
+        setIsError(true);
+        console.log("error in UpdateUser POST route: ", error);
       });
   }
 
-  function handleReset() {
+  function handleReset(event) {
+    event.preventDefault();
+
     setUsername("");
     setPassword("");
-    setSuccess("");
-    setError("");
+    setIsSuccess(false);
+    setIsError(false);
     setIsSubmitting(false);
   }
 
@@ -102,8 +119,8 @@ function UpdateUser() {
         {/* Submit button */}
         <button
           id="update-user-submit-button"
-          type="Submit"
-          onClick={handleSubmit}
+          type="submit"
+          onClick={(e) => handleSubmit(e)}
           disabled={!username || !password || isSubmitting}
         >
           Submit
@@ -112,21 +129,20 @@ function UpdateUser() {
         {/* Reset button */}
         <button
           id="update-user-reset-button"
-          // type="reset"
           disabled={!username && !password}
-          onClick={handleReset}
+          onClick={(e) => handleReset(e)}
         >
           Reset
         </button>
 
-        {success && (
+        {isSuccess && (
           <p className="success">
-            {success} <strong>{username}</strong>
+            Updated password for user <strong>{username}</strong>
           </p>
         )}
-        {error && (
+        {isError && (
           <p className="error">
-            {error} <strong>{username}</strong>
+            Could not update user <strong>{username}</strong>
           </p>
         )}
       </form>

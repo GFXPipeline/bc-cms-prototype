@@ -2,8 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
+import { authHeader } from "../../../_helpers/auth-header";
+
 const StyledDiv = styled.div`
   background-color: lightgrey;
+  padding: 16px;
 
   form {
     fieldset {
@@ -39,33 +42,47 @@ function AddUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
 
-  function handleSubmit() {
+  function handleSubmit(event) {
+    event.preventDefault();
+
     setIsSubmitting(true);
+
+    const requestOptions = {
+      headers: authHeader(),
+    };
+
     axios
-      .post("/api/users/create", {
-        username: username,
-        password: password,
-      })
+      .post(
+        "/api/users/create",
+        {
+          username: username,
+          password: password,
+        },
+        requestOptions
+      )
       .then((res) => {
         if (res?.data?.created) {
-          setSuccess(`Created account for username`);
+          setIsSuccess(true);
         } else {
-          setError(`Unable to create username`);
+          setIsError(true);
         }
       })
-      .catch((err) => {
-        setError("No response from server.");
+      .catch((error) => {
+        console.log("error in AddUser POST route: ", error);
+        setIsError(true);
       });
   }
 
-  function handleReset() {
+  function handleReset(event) {
+    event.preventDefault();
+
     setUsername("");
     setPassword("");
-    setSuccess("");
-    setError("");
+    setIsSuccess(false);
+    setIsError(false);
     setIsSubmitting(false);
   }
 
@@ -102,7 +119,7 @@ function AddUser() {
         <button
           id="add-user-submit-button"
           type="Submit"
-          onClick={handleSubmit}
+          onClick={(e) => handleSubmit(e)}
           disabled={!username || !password || isSubmitting}
         >
           Submit
@@ -111,23 +128,18 @@ function AddUser() {
         {/* Reset button */}
         <button
           id="add-user-reset-button"
-          // type="reset"
           disabled={!username && !password}
-          onClick={handleReset}
+          onClick={(e) => handleReset(e)}
         >
           Reset
         </button>
 
-        {success && (
+        {isSuccess && (
           <p className="success">
-            {success} <strong>{username}</strong>
+            Created user <strong>{username}</strong>
           </p>
         )}
-        {error && (
-          <p className="error">
-            {error} <strong>{username}</strong>
-          </p>
-        )}
+        {isError && <p className="error">Unable to create new user</p>}
       </form>
     </StyledDiv>
   );
