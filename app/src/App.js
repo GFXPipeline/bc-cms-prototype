@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 import PrivateRoute from "./components/PrivateRoute";
+import Editor from "./components/Editor";
 import Login from "./components/User/Login";
 import PageRoutes from "./components/Page";
 import UserRoutes from "./components/User";
@@ -21,6 +22,9 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
+          <PrivateRoute path="/editor">
+            <Editor />
+          </PrivateRoute>
           <PrivateRoute path="/">
             <h1>CMS</h1>
             <UserRoutes />
