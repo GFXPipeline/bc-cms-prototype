@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
+import { authHeader } from "../src/_helpers/auth-header";
+
 const StyledDiv = styled.div`
   background-color: white;
   max-width: 800px;
@@ -10,6 +12,7 @@ const StyledDiv = styled.div`
 
 const StyledPage = styled.div`
   background-color: lightgrey;
+  padding: 0 8px;
 `;
 
 function Pages() {
@@ -18,8 +21,11 @@ function Pages() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios("/api/pages");
-        setPages(result.data);
+        const requestOptions = {
+          headers: authHeader(),
+        };
+        const result = await axios("/api/pages/all", requestOptions);
+        setPages(result?.data);
       } catch (error) {
         console.log(error);
       }
@@ -31,9 +37,9 @@ function Pages() {
   return (
     <StyledDiv>
       <h2>Pages</h2>
+      <span>GET /api/pages/all</span>
       {pages?.length > 0 &&
         pages.map((page, index) => {
-          console.log(page);
           return (
             <StyledPage key={`page-${index}`}>
               <h3>{page.title}</h3>
