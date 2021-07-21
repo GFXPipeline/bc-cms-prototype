@@ -6,7 +6,10 @@ exports.up = function (knex) {
       .notNullable()
       .primary();
     table.string("title");
-    table.string("author");
+    table.text("data");
+    table.uuid("created_by_user").references("id").inTable("users");
+    table.uuid("owned_by_user").references("id").inTable("users");
+    table.uuid("last_modified_by_user").references("id").inTable("users");
     table.dateTime("time_created").notNullable().defaultTo(knex.fn.now());
     table.dateTime("time_last_updated").notNullable().defaultTo(knex.fn.now());
   });
