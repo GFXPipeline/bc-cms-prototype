@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/User/Login";
-import Pages from "./Pages";
+import PageRoutes from "./components/Page";
 import UserRoutes from "./components/User";
 
 const StyledApp = styled.div`
@@ -23,8 +23,8 @@ function App() {
           </Route>
           <PrivateRoute path="/">
             <h1>CMS</h1>
-            <Pages />
             <UserRoutes />
+            <PageRoutes />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>
