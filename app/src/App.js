@@ -22,7 +22,7 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <PrivateRoute path="/editor">
+          <PrivateRoute path="/edit/:id">
             <Editor />
           </PrivateRoute>
           <PrivateRoute path="/">
