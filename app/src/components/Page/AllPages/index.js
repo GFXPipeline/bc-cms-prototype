@@ -30,10 +30,18 @@ function Pages() {
           headers: authHeader(),
         };
         const result = await axios("/api/pages/all", requestOptions);
-        setPages(result?.data);
+
+        if (result?.data && Array.isArray(result?.data)) {
+          setPages(result?.data);
+        } else {
+          setIsError(true);
+          console.log(
+            "Pages /api/pages/all call returned a non-array response"
+          );
+        }
       } catch (error) {
         setIsError(true);
-        console.log(error);
+        console.log("error in Pages: ", error);
       }
     };
 
@@ -42,12 +50,13 @@ function Pages() {
 
   return (
     <StyledDiv>
-      {pages?.length > 0 &&
-        pages.map((page, index) => {
+      {pages &&
+        pages?.length > 0 &&
+        pages?.map((page, index) => {
           return (
             <div className="page" key={`page-${index}`}>
               <p>
-                <strong>{page.title}</strong> by {page.author}
+                <strong>{page.title}</strong>
               </p>
               <p>
                 Last Updated: {new Date(page.time_last_updated).toDateString()}
