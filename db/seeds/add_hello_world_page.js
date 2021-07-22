@@ -7,7 +7,7 @@ exports.seed = function (knex) {
       return knex("pages").insert([
         {
           title: "Hello World!",
-          author: "Contributor",
+          data: "<p>This is the first page.</p>",
         },
       ]);
     });

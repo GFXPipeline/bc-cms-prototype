@@ -34,6 +34,24 @@ const apiRouter = express.Router();
 apiRouter.use(jwt());
 apiRouter.use(errorHandler);
 
+// Single page
+apiRouter.get("/page/:id", (req, res) => {
+  console.log(`GET /api/page/${req.params.id}`);
+
+  knex("pages")
+    .select("*")
+    .where("id", req.params.id)
+    .then((results) => {
+      console.log(`results in GET /api/page/${req.params.id}`);
+      res.status(200).json(results);
+    })
+    .catch((error) => {
+      console.log("error in GET /api/pages/all knex call: ", error);
+      res.status(401).send();
+    });
+});
+
+// All pages
 apiRouter.get("/pages/all", jwt(), (req, res) => {
   console.log("GET /api/pages/all");
 
