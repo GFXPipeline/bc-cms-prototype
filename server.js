@@ -117,7 +117,7 @@ apiRouter.post("/users/create", (req, res) => {
                 console.log(
                   `Inserted ${success?.rowCount} row into users table: ${username}`
                 );
-                res.status(200).json({
+                res.status(201).json({
                   created: true,
                   username: username,
                 });
