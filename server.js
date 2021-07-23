@@ -6,6 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const path = require("path");
+const morgan = require("morgan");
 const jwt = require("./_helpers/jwt");
 const errorHandler = require("./_helpers/error-handler");
 const userService = require("./_services/user.service");
@@ -25,8 +26,11 @@ const db = require("./db");
 const knexConfig = require("./knexfile");
 db.init(app, knexConfig[ENV]);
 const knex = db.handle();
+
+// Logging in development environment
 if (ENV === "development") {
   knex.on("query", console.log);
+  app.use(morgan("combined"));
 }
 
 // API routes
