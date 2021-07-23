@@ -5,10 +5,15 @@ import BalloonBlockEditor from "@ckeditor/ckeditor5-build-balloon-block";
 
 import { pageService } from "../../_services";
 
+import Toolbar from "./Toolbar";
+
 function Editor() {
   const { id } = useParams();
   const [data, setData] = useState(
     id ? "(Fetching page data)" : "Where would you like to go today?"
+  );
+  const [title, setTitle] = useState(
+    id ? "(Fetching page title)" : "Page title"
   );
   const [isError, setIsError] = useState(false);
 
@@ -16,11 +21,12 @@ function Editor() {
     if (id) {
       pageService
         .read(id)
-        .then((data) => {
-          setData(data);
+        .then((response) => {
+          setData(response.data);
+          setTitle(response.title);
         })
         .catch((error) => {
-          console.log("error in Editor pageService catch", error);
+          console.log("error in Editor pageService catch: ", error);
           setData("(Failed to fetch page data)");
           setIsError(true);
         });
@@ -29,6 +35,7 @@ function Editor() {
 
   return (
     <>
+      <Toolbar data={data} title={title} setTitle={setTitle} />
       <CKEditor
         editor={BalloonBlockEditor}
         data={data}

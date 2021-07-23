@@ -25,6 +25,9 @@ function App() {
           <PrivateRoute path="/edit/:id">
             <Editor />
           </PrivateRoute>
+          <PrivateRoute path="/edit">
+            <Editor />
+          </PrivateRoute>
           <PrivateRoute path="/">
             <h1>CMS</h1>
             <UserRoutes />
