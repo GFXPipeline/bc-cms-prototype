@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -56,7 +57,9 @@ function Pages() {
           return (
             <div className="page" key={`page-${index}`}>
               <p>
-                <strong>{page.title}</strong>
+                <Link to={`/edit/${page.id}`}>
+                  <strong>{page.title}</strong>
+                </Link>
               </p>
               <p>
                 Last Updated: {new Date(page.time_last_updated).toDateString()}
