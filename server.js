@@ -12,6 +12,7 @@ const errorHandler = require("./_helpers/error-handler");
 const userService = require("./_services/user.service");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const { v4: uuidv4 } = require("uuid");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -55,8 +56,49 @@ apiRouter.get("/page/:id", (req, res) => {
     });
 });
 
+apiRouter.post("/page", (req, res) => {
+  console.log(`POST /api/page`);
+
+  // Get the user ID based on the username
+  knex("users")
+    .select("id")
+    .where("username", req?.body?.username)
+    .then((rows) => {
+      const userId = rows?.[0]?.id;
+      const newPageId = uuidv4();
+
+      // Insert new page
+      knex("pages")
+        .insert({
+          id: newPageId,
+          title: req?.body?.title,
+          data: req?.body?.data,
+          created_by_user: userId,
+          owned_by_user: userId,
+          last_modified_by_user: userId,
+        })
+        .then((rows) => {
+          res.status(200).send(newPageId);
+        })
+        .catch((error) => {
+          console.log(
+            "error in POST /api/page knex action to insert page: ",
+            error
+          );
+          res.status(404).send();
+        });
+    })
+    .catch((error) => {
+      console.log(
+        "error in POST /api/page knex action to get user ID: ",
+        error
+      );
+      res.status(404).send();
+    });
+});
+
 // All pages
-apiRouter.get("/pages/all", jwt(), (req, res) => {
+apiRouter.get("/pages/all", (req, res) => {
   console.log("GET /api/pages/all");
 
   knex("pages")
