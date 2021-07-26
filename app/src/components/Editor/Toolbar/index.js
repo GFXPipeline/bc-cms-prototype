@@ -9,8 +9,9 @@ const StyledDiv = styled.div`
   width: 100%;
 `;
 
-function Toolbar({ data, title, setTitle }) {
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+function Toolbar({ id, data, title, setTitle }) {
+  const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(false);
+  const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(false);
   let history = useHistory();
 
   function handleCreatePage(event) {
@@ -22,7 +23,7 @@ function Toolbar({ data, title, setTitle }) {
         title: title,
       })
       .then((response) => {
-        setIsButtonDisabled(true);
+        setIsCreateButtonDisabled(true);
 
         // After creating a new page, move the user's URL bar
         // to the `/edit` route for the new page ID.
@@ -35,6 +36,18 @@ function Toolbar({ data, title, setTitle }) {
 
   function handleUpdatePage(event) {
     event.preventDefault();
+    setIsUpdateButtonDisabled(true);
+
+    pageService
+      .update({ id, data, title })
+      .then((response) => {
+        console.log("response in Toolbar handleUpdatePage(): ", response);
+        setIsUpdateButtonDisabled(false);
+      })
+      .catch((error) => {
+        console.log("error in Toolbar handleUpdatePage(): ", error);
+        setIsUpdateButtonDisabled(false);
+      });
   }
 
   function handleTitleChange(event) {
@@ -43,10 +56,18 @@ function Toolbar({ data, title, setTitle }) {
 
   return (
     <StyledDiv>
-      <button disabled={isButtonDisabled} onClick={(e) => handleCreatePage(e)}>
+      <button
+        disabled={isCreateButtonDisabled}
+        onClick={(e) => handleCreatePage(e)}
+      >
         Add new page
       </button>
-      <button onClick={(e) => handleUpdatePage(e)}>Update page</button>
+      <button
+        disabled={isUpdateButtonDisabled}
+        onClick={(e) => handleUpdatePage(e)}
+      >
+        Update page
+      </button>
       <input
         type="text"
         id="title"

@@ -51,7 +51,34 @@ async function read(id) {
   }
 }
 
+// PUT request to /api/page/:id
+async function update({ id, data, title }) {
+  console.log("Inside pageService.update, id: ", id);
+  try {
+    const headers = authHeader();
+
+    const updatedPageData = {
+      username: authenticationService.currentUserValue.username,
+      title: title,
+      data: data,
+    }
+
+    const response = await axios({
+      method: "PUT",
+      url: `/api/page/${id}`,
+      headers,
+      data: updatedPageData,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in page.service update: ", error);
+    throw error;
+  }
+}
+
 export const pageService = {
   create,
   read,
+  update,
 };
