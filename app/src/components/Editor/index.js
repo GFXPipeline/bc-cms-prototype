@@ -35,7 +35,7 @@ function Editor() {
 
   return (
     <>
-      <Toolbar data={data} title={title} setTitle={setTitle} />
+      <Toolbar id={id} data={data} title={title} setTitle={setTitle} />
       <CKEditor
         editor={BalloonBlockEditor}
         data={data}
