@@ -97,6 +97,65 @@ apiRouter.post("/page", (req, res) => {
     });
 });
 
+apiRouter.put("/page/:id", (req, res) => {
+  console.log(`PUT /api/page/${req.params.id}`);
+
+  // Check that the user doing the submission exists and store user ID
+  let userId;
+  knex("users")
+    .select("id")
+    .where("username", req?.body?.username)
+    .then((rows) => {
+      console.log("rows in PUT /api/page check for user: ", rows);
+      if (rows?.length > 0) {
+        userId = rows[0]?.id;
+      } else {
+        // Username not in database, return early
+        return res.status(404).send("404 user not found");
+      }
+    })
+    .catch((error) => {
+      // Error getting username from database, return early
+      console.log("error in PUT /api/page check for user: ", error);
+      return res.status(500).send("500");
+    });
+
+  // Check that submitted page ID exists
+  knex("pages")
+    .select("*")
+    .where("id", req.params.id)
+    .then((rows) => {
+      console.log("rows in PUT /api/page check for page: ", rows);
+      if (rows?.length > 0) {
+        // Requested page ID exists, attempt the update
+        knex("pages")
+          .where("id", req.params.id)
+          .update({
+            data: req?.body?.data,
+            title: req?.body?.title,
+            last_modified_by_user: userId,
+            time_last_updated: knex.fn.now(),
+          })
+          .then((success) => {
+            // Page update success
+            res.status(200).send("200");
+          })
+          .catch((error) => {
+            // Page update failure
+            console.log("error in PUT /api/page update page: ", error);
+            res.status(500).send("500");
+          });
+      } else {
+        // No page matches the requested ID
+        res.status(404).send("404 page not found");
+      }
+    })
+    .catch((error) => {
+      console.log("error in PUT /api/page check for page: ", error);
+      res.status(500).send("500");
+    });
+});
+
 // All pages
 apiRouter.get("/pages/all", (req, res) => {
   console.log("GET /api/pages/all");
