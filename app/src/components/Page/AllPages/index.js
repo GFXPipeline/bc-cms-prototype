@@ -64,6 +64,9 @@ function Pages() {
               <p>
                 Last Updated: {new Date(page.time_last_updated).toDateString()}
               </p>
+              {page?.marked_for_deletion && (
+                <p>This page was marked for deletion</p>
+              )}
             </div>
           );
         })}

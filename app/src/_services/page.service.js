@@ -77,8 +77,28 @@ async function update({ id, data, title }) {
   }
 }
 
+async function markForDeletion(id) {
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "DELETE",
+      url: `/api/page/${id}`,
+      headers,
+      data: {
+        username: authenticationService.currentUserValue.username,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log();
+  }
+}
+
 export const pageService = {
   create,
   read,
   update,
+  markForDeletion,
 };
