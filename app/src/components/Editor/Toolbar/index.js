@@ -12,6 +12,7 @@ const StyledDiv = styled.div`
 function Toolbar({ id, data, title, setTitle }) {
   const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(false);
   const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(false);
+  const [isDeleteButtonDisabled, setIsDeleteButtonDisabled] = useState(false);
   let history = useHistory();
 
   function handleCreatePage(event) {
@@ -50,6 +51,21 @@ function Toolbar({ id, data, title, setTitle }) {
       });
   }
 
+  function handleDeletePage(event) {
+    event.preventDefault();
+    setIsDeleteButtonDisabled(true);
+
+    pageService
+      .markForDeletion(id)
+      .then((response) => {
+        console.log("response in Toolbar handleDeletePage(): ", response);
+      })
+      .catch((error) => {
+        console.log("error in Toolbar handleDeletePage(): ", error);
+        setIsDeleteButtonDisabled(false);
+      });
+  }
+
   function handleTitleChange(event) {
     setTitle(event.target.value);
   }
@@ -67,6 +83,12 @@ function Toolbar({ id, data, title, setTitle }) {
         onClick={(e) => handleUpdatePage(e)}
       >
         Update page
+      </button>
+      <button
+        disabled={isDeleteButtonDisabled}
+        onClick={(e) => handleDeletePage(e)}
+      >
+        Mark for deletion
       </button>
       <input
         type="text"
