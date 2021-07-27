@@ -7,7 +7,13 @@ import Login from "./components/User/Login";
 import PageRoutes from "./components/Page";
 import UserRoutes from "./components/User";
 
+import Header from "./components/Header";
+
 const StyledApp = styled.div`
+  * {
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  }
+
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -29,6 +35,7 @@ function App() {
             <Editor />
           </PrivateRoute>
           <PrivateRoute path="/">
+            <Header />
             <h1>CMS</h1>
             <UserRoutes />
             <PageRoutes />

@@ -191,7 +191,7 @@ apiRouter.delete("/page/:id", (req, res) => {
         knex("pages")
           .where("id", req.params.id)
           .update({
-            marked_for_deletion: true,
+            is_marked_for_deletion: true,
             marked_for_deletion_by_user: userId,
             time_marked_for_deletion: knex.fn.now(),
           })
