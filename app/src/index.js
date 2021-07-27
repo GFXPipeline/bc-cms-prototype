@@ -2,10 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import GlobalStyles from "./global-styles";
 import FontStyles from "./font-styles";
 
 ReactDOM.render(
   <React.StrictMode>
+    <GlobalStyles />
     <FontStyles />
     <App />
   </React.StrictMode>,
