@@ -8,6 +8,10 @@ import PageRoutes from "./components/Page";
 import UserRoutes from "./components/User";
 
 const StyledApp = styled.div`
+  * {
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  }
+
   align-items: center;
   display: flex;
   flex-direction: column;
