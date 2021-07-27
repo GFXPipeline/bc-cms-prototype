@@ -2,9 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import FontStyles from "./font-styles";
 
 ReactDOM.render(
   <React.StrictMode>
+    <FontStyles />
     <App />
   </React.StrictMode>,
   document.getElementById("root")
