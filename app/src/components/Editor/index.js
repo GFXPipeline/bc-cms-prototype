@@ -6,6 +6,7 @@ import BalloonBlockEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import { pageService } from "../../_services";
 
 import Toolbar from "./Toolbar";
+import Header from "../Header";
 
 function Editor() {
   const { id } = useParams();
@@ -35,6 +36,7 @@ function Editor() {
 
   return (
     <>
+      <Header />
       <Toolbar id={id} data={data} title={title} setTitle={setTitle} />
       <CKEditor
         editor={BalloonBlockEditor}
