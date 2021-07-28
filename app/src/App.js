@@ -4,15 +4,12 @@ import styled from "styled-components";
 // Pages
 import UserProfile from "./pages/UserProfile";
 import ContentEntry from "./pages/ContentEntry";
+import Home from "./pages/Home";
 
 // Components
 import PrivateRoute from "./components/PrivateRoute";
 import Editor from "./components/Editor";
 import Login from "./components/User/Login";
-import PageRoutes from "./components/Page";
-import UserRoutes from "./components/User";
-import Header from "./components/Header";
-
 
 const StyledApp = styled.div`
   * {
@@ -46,10 +43,7 @@ function App() {
             <ContentEntry />
           </PrivateRoute>
           <PrivateRoute path="/">
-            <Header />
-            <h1>CMS</h1>
-            <UserRoutes />
-            <PageRoutes />
+            <Home />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>
