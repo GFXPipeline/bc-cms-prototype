@@ -16,6 +16,24 @@ const getAll = async () => {
   }
 };
 
+async function getUserDetails(username) {
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: `/api/user/${username}`,
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in user.service getUserDetails(): ", error);
+    throw error;
+  }
+}
+
 export const userService = {
   getAll,
+  getUserDetails,
 };

@@ -86,7 +86,10 @@ function Header() {
         <Link id="link-home" to="/">
           CMS
         </Link>
-        <Link id="link-user-profile">
+        <Link
+          id="link-user-profile"
+          to={`/user/${authenticationService.currentUserValue.username}`}
+        >
           {authenticationService.currentUserValue.username}
         </Link>
       </TopControls>
