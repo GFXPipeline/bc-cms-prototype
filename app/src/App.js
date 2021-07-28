@@ -1,13 +1,18 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
+// Pages
+import UserProfile from "./pages/UserProfile";
+import ContentEntry from "./pages/ContentEntry";
+
+// Components
 import PrivateRoute from "./components/PrivateRoute";
 import Editor from "./components/Editor";
 import Login from "./components/User/Login";
 import PageRoutes from "./components/Page";
 import UserRoutes from "./components/User";
-import UserProfile from "./pages/UserProfile";
 import Header from "./components/Header";
+
 
 const StyledApp = styled.div`
   * {
@@ -36,6 +41,9 @@ function App() {
           </PrivateRoute>
           <PrivateRoute path="/user/:username">
             <UserProfile />
+          </PrivateRoute>
+          <PrivateRoute path="/content">
+            <ContentEntry />
           </PrivateRoute>
           <PrivateRoute path="/">
             <Header />
