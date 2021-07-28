@@ -94,7 +94,7 @@ function Header() {
         </Link>
       </TopControls>
       <BottomControls>
-        <NavLink activeClassName="active" to="/">
+        <NavLink activeClassName="active" to="/" exact>
           Home
         </NavLink>
         <NavLink activeClassName="active" to="/content">
