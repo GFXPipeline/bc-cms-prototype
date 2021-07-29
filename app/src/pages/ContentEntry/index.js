@@ -7,6 +7,7 @@ import styled from "styled-components";
 // Global components
 import { pageService } from "../../_services";
 import Button from "../../components/Button";
+import Dropdown from "../../components/Dropdown";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
@@ -122,7 +123,33 @@ function ContentEntry() {
             </InputContainer>
           </div>
           <PageControlToolbar>
-            <button>Create</button>
+            <Dropdown
+              id="content-entry-create"
+              label="Create"
+              options={[
+                {
+                  id: "new-page",
+                  label: "New page",
+                  action: () => alert("New page action"),
+                },
+                {
+                  id: "clone-page",
+                  label: "Clone selected page",
+                  action: () => alert("Clone page action"),
+                },
+                {
+                  id: "clone-page-with-children",
+                  label: "Clone selected page with children",
+                  action: () =>
+                    alert("Clone selected page with children action"),
+                },
+                {
+                  id: "new-external-link",
+                  label: "New external link",
+                  action: () => alert("New external link action"),
+                },
+              ]}
+            />
             <button>Lock</button>
             <button>Move</button>
             <button>Publish</button>
