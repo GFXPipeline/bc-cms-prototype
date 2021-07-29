@@ -6,7 +6,7 @@ import { pageService } from "../../../_services";
 const StyledDiv = styled.div`
   height: 100%;
   max-height: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   ul {
     margin: 0;
