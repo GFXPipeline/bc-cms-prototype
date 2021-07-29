@@ -14,6 +14,7 @@ import TextInput from "../../components/TextInput";
 // Page components
 import PageList from "./PageList";
 import NavTabs from "./NavTabs";
+import PageActions from "./PageActions";
 
 const ContentContainer = styled.div`
   background-color: white;
@@ -69,6 +70,8 @@ const PageControlToolbar = styled.div`
 const RightPanel = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 20px;
+  width: calc(100% - 368px);
 `;
 
 function ContentEntry() {
@@ -160,7 +163,7 @@ function ContentEntry() {
               console.log("Focus.", editor);
             }}
           />
-          {/* Control buttons */}
+          <PageActions />
         </RightPanel>
       </ContentContainer>
     </>
