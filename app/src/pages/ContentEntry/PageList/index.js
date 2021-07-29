@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { pageService } from "../../../_services";
@@ -6,19 +7,23 @@ import { pageService } from "../../../_services";
 const StyledDiv = styled.div`
   height: 100%;
   max-height: 500px;
+  overflow-x: hidden;
   overflow-y: auto;
+  padding: 13px;
 
-  ul {
-    margin: 0;
-    padding: 13px;
+  a {
+    color: #313132;
+    display: block;
+    height: 44px;
+    line-height: 44px;
+    list-style: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    white-space: nowrap;
 
-    li {
-      height: 44px;
-      line-height: 44px;
-      list-style: none;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    &:hover {
+      text-decoration: underline;
     }
   }
 
@@ -49,13 +54,14 @@ function PageList() {
 
   return (
     <StyledDiv>
-      {pages?.length > 0 && (
-        <ul>
-          {pages.map((page, index) => {
-            return <li key={index}>{page.title}</li>;
-          })}
-        </ul>
-      )}
+      {pages?.length > 0 &&
+        pages.map((page, index) => {
+          return (
+            <Link key={`page-list-button-${index}`} to={`/content/${page?.id}`}>
+              {page.title}
+            </Link>
+          );
+        })}
       {isError && <p className="error">Failed to fetch page list.</p>}
     </StyledDiv>
   );
