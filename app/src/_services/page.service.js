@@ -77,6 +77,7 @@ async function update({ id, data, title }) {
   }
 }
 
+// DELETE request to /api/page/:id
 async function markForDeletion(id) {
   try {
     const headers = authHeader();
@@ -92,7 +93,26 @@ async function markForDeletion(id) {
 
     return response.data;
   } catch (error) {
-    console.log();
+    console.log("Error in page.service delete: ", error);
+    throw error;
+  }
+}
+
+// GET request to /api/pages/all
+async function getPageList() {
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: "/api/pages/all",
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in page.service getPageList: ", error);
+    throw(error);
   }
 }
 
@@ -101,4 +121,5 @@ export const pageService = {
   read,
   update,
   markForDeletion,
+  getPageList,
 };

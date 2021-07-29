@@ -5,8 +5,11 @@ import BalloonBlockEditor from "@ckeditor/ckeditor5-build-balloon-block";
 
 import { pageService } from "../../_services";
 
+// Global components
+import Header from "../../components/Header";
+
+// Page components
 import Toolbar from "./Toolbar";
-import Header from "../Header";
 
 function Editor() {
   const { id } = useParams();

@@ -1,13 +1,15 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
-import PrivateRoute from "./components/PrivateRoute";
-import Editor from "./components/Editor";
-import Login from "./components/User/Login";
-import PageRoutes from "./components/Page";
-import UserRoutes from "./components/User";
+// Pages
+import Editor from "./pages/Editor";
 import UserProfile from "./pages/UserProfile";
-import Header from "./components/Header";
+import ContentEntry from "./pages/ContentEntry";
+import Home from "./pages/Home";
+
+// Components
+import PrivateRoute from "./components/PrivateRoute";
+import Login from "./components/User/Login";
 
 const StyledApp = styled.div`
   * {
@@ -37,11 +39,14 @@ function App() {
           <PrivateRoute path="/user/:username">
             <UserProfile />
           </PrivateRoute>
+          <PrivateRoute path="/content/:id">
+            <ContentEntry />
+          </PrivateRoute>
+          <PrivateRoute path="/content">
+            <ContentEntry />
+          </PrivateRoute>
           <PrivateRoute path="/">
-            <Header />
-            <h1>CMS</h1>
-            <UserRoutes />
-            <PageRoutes />
+            <Home />
           </PrivateRoute>
         </Switch>
       </BrowserRouter>
