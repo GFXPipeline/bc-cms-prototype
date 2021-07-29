@@ -2,13 +2,13 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
 // Pages
+import Editor from "./pages/Editor";
 import UserProfile from "./pages/UserProfile";
 import ContentEntry from "./pages/ContentEntry";
 import Home from "./pages/Home";
 
 // Components
 import PrivateRoute from "./components/PrivateRoute";
-import Editor from "./components/Editor";
 import Login from "./components/User/Login";
 
 const StyledApp = styled.div`
