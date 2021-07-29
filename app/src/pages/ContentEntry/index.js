@@ -1,7 +1,11 @@
+import { useState } from "react";
 import styled from "styled-components";
 
+// Page components
 import PageList from "./PageList";
+import NavTabs from "./NavTabs";
 
+// Global components
 import Button from "../../components/Button";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
@@ -9,6 +13,8 @@ import TextInput from "../../components/TextInput";
 
 const ContentContainer = styled.div`
   background-color: white;
+  display: flex;
+  flex-direction: row;
   width: 100%;
 `;
 
@@ -56,7 +62,14 @@ const PageControlToolbar = styled.div`
   }
 `;
 
+const RightPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 function ContentEntry() {
+  const [tab, setTab] = useState("page");
+
   return (
     <>
       <Header />
@@ -89,6 +102,22 @@ function ContentEntry() {
           </PageControlToolbar>
           <PageList />
         </LeftPanel>
+        <RightPanel>
+          <NavTabs
+            tabs={[
+              { id: "page", label: "Page" },
+              { id: "settings", label: "Settings" },
+              { id: "metadata", label: "Metadata" },
+              { id: "usage", label: "Usage" },
+              { id: "security", label: "Security" },
+              { id: "history", label: "History" },
+            ]}
+            currentTab={tab}
+            setCurrentTab={setTab}
+          />
+          {/* Editor */}
+          {/* Control buttons */}
+        </RightPanel>
       </ContentContainer>
     </>
   );
