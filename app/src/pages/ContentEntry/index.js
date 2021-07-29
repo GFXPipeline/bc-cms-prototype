@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import BalloonBlockEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import styled from "styled-components";
 
-// Page components
-import PageList from "./PageList";
-import NavTabs from "./NavTabs";
-
 // Global components
+import { pageService } from "../../_services";
 import Button from "../../components/Button";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
+
+// Page components
+import PageList from "./PageList";
+import NavTabs from "./NavTabs";
 
 const ContentContainer = styled.div`
   background-color: white;
@@ -68,7 +72,29 @@ const RightPanel = styled.div`
 `;
 
 function ContentEntry() {
+  const { id } = useParams();
+  const [data, setData] = useState(id ? "(Fetching page data)" : "");
+  const [title, setTitle] = useState(
+    id ? "(Fetching page title)" : "Page title"
+  );
+  const [isError, setIsError] = useState(false);
   const [tab, setTab] = useState("page");
+
+  useEffect(() => {
+    if (id) {
+      pageService
+        .read(id)
+        .then((response) => {
+          setData(response.data);
+          setTitle(response.title);
+        })
+        .catch((error) => {
+          console.log("error in Editor pageService catch: ", error);
+          setData("(Failed to fetch page data)");
+          setIsError(true);
+        });
+    }
+  }, [id]);
 
   return (
     <>
@@ -115,7 +141,25 @@ function ContentEntry() {
             currentTab={tab}
             setCurrentTab={setTab}
           />
-          {/* Editor */}
+          <CKEditor
+            editor={BalloonBlockEditor}
+            data={data}
+            onReady={(editor) => {
+              // You can store the "editor" and use when it is needed.
+              console.log("Editor is ready to use!", editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              console.log({ event, editor, data });
+              setData(data);
+            }}
+            onBlur={(event, editor) => {
+              console.log("Blur.", editor);
+            }}
+            onFocus={(event, editor) => {
+              console.log("Focus.", editor);
+            }}
+          />
           {/* Control buttons */}
         </RightPanel>
       </ContentContainer>
