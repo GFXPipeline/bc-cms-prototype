@@ -39,6 +39,9 @@ function App() {
           <PrivateRoute path="/user/:username">
             <UserProfile />
           </PrivateRoute>
+          <PrivateRoute path="/content/:id">
+            <ContentEntry />
+          </PrivateRoute>
           <PrivateRoute path="/content">
             <ContentEntry />
           </PrivateRoute>
