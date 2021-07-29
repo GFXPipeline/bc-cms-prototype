@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 const StyledDiv = styled.div`
   border: 1px solid #707070;
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
   width: 100%;
 `;
 
@@ -10,6 +13,7 @@ const Tab = styled.button`
   border: none;
   color: #3f3f3f;
   cursor: pointer;
+  font-size: 16px;
   font-weight: 700;
   height: 44px;
   padding: 0 35px;
