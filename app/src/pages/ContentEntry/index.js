@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import PageList from "./PageList";
+
 import Button from "../../components/Button";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
@@ -85,6 +87,7 @@ function ContentEntry() {
             <button>Tag</button>
             <button>Delete</button>
           </PageControlToolbar>
+          <PageList />
         </LeftPanel>
       </ContentContainer>
     </>
