@@ -166,8 +166,33 @@ function ContentEntry() {
                 },
               ]}
             />
-            <button>Move</button>
-            <button>Publish</button>
+            <button onClick={() => alert("Move action")}>Move</button>
+            <Dropdown
+              id="content-entry-publish"
+              label="Publish"
+              options={[
+                {
+                  id: "publish-left-navigation",
+                  label: "Publish left navigation",
+                  action: () => alert("Publish left navigation action"),
+                },
+                {
+                  id: "publish-selected",
+                  label: "Publish selected",
+                  action: () => alert("Publish selected action"),
+                },
+                {
+                  id: "publish-selected-with-children",
+                  label: "Publish selected with children",
+                  action: () => alert("Publish selected with children action"),
+                },
+                {
+                  id: "unpublish-selected",
+                  label: "Unpublish selected",
+                  action: () => alert("Unpublish selected action"),
+                },
+              ]}
+            />
             <button>Tag</button>
             <button>Delete</button>
           </PageControlToolbar>
