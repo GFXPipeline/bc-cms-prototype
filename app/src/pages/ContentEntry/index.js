@@ -150,7 +150,22 @@ function ContentEntry() {
                 },
               ]}
             />
-            <button>Lock</button>
+            <Dropdown
+              id="content-entry-lock"
+              label="Lock"
+              options={[
+                {
+                  id: "lock-page",
+                  label: "Lock page",
+                  action: () => alert("Lock page action"),
+                },
+                {
+                  id: "unlock-page",
+                  label: "Unlock page",
+                  action: () => alert("Unlock page action"),
+                },
+              ]}
+            />
             <button>Move</button>
             <button>Publish</button>
             <button>Tag</button>
