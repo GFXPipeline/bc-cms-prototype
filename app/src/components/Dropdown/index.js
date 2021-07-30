@@ -69,7 +69,7 @@ function Dropdown({ id, label, options }) {
         {label}
         <span className="caret">{open ? "▲" : "▼"}</span>
       </button>
-      <div aria-labelledby={id} className={open && "open"}>
+      <div aria-labelledby={id} className={open ? "open" : null}>
         {options?.length > 0 &&
           options.map((option, index) => {
             return (
