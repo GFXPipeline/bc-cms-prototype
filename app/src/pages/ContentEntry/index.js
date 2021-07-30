@@ -17,6 +17,9 @@ import PageList from "./PageList";
 import NavTabs from "./NavTabs";
 import PageActions from "./PageActions";
 
+// Page actions
+import ClonePage from "./_actions/ClonePage";
+
 const ContentContainer = styled.div`
   background-color: white;
   display: flex;
@@ -84,6 +87,9 @@ function ContentEntry() {
   const [isError, setIsError] = useState(false);
   const [tab, setTab] = useState("page");
 
+  // Modals
+  const [modalClonePageOpen, setModalClonePageOpen] = useState(false)
+
   useEffect(() => {
     if (id) {
       pageService
@@ -135,7 +141,9 @@ function ContentEntry() {
                 {
                   id: "clone-page",
                   label: "Clone selected page",
-                  action: () => alert("Clone page action"),
+                  action: () => {
+                    setModalClonePageOpen(true);
+                  },
                 },
                 {
                   id: "clone-page-with-children",
@@ -249,6 +257,12 @@ function ContentEntry() {
           <PageActions />
         </RightPanel>
       </ContentContainer>
+      {modalClonePageOpen && (
+        <ClonePage
+          isOpen={modalClonePageOpen}
+          setIsOpen={setModalClonePageOpen}
+        />
+      )}
     </>
   );
 }
