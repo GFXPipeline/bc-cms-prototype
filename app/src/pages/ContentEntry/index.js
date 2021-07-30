@@ -193,8 +193,24 @@ function ContentEntry() {
                 },
               ]}
             />
-            <button>Tag</button>
-            <button>Delete</button>
+            <Dropdown
+              id="content-entry-tag"
+              label="Tag"
+              options={[
+                {
+                  id: "bulk-tag-selected",
+                  label: "Bulk tag selected",
+                  action: () => alert("Bulk tag selected action"),
+                },
+                {
+                  id: "bulk-tag-metadata",
+                  label:
+                    "Bulk tag metadata and terms to selected and their children",
+                  action: () => alert("Bulk tag metadata action"),
+                },
+              ]}
+            />
+            <button onClick={() => alert("Delete action")}>Delete</button>
           </PageControlToolbar>
           <PageList />
         </LeftPanel>
