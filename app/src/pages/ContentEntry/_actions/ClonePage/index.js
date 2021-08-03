@@ -41,7 +41,7 @@ const StyledModal = styled(Modal)`
             margin: 0 0 25px 70px;
 
             input:disabled,
-            input:disabled + label {
+            label.disabled {
               cursor: not-allowed;
             }
           }
@@ -117,72 +117,94 @@ function ClonePage({ isOpen, setIsOpen }) {
         <h1>Clone</h1>
         <fieldset>
           <div>
-            <input
-              type="checkbox"
-              id="option-with-children-pages"
-              value="with-children-pages"
-              onChange={(e) => handleWithChildrenPagesCheck(e)}
-            />
             <label htmlFor="option-with-children-pages">
+              <input
+                type="checkbox"
+                id="option-with-children-pages"
+                value="with-children-pages"
+                onChange={(e) => handleWithChildrenPagesCheck(e)}
+              />
               With Children Pages
             </label>
           </div>
         </fieldset>
         <fieldset>
           <div>
-            <input
-              type="checkbox"
-              id="option-language-version"
-              value="language-version"
-              onChange={(e) => handleLangVersionCheck(e)}
-            />
-            <label htmlFor="option-language-version">Language version</label>
+            <label htmlFor="option-language-version">
+              <input
+                type="checkbox"
+                id="option-language-version"
+                value="language-version"
+                onChange={(e) => handleLangVersionCheck(e)}
+              />
+              Language version
+            </label>
           </div>
         </fieldset>
         <fieldset className="radio-fieldset" disabled={!isLangSelectEnabled}>
           <div className="radio-group">
-            <input
-              type="radio"
-              name="language"
-              id="french"
-              value="french"
-              checked={langSelected === "french"}
-              onChange={(e) => setLangSelected(e.target.value)}
-            />
-            <label htmlFor="french">French</label>
+            <label
+              htmlFor="french"
+              className={isLangSelectEnabled ? null : "disabled"}
+            >
+              <input
+                type="radio"
+                name="language"
+                id="french"
+                value="french"
+                checked={langSelected === "french"}
+                onChange={(e) => setLangSelected(e.target.value)}
+              />
+              French
+            </label>
           </div>
           <div className="radio-group">
-            <input
-              type="radio"
-              name="language"
-              id="punjabi"
-              value="punjabi"
-              checked={langSelected === "punjabi"}
-              onChange={(e) => setLangSelected(e.target.value)}
-            />
-            <label htmlFor="punjabi">Punjabi</label>
+            <label
+              htmlFor="punjabi"
+              className={isLangSelectEnabled ? null : "disabled"}
+            >
+              <input
+                type="radio"
+                name="language"
+                id="punjabi"
+                value="punjabi"
+                checked={langSelected === "punjabi"}
+                onChange={(e) => setLangSelected(e.target.value)}
+              />
+              Punjabi
+            </label>
           </div>
           <div className="radio-group">
-            <input
-              type="radio"
-              name="language"
-              id="chinese-traditional"
-              value="chinese-traditional"
-              checked={langSelected === "chinese-traditional"}
-              onChange={(e) => setLangSelected(e.target.value)}
-            />
-            <label htmlFor="chinese-traditional">Chinese Traditional</label>
+            <label
+              htmlFor="chinese-traditional"
+              className={isLangSelectEnabled ? null : "disabled"}
+            >
+              <input
+                type="radio"
+                name="language"
+                id="chinese-traditional"
+                value="chinese-traditional"
+                checked={langSelected === "chinese-traditional"}
+                onChange={(e) => setLangSelected(e.target.value)}
+              />
+              Chinese Traditional
+            </label>
           </div>
           <div className="radio-group">
-            <input
-              type="radio"
-              name="language"
-              id="chinese-simplified"
-              value="chinese-simplified"
-              checked={langSelected === "chinese-simplified"}
-              onChange={(e) => setLangSelected(e.target.value)}
-            />
-            <label htmlFor="chinese-simplified">Chinese Simplified</label>
+            <label
+              htmlFor="chinese-simplified"
+              className={isLangSelectEnabled ? null : "disabled"}
+            >
+              <input
+                type="radio"
+                name="language"
+                id="chinese-simplified"
+                value="chinese-simplified"
+                checked={langSelected === "chinese-simplified"}
+                onChange={(e) => setLangSelected(e.target.value)}
+              />
+              Chinese Simplified
+            </label>
           </div>
         </fieldset>
         <fieldset className="number-of-copies">
