@@ -1,6 +1,8 @@
 import ReactModal from "react-modal";
 import styled from "styled-components";
 
+import { useDisableBodyScroll } from "../../hooks/useDisableBodyScroll";
+
 ReactModal.setAppElement("#root");
 
 function ReactModalAdapter({ className, modalClassName, ...props }) {
@@ -21,11 +23,11 @@ const StyledReactModal = styled(ReactModalAdapter).attrs({
   & .Overlay {
     // Overlay takes up entire screen
     background-color: rgba(50, 50, 50, 0.25);
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     // center Modal within Overlay
     display: flex;
     justify-content: center;
@@ -49,6 +51,8 @@ const StyledReactModal = styled(ReactModalAdapter).attrs({
 `;
 
 function Modal({ children, contentLabel, isOpen, setIsOpen, ...props }) {
+  useDisableBodyScroll({ isScrollDisabled: isOpen });
+
   return (
     <StyledReactModal
       isOpen={isOpen}
