@@ -85,6 +85,7 @@ function ContentEntry() {
     id ? "(Fetching page title)" : "Page title"
   );
   const [isError, setIsError] = useState(false);
+  const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
 
   // Modals
@@ -220,7 +221,7 @@ function ContentEntry() {
             />
             <button onClick={() => alert("Delete action")}>Delete</button>
           </PageControlToolbar>
-          <PageList />
+          <PageList selected={selectedPages} setSelected={setSelectedPages} />
         </LeftPanel>
         <RightPanel>
           <NavTabs

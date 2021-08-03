@@ -11,19 +11,26 @@ const StyledDiv = styled.div`
   overflow-y: auto;
   padding: 13px;
 
-  a {
-    color: #313132;
-    display: block;
-    height: 44px;
-    line-height: 44px;
-    list-style: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-decoration: none;
-    white-space: nowrap;
+  div.page-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 
-    &:hover {
-      text-decoration: underline;
+    a {
+      color: #313132;
+      display: block;
+      height: 44px;
+      line-height: 44px;
+      list-style: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-decoration: none;
+      white-space: nowrap;
+
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -36,9 +43,21 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageList() {
+function PageList({ selected, setSelected }) {
   const [pages, setPages] = useState([]);
   const [isError, setIsError] = useState(false);
+
+  function handleSelect(event) {
+    let newSelection = [...selected];
+    const id = event.target.id;
+    const isAlreadySelected = Boolean(selected.indexOf(id) !== -1);
+
+    isAlreadySelected
+      ? newSelection.splice(newSelection.indexOf(id), 1)
+      : newSelection.push(id);
+
+    setSelected(newSelection);
+  }
 
   useEffect(() => {
     pageService
@@ -57,9 +76,16 @@ function PageList() {
       {pages?.length > 0 &&
         pages.map((page, index) => {
           return (
-            <Link key={`page-list-button-${index}`} to={`/content/${page?.id}`}>
-              {page.title}
-            </Link>
+            <div key={`page-list-${index}`} className="page-container">
+              <Link to={`/content/${page?.id}`}>{page.title}</Link>
+              <input
+                type="checkbox"
+                id={page?.id}
+                value={page?.id}
+                checked={selected.indexOf(page?.id) !== -1}
+                onChange={(e) => handleSelect(e)}
+              />
+            </div>
           );
         })}
       {isError && <p className="error">Failed to fetch page list.</p>}
