@@ -88,7 +88,7 @@ function ContentEntry() {
   const [tab, setTab] = useState("page");
 
   // Modals
-  const [modalClonePageOpen, setModalClonePageOpen] = useState(false)
+  const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -257,12 +257,10 @@ function ContentEntry() {
           <PageActions />
         </RightPanel>
       </ContentContainer>
-      {modalClonePageOpen && (
-        <ClonePage
-          isOpen={modalClonePageOpen}
-          setIsOpen={setModalClonePageOpen}
-        />
-      )}
+      <ClonePage
+        isOpen={modalClonePageOpen}
+        setIsOpen={setModalClonePageOpen}
+      />
     </>
   );
 }
