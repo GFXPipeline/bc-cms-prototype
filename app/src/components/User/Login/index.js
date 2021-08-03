@@ -3,23 +3,36 @@ import { Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import { authenticationService } from "../../../_services";
+import Button from "../../Button";
+import Modal from "../../Modal";
+import TextInput from "../../TextInput";
 
-const StyledDiv = styled.div`
-  background-color: lightgrey;
-  padding: 16px;
-  width: 60%;
-  max-width: 800px;
+const StyledForm = styled.form`
+  h1 {
+    margin: 0 0 20px 0;
+  }
 
-  form {
-    fieldset {
-      background: none;
-      border: none;
-      margin: 0;
-      padding: 0;
+  legend {
+    margin-bottom: 20px;
+    padding: 0;
+  }
 
-      legend {
-        padding: 0;
-      }
+  fieldset {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  div.input-label-pair {
+    margin-bottom: 20px;
+  }
+
+  div.button-container {
+    margin-top: 20px;
+
+    button {
+      margin-right: 20px;
     }
   }
 
@@ -28,6 +41,7 @@ const StyledDiv = styled.div`
     border: 1px solid #ebccd1;
     border-radius: 4px;
     color: #a12622;
+    margin: 20px 0 0 0;
     padding: 15px;
   }
 `;
@@ -74,13 +88,21 @@ function Login() {
   }
 
   return (
-    <StyledDiv>
-      <form>
-        <legend>Login with username and password</legend>
+    <Modal
+      isOpen={true}
+      setIsOpen={() => {
+        return null;
+      }}
+      contentLabel={"Login"}
+    >
+      <StyledForm>
+        <h1>Login</h1>
+
         <fieldset>
-          <div>
+          <legend>Login with username and password</legend>
+          <div className="input-label-pair">
             <label htmlFor="login-username">Username:</label>
-            <input
+            <TextInput
               id="login-username"
               type="text"
               autoComplete="username"
@@ -89,9 +111,9 @@ function Login() {
               value={username}
             />
           </div>
-          <div>
+          <div className="input-label-pair">
             <label htmlFor="login-password">Password:</label>
-            <input
+            <TextInput
               id="login-password"
               type="password"
               autoComplete="new-password"
@@ -102,28 +124,35 @@ function Login() {
           </div>
         </fieldset>
 
-        {/* Submit button */}
-        <button
-          id="login-submit-button"
-          type="submit"
-          onClick={(e) => handleSubmit(e)}
-          disabled={!username || !password || isSubmitting}
-        >
-          Submit
-        </button>
+        <div className="button-container">
+          {/* Submit button */}
+          <Button
+            id="login-submit-button"
+            primary
+            type="submit"
+            onClick={(e) => handleSubmit(e)}
+            disabled={!username || !password || isSubmitting}
+          >
+            Submit
+          </Button>
 
-        {/* Reset button */}
-        <button
-          id="login-reset-button"
-          disabled={!username && !password}
-          onClick={(e) => handleReset(e)}
-        >
-          Reset
-        </button>
+          {/* Reset button */}
+          <Button
+            id="login-reset-button"
+            disabled={!username && !password}
+            onClick={(e) => handleReset(e)}
+          >
+            Reset
+          </Button>
+        </div>
 
-        {isError && <p className="error">Incorrect username or password.</p>}
-      </form>
-    </StyledDiv>
+        {isError && (
+          <p role="alert" className="error">
+            Incorrect username or password.
+          </p>
+        )}
+      </StyledForm>
+    </Modal>
   );
 }
 
