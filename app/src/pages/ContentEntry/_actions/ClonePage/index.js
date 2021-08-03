@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
+import NumberInput from "../../../../components/NumberInput";
 import TextInput from "../../../../components/TextInput";
 
 const StyledModal = styled(Modal)`
@@ -62,16 +63,23 @@ const StyledModal = styled(Modal)`
         }
 
         &.where-to-clone {
-          display: flex;
-          flex-direction: column;
+          display: block;
 
           label {
+            display: block;
             font-size: 13px;
             margin-bottom: 8px;
           }
 
-          input {
-            height: 44px;
+          div.input-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+
+            input {
+              height: 44px;
+              margin: 0;
+            }
           }
         }
       }
@@ -179,8 +187,7 @@ function ClonePage({ isOpen, setIsOpen }) {
         </fieldset>
         <fieldset className="number-of-copies">
           <label htmlFor="number-of-copies">Number of copies</label>
-          <input
-            type="number"
+          <NumberInput
             id="number-of-copies"
             min="1"
             max="10"
@@ -190,7 +197,7 @@ function ClonePage({ isOpen, setIsOpen }) {
         </fieldset>
         <fieldset className="where-to-clone">
           <label htmlFor="where-to-clone">Select where to clone</label>
-          <div>
+          <div className="input-container">
             <TextInput id="where-to-clone" />
             <Button primary>Browse</Button>
           </div>
