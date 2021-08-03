@@ -7,6 +7,7 @@ import styled from "styled-components";
 // Global components
 import { pageService } from "../../_services";
 import Button from "../../components/Button";
+import Dropdown from "../../components/Dropdown";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
@@ -15,6 +16,9 @@ import TextInput from "../../components/TextInput";
 import PageList from "./PageList";
 import NavTabs from "./NavTabs";
 import PageActions from "./PageActions";
+
+// Page actions
+import ClonePage from "./_actions/ClonePage";
 
 const ContentContainer = styled.div`
   background-color: white;
@@ -83,6 +87,9 @@ function ContentEntry() {
   const [isError, setIsError] = useState(false);
   const [tab, setTab] = useState("page");
 
+  // Modals
+  const [modalClonePageOpen, setModalClonePageOpen] = useState(false)
+
   useEffect(() => {
     if (id) {
       pageService
@@ -122,12 +129,96 @@ function ContentEntry() {
             </InputContainer>
           </div>
           <PageControlToolbar>
-            <button>Create</button>
-            <button>Lock</button>
-            <button>Move</button>
-            <button>Publish</button>
-            <button>Tag</button>
-            <button>Delete</button>
+            <Dropdown
+              id="content-entry-create"
+              label="Create"
+              options={[
+                {
+                  id: "new-page",
+                  label: "New page",
+                  action: () => alert("New page action"),
+                },
+                {
+                  id: "clone-page",
+                  label: "Clone selected page",
+                  action: () => {
+                    setModalClonePageOpen(true);
+                  },
+                },
+                {
+                  id: "clone-page-with-children",
+                  label: "Clone selected page with children",
+                  action: () =>
+                    alert("Clone selected page with children action"),
+                },
+                {
+                  id: "new-external-link",
+                  label: "New external link",
+                  action: () => alert("New external link action"),
+                },
+              ]}
+            />
+            <Dropdown
+              id="content-entry-lock"
+              label="Lock"
+              options={[
+                {
+                  id: "lock-page",
+                  label: "Lock page",
+                  action: () => alert("Lock page action"),
+                },
+                {
+                  id: "unlock-page",
+                  label: "Unlock page",
+                  action: () => alert("Unlock page action"),
+                },
+              ]}
+            />
+            <button onClick={() => alert("Move action")}>Move</button>
+            <Dropdown
+              id="content-entry-publish"
+              label="Publish"
+              options={[
+                {
+                  id: "publish-left-navigation",
+                  label: "Publish left navigation",
+                  action: () => alert("Publish left navigation action"),
+                },
+                {
+                  id: "publish-selected",
+                  label: "Publish selected",
+                  action: () => alert("Publish selected action"),
+                },
+                {
+                  id: "publish-selected-with-children",
+                  label: "Publish selected with children",
+                  action: () => alert("Publish selected with children action"),
+                },
+                {
+                  id: "unpublish-selected",
+                  label: "Unpublish selected",
+                  action: () => alert("Unpublish selected action"),
+                },
+              ]}
+            />
+            <Dropdown
+              id="content-entry-tag"
+              label="Tag"
+              options={[
+                {
+                  id: "bulk-tag-selected",
+                  label: "Bulk tag selected",
+                  action: () => alert("Bulk tag selected action"),
+                },
+                {
+                  id: "bulk-tag-metadata",
+                  label:
+                    "Bulk tag metadata and terms to selected and their children",
+                  action: () => alert("Bulk tag metadata action"),
+                },
+              ]}
+            />
+            <button onClick={() => alert("Delete action")}>Delete</button>
           </PageControlToolbar>
           <PageList />
         </LeftPanel>
@@ -166,6 +257,12 @@ function ContentEntry() {
           <PageActions />
         </RightPanel>
       </ContentContainer>
+      {modalClonePageOpen && (
+        <ClonePage
+          isOpen={modalClonePageOpen}
+          setIsOpen={setModalClonePageOpen}
+        />
+      )}
     </>
   );
 }
