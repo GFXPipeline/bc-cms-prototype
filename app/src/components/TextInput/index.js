@@ -6,6 +6,14 @@ const StyledTextInput = styled.input`
   height: 44px;
   padding: 4px;
   width: 100%;
+
+  &:disabled {
+    border-color: #6f6f6f;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 `;
 
 function TextInput({ children, disabled, ...props }) {
