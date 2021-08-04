@@ -8,5 +8,10 @@ export const useDisableBodyScroll = ({ isScrollDisabled }) => {
     } else {
       document.body.style.overflow = "unset";
     }
+
+    // Clean-up on un-mount
+    return () => {
+      document.body.style.overflow = "unset";
+    };
   }, [isScrollDisabled]);
 };
