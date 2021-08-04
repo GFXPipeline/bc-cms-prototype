@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 
+import { pageService } from "../../../../_services";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
 import NumberInput from "../../../../components/NumberInput";
@@ -62,7 +63,7 @@ const StyledModal = styled(Modal)`
           }
         }
 
-        &.where-to-clone {
+        &.control-where-to-clone {
           display: block;
 
           label {
@@ -90,14 +91,33 @@ const StyledModal = styled(Modal)`
         justify-content: space-between;
       }
     }
+
+    p.success {
+      background-color: #dff0d8;
+      border: 1px solid #d6e9c6;
+      border-radius: 4px;
+      color: #2d4821;
+      padding: 15px;
+    }
+
+    p.error {
+      background-color: #f2dede;
+      border: 1px solid #ebccd1;
+      border-radius: 4px;
+      color: #a12622;
+      padding: 15px;
+    }
   }
 `;
 
-function ClonePage({ isOpen, setIsOpen }) {
+function ClonePage({ id, isOpen, setIsOpen }) {
   const [isWithChildrenPages, setIsWithChildrenPages] = useState(false);
   // const [isLangSelectEnabled, setIsLangSelectEnabled] = useState(false);
   // const [langSelected, setLangSelected] = useState("");
   const [numberOfCopies, setNumberOfCopies] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   function handleWithChildrenPagesCheck(event) {
     event.target.checked
@@ -110,6 +130,26 @@ function ClonePage({ isOpen, setIsOpen }) {
   //     ? setIsLangSelectEnabled(true)
   //     : setIsLangSelectEnabled(false);
   // }
+
+  function handleClonePage(event) {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    pageService
+      .clone({
+        id: id,
+        languages: [], // Blank for now
+        numberOfCopies: numberOfCopies,
+      })
+      .then((newPageId) => {
+        setIsSuccess(true);
+        setIsSubmitting(false);
+      })
+      .catch((error) => {
+        setIsError(true);
+        throw error;
+      });
+  }
 
   return (
     <StyledModal isOpen={isOpen} setIsOpen={setIsOpen} contentLabel={"Clone"}>
@@ -217,20 +257,36 @@ function ClonePage({ isOpen, setIsOpen }) {
             onChange={(e) => setNumberOfCopies(e.target.value)}
           />
         </fieldset>
-        <fieldset className="where-to-clone">
+        <fieldset className="control-where-to-clone">
           <label htmlFor="where-to-clone">Select where to clone</label>
           <div className="input-container">
-            <TextInput id="where-to-clone" />
-            <Button primary>Browse</Button>
+            <TextInput id="where-to-clone" disabled />
+            <Button primary disabled>
+              Browse
+            </Button>
           </div>
         </fieldset>
         <div className="control-buttons">
-          <Button onClick={() => alert("Submit action")} primary>
+          <Button
+            onClick={(e) => handleClonePage(e)}
+            primary
+            disabled={isSubmitting}
+          >
             Clone
           </Button>
-          <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+          <Button onClick={() => setIsOpen(false)} disabled={isSubmitting}>
+            Cancel
+          </Button>
         </div>
       </form>
+      {isError && <p className="error">Error trying to clone pages</p>}
+      {isSuccess && (
+        <p className="success">
+          Successfully cloned page {numberOfCopies}{" "}
+          {numberOfCopies > 1 ? "times" : "time"}. Close this dialog and refresh
+          the page to see the updated list.
+        </p>
+      )}
     </StyledModal>
   );
 }

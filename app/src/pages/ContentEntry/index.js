@@ -145,6 +145,7 @@ function ContentEntry() {
                   action: () => {
                     setModalClonePageOpen(true);
                   },
+                  disabled: selectedPages?.length !== 1,
                 },
                 {
                   id: "clone-page-with-children",
@@ -259,6 +260,7 @@ function ContentEntry() {
         </RightPanel>
       </ContentContainer>
       <ClonePage
+        id={selectedPages[0]}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
       />
