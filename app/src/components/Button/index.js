@@ -16,8 +16,10 @@ const StyledButton = styled.button`
 
   &:disabled,
   &[disabled] {
+    background-color: ${(props) => (props.primary ? "#6f6f6f" : "white")};
+    border-color: #6f6f6f;
+    color: ${(props) => (props.primary ? "white" : "#6f6f6f")};
     cursor: not-allowed;
-    background-color: #6f6f6f;
   }
 
   &:hover {
@@ -27,8 +29,9 @@ const StyledButton = styled.button`
 
     &:disabled,
     &[disabled] {
-      background-color: ${(props) => (props.primary ? "#6f6f6f" : "white")};
-      color: ${(props) => (props.primary ? "white" : "#313132")};
+      background-color: ${(props) => (props.primary ? "#7f7f7f" : "white")};
+      border-color: #7f7f7f;
+      color: ${(props) => (props.primary ? "white" : "#6f6f6f")};
       text-decoration: none;
     }
   }

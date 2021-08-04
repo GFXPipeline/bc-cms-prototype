@@ -28,6 +28,11 @@ const StyledDiv = styled.div`
 
     button.option {
       background: none;
+
+      &:disabled {
+        cursor: not-allowed;
+        color: #c3c3c3;
+      }
     }
   }
 `;
@@ -80,6 +85,7 @@ function Dropdown({ id, label, options }) {
                   option?.action();
                   setOpen(false);
                 }}
+                disabled={option?.disabled}
               >
                 {option.label}
               </button>

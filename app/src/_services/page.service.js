@@ -3,16 +3,17 @@ import axios from "axios";
 import { authHeader } from "../_helpers";
 import { authenticationService } from "../_services";
 
-// POST request to /api/page
+// POST request to /api/page to create a new page
 async function create({ data, title }) {
   try {
     const headers = authHeader();
 
     const newPageData = {
+      action: "create",
       username: authenticationService.currentUserValue.username,
       title: title,
       data: data,
-    }
+    };
 
     const response = await axios({
       method: "POST",
@@ -24,6 +25,32 @@ async function create({ data, title }) {
     return response.data;
   } catch (error) {
     console.log("Error in page.service create: ", error);
+    throw error;
+  }
+}
+
+// POST request to /api/page to clone an existing page
+async function clone({ id, languages, numberOfCopies }) {
+  try {
+    const headers = authHeader();
+
+    const clonePageData = {
+      action: "clone",
+      username: authenticationService.currentUserValue.username,
+      numberOfCopies: numberOfCopies,
+      languages: languages,
+    };
+
+    const response = await axios({
+      method: "POST",
+      url: `/api/page/${id}`,
+      headers,
+      data: clonePageData,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in page.service clone: ", error);
     throw error;
   }
 }
@@ -61,7 +88,7 @@ async function update({ id, data, title }) {
       username: authenticationService.currentUserValue.username,
       title: title,
       data: data,
-    }
+    };
 
     const response = await axios({
       method: "PUT",
@@ -112,12 +139,13 @@ async function getPageList() {
     return response.data;
   } catch (error) {
     console.log("Error in page.service getPageList: ", error);
-    throw(error);
+    throw error;
   }
 }
 
 export const pageService = {
   create,
+  clone,
   read,
   update,
   markForDeletion,

@@ -85,10 +85,11 @@ function ContentEntry() {
     id ? "(Fetching page title)" : "Page title"
   );
   const [isError, setIsError] = useState(false);
+  const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
 
   // Modals
-  const [modalClonePageOpen, setModalClonePageOpen] = useState(false)
+  const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -144,6 +145,7 @@ function ContentEntry() {
                   action: () => {
                     setModalClonePageOpen(true);
                   },
+                  disabled: selectedPages?.length !== 1,
                 },
                 {
                   id: "clone-page-with-children",
@@ -220,7 +222,7 @@ function ContentEntry() {
             />
             <button onClick={() => alert("Delete action")}>Delete</button>
           </PageControlToolbar>
-          <PageList />
+          <PageList selected={selectedPages} setSelected={setSelectedPages} />
         </LeftPanel>
         <RightPanel>
           <NavTabs
@@ -257,12 +259,11 @@ function ContentEntry() {
           <PageActions />
         </RightPanel>
       </ContentContainer>
-      {modalClonePageOpen && (
-        <ClonePage
-          isOpen={modalClonePageOpen}
-          setIsOpen={setModalClonePageOpen}
-        />
-      )}
+      <ClonePage
+        id={selectedPages[0]}
+        isOpen={modalClonePageOpen}
+        setIsOpen={setModalClonePageOpen}
+      />
     </>
   );
 }

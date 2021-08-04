@@ -56,6 +56,7 @@ apiRouter.get("/page/:id", (req, res) => {
     });
 });
 
+// Create new page route
 apiRouter.post("/page", (req, res) => {
   console.log(`POST /api/page`);
 
@@ -94,6 +95,79 @@ apiRouter.post("/page", (req, res) => {
         error
       );
       res.status(404).send();
+    });
+});
+
+// Clone page route
+apiRouter.post("/page/:id", (req, res) => {
+  console.log(`POST /page/id/${req?.params?.id}`);
+
+  // Check that the user doing the submission exists and store user ID
+  let userId;
+  knex("users")
+    .select("id")
+    .where("username", req?.body?.username)
+    .then((rows) => {
+      console.log("rows in PUT /api/page check for user: ", rows);
+      if (rows?.length > 0) {
+        userId = rows[0]?.id;
+      } else {
+        // Username not in database, return early
+        return res.status(404).send("404 user not found");
+      }
+    })
+    .catch((error) => {
+      // Error getting username from database, return early
+      console.log("error in PUT /api/page check for user: ", error);
+      return res.status(500).send("500");
+    });
+
+  // Check that requested page to clone exists
+  knex("pages")
+    .select("*")
+    .where("id", req?.params?.id)
+    .then((rows) => {
+      // Attempt the insertion here
+      const { title, data } = rows[0];
+      const numberOfCopies = parseInt(req?.body?.numberOfCopies || 1);
+      let newPageIds = [];
+      let newPageRecords = [];
+
+      // Generate UUIDs for the pages to be created
+      for (let x = 0; x < numberOfCopies; x++) {
+        newPageIds.push(uuidv4());
+      }
+
+      // Generate an array of pages to be inserted in a single Knex action
+      newPageIds.forEach((id, index) => {
+        newPageRecords.push({
+          id: id,
+          title: `${title} - copy ${index + 1}`,
+          data: data,
+          created_by_user: userId,
+          owned_by_user: userId,
+          last_modified_by_user: userId,
+        });
+      });
+
+      knex("pages")
+        .insert(newPageRecords)
+        .then((success) => {
+          return res.status(200).send(newPageIds);
+        })
+        .catch((error) => {
+          console.log(
+            `error in POST /api/page/${req?.params?.id} insertion attempt: `,
+            error
+          );
+        });
+    })
+    .catch((error) => {
+      console.log(
+        `error in POST /api/page/${req?.params?.id} check for existing page: `,
+        error
+      );
+      return res.status(404).send("404");
     });
 });
 
