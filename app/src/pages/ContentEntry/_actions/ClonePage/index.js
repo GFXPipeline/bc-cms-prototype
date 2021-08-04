@@ -95,8 +95,8 @@ const StyledModal = styled(Modal)`
 
 function ClonePage({ isOpen, setIsOpen }) {
   const [isWithChildrenPages, setIsWithChildrenPages] = useState(false);
-  const [isLangSelectEnabled, setIsLangSelectEnabled] = useState(false);
-  const [langSelected, setLangSelected] = useState("");
+  // const [isLangSelectEnabled, setIsLangSelectEnabled] = useState(false);
+  // const [langSelected, setLangSelected] = useState("");
   const [numberOfCopies, setNumberOfCopies] = useState(1);
 
   function handleWithChildrenPagesCheck(event) {
@@ -105,11 +105,11 @@ function ClonePage({ isOpen, setIsOpen }) {
       : setIsWithChildrenPages(false);
   }
 
-  function handleLangVersionCheck(event) {
-    event.target.checked
-      ? setIsLangSelectEnabled(true)
-      : setIsLangSelectEnabled(false);
-  }
+  // function handleLangVersionCheck(event) {
+  //   event.target.checked
+  //     ? setIsLangSelectEnabled(true)
+  //     : setIsLangSelectEnabled(false);
+  // }
 
   return (
     <StyledModal isOpen={isOpen} setIsOpen={setIsOpen} contentLabel={"Clone"}>
@@ -128,7 +128,7 @@ function ClonePage({ isOpen, setIsOpen }) {
             </label>
           </div>
         </fieldset>
-        <fieldset>
+        {/* <fieldset>
           <div>
             <label htmlFor="option-language-version">
               <input
@@ -206,7 +206,7 @@ function ClonePage({ isOpen, setIsOpen }) {
               Chinese Simplified
             </label>
           </div>
-        </fieldset>
+        </fieldset> */}
         <fieldset className="number-of-copies">
           <label htmlFor="number-of-copies">Number of copies</label>
           <NumberInput
