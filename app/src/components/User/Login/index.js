@@ -83,13 +83,12 @@ function Login() {
   }
 
   if (isLoggedIn) {
-    console.log();
     return <Redirect to={`${referer}${params}`} />;
   }
 
   return (
     <Modal
-      isOpen={true}
+      isOpen={!isLoggedIn}
       setIsOpen={() => {
         return null;
       }}
