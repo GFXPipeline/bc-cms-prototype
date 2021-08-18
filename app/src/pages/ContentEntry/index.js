@@ -19,6 +19,7 @@ import PageActions from "./PageActions";
 
 // Page actions
 import ClonePage from "./_actions/ClonePage";
+import CreatePage from "./_actions/CreatePage";
 
 const ContentContainer = styled.div`
   background-color: white;
@@ -90,6 +91,7 @@ function ContentEntry() {
 
   // Modals
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
+  const [modalCreatePageOpen, setModalCreatePageOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -137,7 +139,9 @@ function ContentEntry() {
                 {
                   id: "new-page",
                   label: "New page",
-                  action: () => alert("New page action"),
+                  action: () => {
+                    setModalCreatePageOpen(true);
+                  },
                 },
                 {
                   id: "clone-page",
@@ -263,6 +267,10 @@ function ContentEntry() {
         id={selectedPages[0]}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
+      />
+      <CreatePage
+        isOpen={modalCreatePageOpen}
+        setIsOpen={setModalCreatePageOpen}
       />
     </>
   );
