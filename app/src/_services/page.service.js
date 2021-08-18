@@ -11,8 +11,12 @@ async function create({ data, title }) {
     const newPageData = {
       action: "create",
       username: authenticationService.currentUserValue.username,
-      title: title,
-      data: data,
+      title:
+        title ||
+        `New Page - ${
+          authenticationService.currentUserValue.username
+        } - ${Math.floor(Math.random() * (9999 - 1000 + 1) + 1000)}`,
+      data: data || "",
     };
 
     const response = await axios({
