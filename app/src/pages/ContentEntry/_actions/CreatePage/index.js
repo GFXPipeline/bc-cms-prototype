@@ -13,6 +13,7 @@ import Select from "../../../../components/Select";
 import TextInput from "../../../../components/TextInput";
 
 // Page-level components
+import PickTemplateInfoBox from "./PickTemplateInfoBox";
 import SelectPageInfoBox from "./SelectPageInfoBox";
 
 const StyledModal = styled(Modal)`
@@ -187,6 +188,7 @@ function CreatePage({ isOpen, setIsOpen }) {
               data-effect="solid"
               data-event="mouseenter click"
               data-event-off="mouseexit click"
+              data-place="bottom"
               data-type="light"
             />
             <ReactTooltip id="tooltip-select-page-type">
@@ -205,19 +207,36 @@ function CreatePage({ isOpen, setIsOpen }) {
           />
         </fieldset>
         <fieldset className="select">
-          <div>
+          <div className="label-info">
             <label htmlFor="select-template">Pick template</label>
-            <Select
-              id="select-template"
-              options={[
-                {
-                  id: "base-template",
-                  value: "base-template",
-                  label: "Base Template",
-                },
-              ]}
+            <Icon
+              id="noun-info.svg"
+              className="icon-info"
+              data-tip
+              data-for="tooltip-pick-template"
+              data-background-color="white"
+              data-border={true}
+              data-border-color="black"
+              data-effect="solid"
+              data-event="mouseenter click"
+              data-event-off="mouseexit click"
+              data-place="bottom"
+              data-type="light"
             />
+            <ReactTooltip id="tooltip-pick-template">
+              <PickTemplateInfoBox />
+            </ReactTooltip>
           </div>
+          <Select
+            id="select-template"
+            options={[
+              {
+                id: "base-template",
+                value: "base-template",
+                label: "Base Template",
+              },
+            ]}
+          />
         </fieldset>
         <fieldset className="number-of-copies">
           <label htmlFor="number-of-copies">Number of copies</label>
