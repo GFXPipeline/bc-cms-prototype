@@ -1,13 +1,19 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 import styled from "styled-components";
 
+// App-level components
 import { pageService } from "../../../../_services";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
+import Icon from "../../../../components/Icon";
 import NumberInput from "../../../../components/NumberInput";
 import Select from "../../../../components/Select";
 import TextInput from "../../../../components/TextInput";
+
+// Page-level components
+import SelectPageInfoBox from "./SelectPageInfoBox";
 
 const StyledModal = styled(Modal)`
   .Modal {
@@ -70,8 +76,14 @@ const StyledModal = styled(Modal)`
         &.select {
           display: block;
 
+          div.label-info {
+            display: flex;
+            align-items: baseline;
+          }
+
           label {
-            display: block;
+            cursor: auto;
+            display: inline-block;
             font-size: 13px;
             margin-bottom: 8px;
           }
@@ -82,6 +94,14 @@ const StyledModal = styled(Modal)`
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+      }
+
+      svg.icon-info {
+        cursor: pointer;
+        display: inline-block;
+        height: 16px;
+        margin-left: 6px;
+        width: 16px;
       }
     }
 
@@ -100,6 +120,15 @@ const StyledModal = styled(Modal)`
       color: #a12622;
       padding: 15px;
     }
+  }
+
+  // Over-ride react-tooltip defaults
+  .__react_component_tooltip.show {
+    font-size: 16px;
+    max-height: 340px;
+    opacity: 1 !important;
+    pointer-events: auto;
+    overflow-y: auto;
   }
 `;
 
@@ -145,19 +174,35 @@ function CreatePage({ isOpen, setIsOpen }) {
       <form id="create-page">
         <h1>Create</h1>
         <fieldset className="select">
-          <div>
+          <div className="label-info">
             <label htmlFor="select-page-type">Select Page type</label>
-            <Select
-              id="select-page-type"
-              options={[
-                {
-                  id: "topic-page",
-                  value: "topic-page",
-                  label: "Topic Page",
-                },
-              ]}
+            <Icon
+              id="noun-info.svg"
+              className="icon-info"
+              data-tip
+              data-for="tooltip-select-page-type"
+              data-background-color="white"
+              data-border={true}
+              data-border-color="black"
+              data-effect="solid"
+              data-event="mouseenter click"
+              data-event-off="mouseexit click"
+              data-type="light"
             />
+            <ReactTooltip id="tooltip-select-page-type">
+              <SelectPageInfoBox />
+            </ReactTooltip>
           </div>
+          <Select
+            id="select-page-type"
+            options={[
+              {
+                id: "topic-page",
+                value: "topic-page",
+                label: "Topic Page",
+              },
+            ]}
+          />
         </fieldset>
         <fieldset className="select">
           <div>
