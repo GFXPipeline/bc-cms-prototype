@@ -67,23 +67,77 @@ apiRouter.post("/page", (req, res) => {
     .then((rows) => {
       const userId = rows?.[0]?.id;
       const newPageId = uuidv4();
+      const newPageTemplate = req?.body?.template || "base-template";
+      const newPageType = req?.body?.name || "topic";
 
-      // Insert new page
-      knex("pages")
-        .insert({
-          id: newPageId,
-          title: req?.body?.title,
-          data: req?.body?.data,
-          created_by_user: userId,
-          owned_by_user: userId,
-          last_modified_by_user: userId,
-        })
+      // Get the page type ID
+      knex("page_types")
+        .select("id")
+        .where("name", newPageType)
         .then((rows) => {
-          res.status(200).send(newPageId);
+          const newPageTypeId = rows?.[0]?.id;
+
+          // If request didn't contain page data, get data from template and insert
+          if (!req?.body?.data) {
+            knex("page_templates")
+              .select("data")
+              .where("name", newPageTemplate)
+              .then((row) => {
+                knex("pages")
+                  .insert({
+                    id: newPageId,
+                    title: req?.body?.title,
+                    data: row?.[0]?.data,
+                    page_type: newPageTypeId,
+                    created_by_user: userId,
+                    owned_by_user: userId,
+                    last_modified_by_user: userId,
+                  })
+                  .then((rows) => {
+                    res.status(200).send(newPageId);
+                  })
+                  .catch((error) => {
+                    console.log(
+                      "error in POST /api/page knex action to insert page: ",
+                      error
+                    );
+                    res.status(404).send();
+                  });
+              })
+              .catch((error) => {
+                console.log(
+                  "error in POST /api/page knex action to get template data: ",
+                  error
+                );
+                res.status(404).send();
+              });
+          } else {
+            // Else the request contains page data, insert using that data
+            knex("pages")
+              .insert({
+                id: newPageId,
+                title: req?.body?.title,
+                data: req?.body?.data,
+                page_type: newPageTypeId,
+                created_by_user: userId,
+                owned_by_user: userId,
+                last_modified_by_user: userId,
+              })
+              .then((rows) => {
+                res.status(200).send(newPageId);
+              })
+              .catch((error) => {
+                console.log(
+                  "error in POST /api/page knex action to insert page: ",
+                  error
+                );
+                res.status(404).send();
+              });
+          }
         })
         .catch((error) => {
           console.log(
-            "error in POST /api/page knex action to insert page: ",
+            "error in POST /api/page knex action to get page_type ID: ",
             error
           );
           res.status(404).send();

@@ -4,15 +4,22 @@ import { authHeader } from "../_helpers";
 import { authenticationService } from "../_services";
 
 // POST request to /api/page to create a new page
-async function create({ data, title }) {
+async function create({ data, numberOfCopies, pageType, template, title }) {
   try {
     const headers = authHeader();
 
     const newPageData = {
       action: "create",
       username: authenticationService.currentUserValue.username,
-      title: title,
-      data: data,
+      numberOfCopies: numberOfCopies || 1,
+      pageType: pageType || "topic",
+      template: template || "base-template",
+      title:
+        title ||
+        `New Page - ${
+          authenticationService.currentUserValue.username
+        } - ${Math.floor(Math.random() * (9999 - 1000 + 1) + 1000)}`,
+      data: data || "",
     };
 
     const response = await axios({

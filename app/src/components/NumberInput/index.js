@@ -5,6 +5,10 @@ const StyledInput = styled.input`
   border: 2px solid #3e3e3e;
   height: 44px;
   padding: 4px;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 function NumberInput({ min, max, value, ...props }) {
