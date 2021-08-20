@@ -98,7 +98,7 @@ function ContentEntry() {
       pageService
         .read(id)
         .then((response) => {
-          setData(response.data);
+          setData(response.data || "");
           setTitle(response.title);
         })
         .catch((error) => {
