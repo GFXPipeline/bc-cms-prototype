@@ -134,6 +134,8 @@ const StyledModal = styled(Modal)`
 `;
 
 function CreatePage({ isOpen, setIsOpen }) {
+  const [pageType, setPageType] = useState("topic-page");
+  const [template, setTemplate] = useState("base-template");
   const [numberOfCopies, setNumberOfCopies] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -150,6 +152,9 @@ function CreatePage({ isOpen, setIsOpen }) {
       .create({
         data: "",
         title: "",
+        pageType: pageType,
+        template: template,
+        numberOfCopies: numberOfCopies,
       })
       .then((returnedPageId) => {
         setIsSuccess(true);
@@ -197,13 +202,22 @@ function CreatePage({ isOpen, setIsOpen }) {
           </div>
           <Select
             id="select-page-type"
+            name="select-page-type"
             options={[
               {
                 id: "topic-page",
                 value: "topic-page",
                 label: "Topic Page",
               },
+              {
+                id: "theme-page",
+                value: "theme-page",
+                label: "Theme Page",
+              },
             ]}
+            onChange={setPageType}
+            value={pageType}
+            disabled={false}
           />
         </fieldset>
         <fieldset className="select">
@@ -229,13 +243,32 @@ function CreatePage({ isOpen, setIsOpen }) {
           </div>
           <Select
             id="select-template"
+            name="select-template"
             options={[
               {
                 id: "base-template",
                 value: "base-template",
                 label: "Base Template",
               },
+              {
+                id: "service-template",
+                value: "service-template",
+                label: "Service Template",
+              },
+              {
+                id: "search-results-page-template",
+                value: "search-results-page-template",
+                label: "Search Results Page Template",
+              },
+              {
+                id: "forms-template",
+                value: "forms-template",
+                label: "Forms template",
+              },
             ]}
+            onChange={setTemplate}
+            value={template}
+            disabled={false}
           />
         </fieldset>
         <fieldset className="number-of-copies">
