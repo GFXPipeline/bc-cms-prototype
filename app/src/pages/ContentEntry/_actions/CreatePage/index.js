@@ -314,6 +314,7 @@ function CreatePage({ isOpen, setIsOpen }) {
             max="10"
             value={numberOfCopies}
             onChange={(e) => setNumberOfCopies(e.target.value)}
+            disabled
           />
         </fieldset>
         <fieldset className="control-where-to-create">
