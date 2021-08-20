@@ -8,14 +8,25 @@ const StyledSelect = styled.select`
   width: 100%;
 `;
 
-function Select({ id, name, options, disabled, ...props }) {
+function Select({ id, name, options, value, onChange, disabled, ...props }) {
   return (
-    <StyledSelect id={id} name={name} disabled={disabled} {...props}>
+    <StyledSelect
+      id={id}
+      name={name}
+      disabled={disabled}
+      onChange={(e) => onChange(e.target.value)}
+      value={value}
+      {...props}
+    >
       {Array.isArray(options) &&
         options?.length > 0 &&
         options.map((option, index) => {
           return (
-            <option key={`select-${id}-option-${index}`} value={option?.value}>
+            <option
+              key={`select-${id}-option-${index}`}
+              selected={value === option?.value}
+              value={option?.value}
+            >
               {option?.label}
             </option>
           );
