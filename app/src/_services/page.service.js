@@ -12,7 +12,7 @@ async function create({ data, numberOfCopies, pageType, template, title }) {
       action: "create",
       username: authenticationService.currentUserValue.username,
       numberOfCopies: numberOfCopies || 1,
-      pageType: pageType || "topic-page",
+      pageType: pageType || "topic",
       template: template || "base-template",
       title:
         title ||

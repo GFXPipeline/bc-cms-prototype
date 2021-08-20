@@ -205,14 +205,49 @@ function CreatePage({ isOpen, setIsOpen }) {
             name="select-page-type"
             options={[
               {
-                id: "topic-page",
-                value: "topic-page",
-                label: "Topic Page",
+                id: "topic",
+                value: "topic",
+                label: "Topic",
               },
               {
-                id: "theme-page",
-                value: "theme-page",
-                label: "Theme Page",
+                id: "theme",
+                value: "theme",
+                label: "Theme",
+              },
+              {
+                id: "enhanced-search",
+                value: "enhanced-search",
+                label: "Enhanced Search",
+              },
+              {
+                id: "form",
+                value: "form",
+                label: "Form",
+              },
+              {
+                id: "header-footer",
+                value: "header-footer",
+                label: "Header Footer",
+              },
+              {
+                id: "olr-policy",
+                value: "OLR Policy",
+                label: "OLR Policy",
+              },
+              {
+                id: "search-detail",
+                value: "search-detail",
+                label: "Search Detail",
+              },
+              {
+                id: "service",
+                value: "service",
+                label: "Service",
+              },
+              {
+                id: "simple-service",
+                value: "simple-service",
+                label: "Simple Service",
               },
             ]}
             onChange={setPageType}
