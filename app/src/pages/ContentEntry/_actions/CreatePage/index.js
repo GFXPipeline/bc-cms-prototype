@@ -125,11 +125,9 @@ const StyledModal = styled(Modal)`
 
   // Over-ride react-tooltip defaults
   .__react_component_tooltip.show {
-    font-size: 16px;
-    max-height: 340px;
     opacity: 1 !important;
+    padding: 0;
     pointer-events: auto;
-    overflow-y: auto;
   }
 `;
 
