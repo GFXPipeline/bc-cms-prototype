@@ -21,7 +21,7 @@ const StyledModal = styled(Modal)`
         padding: 0;
         display: flex;
         flex-direction: row;
-        margin: 0 0 25px 0;
+        margin: 0 0 12px 0;
 
         label {
           cursor: pointer;
@@ -60,6 +60,30 @@ const StyledModal = styled(Modal)`
         }
       }
 
+      div.reason-for-deletion {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 12px 0;
+
+        label {
+          font-size: 13px;
+          font-weight: 700;
+          margin: 0 0 8px 0;
+        }
+
+        textarea {
+          border: 2px solid #3e3e3e;
+          display: block;
+          font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+          font-size: 16px;
+          resize: none;
+
+          &::placeholder {
+            color: #313132;
+          }
+        }
+      }
+
       div.control-buttons {
         display: flex;
         flex-direction: row;
@@ -87,6 +111,7 @@ const StyledModal = styled(Modal)`
 
 function DeletePage({ id, isOpen, setIsOpen }) {
   const [deleteType, setDeleteType] = useState("soft-delete");
+  const [reason, setReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -151,6 +176,16 @@ function DeletePage({ id, isOpen, setIsOpen }) {
             </div>
           </div>
         </fieldset>
+        <div className="reason-for-deletion">
+          <label>* Reason for deletion</label>
+          <textarea
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            placeholder={"Enter reason for deletion."}
+            rows={3}
+            requried
+          />
+        </div>
         <div className="control-buttons">
           <Button
             onClick={(e) => handleDeletePage(e)}
