@@ -20,6 +20,7 @@ import PageActions from "./PageActions";
 // Page actions
 import ClonePage from "./_actions/ClonePage";
 import CreatePage from "./_actions/CreatePage";
+import DeletePage from "./_actions/DeletePage";
 
 const ContentContainer = styled.div`
   background-color: white;
@@ -69,6 +70,11 @@ const PageControlToolbar = styled.div`
     &:hover {
       text-decoration: underline;
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      text-decoration: none;
+    }
   }
 `;
 
@@ -92,6 +98,7 @@ function ContentEntry() {
   // Modals
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
   const [modalCreatePageOpen, setModalCreatePageOpen] = useState(false);
+  const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -224,7 +231,12 @@ function ContentEntry() {
                 },
               ]}
             />
-            <button onClick={() => alert("Delete action")}>Delete</button>
+            <button
+              onClick={() => setModalDeletePageOpen(true)}
+              disabled={selectedPages.length !== 1}
+            >
+              Delete
+            </button>
           </PageControlToolbar>
           <PageList selected={selectedPages} setSelected={setSelectedPages} />
         </LeftPanel>
@@ -271,6 +283,11 @@ function ContentEntry() {
       <CreatePage
         isOpen={modalCreatePageOpen}
         setIsOpen={setModalCreatePageOpen}
+      />
+      <DeletePage
+        id={selectedPages[0]}
+        isOpen={modalDeletePageOpen}
+        setIsOpen={setModalDeletePageOpen}
       />
     </>
   );

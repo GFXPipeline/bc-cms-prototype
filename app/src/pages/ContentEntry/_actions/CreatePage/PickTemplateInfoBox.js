@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledDiv = styled.div`
   background-color: white;
   font-size: 16px;
-
   max-width: 465px;
   opacity: 1 !important;
 
