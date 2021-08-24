@@ -263,6 +263,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
   const [deleteType, setDeleteType] = useState("soft-delete");
   const [reason, setReason] = useState("");
   const [isDateRequired, setIsDateRequired] = useState(false);
+  const [isNotificationRequested, setIsNotificationRequested] = useState(false);
   const [date, setDate] = useState(new Date());
   const [timeHour, setTimeHour] = useState(parseInt(12));
   const [timeMinute, setTimeMinute] = useState(parseInt(0));
@@ -416,6 +417,18 @@ function DeletePage({ id, isOpen, setIsOpen }) {
               </div>
             </div>
           </div>
+        </div>
+        <div className="request-notification">
+          <label>
+            <input
+              type="checkbox"
+              checked={isNotificationRequested}
+              onChange={(e) =>
+                setIsNotificationRequested(!isNotificationRequested)
+              }
+            />
+            <span>Receive notification when deleted</span>
+          </label>
         </div>
         <div className="control-buttons">
           <Button
