@@ -96,6 +96,11 @@ const StyledModal = styled(Modal)`
         justify-content: space-between;
         margin: 0 0 12px 0;
 
+        input[type="checkbox"],
+        label {
+          cursor: pointer;
+        }
+
         div.date-and-time {
           display: flex;
           flex-direction: row;
@@ -129,6 +134,19 @@ const StyledModal = styled(Modal)`
                 }
               }
             }
+
+            &.disabled {
+              div.react-datepicker-wrapper {
+                border-color: #6f6f6f;
+
+                div.react-datepicker__input-container {
+                  input[type="text"] {
+                    color: #6f6f6f;
+                    cursor: not-allowed;
+                  }
+                }
+              }
+            }
           }
 
           div.time-select {
@@ -144,12 +162,17 @@ const StyledModal = styled(Modal)`
               input[type="number"] {
                 border: 2px solid #3e3e3e;
                 height: 48px;
+
+                &:disabled {
+                  border-color: #6f6f6f;
+                  cursor: not-allowed;
+                }
               }
 
               span.colon {
                 font-size: 16px;
                 font-weight: 700;
-                margin: 0 4px;
+                margin: 13px 4px;
               }
 
               fieldset.radio-period {
@@ -190,6 +213,23 @@ const StyledModal = styled(Modal)`
                 }
               }
             }
+
+            &.disabled {
+              div.input-container {
+                fieldset.radio-period {
+                  label {
+                    border-color: #6f6f6f;
+                    color: #6f6f6f;
+                    cursor: not-allowed;
+
+                    &.selected {
+                      background-color: #6f6f6f;
+                      color: white;
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -222,6 +262,7 @@ const StyledModal = styled(Modal)`
 function DeletePage({ id, isOpen, setIsOpen }) {
   const [deleteType, setDeleteType] = useState("soft-delete");
   const [reason, setReason] = useState("");
+  const [isDateRequired, setIsDateRequired] = useState(false);
   const [date, setDate] = useState(new Date());
   const [timeHour, setTimeHour] = useState(parseInt(12));
   const [timeMinute, setTimeMinute] = useState(parseInt(0));
@@ -300,17 +341,33 @@ function DeletePage({ id, isOpen, setIsOpen }) {
             requried
           />
         </div>
-        <div className="set-time-and-date">
+        <div className={"set-time-and-date"}>
           <label>
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              checked={isDateRequired}
+              onChange={(e) => setIsDateRequired(!isDateRequired)}
+            />
             <span>Set time and date</span>
           </label>
           <div className="date-and-time">
-            <div className="date-select">
+            <div
+              className={
+                isDateRequired ? "date-select" : "date-select disabled"
+              }
+            >
               <span>Date</span>
-              <DatePicker selected={date} onChange={(date) => setDate(date)} />
+              <DatePicker
+                selected={date}
+                onChange={(date) => setDate(date)}
+                disabled={!isDateRequired}
+              />
             </div>
-            <div className="time-select">
+            <div
+              className={
+                isDateRequired ? "time-select" : "time-select disabled"
+              }
+            >
               <span>Time</span>
               <div className="input-container">
                 <input
@@ -320,6 +377,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                   max="12"
                   value={timeHour}
                   onChange={(e) => setTimeHour(parseInt(e.target.value))}
+                  disabled={!isDateRequired}
                 />
                 <span className="colon">:</span>
                 <input
@@ -329,6 +387,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                   max="59"
                   value={timeMinute}
                   onChange={(e) => setTimeMinute(parseInt(e.target.value))}
+                  disabled={!isDateRequired}
                 />
                 <fieldset className="radio-period">
                   <label className={period === "am" ? "selected" : null}>
@@ -338,6 +397,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                       value="am"
                       checked={period === "am"}
                       onChange={(e) => setPeriod("am")}
+                      disabled={!isDateRequired}
                     />
                     <span>AM</span>
                   </label>
@@ -348,6 +408,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                       value="pm"
                       checked={period === "pm"}
                       onChange={(e) => setPeriod("pm")}
+                      disabled={!isDateRequired}
                     />
                     <span>PM</span>
                   </label>
