@@ -6,9 +6,7 @@ import styled from "styled-components";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-// App-level components
 import svgCalendar from "../../../../assets/noun-calendar.svg";
-import Icon from "../../../../components/Icon";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
 
@@ -114,7 +112,7 @@ const StyledModal = styled(Modal)`
           display: flex;
           flex-direction: row;
 
-          span {
+          label {
             font-size: 13px;
           }
 
@@ -150,6 +148,7 @@ const StyledModal = styled(Modal)`
 
                 div.react-datepicker__input-container {
                   input[type="text"] {
+                    background: none;
                     color: #6f6f6f;
                     cursor: not-allowed;
                   }
@@ -162,63 +161,27 @@ const StyledModal = styled(Modal)`
             display: flex;
             flex-direction: column;
 
+            label {
+              font-size: 13px;
+            }
+
             div.input-container {
               align-items: end;
               display: flex;
               flex-direction: row;
               height: 48px;
 
-              input[type="number"] {
+              input[type="time"] {
                 border: 2px solid #3e3e3e;
+                font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+                font-size: 16px;
                 height: 48px;
+                padding: 1px 13px;
 
                 &:disabled {
                   border-color: #6f6f6f;
+                  color: #6f6f6f;
                   cursor: not-allowed;
-                }
-              }
-
-              span.colon {
-                font-size: 16px;
-                font-weight: 700;
-                margin: 13px 4px;
-              }
-
-              fieldset.radio-period {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                height: 48px;
-                margin: 0 0 0 6px;
-
-                label {
-                  border: 2px solid #3e3e3e;
-                  display: flex;
-                  flex-direction: column;
-                  align-items: center;
-                  height: 24px;
-                  width: 35px;
-
-                  &.selected {
-                    background-color: #3e3e3e;
-                    color: white;
-                  }
-
-                  &:focus-within {
-                    outline: 3px solid royalblue;
-                  }
-
-                  input[type="radio"] {
-                    height: 0px;
-                    opacity: 0.01;
-                    width: 0px;
-                  }
-
-                  span {
-                    font-size: 16px;
-                    font-weight: 400;
-                    margin-top: -3px;
-                  }
                 }
               }
             }
@@ -318,9 +281,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
   const [reason, setReason] = useState("");
   const [isDateRequired, setIsDateRequired] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [timeHour, setTimeHour] = useState(parseInt(12));
-  const [timeMinute, setTimeMinute] = useState(parseInt(0));
-  const [period, setPeriod] = useState("am");
+  const [time, setTime] = useState("00:00");
   const [isNotificationRequested, setIsNotificationRequested] = useState(false);
   const [isSubMsgRequested, setIsSubMsgRequested] = useState(false);
   const [subMsg, setSubMsg] = useState("");
@@ -413,8 +374,9 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                 isDateRequired ? "date-select" : "date-select disabled"
               }
             >
-              <span>Date</span>
+              <label htmlFor="date-picker">Date</label>
               <DatePicker
+                id={"date-picker"}
                 selected={date}
                 onChange={(date) => setDate(date)}
                 disabled={!isDateRequired}
@@ -425,51 +387,19 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                 isDateRequired ? "time-select" : "time-select disabled"
               }
             >
-              <span>Time</span>
+              <label htmlFor="time">Time</label>
               <div className="input-container">
                 <input
-                  type="number"
-                  id="hour"
-                  min="1"
-                  max="12"
-                  value={timeHour}
-                  onChange={(e) => setTimeHour(parseInt(e.target.value))}
+                  type="time"
+                  id="time"
+                  name="time"
+                  min="00:00"
+                  max="24:00"
+                  required={isDateRequired}
                   disabled={!isDateRequired}
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
                 />
-                <span className="colon">:</span>
-                <input
-                  type="number"
-                  id="minute"
-                  min="0"
-                  max="59"
-                  value={timeMinute}
-                  onChange={(e) => setTimeMinute(parseInt(e.target.value))}
-                  disabled={!isDateRequired}
-                />
-                <fieldset className="radio-period">
-                  <label className={period === "am" ? "selected" : null}>
-                    <input
-                      type="radio"
-                      name="period"
-                      value="am"
-                      checked={period === "am"}
-                      onChange={(e) => setPeriod("am")}
-                      disabled={!isDateRequired}
-                    />
-                    <span>AM</span>
-                  </label>
-                  <label className={period === "pm" ? "selected" : null}>
-                    <input
-                      type="radio"
-                      name="period"
-                      value="pm"
-                      checked={period === "pm"}
-                      onChange={(e) => setPeriod("pm")}
-                      disabled={!isDateRequired}
-                    />
-                    <span>PM</span>
-                  </label>
-                </fieldset>
               </div>
             </div>
           </div>
