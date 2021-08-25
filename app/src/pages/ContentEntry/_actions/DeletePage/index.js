@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import BalloonBlockEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import DatePicker from "react-datepicker";
 import styled from "styled-components";
 
@@ -81,6 +83,7 @@ const StyledModal = styled(Modal)`
           display: block;
           font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
           font-size: 16px;
+          padding: 13px 16px;
           resize: none;
 
           &::placeholder {
@@ -94,11 +97,17 @@ const StyledModal = styled(Modal)`
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin: 0 0 12px 0;
+        margin: 0 0 25px 0;
 
         input[type="checkbox"],
         label {
           cursor: pointer;
+        }
+
+        label {
+          span.checkbox-label {
+            margin: 0 0 0 16px;
+          }
         }
 
         div.date-and-time {
@@ -180,7 +189,7 @@ const StyledModal = styled(Modal)`
                 flex-direction: column;
                 align-items: center;
                 height: 48px;
-                margin-left: 6px;
+                margin: 0 0 0 6px;
 
                 label {
                   border: 2px solid #3e3e3e;
@@ -234,6 +243,51 @@ const StyledModal = styled(Modal)`
         }
       }
 
+      div.request-notification {
+        margin: 0 0 25px 0;
+
+        label {
+          span.checkbox-label {
+            margin: 0 0 0 16px;
+          }
+        }
+      }
+
+      div.message-to-subscribers {
+        margin: 0 0 25px 0;
+
+        label {
+          display: inline-block;
+          margin: 0 0 16px 0;
+
+          span.checkbox-label {
+            margin: 0 0 0 16px;
+          }
+        }
+
+        div.message-editor {
+          span {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+          }
+
+          div.ck {
+            border: 2px solid #3e3e3e;
+            border-radius: 0;
+          }
+
+          &.disabled {
+            div.ck {
+              border-color: #6f6f6f;
+              color: #6f6f6f;
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+
       div.control-buttons {
         display: flex;
         flex-direction: row;
@@ -263,11 +317,13 @@ function DeletePage({ id, isOpen, setIsOpen }) {
   const [deleteType, setDeleteType] = useState("soft-delete");
   const [reason, setReason] = useState("");
   const [isDateRequired, setIsDateRequired] = useState(false);
-  const [isNotificationRequested, setIsNotificationRequested] = useState(false);
   const [date, setDate] = useState(new Date());
   const [timeHour, setTimeHour] = useState(parseInt(12));
   const [timeMinute, setTimeMinute] = useState(parseInt(0));
   const [period, setPeriod] = useState("am");
+  const [isNotificationRequested, setIsNotificationRequested] = useState(false);
+  const [isSubMsgRequested, setIsSubMsgRequested] = useState(false);
+  const [subMsg, setSubMsg] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -349,7 +405,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
               checked={isDateRequired}
               onChange={(e) => setIsDateRequired(!isDateRequired)}
             />
-            <span>Set time and date</span>
+            <span className="checkbox-label">Set time and date</span>
           </label>
           <div className="date-and-time">
             <div
@@ -427,8 +483,47 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                 setIsNotificationRequested(!isNotificationRequested)
               }
             />
-            <span>Receive notification when deleted</span>
+            <span className="checkbox-label">
+              Receive notification when deleted
+            </span>
           </label>
+        </div>
+        <div className="message-to-subscribers">
+          <label>
+            <input
+              type="checkbox"
+              checked={isSubMsgRequested}
+              onChange={(e) => setIsSubMsgRequested(!isSubMsgRequested)}
+            />
+            <span className="checkbox-label">Add message to subscribers</span>
+          </label>
+          <div
+            className={
+              isSubMsgRequested ? "message-editor" : "message-editor disabled"
+            }
+          >
+            <span>Message to subscribers</span>
+            <CKEditor
+              editor={BalloonBlockEditor}
+              data={subMsg}
+              onReady={(editor) => {
+                // You can store the "editor" and use when it is needed.
+                console.log("Editor is ready to use!", editor);
+              }}
+              onChange={(event, editor) => {
+                const msg = editor.getData();
+                console.log({ event, editor, msg });
+                setSubMsg(msg);
+              }}
+              onBlur={(event, editor) => {
+                console.log("Blur.", editor);
+              }}
+              onFocus={(event, editor) => {
+                console.log("Focus.", editor);
+              }}
+              disabled={!isSubMsgRequested}
+            />
+          </div>
         </div>
         <div className="control-buttons">
           <Button
