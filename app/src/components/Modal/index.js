@@ -36,6 +36,8 @@ const StyledReactModal = styled(ReactModalAdapter).attrs({
   & .Modal {
     background-color: white;
     font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+    max-height: 90vh;
+    overflow-y: auto;
     padding: 25px;
     -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
