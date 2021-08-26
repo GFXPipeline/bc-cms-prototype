@@ -379,6 +379,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                 id={"date-picker"}
                 selected={date}
                 onChange={(date) => setDate(date)}
+                minDate={new Date()}
                 disabled={!isDateRequired}
               />
             </div>
