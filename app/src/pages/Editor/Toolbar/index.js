@@ -56,7 +56,16 @@ function Toolbar({ id, data, title, setTitle }) {
     setIsDeleteButtonDisabled(true);
 
     pageService
-      .markForDeletion(id)
+      .markForDeletion({
+        id: id,
+        deleteType: "soft-delete",
+        reason: "",
+        isDeleteDateSet: false,
+        timeToDelete: new Date(),
+        isNotificationRequested: false,
+        isSubscriberMessageSet: false,
+        subscriberMessage: null,
+      })
       .then((response) => {
         console.log("response in Toolbar handleDeletePage(): ", response);
       })
