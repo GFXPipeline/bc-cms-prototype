@@ -112,7 +112,16 @@ async function update({ id, data, title }) {
 }
 
 // DELETE request to /api/page/:id
-async function markForDeletion(id) {
+async function markForDeletion({
+  id,
+  deleteType,
+  reason,
+  isDeleteDateSet,
+  timeToDelete,
+  isNotificationRequested,
+  isSubscriberMessageSet,
+  subscriberMessage,
+}) {
   try {
     const headers = authHeader();
 
@@ -122,6 +131,13 @@ async function markForDeletion(id) {
       headers,
       data: {
         username: authenticationService.currentUserValue.username,
+        deleteType: deleteType,
+        reason: reason,
+        isDeleteDateSet: isDeleteDateSet ? true : false,
+        time_to_delete: timeToDelete,
+        isNotificationRequested: isNotificationRequested ? true : false,
+        isSubscriberMessageSet: isSubscriberMessageSet ? true : false,
+        subscriberMessage: subscriberMessage,
       },
     });
 

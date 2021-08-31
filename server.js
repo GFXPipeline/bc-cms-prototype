@@ -5,6 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const fs = require("fs");
 const path = require("path");
 const morgan = require("morgan");
 const jwt = require("./_helpers/jwt");
@@ -27,6 +28,11 @@ const db = require("./db");
 const knexConfig = require("./knexfile");
 db.init(app, knexConfig[ENV]);
 const knex = db.handle();
+
+// Queries
+const getCurrentPages = fs
+  .readFileSync(path.join(__dirname, "db", "queries", "get_current_pages.sql"))
+  .toString();
 
 // Logging in development environment
 if (ENV === "development") {
@@ -320,12 +326,37 @@ apiRouter.delete("/page/:id", (req, res) => {
           .where("id", req.params.id)
           .update({
             is_marked_for_deletion: true,
-            marked_for_deletion_by_user: userId,
-            time_marked_for_deletion: knex.fn.now(),
           })
           .then((success) => {
-            // Deletion request has been accepted for later processing
-            res.status(202).send("202");
+            // Page is marked for deletion in pages table,
+            // create entry in deletions table.
+            knex("deletions")
+              .insert({
+                page_id: req.params.id,
+                is_hard_delete:
+                  req?.body?.deleteType === "hard-delete" ? true : false,
+                reason: req?.body?.reason,
+                is_delete_date_set: req?.body?.isDeleteDateSet,
+                time_to_delete: req?.body?.time_to_delete || new Date(),
+                is_notification_requested: req?.body?.isNotificationRequested,
+                is_subscriber_message_set: req?.body?.isSubscriberMessageSet,
+                subscriber_message: req?.body?.subscriberMessage,
+                deleted_by_user: userId,
+                last_modified_by_user: userId,
+              })
+              .then((success) => {
+                console.log(
+                  `Inserted ${success?.rowCount} row into deletions table for page ID: ${req.params.id}`
+                );
+                res.status(202).send("202");
+              })
+              .catch((error) => {
+                console.log(
+                  "error in DELETE /api/page create deletion: ",
+                  error
+                );
+                res.status(500).send("500");
+              });
           })
           .catch((error) => {
             // Deletion request failed
@@ -347,10 +378,10 @@ apiRouter.delete("/page/:id", (req, res) => {
 apiRouter.get("/pages/all", (req, res) => {
   console.log("GET /api/pages/all");
 
-  knex("pages")
-    .select("*")
+  knex
+    .raw(getCurrentPages)
     .then((results) => {
-      res.status(200).json(results);
+      res.status(200).json(results?.rows);
     })
     .catch((error) => {
       console.log("error in GET /api/pages/all knex call: ", error);

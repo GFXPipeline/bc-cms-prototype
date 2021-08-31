@@ -32,6 +32,12 @@ const StyledDiv = styled.div`
         text-decoration: underline;
       }
     }
+
+    &.marked-for-deletion {
+      a {
+        color: #949494;
+      }
+    }
   }
 
   p.error {
@@ -96,7 +102,14 @@ function PageList({ selected, setSelected }) {
       {pages?.length > 0 &&
         pages.map((page, index) => {
           return (
-            <div key={`page-list-${index}`} className="page-container">
+            <div
+              key={`page-list-${index}`}
+              className={
+                page?.is_marked_for_deletion
+                  ? "page-container marked-for-deletion"
+                  : "page-container"
+              }
+            >
               {/* Clicking the page title link loads the page in the editor */}
               <Link to={`/content/${page?.id}`}>{page.title}</Link>
 

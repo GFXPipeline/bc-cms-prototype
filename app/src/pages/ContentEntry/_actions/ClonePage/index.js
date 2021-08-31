@@ -140,6 +140,7 @@ function ClonePage({ id, isOpen, setIsOpen }) {
         id: id,
         languages: [], // Blank for now
         numberOfCopies: numberOfCopies,
+        isWithChildrenPages: isWithChildrenPages,
       })
       .then((newPageId) => {
         setIsSuccess(true);
