@@ -7,6 +7,7 @@ const StyledButton = styled.button`
   color: ${(props) => (props.primary ? "white" : "#313132")};
   cursor: pointer;
   display: inline-block;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-weight: 700;
   min-height: 44px;
