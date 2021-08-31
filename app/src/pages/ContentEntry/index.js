@@ -72,6 +72,7 @@ const PageControlToolbar = styled.div`
     }
 
     &:disabled {
+      color: #949494;
       cursor: not-allowed;
       text-decoration: none;
     }
