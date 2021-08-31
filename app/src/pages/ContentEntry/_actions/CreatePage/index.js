@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import styled from "styled-components";
 
@@ -112,6 +112,16 @@ const StyledModal = styled(Modal)`
       border-radius: 4px;
       color: #2d4821;
       padding: 15px;
+
+      a {
+        color: #2d4821;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
     }
 
     p.error {
@@ -340,7 +350,11 @@ function CreatePage({ isOpen, setIsOpen }) {
       {isError && <p className="error">Error trying to create page</p>}
       {isSuccess && (
         <p className="success">
-          Successfully created page. Close this dialog to see the updated list.
+          Successfully created page.{" "}
+          <Link to={"/content"} onClick={() => history.go()}>
+            Close this dialog
+          </Link>{" "}
+          to see the updated list.
         </p>
       )}
     </StyledModal>
