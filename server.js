@@ -5,6 +5,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const fs = require("fs");
 const path = require("path");
 const morgan = require("morgan");
 const jwt = require("./_helpers/jwt");
@@ -27,6 +28,11 @@ const db = require("./db");
 const knexConfig = require("./knexfile");
 db.init(app, knexConfig[ENV]);
 const knex = db.handle();
+
+// Queries
+const getCurrentPages = fs
+  .readFileSync(path.join(__dirname, "db", "queries", "get_current_pages.sql"))
+  .toString();
 
 // Logging in development environment
 if (ENV === "development") {
@@ -347,10 +353,10 @@ apiRouter.delete("/page/:id", (req, res) => {
 apiRouter.get("/pages/all", (req, res) => {
   console.log("GET /api/pages/all");
 
-  knex("pages")
-    .select("*")
+  knex
+    .raw(getCurrentPages)
     .then((results) => {
-      res.status(200).json(results);
+      res.status(200).json(results?.rows);
     })
     .catch((error) => {
       console.log("error in GET /api/pages/all knex call: ", error);
