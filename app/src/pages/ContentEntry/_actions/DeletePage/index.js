@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import BalloonBlockEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import DatePicker from "react-datepicker";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -9,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import svgCalendar from "../../../../assets/noun-calendar.svg";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
+import { pageService } from "../../../../_services";
 
 const StyledModal = styled(Modal)`
   .Modal {
@@ -85,7 +87,7 @@ const StyledModal = styled(Modal)`
           resize: none;
 
           &::placeholder {
-            color: #313132;
+            color: #949494;
           }
         }
       }
@@ -264,6 +266,16 @@ const StyledModal = styled(Modal)`
       border-radius: 4px;
       color: #2d4821;
       padding: 15px;
+
+      a {
+        color: #2d4821;
+        cursor: pointer;
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
     }
 
     p.error {
@@ -289,12 +301,45 @@ function DeletePage({ id, isOpen, setIsOpen }) {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const history = useHistory();
+
+  // TODO: Remove separate time selector and use react-datepicker's built-in
+  //       time selection (https://reactdatepicker.com/#example-select-time)
+  function getDeleteTime() {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const dayOfMonth = date.getDate();
+    const timeString = `${year}-${month > 9 ? month : `0${month}`}-${
+      dayOfMonth > 9 ? dayOfMonth : `0${dayOfMonth}`
+    }T${time}`;
+
+    return new Date(timeString);
+  }
+
   function handleDeletePage(event) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    // Call pageService.delete(id)
-    // Set success or error
+    pageService
+      .markForDeletion({
+        id: id,
+        deleteType: deleteType,
+        reason: reason,
+        isDeleteDateSet: isDateRequired,
+        timeToDelete: getDeleteTime(),
+        isNotificationRequested: isNotificationRequested,
+        isSubscriberMessageSet: isSubMsgRequested,
+        subscriberMessage: isSubMsgRequested ? subMsg : null,
+      })
+      .then((success) => {
+        setIsSuccess(true);
+        setIsSubmitting(false);
+      })
+      .catch((error) => {
+        setIsError(true);
+        setIsSubmitting(false);
+        throw error;
+      });
   }
 
   return (
@@ -356,7 +401,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
             onChange={(e) => setReason(e.target.value)}
             placeholder={"Enter reason for deletion."}
             rows={3}
-            requried
+            required
           />
         </div>
         <div className={"set-time-and-date"}>
@@ -460,7 +505,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
           <Button
             onClick={(e) => handleDeletePage(e)}
             primary
-            disabled={isSubmitting}
+            disabled={!reason || isSubmitting || isSuccess}
           >
             Delete
           </Button>
@@ -475,7 +520,11 @@ function DeletePage({ id, isOpen, setIsOpen }) {
       {isSuccess && (
         <p className="success">
           Selected page has been marked for{" "}
-          {deleteType === "soft-delete" ? "soft" : "hard"} deletion.
+          {deleteType === "soft-delete" ? "soft" : "hard"} deletion.{" "}
+          <Link to={"/content"} onClick={() => history.go()}>
+            Close this dialog
+          </Link>
+          .
         </p>
       )}
     </StyledModal>
