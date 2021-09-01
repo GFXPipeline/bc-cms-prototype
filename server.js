@@ -16,12 +16,6 @@ app.use(cors());
 const ENV = process.env.NODE_ENV || "development";
 const PORT = process.env.PORT || 3000;
 
-// Database
-const db = require("./db");
-const knexConfig = require("./knexfile");
-db.init(app, knexConfig[ENV]);
-const knex = db.handle();
-
 // Logging in development environment
 if (ENV === "development") {
   app.use(morgan("combined"));

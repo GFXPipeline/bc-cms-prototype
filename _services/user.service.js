@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const knex = require("../db").handle;
 const jwt = require("jsonwebtoken");
+const knex = require("../db");
 
 async function authenticate({ username, password }, res) {
   const jwtSecret = process.env.JWT_SECRET;
@@ -15,7 +15,7 @@ async function authenticate({ username, password }, res) {
   }
 
   // Check database for username
-  knex()("users")
+  knex("users")
     .select("*")
     .where("username", username)
     .then((rows) => {

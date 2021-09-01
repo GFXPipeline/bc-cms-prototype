@@ -1,18 +1,11 @@
 const express = require("express");
-const app = express();
-const ENV = process.env.NODE_ENV || "development";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
 const jwt = require("../_helpers/jwt");
 const errorHandler = require("../_helpers/error-handler");
 const userService = require("../_services/user.service");
 
-// Database
-const db = require("../db");
-const knexConfig = require("../knexfile");
-db.init(app, knexConfig[ENV]);
-const knex = db.handle();
+const knex = require("../db");
 
 const usersRouter = express.Router();
 usersRouter.use(jwt());

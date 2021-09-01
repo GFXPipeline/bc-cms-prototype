@@ -1,17 +1,10 @@
-"use strict";
+require("dotenv").config();
+const knexConfig = require("../knexfile");
+const ENV = process.env.NODE_ENV || "development";
+const knex = require("knex")(knexConfig[ENV]);
 
-const knex = require("knex");
-let knexHandle;
+if (ENV === "development") {
+  knex.on("query", console.log);
+}
 
-// Setup Knex connection
-const init = (app, knexConfig) => {
-  knexHandle = knex(knexConfig);
-  return knexHandle;
-};
-
-// Get a reference to Knex connection
-const handle = () => {
-  return knexHandle;
-};
-
-module.exports = { init, handle };
+module.exports = knex;

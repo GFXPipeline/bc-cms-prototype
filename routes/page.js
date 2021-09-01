@@ -1,16 +1,8 @@
 const express = require("express");
-const app = express();
-const ENV = process.env.NODE_ENV || "development";
 const { v4: uuidv4 } = require("uuid");
-
 const jwt = require("../_helpers/jwt");
 const errorHandler = require("../_helpers/error-handler");
-
-// Database
-const db = require("../db");
-const knexConfig = require("../knexfile");
-db.init(app, knexConfig[ENV]);
-const knex = db.handle();
+const knex = require("../db");
 
 const pageRouter = express.Router();
 pageRouter.use(jwt());

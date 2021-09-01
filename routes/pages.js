@@ -5,12 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const jwt = require("../_helpers/jwt");
 const errorHandler = require("../_helpers/error-handler");
-
-// Database
-const db = require("../db");
-const knexConfig = require("../knexfile");
-db.init(app, knexConfig[ENV]);
-const knex = db.handle();
+const knex = require("../db");
 
 // Queries
 const getCurrentPages = fs
