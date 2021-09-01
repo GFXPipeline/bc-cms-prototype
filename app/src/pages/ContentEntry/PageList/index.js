@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
-import { pageService } from "../../../_services";
 
 const StyledDiv = styled.div`
   height: 100%;
@@ -49,10 +46,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageList({ selected, setSelected }) {
-  const [pages, setPages] = useState([]);
-  const [isError, setIsError] = useState(false);
-
+function PageList({ isError, pages, selected, setSelected }) {
   function handleSelect(event) {
     const id = event.target.id;
     const isAlreadySelected = Boolean(selected.indexOf(id) !== -1);
@@ -84,18 +78,6 @@ function PageList({ selected, setSelected }) {
       return setSelected(newSelection);
     }
   }
-
-  useEffect(() => {
-    pageService
-      .getPageList()
-      .then((pages) => {
-        setPages(pages);
-      })
-      .catch((error) => {
-        setIsError(true);
-        throw error;
-      });
-  }, []);
 
   return (
     <StyledDiv>

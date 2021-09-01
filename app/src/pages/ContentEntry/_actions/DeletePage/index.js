@@ -2,7 +2,6 @@ import { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import BalloonBlockEditor from "@ckeditor/ckeditor5-build-balloon-block";
 import DatePicker from "react-datepicker";
-import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -64,6 +63,20 @@ const StyledModal = styled(Modal)`
               }
             }
           }
+
+          &.disabled {
+            div.radio-option {
+              input[type="radio"] {
+                cursor: not-allowed;
+              }
+
+              div.label-description {
+                label {
+                  cursor: not-allowed;
+                }
+              }
+            }
+          }
         }
       }
 
@@ -88,6 +101,11 @@ const StyledModal = styled(Modal)`
 
           &::placeholder {
             color: #949494;
+          }
+
+          &:disabled {
+            border-color: #6f6f6f;
+            cursor: not-allowed;
           }
         }
       }
@@ -206,6 +224,16 @@ const StyledModal = styled(Modal)`
             }
           }
         }
+
+        &.disabled {
+          label {
+            cursor: not-allowed;
+
+            input {
+              cursor: not-allowed;
+            }
+          }
+        }
       }
 
       div.request-notification {
@@ -214,6 +242,16 @@ const StyledModal = styled(Modal)`
         label {
           span.checkbox-label {
             margin: 0 0 0 16px;
+          }
+        }
+
+        &.disabled {
+          label {
+            cursor: not-allowed;
+
+            input {
+              cursor: not-allowed;
+            }
           }
         }
       }
@@ -227,6 +265,16 @@ const StyledModal = styled(Modal)`
 
           span.checkbox-label {
             margin: 0 0 0 16px;
+          }
+        }
+
+        &.disabled {
+          label {
+            cursor: not-allowed;
+
+            input {
+              cursor: not-allowed;
+            }
           }
         }
 
@@ -288,7 +336,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function DeletePage({ id, isOpen, setIsOpen }) {
+function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
   const [deleteType, setDeleteType] = useState("soft-delete");
   const [reason, setReason] = useState("");
   const [isDateRequired, setIsDateRequired] = useState(false);
@@ -300,8 +348,6 @@ function DeletePage({ id, isOpen, setIsOpen }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
-
-  const history = useHistory();
 
   // TODO: Remove separate time selector and use react-datepicker's built-in
   //       time selection (https://reactdatepicker.com/#example-select-time)
@@ -342,11 +388,37 @@ function DeletePage({ id, isOpen, setIsOpen }) {
       });
   }
 
+  function handleCleanup() {
+    setDeleteType("soft-delete");
+    setReason("");
+    setIsDateRequired(false);
+    setDate(new Date());
+    setTime("00:00");
+    setIsNotificationRequested(false);
+    setIsSubMsgRequested(false);
+    setSubMsg("");
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    setIsError(false);
+    setIsOpen(false);
+  }
+
   return (
-    <StyledModal isOpen={isOpen} setIsOpen={setIsOpen} contentLabel={"Delete"}>
+    <StyledModal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      onAfterClose={onAfterClose}
+      contentLabel={"Delete"}
+    >
       <form id="delete-page">
         <h1>Delete</h1>
-        <fieldset className="radio-delete-type">
+        <fieldset
+          className={
+            isSubmitting || isSuccess
+              ? "radio-delete-type disabled"
+              : "radio-delete-type"
+          }
+        >
           <div
             className={
               deleteType === "soft-delete"
@@ -361,6 +433,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
               value="soft-delete"
               checked={deleteType === "soft-delete"}
               onChange={() => setDeleteType("soft-delete")}
+              disabled={isSubmitting || isSuccess}
             />
             <div className="label-description">
               <label htmlFor="soft-delete">Soft</label>
@@ -384,6 +457,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
               value="hard-delete"
               checked={deleteType === "hard-delete"}
               onChange={() => setDeleteType("hard-delete")}
+              disabled={isSubmitting || isSuccess}
             />
             <div className="label-description">
               <label htmlFor="hard-delete">Hard</label>
@@ -402,14 +476,22 @@ function DeletePage({ id, isOpen, setIsOpen }) {
             placeholder={"Enter reason for deletion."}
             rows={3}
             required
+            disabled={isSubmitting || isSuccess}
           />
         </div>
-        <div className={"set-time-and-date"}>
+        <div
+          className={
+            isSubmitting || isSuccess
+              ? "set-time-and-date disabled"
+              : "set-time-and-date"
+          }
+        >
           <label>
             <input
               type="checkbox"
               checked={isDateRequired}
               onChange={(e) => setIsDateRequired(!isDateRequired)}
+              disabled={isSubmitting || isSuccess}
             />
             <span className="checkbox-label">Set time and date</span>
           </label>
@@ -425,7 +507,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                 selected={date}
                 onChange={(date) => setDate(date)}
                 minDate={new Date()}
-                disabled={!isDateRequired}
+                disabled={!isDateRequired || isSubmitting || isSuccess}
               />
             </div>
             <div
@@ -442,7 +524,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
                   min="00:00"
                   max="24:00"
                   required={isDateRequired}
-                  disabled={!isDateRequired}
+                  disabled={!isDateRequired || isSubmitting || isSuccess}
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
                 />
@@ -450,7 +532,13 @@ function DeletePage({ id, isOpen, setIsOpen }) {
             </div>
           </div>
         </div>
-        <div className="request-notification">
+        <div
+          className={
+            isSubmitting || isSuccess
+              ? "request-notification disabled"
+              : "request-notification"
+          }
+        >
           <label>
             <input
               type="checkbox"
@@ -458,18 +546,26 @@ function DeletePage({ id, isOpen, setIsOpen }) {
               onChange={(e) =>
                 setIsNotificationRequested(!isNotificationRequested)
               }
+              disabled={isSubmitting || isSuccess}
             />
             <span className="checkbox-label">
               Receive notification when deleted
             </span>
           </label>
         </div>
-        <div className="message-to-subscribers">
+        <div
+          className={
+            isSubmitting || isSuccess
+              ? "message-to-subscribers disabled"
+              : "message-to-subscribers"
+          }
+        >
           <label>
             <input
               type="checkbox"
               checked={isSubMsgRequested}
               onChange={(e) => setIsSubMsgRequested(!isSubMsgRequested)}
+              disabled={isSubmitting || isSuccess}
             />
             <span className="checkbox-label">Add message to subscribers</span>
           </label>
@@ -497,7 +593,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
               onFocus={(event, editor) => {
                 console.log("Focus.", editor);
               }}
-              disabled={!isSubMsgRequested}
+              disabled={!isSubMsgRequested || isSubmitting || isSuccess}
             />
           </div>
         </div>
@@ -509,7 +605,7 @@ function DeletePage({ id, isOpen, setIsOpen }) {
           >
             Delete
           </Button>
-          <Button onClick={() => setIsOpen(false)} disabled={isSubmitting}>
+          <Button onClick={handleCleanup} disabled={isSubmitting}>
             Cancel
           </Button>
         </div>
@@ -518,14 +614,15 @@ function DeletePage({ id, isOpen, setIsOpen }) {
         <p className="error">Error attempting to mark page for deletion</p>
       )}
       {isSuccess && (
-        <p className="success">
-          Selected page has been marked for{" "}
-          {deleteType === "soft-delete" ? "soft" : "hard"} deletion.{" "}
-          <Link to={"/content"} onClick={() => history.go()}>
+        <>
+          <p className="success">
+            Selected page has been marked for{" "}
+            {deleteType === "soft-delete" ? "soft" : "hard"} deletion.{" "}
+          </p>
+          <Button primary onClick={handleCleanup}>
             Close this dialog
-          </Link>
-          .
-        </p>
+          </Button>
+        </>
       )}
     </StyledModal>
   );

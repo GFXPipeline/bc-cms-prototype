@@ -32,6 +32,16 @@ const StyledModal = styled(Modal)`
         input {
           cursor: pointer;
           margin-right: 16px;
+
+          &:disabled {
+            cursor: not-allowed;
+          }
+        }
+
+        &.disabled {
+          label {
+            cursor: not-allowed;
+          }
         }
 
         &.radio-fieldset {
@@ -110,7 +120,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function ClonePage({ id, isOpen, setIsOpen }) {
+function ClonePage({ id, isOpen, setIsOpen, onAfterClose }) {
   const [isWithChildrenPages, setIsWithChildrenPages] = useState(false);
   // const [isLangSelectEnabled, setIsLangSelectEnabled] = useState(false);
   // const [langSelected, setLangSelected] = useState("");
@@ -152,11 +162,31 @@ function ClonePage({ id, isOpen, setIsOpen }) {
       });
   }
 
+  function handleCleanup() {
+    setIsWithChildrenPages(false);
+    setNumberOfCopies(1);
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    setIsError(false);
+    setIsOpen(false);
+  }
+
   return (
-    <StyledModal isOpen={isOpen} setIsOpen={setIsOpen} contentLabel={"Clone"}>
+    <StyledModal
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      contentLabel={"Clone"}
+      onAfterClose={onAfterClose}
+    >
       <form id="clone-page">
         <h1>Clone</h1>
-        <fieldset>
+        <fieldset
+          className={
+            isSubmitting || isSuccess
+              ? "with-children disabled"
+              : "with-children"
+          }
+        >
           <div>
             <label htmlFor="option-with-children-pages">
               <input
@@ -164,6 +194,7 @@ function ClonePage({ id, isOpen, setIsOpen }) {
                 id="option-with-children-pages"
                 value="with-children-pages"
                 onChange={(e) => handleWithChildrenPagesCheck(e)}
+                disabled={isSubmitting || isSuccess}
               />
               With Children Pages
             </label>
@@ -256,6 +287,7 @@ function ClonePage({ id, isOpen, setIsOpen }) {
             max="10"
             value={numberOfCopies}
             onChange={(e) => setNumberOfCopies(e.target.value)}
+            disabled={isSubmitting || isSuccess}
           />
         </fieldset>
         <fieldset className="control-where-to-clone">
@@ -271,7 +303,7 @@ function ClonePage({ id, isOpen, setIsOpen }) {
           <Button
             onClick={(e) => handleClonePage(e)}
             primary
-            disabled={isSubmitting}
+            disabled={isSubmitting || isSuccess}
           >
             Clone
           </Button>
@@ -282,11 +314,15 @@ function ClonePage({ id, isOpen, setIsOpen }) {
       </form>
       {isError && <p className="error">Error trying to clone pages</p>}
       {isSuccess && (
-        <p className="success">
-          Successfully cloned page {numberOfCopies}{" "}
-          {numberOfCopies > 1 ? "times" : "time"}. Close this dialog and refresh
-          the page to see the updated list.
-        </p>
+        <>
+          <p className="success">
+            Successfully cloned {numberOfCopies}{" "}
+            {numberOfCopies > 1 ? "copies" : "copy"}.
+          </p>
+          <Button primary onClick={handleCleanup}>
+            Close this dialog
+          </Button>
+        </>
       )}
     </StyledModal>
   );

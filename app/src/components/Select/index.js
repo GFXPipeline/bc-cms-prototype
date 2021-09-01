@@ -6,6 +6,10 @@ const StyledSelect = styled.select`
   height: 44px;
   padding: 0 26px 0 10px;
   width: 100%;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 `;
 
 function Select({ id, name, options, value, onChange, disabled, ...props }) {
