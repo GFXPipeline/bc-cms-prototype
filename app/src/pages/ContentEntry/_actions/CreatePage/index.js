@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import styled from "styled-components";
 
@@ -141,14 +141,13 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function CreatePage({ isOpen, setIsOpen }) {
+function CreatePage({ isOpen, setIsOpen, onAfterClose }) {
   const [pageType, setPageType] = useState("topic-page");
   const [template, setTemplate] = useState("base-template");
   const [numberOfCopies, setNumberOfCopies] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [newPageId, setNewPageId] = useState("");
 
   const history = useHistory();
 
@@ -167,7 +166,10 @@ function CreatePage({ isOpen, setIsOpen }) {
       .then((returnedPageId) => {
         setIsSuccess(true);
         setIsSubmitting(false);
-        setNewPageId(returnedPageId);
+
+        // Page ID is pulled by useParams() in ContentEntry to grab page data,
+        // no need to use this to set state anywhere.
+        history.push(`/content/${returnedPageId}`);
       })
       .catch((error) => {
         setIsError(true);
@@ -175,15 +177,22 @@ function CreatePage({ isOpen, setIsOpen }) {
       });
   }
 
+  function handleCleanup() {
+    setPageType("topic-page");
+    setTemplate("base-template");
+    setNumberOfCopies(1);
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    setIsError(false);
+    setIsOpen(false);
+  }
+
   return (
     <StyledModal
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       contentLabel={"Create"}
-      onAfterClose={() => {
-        history.push(`/content/${newPageId}`);
-        history.go(0);
-      }}
+      onAfterClose={onAfterClose}
     >
       <form id="create-page">
         <h1>Create</h1>
@@ -260,7 +269,7 @@ function CreatePage({ isOpen, setIsOpen }) {
             ]}
             onChange={setPageType}
             value={pageType}
-            disabled={false}
+            disabled={isSuccess}
           />
         </fieldset>
         <fieldset className="select">
@@ -311,7 +320,7 @@ function CreatePage({ isOpen, setIsOpen }) {
             ]}
             onChange={setTemplate}
             value={template}
-            disabled={false}
+            disabled={isSuccess}
           />
         </fieldset>
         <fieldset className="number-of-copies">
@@ -338,24 +347,26 @@ function CreatePage({ isOpen, setIsOpen }) {
           <Button
             onClick={(e) => handleCreatePage(e)}
             primary
-            disabled={isSubmitting}
+            disabled={isSubmitting || isSuccess}
           >
             Create
           </Button>
-          <Button onClick={() => setIsOpen(false)} disabled={isSubmitting}>
+          <Button
+            onClick={() => setIsOpen(false)}
+            disabled={isSubmitting || isSuccess}
+          >
             Cancel
           </Button>
         </div>
       </form>
       {isError && <p className="error">Error trying to create page</p>}
       {isSuccess && (
-        <p className="success">
-          Successfully created page.{" "}
-          <Link to={"/content"} onClick={() => history.go()}>
-            Close this dialog
-          </Link>{" "}
-          to see the updated list.
-        </p>
+        <>
+          <p className="success">Successfully created page.</p>
+          <Button primary onClick={handleCleanup}>
+            Close
+          </Button>
+        </>
       )}
     </StyledModal>
   );

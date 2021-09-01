@@ -308,6 +308,7 @@ function ContentEntry() {
       <CreatePage
         isOpen={modalCreatePageOpen}
         setIsOpen={setModalCreatePageOpen}
+        onAfterClose={getUpdatedPageList}
       />
       <DeletePage
         id={selectedPages[0]}
