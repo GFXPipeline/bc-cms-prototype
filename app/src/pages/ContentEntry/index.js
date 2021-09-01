@@ -114,6 +114,11 @@ function ContentEntry() {
       });
   }
 
+  function updatePageListAndClearSelections() {
+    getUpdatedPageList();
+    setSelectedPages([]);
+  }
+
   // Populate page list
   useEffect(() => {
     getUpdatedPageList();
@@ -314,6 +319,7 @@ function ContentEntry() {
         id={selectedPages[0]}
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
+        onAfterClose={updatePageListAndClearSelections}
       />
     </>
   );
