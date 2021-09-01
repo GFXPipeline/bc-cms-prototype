@@ -7,6 +7,8 @@ const StyledInput = styled.input`
   padding: 4px;
 
   &:disabled {
+    border-color: #6f6f6f;
+    color: #808080;
     cursor: not-allowed;
   }
 `;
