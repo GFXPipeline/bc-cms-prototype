@@ -309,6 +309,7 @@ function ContentEntry() {
         id={selectedPages[0]}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
+        onAfterClose={getUpdatedPageList}
       />
       <CreatePage
         isOpen={modalCreatePageOpen}
