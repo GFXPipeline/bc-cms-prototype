@@ -93,6 +93,7 @@ function ContentEntry() {
     id ? "(Fetching page title)" : "Page title"
   );
   const [isError, setIsError] = useState(false);
+  const [pages, setPages] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
 
@@ -101,6 +102,24 @@ function ContentEntry() {
   const [modalCreatePageOpen, setModalCreatePageOpen] = useState(false);
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
 
+  function getUpdatedPageList() {
+    pageService
+      .getPageList()
+      .then((pages) => {
+        setPages(pages);
+      })
+      .catch((error) => {
+        setIsError(true);
+        throw error;
+      });
+  }
+
+  // Populate page list
+  useEffect(() => {
+    getUpdatedPageList();
+  }, []);
+
+  // Get the data for the selected page
   useEffect(() => {
     if (id) {
       pageService
@@ -239,7 +258,12 @@ function ContentEntry() {
               Delete
             </button>
           </PageControlToolbar>
-          <PageList selected={selectedPages} setSelected={setSelectedPages} />
+          <PageList
+            isError={isError}
+            pages={pages}
+            selected={selectedPages}
+            setSelected={setSelectedPages}
+          />
         </LeftPanel>
         <RightPanel>
           <NavTabs
