@@ -158,6 +158,7 @@ function ClonePage({ id, isOpen, setIsOpen, onAfterClose }) {
       })
       .catch((error) => {
         setIsError(true);
+        setIsSubmitting(false);
         throw error;
       });
   }
