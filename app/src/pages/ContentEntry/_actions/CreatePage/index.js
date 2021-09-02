@@ -173,6 +173,7 @@ function CreatePage({ isOpen, setIsOpen, onAfterClose }) {
       })
       .catch((error) => {
         setIsError(true);
+        setIsSubmitting(false);
         throw error;
       });
   }

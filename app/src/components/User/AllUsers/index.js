@@ -46,6 +46,7 @@ function AllUsers() {
     <StyledDiv>
       <ul>
         {users?.length > 0 &&
+          Array.isArray(users) &&
           users
             .sort((a, b) => {
               if (a?.username < b?.username) {
