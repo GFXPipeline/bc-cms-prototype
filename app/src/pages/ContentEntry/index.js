@@ -101,9 +101,8 @@ const RightPanel = styled.div`
 function ContentEntry() {
   const { id } = useParams();
   const [data, setData] = useState(id ? "(Fetching page data)" : "");
-  const [title, setTitle] = useState(
-    id ? "(Fetching page title)" : "Page title"
-  );
+  const [title, setTitle] = useState(id ? "(Fetching page title)" : "");
+  const [navTitle, setNavTitle] = useState(id ? "(Fetching nav title)" : "");
   const [isError, setIsError] = useState(false);
   const [pages, setPages] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
@@ -143,8 +142,9 @@ function ContentEntry() {
       pageService
         .read(id)
         .then((response) => {
-          setData(response.data || "");
-          setTitle(response.title);
+          setData(response?.data || "");
+          setTitle(response?.title || "");
+          setNavTitle(response?.nav_title || "");
         })
         .catch((error) => {
           console.log("error in Editor pageService catch: ", error);
@@ -166,6 +166,12 @@ function ContentEntry() {
               id="page-title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+            />
+            <label htmlFor="nav-title">Nav title:</label>
+            <TextInput
+              id="nav-title"
+              value={navTitle}
+              onChange={(e) => setNavTitle(e.target.value)}
             />
           </LeftPanel>
         ) : (
