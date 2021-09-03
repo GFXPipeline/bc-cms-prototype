@@ -22,10 +22,20 @@ import ClonePage from "./_actions/ClonePage";
 import CreatePage from "./_actions/CreatePage";
 import DeletePage from "./_actions/DeletePage";
 
+const Page = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
 const ContentContainer = styled.div`
   background-color: white;
   display: flex;
+  flex: 1;
   flex-direction: row;
+  min-height: 0;
   width: 100%;
 `;
 
@@ -33,7 +43,9 @@ const LeftPanel = styled.div`
   align-items: stretch;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   max-width: 368px;
+  overflow: hidden;
 
   div.top {
     padding: 13px;
@@ -82,7 +94,6 @@ const PageControlToolbar = styled.div`
 const RightPanel = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
   width: calc(100% - 368px);
 `;
 
@@ -142,7 +153,7 @@ function ContentEntry() {
   }, [id]);
 
   return (
-    <>
+    <Page>
       <Header />
       <ContentContainer>
         <LeftPanel>
@@ -322,7 +333,7 @@ function ContentEntry() {
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}
       />
-    </>
+    </Page>
   );
 }
 
