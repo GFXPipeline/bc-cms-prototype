@@ -56,6 +56,7 @@ pageRouter.post("/", (req, res) => {
                   .insert({
                     id: newPageId,
                     title: req?.body?.title,
+                    nav_title: req?.body?.navTitle,
                     data: row?.[0]?.data,
                     page_type: newPageTypeId,
                     created_by_user: userId,
@@ -86,6 +87,7 @@ pageRouter.post("/", (req, res) => {
               .insert({
                 id: newPageId,
                 title: req?.body?.title,
+                nav_title: req?.body?.navTitle,
                 data: req?.body?.data,
                 page_type: newPageTypeId,
                 created_by_user: userId,
@@ -166,6 +168,7 @@ pageRouter.post("/:id", (req, res) => {
         newPageRecords.push({
           id: id,
           title: `${title} - copy ${index + 1}`,
+          nav_title: "",
           data: data,
           created_by_user: userId,
           owned_by_user: userId,
@@ -230,6 +233,7 @@ pageRouter.put("/:id", (req, res) => {
           .update({
             data: req?.body?.data,
             title: req?.body?.title,
+            nav_title: req?.body?.navTitle,
             last_modified_by_user: userId,
             time_last_updated: knex.fn.now(),
           })
