@@ -4,7 +4,14 @@ import { authHeader } from "../_helpers";
 import { authenticationService } from "../_services";
 
 // POST request to /api/page to create a new page
-async function create({ data, numberOfCopies, pageType, template, title }) {
+async function create({
+  data,
+  navTitle,
+  numberOfCopies,
+  pageType,
+  template,
+  title,
+}) {
   try {
     const headers = authHeader();
 
@@ -19,6 +26,7 @@ async function create({ data, numberOfCopies, pageType, template, title }) {
         `New Page - ${
           authenticationService.currentUserValue.username
         } - ${Math.floor(Math.random() * (9999 - 1000 + 1) + 1000)}`,
+      navTitle: navTitle || "",
       data: data || "",
     };
 
@@ -86,7 +94,7 @@ async function read(id) {
 }
 
 // PUT request to /api/page/:id
-async function update({ id, data, title }) {
+async function update({ id, data, navTitle, title }) {
   console.log("Inside pageService.update, id: ", id);
   try {
     const headers = authHeader();
@@ -94,6 +102,7 @@ async function update({ id, data, title }) {
     const updatedPageData = {
       username: authenticationService.currentUserValue.username,
       title: title,
+      navTitle: navTitle,
       data: data,
     };
 
