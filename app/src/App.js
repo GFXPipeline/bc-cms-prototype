@@ -11,46 +11,33 @@ import Home from "./pages/Home";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/User/Login";
 
-const StyledApp = styled.div`
-  * {
-    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
-  }
-
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
-
 function App() {
   return (
-    <StyledApp>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <PrivateRoute path="/edit/:id">
-            <Editor />
-          </PrivateRoute>
-          <PrivateRoute path="/edit">
-            <Editor />
-          </PrivateRoute>
-          <PrivateRoute path="/user/:username">
-            <UserProfile />
-          </PrivateRoute>
-          <PrivateRoute path="/content/:id">
-            <ContentEntry />
-          </PrivateRoute>
-          <PrivateRoute path="/content">
-            <ContentEntry />
-          </PrivateRoute>
-          <PrivateRoute path="/">
-            <Home />
-          </PrivateRoute>
-        </Switch>
-      </BrowserRouter>
-    </StyledApp>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <PrivateRoute path="/edit/:id">
+          <Editor />
+        </PrivateRoute>
+        <PrivateRoute path="/edit">
+          <Editor />
+        </PrivateRoute>
+        <PrivateRoute path="/user/:username">
+          <UserProfile />
+        </PrivateRoute>
+        <PrivateRoute path="/content/:id">
+          <ContentEntry />
+        </PrivateRoute>
+        <PrivateRoute path="/content">
+          <ContentEntry />
+        </PrivateRoute>
+        <PrivateRoute path="/">
+          <Home />
+        </PrivateRoute>
+      </Switch>
+    </BrowserRouter>
   );
 }
 

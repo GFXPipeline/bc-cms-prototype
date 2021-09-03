@@ -7,6 +7,7 @@ import styled from "styled-components";
 // Global components
 import { pageService } from "../../_services";
 import Button from "../../components/Button";
+import ButtonLink from "../../components/ButtonLink";
 import Dropdown from "../../components/Dropdown";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
@@ -22,10 +23,20 @@ import ClonePage from "./_actions/ClonePage";
 import CreatePage from "./_actions/CreatePage";
 import DeletePage from "./_actions/DeletePage";
 
+const Page = styled.div`
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
 const ContentContainer = styled.div`
   background-color: white;
   display: flex;
+  flex: 1;
   flex-direction: row;
+  min-height: 0;
   width: 100%;
 `;
 
@@ -33,7 +44,9 @@ const LeftPanel = styled.div`
   align-items: stretch;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   max-width: 368px;
+  overflow: hidden;
 
   div.top {
     padding: 13px;
@@ -82,20 +95,19 @@ const PageControlToolbar = styled.div`
 const RightPanel = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
   width: calc(100% - 368px);
 `;
 
 function ContentEntry() {
   const { id } = useParams();
   const [data, setData] = useState(id ? "(Fetching page data)" : "");
-  const [title, setTitle] = useState(
-    id ? "(Fetching page title)" : "Page title"
-  );
+  const [title, setTitle] = useState(id ? "(Fetching page title)" : "");
+  const [navTitle, setNavTitle] = useState(id ? "(Fetching nav title)" : "");
   const [isError, setIsError] = useState(false);
   const [pages, setPages] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
+  const [isEditMode, setIsEditMode] = useState(false);
 
   // Modals
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
@@ -130,8 +142,9 @@ function ContentEntry() {
       pageService
         .read(id)
         .then((response) => {
-          setData(response.data || "");
-          setTitle(response.title);
+          setData(response?.data || "");
+          setTitle(response?.title || "");
+          setNavTitle(response?.nav_title || "");
         })
         .catch((error) => {
           console.log("error in Editor pageService catch: ", error);
@@ -142,134 +155,153 @@ function ContentEntry() {
   }, [id]);
 
   return (
-    <>
+    <Page>
       <Header />
       <ContentContainer>
-        <LeftPanel>
-          <div className="top">
-            <label htmlFor="content-search">
-              Search by page name, ID, or URL
-            </label>
-            <InputContainer>
-              <TextInput id="content-search" />
-              <Button primary>Search</Button>
-            </InputContainer>
-            <label htmlFor="content-list-view">List view</label>
-            <InputContainer>
-              <Select
-                id="content-list-view"
-                name="content-list-view"
-                options={[{ id: "view-all", label: "View all" }]}
+        {isEditMode ? (
+          <LeftPanel>
+            <ButtonLink>← Back to content page list</ButtonLink>
+            <label htmlFor="page-title">Page title:</label>
+            <TextInput
+              id="page-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <label htmlFor="nav-title">Nav title:</label>
+            <TextInput
+              id="nav-title"
+              value={navTitle}
+              onChange={(e) => setNavTitle(e.target.value)}
+            />
+          </LeftPanel>
+        ) : (
+          <LeftPanel>
+            <div className="top">
+              <label htmlFor="content-search">
+                Search by page name, ID, or URL
+              </label>
+              <InputContainer>
+                <TextInput id="content-search" />
+                <Button primary>Search</Button>
+              </InputContainer>
+              <label htmlFor="content-list-view">List view</label>
+              <InputContainer>
+                <Select
+                  id="content-list-view"
+                  name="content-list-view"
+                  options={[{ id: "view-all", label: "View all" }]}
+                />
+              </InputContainer>
+            </div>
+            <PageControlToolbar>
+              <Dropdown
+                id="content-entry-create"
+                label="Create"
+                options={[
+                  {
+                    id: "new-page",
+                    label: "New page",
+                    action: () => {
+                      setModalCreatePageOpen(true);
+                    },
+                  },
+                  {
+                    id: "clone-page",
+                    label: "Clone selected page",
+                    action: () => {
+                      setModalClonePageOpen(true);
+                    },
+                    disabled: selectedPages?.length !== 1,
+                  },
+                  {
+                    id: "clone-page-with-children",
+                    label: "Clone selected page with children",
+                    action: () =>
+                      alert("Clone selected page with children action"),
+                  },
+                  {
+                    id: "new-external-link",
+                    label: "New external link",
+                    action: () => alert("New external link action"),
+                  },
+                ]}
               />
-            </InputContainer>
-          </div>
-          <PageControlToolbar>
-            <Dropdown
-              id="content-entry-create"
-              label="Create"
-              options={[
-                {
-                  id: "new-page",
-                  label: "New page",
-                  action: () => {
-                    setModalCreatePageOpen(true);
+              <Dropdown
+                id="content-entry-lock"
+                label="Lock"
+                options={[
+                  {
+                    id: "lock-page",
+                    label: "Lock page",
+                    action: () => alert("Lock page action"),
                   },
-                },
-                {
-                  id: "clone-page",
-                  label: "Clone selected page",
-                  action: () => {
-                    setModalClonePageOpen(true);
+                  {
+                    id: "unlock-page",
+                    label: "Unlock page",
+                    action: () => alert("Unlock page action"),
                   },
-                  disabled: selectedPages?.length !== 1,
-                },
-                {
-                  id: "clone-page-with-children",
-                  label: "Clone selected page with children",
-                  action: () =>
-                    alert("Clone selected page with children action"),
-                },
-                {
-                  id: "new-external-link",
-                  label: "New external link",
-                  action: () => alert("New external link action"),
-                },
-              ]}
+                ]}
+              />
+              <button onClick={() => alert("Move action")}>Move</button>
+              <Dropdown
+                id="content-entry-publish"
+                label="Publish"
+                options={[
+                  {
+                    id: "publish-left-navigation",
+                    label: "Publish left navigation",
+                    action: () => alert("Publish left navigation action"),
+                  },
+                  {
+                    id: "publish-selected",
+                    label: "Publish selected",
+                    action: () => alert("Publish selected action"),
+                  },
+                  {
+                    id: "publish-selected-with-children",
+                    label: "Publish selected with children",
+                    action: () =>
+                      alert("Publish selected with children action"),
+                  },
+                  {
+                    id: "unpublish-selected",
+                    label: "Unpublish selected",
+                    action: () => alert("Unpublish selected action"),
+                  },
+                ]}
+              />
+              <Dropdown
+                id="content-entry-tag"
+                label="Tag"
+                options={[
+                  {
+                    id: "bulk-tag-selected",
+                    label: "Bulk tag selected",
+                    action: () => alert("Bulk tag selected action"),
+                  },
+                  {
+                    id: "bulk-tag-metadata",
+                    label:
+                      "Bulk tag metadata and terms to selected and their children",
+                    action: () => alert("Bulk tag metadata action"),
+                  },
+                ]}
+              />
+              <button
+                onClick={() => setModalDeletePageOpen(true)}
+                disabled={selectedPages.length !== 1}
+              >
+                Delete
+              </button>
+            </PageControlToolbar>
+            <PageList
+              isError={isError}
+              pages={pages}
+              selected={selectedPages}
+              setSelected={setSelectedPages}
             />
-            <Dropdown
-              id="content-entry-lock"
-              label="Lock"
-              options={[
-                {
-                  id: "lock-page",
-                  label: "Lock page",
-                  action: () => alert("Lock page action"),
-                },
-                {
-                  id: "unlock-page",
-                  label: "Unlock page",
-                  action: () => alert("Unlock page action"),
-                },
-              ]}
-            />
-            <button onClick={() => alert("Move action")}>Move</button>
-            <Dropdown
-              id="content-entry-publish"
-              label="Publish"
-              options={[
-                {
-                  id: "publish-left-navigation",
-                  label: "Publish left navigation",
-                  action: () => alert("Publish left navigation action"),
-                },
-                {
-                  id: "publish-selected",
-                  label: "Publish selected",
-                  action: () => alert("Publish selected action"),
-                },
-                {
-                  id: "publish-selected-with-children",
-                  label: "Publish selected with children",
-                  action: () => alert("Publish selected with children action"),
-                },
-                {
-                  id: "unpublish-selected",
-                  label: "Unpublish selected",
-                  action: () => alert("Unpublish selected action"),
-                },
-              ]}
-            />
-            <Dropdown
-              id="content-entry-tag"
-              label="Tag"
-              options={[
-                {
-                  id: "bulk-tag-selected",
-                  label: "Bulk tag selected",
-                  action: () => alert("Bulk tag selected action"),
-                },
-                {
-                  id: "bulk-tag-metadata",
-                  label:
-                    "Bulk tag metadata and terms to selected and their children",
-                  action: () => alert("Bulk tag metadata action"),
-                },
-              ]}
-            />
-            <button
-              onClick={() => setModalDeletePageOpen(true)}
-              disabled={selectedPages.length !== 1}
-            >
-              Delete
-            </button>
-          </PageControlToolbar>
-          <PageList
-            isError={isError}
-            pages={pages}
-            selected={selectedPages}
-            setSelected={setSelectedPages}
-          />
-        </LeftPanel>
+          </LeftPanel>
+        )}
         <RightPanel>
           <NavTabs
             tabs={[
@@ -302,7 +334,7 @@ function ContentEntry() {
               console.log("Focus.", editor);
             }}
           />
-          <PageActions />
+          <PageActions isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
         </RightPanel>
       </ContentContainer>
       <ClonePage
@@ -322,7 +354,7 @@ function ContentEntry() {
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}
       />
-    </>
+    </Page>
   );
 }
 
