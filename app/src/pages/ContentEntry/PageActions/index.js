@@ -39,10 +39,17 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageActions() {
+function PageActions({ isEditMode, setIsEditMode }) {
   return (
     <StyledDiv>
-      <Button primary>Edit</Button>
+      <Button
+        primary
+        onClick={() => {
+          setIsEditMode(!isEditMode);
+        }}
+      >
+        Edit
+      </Button>
       <Button>View PROD</Button>
       <Button>View QA</Button>
       <Button>Preview</Button>
