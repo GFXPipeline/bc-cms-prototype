@@ -6,6 +6,7 @@ const StyledDiv = styled.div`
   border: 1px solid #707070;
   display: flex;
   flex-direction: row;
+  min-height: 86px;
   overflow-x: auto;
   padding: 20px;
 
@@ -13,6 +14,8 @@ const StyledDiv = styled.div`
     font-size: 16px;
     font-weight: 700;
     margin-right: 7px;
+    min-height: 44px;
+    white-space: nowrap;
 
     &:first-child {
       margin-right: 42px;
@@ -20,6 +23,18 @@ const StyledDiv = styled.div`
 
     &:last-child {
       margin-right: 0;
+    }
+  }
+
+  @media (max-width: 1505px) {
+    button {
+      &:first-child {
+        margin-right: auto;
+      }
+
+      &:nth-child(2) {
+        margin-left: 7px;
+      }
     }
   }
 `;

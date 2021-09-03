@@ -4,8 +4,13 @@ const StyledDiv = styled.div`
   border: 1px solid #707070;
   display: flex;
   flex-direction: row;
+  min-height: 46px;
   overflow-x: auto;
   width: 100%;
+
+  @media (max-width: 910px) {
+    min-height: 64px;
+  }
 `;
 
 const Tab = styled.button`
@@ -15,7 +20,7 @@ const Tab = styled.button`
   cursor: pointer;
   font-size: 16px;
   font-weight: 700;
-  height: 44px;
+  min-height: 44px;
   padding: 0 35px;
 
   &.active {
@@ -29,6 +34,10 @@ const Tab = styled.button`
 
   &:hover {
     text-decoration: underline;
+  }
+
+  @media (max-width: 1145px) {
+    padding: 0 15px;
   }
 `;
 
