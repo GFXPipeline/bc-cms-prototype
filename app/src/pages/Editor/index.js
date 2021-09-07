@@ -19,6 +19,7 @@ function Editor() {
   const [title, setTitle] = useState(
     id ? "(Fetching page title)" : "Page title"
   );
+  const [intro, setIntro] = useState(id ? "(Fetching page intro)" : "");
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -26,8 +27,9 @@ function Editor() {
       pageService
         .read(id)
         .then((response) => {
-          setData(response.data);
-          setTitle(response.title);
+          setData(response?.data);
+          setTitle(response?.title);
+          setIntro(response?.intro);
         })
         .catch((error) => {
           console.log("error in Editor pageService catch: ", error);
@@ -40,7 +42,13 @@ function Editor() {
   return (
     <>
       <Header />
-      <Toolbar id={id} data={data} title={title} setTitle={setTitle} />
+      <Toolbar
+        id={id}
+        data={data}
+        intro={intro}
+        title={title}
+        setTitle={setTitle}
+      />
       <CKEditor
         editor={BalloonBlockEditor}
         data={data}

@@ -94,7 +94,7 @@ async function read(id) {
 }
 
 // PUT request to /api/page/:id
-async function update({ id, data, navTitle, title }) {
+async function update({ id, data, intro, navTitle, title }) {
   console.log("Inside pageService.update, id: ", id);
   try {
     const headers = authHeader();
@@ -104,6 +104,7 @@ async function update({ id, data, navTitle, title }) {
       title: title,
       navTitle: navTitle,
       data: data,
+      intro: intro,
     };
 
     const response = await axios({
@@ -131,6 +132,7 @@ async function markForDeletion({
   isSubscriberMessageSet,
   subscriberMessage,
 }) {
+  console.log("Inside pageService.markForDeletion, id: ", id);
   try {
     const headers = authHeader();
 
