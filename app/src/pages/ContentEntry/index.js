@@ -205,6 +205,7 @@ function ContentEntry() {
               />
               <label htmlFor="page-intro">Page Intro:</label>
               <CKEditor
+                id="page-intro"
                 editor={BalloonBlockEditor}
                 data={intro}
                 onReady={(editor) => {
@@ -222,6 +223,12 @@ function ContentEntry() {
                 onFocus={(event, editor) => {
                   console.log("Focus.", editor);
                 }}
+              />
+              <label htmlFor="language">Language</label>
+              <Select
+                id="language"
+                options={[{ value: "en", label: "English" }]}
+                disabled // TODO: Enable and populate this field when multi-lingual is designed
               />
               <Button onClick={savePage}>Save</Button>
             </div>
