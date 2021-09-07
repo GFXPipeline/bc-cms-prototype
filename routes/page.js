@@ -57,6 +57,7 @@ pageRouter.post("/", (req, res) => {
                     id: newPageId,
                     title: req?.body?.title,
                     nav_title: req?.body?.navTitle,
+                    intro: row?.[0]?.intro,
                     data: row?.[0]?.data,
                     page_type: newPageTypeId,
                     created_by_user: userId,
@@ -153,7 +154,7 @@ pageRouter.post("/:id", (req, res) => {
     .where("id", req?.params?.id)
     .then((rows) => {
       // Attempt the insertion here
-      const { title, data } = rows[0];
+      const { data, intro, navTitle, title } = rows[0];
       const numberOfCopies = parseInt(req?.body?.numberOfCopies || 1);
       let newPageIds = [];
       let newPageRecords = [];
@@ -168,7 +169,8 @@ pageRouter.post("/:id", (req, res) => {
         newPageRecords.push({
           id: id,
           title: `${title} - copy ${index + 1}`,
-          nav_title: "",
+          nav_title: navTitle,
+          intro: intro,
           data: data,
           created_by_user: userId,
           owned_by_user: userId,
@@ -197,6 +199,7 @@ pageRouter.post("/:id", (req, res) => {
     });
 });
 
+// Update page route
 pageRouter.put("/:id", (req, res) => {
   console.log(`PUT /api/page/${req.params.id}`);
 
@@ -232,6 +235,7 @@ pageRouter.put("/:id", (req, res) => {
           .where("id", req.params.id)
           .update({
             data: req?.body?.data,
+            intro: req?.body?.intro,
             title: req?.body?.title,
             nav_title: req?.body?.navTitle,
             last_modified_by_user: userId,
