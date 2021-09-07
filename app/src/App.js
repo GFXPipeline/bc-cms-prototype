@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import styled from "styled-components";
 
 // Pages
 import Editor from "./pages/Editor";
