@@ -6,6 +6,7 @@ import { authenticationService } from "../_services";
 // POST request to /api/page to create a new page
 async function create({
   data,
+  isOnThisPage,
   navTitle,
   numberOfCopies,
   pageType,
@@ -28,6 +29,7 @@ async function create({
         } - ${Math.floor(Math.random() * (9999 - 1000 + 1) + 1000)}`,
       navTitle: navTitle || "",
       data: data || "",
+      isOnThisPage: isOnThisPage || false,
     };
 
     const response = await axios({
@@ -70,7 +72,7 @@ async function clone({ id, languages, numberOfCopies }) {
   }
 }
 
-// GET request to /api/page/:id
+// GET request to /api/page/:id to read details of a single page
 async function read(id) {
   console.log("Inside pageService.read, id: ", id);
   try {
@@ -93,8 +95,8 @@ async function read(id) {
   }
 }
 
-// PUT request to /api/page/:id
-async function update({ id, data, intro, navTitle, title }) {
+// PUT request to /api/page/:id to update an existing page
+async function update({ id, data, intro, isOnThisPage, navTitle, title }) {
   console.log("Inside pageService.update, id: ", id);
   try {
     const headers = authHeader();
@@ -105,6 +107,7 @@ async function update({ id, data, intro, navTitle, title }) {
       navTitle: navTitle,
       data: data,
       intro: intro,
+      isOnThisPage: isOnThisPage,
     };
 
     const response = await axios({
