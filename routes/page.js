@@ -236,6 +236,7 @@ pageRouter.put("/:id", (req, res) => {
           .update({
             data: req?.body?.data,
             intro: req?.body?.intro,
+            is_on_this_page: req?.body?.isOnThisPage,
             title: req?.body?.title,
             nav_title: req?.body?.navTitle,
             last_modified_by_user: userId,
