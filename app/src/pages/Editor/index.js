@@ -20,6 +20,7 @@ function Editor() {
     id ? "(Fetching page title)" : "Page title"
   );
   const [intro, setIntro] = useState(id ? "(Fetching page intro)" : "");
+  const [isOnThisPage, setIsOnThisPage] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ function Editor() {
           setData(response?.data);
           setTitle(response?.title);
           setIntro(response?.intro);
+          setIsOnThisPage(response?.is_on_this_page);
         })
         .catch((error) => {
           console.log("error in Editor pageService catch: ", error);
@@ -46,6 +48,7 @@ function Editor() {
         id={id}
         data={data}
         intro={intro}
+        isOnThisPage={isOnThisPage}
         title={title}
         setTitle={setTitle}
       />
