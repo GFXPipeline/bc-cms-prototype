@@ -62,13 +62,30 @@ const LeftPanel = styled.div`
       display: flex;
       flex-direction: column;
       padding: 34px;
-    }
-  }
 
-  div.ck.ck-rounded-corners.ck-editor__editable {
-    border: 2px solid #3e3e3e;
-    border-radius: 0;
-    height: 120px;
+      button {
+        margin: 0 auto 14px 0;
+      }
+
+      label {
+        margin: 0 0 8px 0;
+      }
+
+      input[type="text"] {
+        margin: 0 0 13px 0;
+      }
+
+      div.ck.ck-rounded-corners.ck-editor__editable {
+        border: 2px solid #3e3e3e;
+        border-radius: 0;
+        height: 120px;
+        margin: 0 0 13px 0;
+      }
+
+      select {
+        margin: 0 0 13px 0;
+      }
+    }
   }
 `;
 
@@ -113,11 +130,17 @@ const RightPanel = styled.div`
 `;
 
 function ContentEntry() {
+  // Open page details
   const { id } = useParams();
   const [data, setData] = useState(id ? "(Fetching page data)" : "");
   const [title, setTitle] = useState(id ? "(Fetching page title)" : "");
   const [navTitle, setNavTitle] = useState(id ? "(Fetching nav title)" : "");
   const [intro, setIntro] = useState(id ? "(Fetching page intro)" : "");
+
+  // Reusable components
+  const [isOnThisPage, setIsOnThisPage] = useState(false);
+
+  // Meta
   const [isError, setIsError] = useState(false);
   const [pages, setPages] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
@@ -148,7 +171,7 @@ function ContentEntry() {
 
   function savePage() {
     pageService
-      .update({ id, data, intro, title, navTitle })
+      .update({ id, data, intro, isOnThisPage, title, navTitle })
       .then((success) => {
         console.log("Success saving page update: ", success);
       })
@@ -172,6 +195,7 @@ function ContentEntry() {
           setTitle(response?.title || "");
           setNavTitle(response?.nav_title || "");
           setIntro(response?.intro || "");
+          setIsOnThisPage(response?.is_on_this_page || false);
         })
         .catch((error) => {
           console.log("error in Editor pageService catch: ", error);
@@ -205,6 +229,7 @@ function ContentEntry() {
               />
               <label htmlFor="page-intro">Page Intro:</label>
               <CKEditor
+                id="page-intro"
                 editor={BalloonBlockEditor}
                 data={intro}
                 onReady={(editor) => {
@@ -223,6 +248,21 @@ function ContentEntry() {
                   console.log("Focus.", editor);
                 }}
               />
+              <label htmlFor="language">Language</label>
+              <Select
+                id="language"
+                options={[{ value: "en", label: "English" }]}
+                disabled // TODO: Enable and populate this field when multi-lingual is designed
+              />
+              <div>
+                <label htmlFor="on-this-page">On this page: </label>
+                <input
+                  id="on-this-page"
+                  type="checkbox"
+                  checked={isOnThisPage}
+                  onChange={(e) => setIsOnThisPage(!isOnThisPage)}
+                />
+              </div>
               <Button onClick={savePage}>Save</Button>
             </div>
           </LeftPanel>
