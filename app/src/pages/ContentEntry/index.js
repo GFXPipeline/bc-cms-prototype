@@ -49,12 +49,26 @@ const LeftPanel = styled.div`
   overflow: hidden;
 
   div.top {
-    padding: 13px;
-
     label {
       font-size: 13px;
       font-weight: 700;
     }
+
+    &.page-list {
+      padding: 13px;
+    }
+
+    &.edit {
+      display: flex;
+      flex-direction: column;
+      padding: 34px;
+    }
+  }
+
+  div.ck.ck-rounded-corners.ck-editor__editable {
+    border: 2px solid #3e3e3e;
+    border-radius: 0;
+    height: 120px;
   }
 `;
 
@@ -103,6 +117,7 @@ function ContentEntry() {
   const [data, setData] = useState(id ? "(Fetching page data)" : "");
   const [title, setTitle] = useState(id ? "(Fetching page title)" : "");
   const [navTitle, setNavTitle] = useState(id ? "(Fetching nav title)" : "");
+  const [intro, setIntro] = useState(id ? "(Fetching page intro)" : "");
   const [isError, setIsError] = useState(false);
   const [pages, setPages] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
@@ -131,6 +146,17 @@ function ContentEntry() {
     setSelectedPages([]);
   }
 
+  function savePage() {
+    pageService
+      .update({ id, data, intro, title, navTitle })
+      .then((success) => {
+        console.log("Success saving page update: ", success);
+      })
+      .catch((error) => {
+        console.log("Error saving page update: ", error);
+      });
+  }
+
   // Populate page list
   useEffect(() => {
     getUpdatedPageList();
@@ -145,6 +171,7 @@ function ContentEntry() {
           setData(response?.data || "");
           setTitle(response?.title || "");
           setNavTitle(response?.nav_title || "");
+          setIntro(response?.intro || "");
         })
         .catch((error) => {
           console.log("error in Editor pageService catch: ", error);
@@ -160,23 +187,48 @@ function ContentEntry() {
       <ContentContainer>
         {isEditMode ? (
           <LeftPanel>
-            <ButtonLink>← Back to content page list</ButtonLink>
-            <label htmlFor="page-title">Page title:</label>
-            <TextInput
-              id="page-title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <label htmlFor="nav-title">Nav title:</label>
-            <TextInput
-              id="nav-title"
-              value={navTitle}
-              onChange={(e) => setNavTitle(e.target.value)}
-            />
+            <div className="top edit">
+              <ButtonLink onClick={(e) => setIsEditMode(false)}>
+                ← Back to content page list
+              </ButtonLink>
+              <label htmlFor="page-title">Page title:</label>
+              <TextInput
+                id="page-title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <label htmlFor="nav-title">Nav title:</label>
+              <TextInput
+                id="nav-title"
+                value={navTitle}
+                onChange={(e) => setNavTitle(e.target.value)}
+              />
+              <label htmlFor="page-intro">Page Intro:</label>
+              <CKEditor
+                editor={BalloonBlockEditor}
+                data={intro}
+                onReady={(editor) => {
+                  // You can store the "editor" and use when it is needed.
+                  console.log("Editor is ready to use!", editor);
+                }}
+                onChange={(event, editor) => {
+                  const intro = editor.getData();
+                  console.log({ event, editor, intro });
+                  setIntro(intro);
+                }}
+                onBlur={(event, editor) => {
+                  console.log("Blur.", editor);
+                }}
+                onFocus={(event, editor) => {
+                  console.log("Focus.", editor);
+                }}
+              />
+              <Button onClick={savePage}>Save</Button>
+            </div>
           </LeftPanel>
         ) : (
           <LeftPanel>
-            <div className="top">
+            <div className="top page-list">
               <label htmlFor="content-search">
                 Search by page name, ID, or URL
               </label>
