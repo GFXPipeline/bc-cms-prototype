@@ -67,6 +67,18 @@ psql -d postgres -U cms_user
 CREATE DATABASE cms;
 ```
 
+5. Check that `gen_random_uuid()` function is available in your PostgreSQL installation:
+
+```sql
+select gen_random_uuid()
+```
+
+If it's not available, add the pgcrypto dependency:
+
+```sql
+CREATE EXTENSION pgcrypto;
+```
+
 
 ## Initial data seeding
 
