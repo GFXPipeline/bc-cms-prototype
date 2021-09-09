@@ -22,6 +22,7 @@ import PageActions from "./PageActions";
 import ClonePage from "./_actions/ClonePage";
 import CreatePage from "./_actions/CreatePage";
 import DeletePage from "./_actions/DeletePage";
+import CancelEdits from "./_actions/CancelEdits";
 
 const Page = styled.div`
   height: 100vh;
@@ -151,6 +152,7 @@ function ContentEntry() {
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
   const [modalCreatePageOpen, setModalCreatePageOpen] = useState(false);
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
+  const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
   function getUpdatedPageList() {
     pageService
@@ -178,6 +180,10 @@ function ContentEntry() {
       .catch((error) => {
         console.log("Error saving page update: ", error);
       });
+  }
+
+  function clearEdits() {
+    alert("clearEdits action");
   }
 
   // Populate page list
@@ -438,6 +444,7 @@ function ContentEntry() {
           isEditMode={isEditMode}
           setIsEditMode={setIsEditMode}
           onSave={savePage}
+          onCancel={() => setModalCancelEditsOpen(true)}
         />
       )}
       <ClonePage
@@ -456,6 +463,11 @@ function ContentEntry() {
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}
+      />
+      <CancelEdits
+        isOpen={modalCancelEditsOpen}
+        setIsOpen={setModalCancelEditsOpen}
+        onConfirm={clearEdits}
       />
     </Page>
   );
