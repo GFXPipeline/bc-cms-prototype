@@ -263,7 +263,6 @@ function ContentEntry() {
                   onChange={(e) => setIsOnThisPage(!isOnThisPage)}
                 />
               </div>
-              <Button onClick={savePage}>Save</Button>
             </div>
           </LeftPanel>
         ) : (
@@ -435,7 +434,11 @@ function ContentEntry() {
         </RightPanel>
       </ContentContainer>
       {isEditMode && (
-        <PageActions isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+        <PageActions
+          isEditMode={isEditMode}
+          setIsEditMode={setIsEditMode}
+          onSave={savePage}
+        />
       )}
       <ClonePage
         id={selectedPages[0]}

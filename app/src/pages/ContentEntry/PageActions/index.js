@@ -24,6 +24,10 @@ const StyledDiv = styled.div`
     &:last-child {
       margin-right: 0;
     }
+
+    &.push-left {
+      margin-right: auto;
+    }
   }
 
   @media (max-width: 1505px) {
@@ -39,11 +43,13 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageActions({ isEditMode, setIsEditMode }) {
+function PageActions({ isEditMode, setIsEditMode, onSave }) {
   return (
     <StyledDiv>
       {isEditMode ? (
-        <Button primary>Save</Button>
+        <Button className="push-left" primary onClick={onSave}>
+          Save
+        </Button>
       ) : (
         <Button
           primary
