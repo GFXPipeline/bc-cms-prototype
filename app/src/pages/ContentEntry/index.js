@@ -426,9 +426,17 @@ function ContentEntry() {
               console.log("Focus.", editor);
             }}
           />
-          <PageActions isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+          {!isEditMode && (
+            <PageActions
+              isEditMode={isEditMode}
+              setIsEditMode={setIsEditMode}
+            />
+          )}
         </RightPanel>
       </ContentContainer>
+      {isEditMode && (
+        <PageActions isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+      )}
       <ClonePage
         id={selectedPages[0]}
         isOpen={modalClonePageOpen}
