@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 import Button from "../../../../components/Button";
@@ -40,16 +41,35 @@ const StyledModal = styled(Modal)`
       padding: 15px;
     }
   }
-
-  // Over-ride react-tooltip defaults
-  .__react_component_tooltip.show {
-    opacity: 1 !important;
-    padding: 0;
-    pointer-events: auto;
-  }
 `;
 
-function CancelEdits({ isOpen, setIsOpen, onConfirm }) {
+function CancelEdits({ isOpen, setIsOpen, clearEdits }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  function handleConfirm() {
+    setIsError(false);
+    setIsSubmitting(true);
+
+    clearEdits()
+      .then((success) => {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+      })
+      .catch((error) => {
+        setIsSubmitting(false);
+        setIsError(true);
+      });
+  }
+
+  function handleCleanup() {
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    setIsError(false);
+    setIsOpen(false);
+  }
+
   return (
     <StyledModal isOpen={isOpen} setIsOpen={setIsOpen}>
       <h1>Cancel</h1>
@@ -58,11 +78,25 @@ function CancelEdits({ isOpen, setIsOpen, onConfirm }) {
         lost.
       </p>
       <div className="control-buttons">
-        <Button primary onClick={onConfirm}>
+        <Button
+          primary
+          onClick={handleConfirm}
+          disabled={isSubmitting || isSuccess}
+        >
           Confirm
         </Button>
-        <Button onClick={() => setIsOpen(false)}>Close</Button>
+        <Button onClick={handleCleanup}>Close</Button>
       </div>
+      {isSuccess && (
+        <p className="success">
+          Unsaved edits to this page have been discarded.
+        </p>
+      )}
+      {isError && (
+        <p className="error">
+          Error re-loading page data. Unsaved edits remain.
+        </p>
+      )}
     </StyledModal>
   );
 }

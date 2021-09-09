@@ -182,8 +182,24 @@ function ContentEntry() {
       });
   }
 
-  function clearEdits() {
-    alert("clearEdits action");
+  async function clearEdits() {
+    // TODO: Before over-writing current state, should in-progress edits be
+    //       saved to a temporary table that the user can review?
+
+    try {
+      const response = await pageService.read(id);
+
+      setData(response?.data || "");
+      setTitle(response?.title || "");
+      setNavTitle(response?.nav_title || "");
+      setIntro(response?.intro || "");
+      setIsOnThisPage(response?.is_on_this_page || false);
+
+      return response;
+    } catch (error) {
+      console.log("error in ContentEntry pageService catch: ", error);
+      throw error;
+    }
   }
 
   // Populate page list
@@ -204,8 +220,10 @@ function ContentEntry() {
           setIsOnThisPage(response?.is_on_this_page || false);
         })
         .catch((error) => {
-          console.log("error in Editor pageService catch: ", error);
-          setData("(Failed to fetch page data)");
+          console.log(
+            "error in ContentEntry pageService first load catch: ",
+            error
+          );
           setIsError(true);
         });
     }
@@ -467,7 +485,7 @@ function ContentEntry() {
       <CancelEdits
         isOpen={modalCancelEditsOpen}
         setIsOpen={setModalCancelEditsOpen}
-        onConfirm={clearEdits}
+        clearEdits={clearEdits}
       />
     </Page>
   );
