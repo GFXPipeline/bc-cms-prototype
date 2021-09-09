@@ -451,6 +451,7 @@ function ContentEntry() {
           />
           {!isEditMode && (
             <PageActions
+              isPageOpen={id ? true : false}
               isEditMode={isEditMode}
               setIsEditMode={setIsEditMode}
             />

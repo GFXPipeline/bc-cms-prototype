@@ -43,7 +43,13 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageActions({ isEditMode, setIsEditMode, onSave, onCancel }) {
+function PageActions({
+  isPageOpen,
+  isEditMode,
+  setIsEditMode,
+  onSave,
+  onCancel,
+}) {
   return (
     <StyledDiv>
       {isEditMode ? (
@@ -62,6 +68,7 @@ function PageActions({ isEditMode, setIsEditMode, onSave, onCancel }) {
             setIsEditMode(!isEditMode);
           }}
           className="button-edit"
+          disabled={!isPageOpen}
         >
           Edit
         </Button>
