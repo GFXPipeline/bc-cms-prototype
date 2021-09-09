@@ -17,12 +17,16 @@ const StyledDiv = styled.div`
     min-height: 44px;
     white-space: nowrap;
 
-    &:first-child {
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.button-edit {
       margin-right: 42px;
     }
 
-    &:last-child {
-      margin-right: 0;
+    &.push-left {
+      margin-right: auto;
     }
   }
 
@@ -39,17 +43,36 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageActions({ isEditMode, setIsEditMode }) {
+function PageActions({
+  isPageOpen,
+  isEditMode,
+  setIsEditMode,
+  onSave,
+  onCancel,
+}) {
   return (
     <StyledDiv>
-      <Button
-        primary
-        onClick={() => {
-          setIsEditMode(!isEditMode);
-        }}
-      >
-        Edit
-      </Button>
+      {isEditMode ? (
+        <>
+          <Button primary onClick={onSave}>
+            Save
+          </Button>
+          <Button className="push-left" onClick={onCancel}>
+            Cancel
+          </Button>
+        </>
+      ) : (
+        <Button
+          primary
+          onClick={() => {
+            setIsEditMode(!isEditMode);
+          }}
+          className="button-edit"
+          disabled={!isPageOpen}
+        >
+          Edit
+        </Button>
+      )}
       <Button>View PROD</Button>
       <Button>View QA</Button>
       <Button>Preview</Button>

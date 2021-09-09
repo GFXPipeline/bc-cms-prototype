@@ -1,6 +1,6 @@
 {
   "name": "bc-cms-prototype",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Prototype CMS",
   "author": "Tyler Krys <Tyler.Krys@gov.bc.ca>",
   "main": "server.js",

@@ -22,6 +22,7 @@ import PageActions from "./PageActions";
 import ClonePage from "./_actions/ClonePage";
 import CreatePage from "./_actions/CreatePage";
 import DeletePage from "./_actions/DeletePage";
+import CancelEdits from "./_actions/CancelEdits";
 
 const Page = styled.div`
   height: 100vh;
@@ -151,6 +152,7 @@ function ContentEntry() {
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
   const [modalCreatePageOpen, setModalCreatePageOpen] = useState(false);
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
+  const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
   function getUpdatedPageList() {
     pageService
@@ -180,6 +182,26 @@ function ContentEntry() {
       });
   }
 
+  async function clearEdits() {
+    // TODO: Before over-writing current state, should in-progress edits be
+    //       saved to a temporary table that the user can review?
+
+    try {
+      const response = await pageService.read(id);
+
+      setData(response?.data || "");
+      setTitle(response?.title || "");
+      setNavTitle(response?.nav_title || "");
+      setIntro(response?.intro || "");
+      setIsOnThisPage(response?.is_on_this_page || false);
+
+      return response;
+    } catch (error) {
+      console.log("error in ContentEntry pageService catch: ", error);
+      throw error;
+    }
+  }
+
   // Populate page list
   useEffect(() => {
     getUpdatedPageList();
@@ -198,8 +220,10 @@ function ContentEntry() {
           setIsOnThisPage(response?.is_on_this_page || false);
         })
         .catch((error) => {
-          console.log("error in Editor pageService catch: ", error);
-          setData("(Failed to fetch page data)");
+          console.log(
+            "error in ContentEntry pageService first load catch: ",
+            error
+          );
           setIsError(true);
         });
     }
@@ -263,7 +287,6 @@ function ContentEntry() {
                   onChange={(e) => setIsOnThisPage(!isOnThisPage)}
                 />
               </div>
-              <Button onClick={savePage}>Save</Button>
             </div>
           </LeftPanel>
         ) : (
@@ -426,9 +449,23 @@ function ContentEntry() {
               console.log("Focus.", editor);
             }}
           />
-          <PageActions isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
+          {!isEditMode && (
+            <PageActions
+              isPageOpen={id ? true : false}
+              isEditMode={isEditMode}
+              setIsEditMode={setIsEditMode}
+            />
+          )}
         </RightPanel>
       </ContentContainer>
+      {isEditMode && (
+        <PageActions
+          isEditMode={isEditMode}
+          setIsEditMode={setIsEditMode}
+          onSave={savePage}
+          onCancel={() => setModalCancelEditsOpen(true)}
+        />
+      )}
       <ClonePage
         id={selectedPages[0]}
         isOpen={modalClonePageOpen}
@@ -445,6 +482,11 @@ function ContentEntry() {
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}
+      />
+      <CancelEdits
+        isOpen={modalCancelEditsOpen}
+        setIsOpen={setModalCancelEditsOpen}
+        clearEdits={clearEdits}
       />
     </Page>
   );
