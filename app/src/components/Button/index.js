@@ -15,6 +15,12 @@ const StyledButton = styled.button`
   text-align: center;
   text-decoration: none;
 
+  svg {
+    color: ${(props) => (props.primary ? "white" : "#313132")};
+    height: 14px;
+    width: 14px;
+  }
+
   &:disabled,
   &[disabled] {
     background-color: ${(props) => (props.primary ? "#6f6f6f" : "white")};
@@ -28,12 +34,20 @@ const StyledButton = styled.button`
     color: white;
     text-decoration: underline;
 
+    svg {
+      color: white;
+    }
+
     &:disabled,
     &[disabled] {
       background-color: ${(props) => (props.primary ? "#7f7f7f" : "white")};
       border-color: #7f7f7f;
       color: ${(props) => (props.primary ? "white" : "#6f6f6f")};
       text-decoration: none;
+
+      svg {
+        color: ${(props) => (props.primary ? "white" : "#6f6f6f")};
+      }
     }
   }
 `;
