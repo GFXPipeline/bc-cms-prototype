@@ -217,6 +217,7 @@ function ContentEntry() {
       setNavTitle(response?.nav_title || "");
       setIntro(response?.intro || "");
       setIsOnThisPage(response?.is_on_this_page || false);
+      setIsEditMode(false);
 
       return response;
     } catch (error) {
