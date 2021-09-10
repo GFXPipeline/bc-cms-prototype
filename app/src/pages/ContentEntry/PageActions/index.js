@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import Button from "../../../components/Button";
+import Icon from "../../../components/Icon";
 
 const StyledDiv = styled.div`
   border: 1px solid #707070;
@@ -57,8 +58,12 @@ function PageActions({
           <Button primary onClick={onSave}>
             Save
           </Button>
-          <Button className="push-left" onClick={onCancel}>
-            Cancel
+          <Button onClick={onCancel}>Cancel</Button>
+          <Button disabled>
+            <Icon id="fa-undo-solid.svg" />
+          </Button>
+          <Button disabled className="push-left">
+            <Icon id="fa-redo-solid.svg" />
           </Button>
         </>
       ) : (
