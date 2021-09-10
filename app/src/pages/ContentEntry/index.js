@@ -39,6 +39,14 @@ const ContentContainer = styled.div`
   flex-direction: row;
   min-height: 0;
   width: 100%;
+
+  div.ck-read-only {
+    color: #555555;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 `;
 
 const LeftPanel = styled.div`
@@ -154,6 +162,16 @@ function ContentEntry() {
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
   const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
+  function getPageIdForModal() {
+    // In edit mode, the page that is loaded into the CKEditor instance is
+    // the one users will be acting on by using the lower menu buttons
+    if (isEditMode) {
+      return id;
+    }
+
+    return selectedPages.length > 0 ? selectedPages[0] : id;
+  }
+
   function getUpdatedPageList() {
     pageService
       .getPageList()
@@ -199,6 +217,7 @@ function ContentEntry() {
       setNavTitle(response?.nav_title || "");
       setIntro(response?.intro || "");
       setIsOnThisPage(response?.is_on_this_page || false);
+      setIsEditMode(false);
 
       return response;
     } catch (error) {
@@ -338,72 +357,87 @@ function ContentEntry() {
                     label: "Clone selected page with children",
                     action: () =>
                       alert("Clone selected page with children action"),
+                    disabled: selectedPages?.length !== 1,
                   },
                   {
                     id: "new-external-link",
                     label: "New external link",
                     action: () => alert("New external link action"),
+                    disabled: true,
                   },
                 ]}
               />
               <Dropdown
                 id="content-entry-lock"
+                disabled={selectedPages?.length === 0}
                 label="Lock"
                 options={[
                   {
                     id: "lock-page",
                     label: "Lock page",
                     action: () => alert("Lock page action"),
+                    disabled: true,
                   },
                   {
                     id: "unlock-page",
                     label: "Unlock page",
                     action: () => alert("Unlock page action"),
+                    disabled: true,
                   },
                 ]}
               />
-              <button onClick={() => alert("Move action")}>Move</button>
+              <button disabled onClick={() => alert("Move action")}>
+                Move
+              </button>
               <Dropdown
                 id="content-entry-publish"
+                disabled={selectedPages?.length === 0}
                 label="Publish"
                 options={[
                   {
                     id: "publish-left-navigation",
                     label: "Publish left navigation",
                     action: () => alert("Publish left navigation action"),
+                    disabled: true,
                   },
                   {
                     id: "publish-selected",
                     label: "Publish selected",
                     action: () => alert("Publish selected action"),
+                    disabled: true,
                   },
                   {
                     id: "publish-selected-with-children",
                     label: "Publish selected with children",
                     action: () =>
                       alert("Publish selected with children action"),
+                    disabled: true,
                   },
                   {
                     id: "unpublish-selected",
                     label: "Unpublish selected",
                     action: () => alert("Unpublish selected action"),
+                    disabled: true,
                   },
                 ]}
               />
               <Dropdown
                 id="content-entry-tag"
                 label="Tag"
+                disabled={selectedPages?.length === 0}
                 options={[
                   {
                     id: "bulk-tag-selected",
                     label: "Bulk tag selected",
                     action: () => alert("Bulk tag selected action"),
+                    disabled: true,
                   },
                   {
                     id: "bulk-tag-metadata",
                     label:
                       "Bulk tag metadata and terms to selected and their children",
                     action: () => alert("Bulk tag metadata action"),
+                    disabled: true,
                   },
                 ]}
               />
@@ -437,6 +471,7 @@ function ContentEntry() {
           />
           <CKEditor
             editor={BalloonBlockEditor}
+            disabled={!isEditMode}
             data={data}
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
@@ -459,6 +494,7 @@ function ContentEntry() {
               isPageOpen={id ? true : false}
               isEditMode={isEditMode}
               setIsEditMode={setIsEditMode}
+              onClone={() => setModalClonePageOpen(true)}
             />
           )}
         </RightPanel>
@@ -469,10 +505,12 @@ function ContentEntry() {
           setIsEditMode={setIsEditMode}
           onSave={savePage}
           onCancel={() => setModalCancelEditsOpen(true)}
+          onClone={() => setModalClonePageOpen(true)}
+          onDelete={() => setModalDeletePageOpen(true)}
         />
       )}
       <ClonePage
-        id={selectedPages[0]}
+        id={getPageIdForModal()}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
         onAfterClose={getUpdatedPageList}
@@ -483,7 +521,7 @@ function ContentEntry() {
         onAfterClose={getUpdatedPageList}
       />
       <DeletePage
-        id={selectedPages[0]}
+        id={getPageIdForModal()}
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}

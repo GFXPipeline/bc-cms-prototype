@@ -17,8 +17,8 @@ const StyledButton = styled.button`
 
   svg {
     color: ${(props) => (props.primary ? "white" : "#313132")};
-    height: 14px;
-    width: 14px;
+    height: 18px;
+    width: 18px;
   }
 
   &:disabled,
@@ -27,6 +27,10 @@ const StyledButton = styled.button`
     border-color: #6f6f6f;
     color: ${(props) => (props.primary ? "white" : "#6f6f6f")};
     cursor: not-allowed;
+
+    svg {
+      color: ${(props) => (props.primary ? "white" : "#6f6f6f")};
+    }
   }
 
   &:hover {

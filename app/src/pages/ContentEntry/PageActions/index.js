@@ -50,6 +50,8 @@ function PageActions({
   setIsEditMode,
   onSave,
   onCancel,
+  onClone,
+  onDelete,
 }) {
   return (
     <StyledDiv>
@@ -65,27 +67,56 @@ function PageActions({
           <Button disabled className="push-left">
             <Icon id="fa-redo-solid.svg" />
           </Button>
+          <Button disabled>View PROD</Button>
+          <Button disabled>View QA</Button>
+          <Button disabled>
+            <Icon id="fa-eye.svg" />
+          </Button>
+          <Button disabled>Publish</Button>
+          <Button disabled>Unpublish</Button>
+          <Button onClick={onDelete}>
+            <Icon id="fa-trash.svg" />
+          </Button>
+          <Button disabled>
+            <Icon id="fa-lock.svg" />
+          </Button>
+          <Button onClick={onClone}>
+            <Icon id="fa-copy.svg" />
+          </Button>
+          <Button disabled>
+            <Icon id="fa-list.svg" />
+          </Button>
         </>
       ) : (
-        <Button
-          primary
-          onClick={() => {
-            setIsEditMode(!isEditMode);
-          }}
-          className="button-edit"
-          disabled={!isPageOpen}
-        >
-          Edit
-        </Button>
+        <>
+          <Button
+            primary
+            onClick={() => {
+              setIsEditMode(!isEditMode);
+            }}
+            className="button-edit"
+            disabled={!isPageOpen}
+          >
+            Edit
+          </Button>
+          <Button disabled>View PROD</Button>
+          <Button disabled>View QA</Button>
+          <Button disabled>
+            <Icon id="fa-eye.svg" />
+          </Button>
+          <Button disabled>Publish</Button>
+          <Button disabled>Unpublish</Button>
+          <Button disabled>
+            <Icon id="fa-lock.svg" />
+          </Button>
+          <Button onClick={onClone}>
+            <Icon id="fa-copy.svg" />
+          </Button>
+          <Button disabled>
+            <Icon id="fa-link.svg" />
+          </Button>
+        </>
       )}
-      <Button>View PROD</Button>
-      <Button>View QA</Button>
-      <Button>Preview</Button>
-      <Button>Publish</Button>
-      <Button>Unpublish</Button>
-      <Button>Lock</Button>
-      <Button>Copy</Button>
-      <Button>Link</Button>
     </StyledDiv>
   );
 }
