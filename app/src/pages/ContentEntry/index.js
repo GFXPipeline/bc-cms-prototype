@@ -166,6 +166,11 @@ function ContentEntry() {
       });
   }
 
+  function handleBackToContentList() {
+    getUpdatedPageList();
+    setIsEditMode(false);
+  }
+
   function updatePageListAndClearSelections() {
     getUpdatedPageList();
     setSelectedPages([]);
@@ -236,7 +241,7 @@ function ContentEntry() {
         {isEditMode ? (
           <LeftPanel>
             <div className="top edit">
-              <ButtonLink onClick={(e) => setIsEditMode(false)}>
+              <ButtonLink onClick={handleBackToContentList}>
                 ← Back to content page list
               </ButtonLink>
               <label htmlFor="page-title">Page title:</label>
