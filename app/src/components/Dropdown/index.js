@@ -37,7 +37,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function Dropdown({ id, label, options }) {
+function Dropdown({ id, disabled = false, label, options }) {
   const ref = useRef();
   const [open, setOpen] = useState(false);
 
@@ -70,6 +70,7 @@ function Dropdown({ id, label, options }) {
         aria-haspopup="true"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
+        disabled={disabled}
       >
         {label}
         <span className="caret">{open ? "▲" : "▼"}</span>
