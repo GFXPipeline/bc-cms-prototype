@@ -154,6 +154,16 @@ function ContentEntry() {
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
   const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
+  function getPageIdForModal() {
+    // In edit mode, the page that is loaded into the CKEditor instance is
+    // the one users will be acting on by using the lower menu buttons
+    if (isEditMode) {
+      return id;
+    }
+
+    return selectedPages.length > 0 ? selectedPages[0] : id;
+  }
+
   function getUpdatedPageList() {
     pageService
       .getPageList()
@@ -474,6 +484,7 @@ function ContentEntry() {
               isPageOpen={id ? true : false}
               isEditMode={isEditMode}
               setIsEditMode={setIsEditMode}
+              onClone={() => setModalClonePageOpen(true)}
             />
           )}
         </RightPanel>
@@ -484,10 +495,12 @@ function ContentEntry() {
           setIsEditMode={setIsEditMode}
           onSave={savePage}
           onCancel={() => setModalCancelEditsOpen(true)}
+          onClone={() => setModalClonePageOpen(true)}
+          onDelete={() => setModalDeletePageOpen(true)}
         />
       )}
       <ClonePage
-        id={selectedPages[0]}
+        id={getPageIdForModal()}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
         onAfterClose={getUpdatedPageList}
@@ -498,7 +511,7 @@ function ContentEntry() {
         onAfterClose={getUpdatedPageList}
       />
       <DeletePage
-        id={selectedPages[0]}
+        id={getPageIdForModal()}
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}

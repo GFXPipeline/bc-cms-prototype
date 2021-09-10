@@ -50,6 +50,8 @@ function PageActions({
   setIsEditMode,
   onSave,
   onCancel,
+  onClone,
+  onDelete,
 }) {
   return (
     <StyledDiv>
@@ -72,13 +74,13 @@ function PageActions({
           </Button>
           <Button disabled>Publish</Button>
           <Button disabled>Unpublish</Button>
-          <Button>
+          <Button onClick={onDelete}>
             <Icon id="fa-trash.svg" />
           </Button>
           <Button disabled>
             <Icon id="fa-lock.svg" />
           </Button>
-          <Button>
+          <Button onClick={onClone}>
             <Icon id="fa-copy.svg" />
           </Button>
           <Button disabled>
@@ -107,7 +109,7 @@ function PageActions({
           <Button disabled>
             <Icon id="fa-lock.svg" />
           </Button>
-          <Button>
+          <Button onClick={onClone}>
             <Icon id="fa-copy.svg" />
           </Button>
           <Button disabled>
