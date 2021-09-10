@@ -65,38 +65,56 @@ function PageActions({
           <Button disabled className="push-left">
             <Icon id="fa-redo-solid.svg" />
           </Button>
+          <Button disabled>View PROD</Button>
+          <Button disabled>View QA</Button>
+          <Button disabled>
+            <Icon id="fa-eye.svg" />
+          </Button>
+          <Button disabled>Publish</Button>
+          <Button disabled>Unpublish</Button>
+          <Button>
+            <Icon id="fa-trash.svg" />
+          </Button>
+          <Button disabled>
+            <Icon id="fa-lock.svg" />
+          </Button>
+          <Button>
+            <Icon id="fa-copy.svg" />
+          </Button>
+          <Button disabled>
+            <Icon id="fa-list.svg" />
+          </Button>
         </>
       ) : (
-        <Button
-          primary
-          onClick={() => {
-            setIsEditMode(!isEditMode);
-          }}
-          className="button-edit"
-          disabled={!isPageOpen}
-        >
-          Edit
-        </Button>
+        <>
+          <Button
+            primary
+            onClick={() => {
+              setIsEditMode(!isEditMode);
+            }}
+            className="button-edit"
+            disabled={!isPageOpen}
+          >
+            Edit
+          </Button>
+          <Button disabled>View PROD</Button>
+          <Button disabled>View QA</Button>
+          <Button disabled>
+            <Icon id="fa-eye.svg" />
+          </Button>
+          <Button disabled>Publish</Button>
+          <Button disabled>Unpublish</Button>
+          <Button disabled>
+            <Icon id="fa-lock.svg" />
+          </Button>
+          <Button>
+            <Icon id="fa-copy.svg" />
+          </Button>
+          <Button disabled>
+            <Icon id="fa-link.svg" />
+          </Button>
+        </>
       )}
-      <Button>View PROD</Button>
-      <Button>View QA</Button>
-      <Button>
-        <Icon id="fa-eye.svg" />
-      </Button>
-      <Button>Publish</Button>
-      <Button>Unpublish</Button>
-      <Button>
-        <Icon id="fa-lock.svg" />
-      </Button>
-      <Button>
-        <Icon id="fa-copy.svg" />
-      </Button>
-      <Button>
-        <Icon id="fa-link.svg" />
-      </Button>
-      <Button>
-        <Icon id="fa-list.svg" />
-      </Button>
     </StyledDiv>
   );
 }
