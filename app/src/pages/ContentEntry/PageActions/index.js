@@ -80,12 +80,23 @@ function PageActions({
       )}
       <Button>View PROD</Button>
       <Button>View QA</Button>
-      <Button>Preview</Button>
+      <Button>
+        <Icon id="fa-eye.svg" />
+      </Button>
       <Button>Publish</Button>
       <Button>Unpublish</Button>
-      <Button>Lock</Button>
-      <Button>Copy</Button>
-      <Button>Link</Button>
+      <Button>
+        <Icon id="fa-lock.svg" />
+      </Button>
+      <Button>
+        <Icon id="fa-copy.svg" />
+      </Button>
+      <Button>
+        <Icon id="fa-link.svg" />
+      </Button>
+      <Button>
+        <Icon id="fa-list.svg" />
+      </Button>
     </StyledDiv>
   );
 }
