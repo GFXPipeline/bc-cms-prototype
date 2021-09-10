@@ -39,6 +39,14 @@ const ContentContainer = styled.div`
   flex-direction: row;
   min-height: 0;
   width: 100%;
+
+  div.ck-read-only {
+    color: #555555;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
 `;
 
 const LeftPanel = styled.div`
@@ -462,6 +470,7 @@ function ContentEntry() {
           />
           <CKEditor
             editor={BalloonBlockEditor}
+            disabled={!isEditMode}
             data={data}
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
