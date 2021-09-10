@@ -338,72 +338,87 @@ function ContentEntry() {
                     label: "Clone selected page with children",
                     action: () =>
                       alert("Clone selected page with children action"),
+                    disabled: selectedPages?.length !== 1,
                   },
                   {
                     id: "new-external-link",
                     label: "New external link",
                     action: () => alert("New external link action"),
+                    disabled: true,
                   },
                 ]}
               />
               <Dropdown
                 id="content-entry-lock"
+                disabled={selectedPages?.length === 0}
                 label="Lock"
                 options={[
                   {
                     id: "lock-page",
                     label: "Lock page",
                     action: () => alert("Lock page action"),
+                    disabled: true,
                   },
                   {
                     id: "unlock-page",
                     label: "Unlock page",
                     action: () => alert("Unlock page action"),
+                    disabled: true,
                   },
                 ]}
               />
-              <button onClick={() => alert("Move action")}>Move</button>
+              <button disabled onClick={() => alert("Move action")}>
+                Move
+              </button>
               <Dropdown
                 id="content-entry-publish"
+                disabled={selectedPages?.length === 0}
                 label="Publish"
                 options={[
                   {
                     id: "publish-left-navigation",
                     label: "Publish left navigation",
                     action: () => alert("Publish left navigation action"),
+                    disabled: true,
                   },
                   {
                     id: "publish-selected",
                     label: "Publish selected",
                     action: () => alert("Publish selected action"),
+                    disabled: true,
                   },
                   {
                     id: "publish-selected-with-children",
                     label: "Publish selected with children",
                     action: () =>
                       alert("Publish selected with children action"),
+                    disabled: true,
                   },
                   {
                     id: "unpublish-selected",
                     label: "Unpublish selected",
                     action: () => alert("Unpublish selected action"),
+                    disabled: true,
                   },
                 ]}
               />
               <Dropdown
                 id="content-entry-tag"
                 label="Tag"
+                disabled={selectedPages?.length === 0}
                 options={[
                   {
                     id: "bulk-tag-selected",
                     label: "Bulk tag selected",
                     action: () => alert("Bulk tag selected action"),
+                    disabled: true,
                   },
                   {
                     id: "bulk-tag-metadata",
                     label:
                       "Bulk tag metadata and terms to selected and their children",
                     action: () => alert("Bulk tag metadata action"),
+                    disabled: true,
                   },
                 ]}
               />
