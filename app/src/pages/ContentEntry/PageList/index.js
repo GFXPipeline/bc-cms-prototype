@@ -47,6 +47,18 @@ const StyledDiv = styled.div`
 `;
 
 function PageList({ isError, pages, selected, setSelected }) {
+  function compare(a, b) {
+    if (a?.title > b?.title) {
+      return 1;
+    } else if (a?.title < b?.title) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  const sortedPages = [...pages].sort(compare);
+
   function handleSelect(event) {
     const id = event.target.id;
     const isAlreadySelected = Boolean(selected.indexOf(id) !== -1);
@@ -82,7 +94,7 @@ function PageList({ isError, pages, selected, setSelected }) {
   return (
     <StyledDiv>
       {pages?.length > 0 &&
-        pages.map((page, index) => {
+        sortedPages.map((page, index) => {
           return (
             <div
               key={`page-list-${index}`}
