@@ -17,8 +17,8 @@ const StyledButton = styled.button`
 
   svg {
     color: ${(props) => (props.primary ? "white" : "#313132")};
-    height: 14px;
-    width: 14px;
+    height: 18px;
+    width: 18px;
   }
 
   &:disabled,
