@@ -36,6 +36,10 @@ const Tab = styled.button`
     text-decoration: underline;
   }
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   @media (max-width: 1145px) {
     padding: 0 15px;
   }
@@ -50,6 +54,7 @@ function NavTabs({ tabs, currentTab, setCurrentTab }) {
             key={`tab-${index}`}
             onClick={() => setCurrentTab(tab?.id)}
             className={tab?.id === currentTab && "active"}
+            disabled={tab?.disabled || false}
           >
             {tab?.label}
           </Tab>

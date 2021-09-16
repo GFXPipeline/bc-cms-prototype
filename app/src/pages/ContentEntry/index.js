@@ -460,11 +460,11 @@ function ContentEntry() {
           <NavTabs
             tabs={[
               { id: "page", label: "Page" },
-              { id: "settings", label: "Settings" },
-              { id: "metadata", label: "Metadata" },
-              { id: "usage", label: "Usage" },
-              { id: "security", label: "Security" },
-              { id: "history", label: "History" },
+              { id: "settings", label: "Settings", disabled: true },
+              { id: "metadata", label: "Metadata", disabled: true },
+              { id: "usage", label: "Usage", disabled: true },
+              { id: "security", label: "Security", disabled: true },
+              { id: "history", label: "History", disabled: true },
             ]}
             currentTab={tab}
             setCurrentTab={setTab}
