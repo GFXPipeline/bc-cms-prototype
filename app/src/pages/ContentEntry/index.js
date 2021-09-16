@@ -155,6 +155,7 @@ function ContentEntry() {
   const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // Modals
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
@@ -195,13 +196,17 @@ function ContentEntry() {
   }
 
   function savePage() {
+    setIsSaving(true);
+
     pageService
       .update({ id, data, intro, isOnThisPage, title, navTitle })
       .then((success) => {
         console.log("Success saving page update: ", success);
+        setIsSaving(false);
       })
       .catch((error) => {
         console.log("Error saving page update: ", error);
+        setIsSaving(false);
       });
   }
 
@@ -460,11 +465,11 @@ function ContentEntry() {
           <NavTabs
             tabs={[
               { id: "page", label: "Page" },
-              { id: "settings", label: "Settings" },
-              { id: "metadata", label: "Metadata" },
-              { id: "usage", label: "Usage" },
-              { id: "security", label: "Security" },
-              { id: "history", label: "History" },
+              { id: "settings", label: "Settings", disabled: true },
+              { id: "metadata", label: "Metadata", disabled: true },
+              { id: "usage", label: "Usage", disabled: true },
+              { id: "security", label: "Security", disabled: true },
+              { id: "history", label: "History", disabled: true },
             ]}
             currentTab={tab}
             setCurrentTab={setTab}
@@ -494,6 +499,7 @@ function ContentEntry() {
               isPageOpen={id ? true : false}
               isEditMode={isEditMode}
               setIsEditMode={setIsEditMode}
+              isSaving={isSaving}
               onClone={() => setModalClonePageOpen(true)}
             />
           )}

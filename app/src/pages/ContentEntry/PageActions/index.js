@@ -48,6 +48,7 @@ function PageActions({
   isPageOpen,
   isEditMode,
   setIsEditMode,
+  isSaving,
   onSave,
   onCancel,
   onClone,
@@ -57,8 +58,8 @@ function PageActions({
     <StyledDiv>
       {isEditMode ? (
         <>
-          <Button primary onClick={onSave}>
-            Save
+          <Button primary onClick={onSave} disabled={isSaving}>
+            {isSaving ? <s>Save</s> : "Save"}
           </Button>
           <Button onClick={onCancel}>Cancel</Button>
           <Button disabled>
