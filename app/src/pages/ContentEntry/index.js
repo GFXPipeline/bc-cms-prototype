@@ -32,6 +32,9 @@ import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
 import TextTransformation from "@ckeditor/ckeditor5-typing/src/texttransformation";
 import CloudServices from "@ckeditor/ckeditor5-cloud-services/src/cloudservices";
 
+// CKEditor custom plugins
+import OnThisPage from "../../plugins/OnThisPage/OnThisPage";
+
 // Global components
 import { pageService } from "../../_services";
 import Button from "../../components/Button";
@@ -75,6 +78,7 @@ const editorConfiguration = {
     Link,
     List,
     MediaEmbed,
+    OnThisPage,
     Paragraph,
     PasteFromOffice,
     Table,
