@@ -101,6 +101,8 @@ const editorConfiguration = {
     "|",
     "undo",
     "redo",
+    "|",
+    "onThisPage",
   ],
   toolbar: {
     items: ["bold", "italic", "link"],

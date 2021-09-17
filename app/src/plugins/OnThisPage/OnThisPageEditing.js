@@ -1,10 +1,31 @@
 // OnThisPage/OnThisPageEditing.js
 
 import Plugin from "@ckeditor/ckeditor5-core/src/plugin";
+import ButtonView from "@ckeditor/ckeditor5-ui/src/button/buttonview";
+
+import ListIcon from "../../assets/fa-list.svg";
 
 export default class OnThisPageEditing extends Plugin {
   init() {
     console.log("OnThisPageEditing#init() got called");
+
+    this.editor.ui.componentFactory.add("onThisPage", (locale) => {
+      const view = new ButtonView(locale);
+
+      view.set({
+        label: "On This Page",
+        icon: ListIcon,
+        tooltip: true,
+      });
+
+      view.on("execute", () => {
+        // Here, we should re-parse the Editor data to get a new list of <h2>
+        // elements to create a table of contents with.
+        alert("On This Page");
+      });
+
+      return view;
+    });
 
     this._defineSchema();
     this._defineConverters();
