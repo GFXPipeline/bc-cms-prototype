@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 // CKEditor components
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import CKEditorInspector from "@ckeditor/ckeditor5-inspector";
 import BalloonEditor from "@ckeditor/ckeditor5-editor-balloon/src/ballooneditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import UploadAdapter from "@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter";
@@ -577,6 +578,10 @@ function ContentEntry() {
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
               console.log("Editor is ready to use!", editor);
+
+              if (process.env.NODE_ENV === "development") {
+                CKEditorInspector.attach(editor);
+              }
             }}
             onChange={(event, editor) => {
               const data = editor.getData();
