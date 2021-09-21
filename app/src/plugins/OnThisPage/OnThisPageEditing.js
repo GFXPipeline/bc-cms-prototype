@@ -7,21 +7,70 @@ import ListIcon from "../../assets/fa-list.svg";
 
 export default class OnThisPageEditing extends Plugin {
   init() {
-    console.log("OnThisPageEditing#init() got called");
+    const editor = this.editor;
+    const conversion = editor.conversion;
+    const schema = editor.model.schema;
 
-    this.editor.ui.componentFactory.add("onThisPage", (locale) => {
+    // Get information about headings from the editor's configuration.
+    const headings = editor.config.get("heading").options;
+
+    this._setupConversion(conversion, schema, headings);
+
+    editor.ui.componentFactory.add("onThisPage", (locale) => {
       const view = new ButtonView(locale);
 
       view.set({
-        label: "On This Page",
+        label: "On this page",
         icon: ListIcon,
+        withText: "Insert On this page",
         tooltip: true,
       });
 
       view.on("execute", () => {
-        // Here, we should re-parse the Editor data to get a new list of <h2>
-        // elements to create a table of contents with.
-        alert("On This Page");
+        const root = editor.model.document.getRoot();
+        const range = editor.model.createRangeIn(root);
+        const headers = [];
+
+        // Iterate through all elements in the document and get H2 headings.
+        // Note that "heading1" in the CKEditor model refers to H2:
+        // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html
+        for (const value of range.getWalker({ ignoreElementEnd: true })) {
+          if (value.item.is("element") && value.item.name.match(/^heading1/)) {
+            headers.unshift({
+              id: value.item.getAttribute("id"),
+              text: value.item.getChild(0)?.data,
+            });
+          }
+        }
+
+        // Insert the On this Page heading and a list of links
+        editor.model.change((writer) => {
+          if (headers?.length > 0) {
+            const onThisPageContainer = writer.createElement("onThisPage");
+            const onThisPageList = writer.createElement("onThisPageList")
+
+            for (const header of headers) {
+              const listItem = writer.createElement("listItem", {
+                listType: "bulleted",
+                listIndent: 0,
+              });
+
+              writer.appendText(
+                header?.text?.toString(),
+                { linkHref: `#${header?.id}` },
+                listItem
+              );
+
+              writer.insert(listItem, onThisPageList);
+            }
+
+            writer.insert(onThisPageList, onThisPageContainer);
+            const onThisPageHeading = writer.createElement("onThisPageTitle");
+            writer.appendText("On this page", onThisPageHeading);
+            writer.insert(onThisPageHeading, onThisPageContainer);
+            writer.insert(onThisPageContainer, root);
+          }
+        });
       });
 
       return view;
@@ -52,7 +101,7 @@ export default class OnThisPageEditing extends Plugin {
       allowContentOf: "heading1",
     });
 
-    schema.register("onThisPageDescription", {
+    schema.register("onThisPageList", {
       // Cannot be split or left by the caret.
       isLimit: true,
 
@@ -83,11 +132,48 @@ export default class OnThisPageEditing extends Plugin {
     });
 
     conversion.elementToElement({
-      model: "onThisPageDescription",
+      model: "onThisPageList",
       view: {
         name: "div",
-        classes: "on-this-page-description",
+        classes: "on-this-page-list",
       },
     });
+  }
+
+  _setupConversion(conversion, schema, headings) {
+    conversion.attributeToAttribute({ model: "id", view: "id" });
+
+    // Extend conversion only for headings.
+    for (const heading of headings) {
+      if (heading.model.match(/^heading1/)) {
+        schema.extend(heading.model, { allowAttributes: ["id"] });
+
+        conversion.for("downcast").add((dispatcher) => {
+          dispatcher.on(
+            `insert:${heading.model}`,
+            (evt, data, conversionApi) => {
+              const modelElement = data.item;
+              const headingText = modelElement?._children?._nodes?.[0]?._data;
+              const id = headingText
+                ?.toString()
+                ?.toLowerCase()
+                ?.replace(/[^\w\s]/gi, "") // Remove non-alphanumeric chars, preserve spaces
+                ?.split(" ")
+                ?.join("-");
+
+              // Set attribute on the view element
+              conversionApi.writer.setAttribute(
+                "id",
+                id,
+                conversionApi.mapper.toViewElement(modelElement)
+              );
+              // Set attribute on the model element
+              conversionApi.writer.setAttribute("id", id, modelElement);
+            },
+            { priority: "low" }
+          );
+        });
+      }
+    }
   }
 }
