@@ -1,14 +1,13 @@
 // OnThisPage/OnThisPageEditing.js
 
 import Plugin from "@ckeditor/ckeditor5-core/src/plugin";
-import ButtonView from "@ckeditor/ckeditor5-ui/src/button/buttonview";
 import {
   toWidget,
   toWidgetEditable,
 } from "@ckeditor/ckeditor5-widget/src/utils";
 import Widget from "@ckeditor/ckeditor5-widget/src/widget";
 
-import ListIcon from "../../assets/fa-list.svg";
+import InsertOnThisPageCommand from "./InsertOnThisPageCommand";
 
 export default class OnThisPageEditing extends Plugin {
   static get requires() {
@@ -26,69 +25,12 @@ export default class OnThisPageEditing extends Plugin {
     const headings = editor.config.get("heading").options;
 
     this._setupConversion(conversion, schema, headings);
-
-    editor.ui.componentFactory.add("onThisPage", (locale) => {
-      const view = new ButtonView(locale);
-
-      view.set({
-        label: "On this page",
-        icon: ListIcon,
-        withText: "Insert On this page",
-        tooltip: true,
-      });
-
-      view.on("execute", () => {
-        const root = editor.model.document.getRoot();
-        const range = editor.model.createRangeIn(root);
-        const headers = [];
-
-        // Iterate through all elements in the document and get H2 headings.
-        // Note that "heading1" in the CKEditor model refers to H2:
-        // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html
-        for (const value of range.getWalker({ ignoreElementEnd: true })) {
-          if (value.item.is("element") && value.item.name.match(/^heading1/)) {
-            headers.unshift({
-              id: value.item.getAttribute("id"),
-              text: value.item.getChild(0)?.data,
-            });
-          }
-        }
-
-        // Insert the On this Page heading and a list of links
-        editor.model.change((writer) => {
-          if (headers?.length > 0) {
-            const onThisPageContainer = writer.createElement("onThisPage");
-            const onThisPageList = writer.createElement("onThisPageList");
-
-            for (const header of headers) {
-              const listItem = writer.createElement("listItem", {
-                listType: "bulleted",
-                listIndent: 0,
-              });
-
-              writer.appendText(
-                header?.text?.toString(),
-                { linkHref: `#${header?.id}` },
-                listItem
-              );
-
-              writer.insert(listItem, onThisPageList);
-            }
-
-            writer.insert(onThisPageList, onThisPageContainer);
-            const onThisPageHeading = writer.createElement("onThisPageTitle");
-            writer.appendText("On this page", onThisPageHeading);
-            writer.insert(onThisPageHeading, onThisPageContainer);
-            writer.insert(onThisPageContainer, root);
-          }
-        });
-      });
-
-      return view;
-    });
-
     this._defineSchema();
     this._defineConverters();
+    editor.commands.add(
+      "insertOnThisPage",
+      new InsertOnThisPageCommand(editor)
+    );
   }
 
   _defineSchema() {
