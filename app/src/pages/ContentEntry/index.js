@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 // CKEditor components
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import CKEditorInspector from "@ckeditor/ckeditor5-inspector";
 import BalloonEditor from "@ckeditor/ckeditor5-editor-balloon/src/ballooneditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import UploadAdapter from "@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter";
@@ -30,6 +31,9 @@ import Table from "@ckeditor/ckeditor5-table/src/table";
 import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar";
 import TextTransformation from "@ckeditor/ckeditor5-typing/src/texttransformation";
 import CloudServices from "@ckeditor/ckeditor5-cloud-services/src/cloudservices";
+
+// CKEditor custom plugins
+import OnThisPage from "../../plugins/OnThisPage/OnThisPage";
 
 // Global components
 import { pageService } from "../../_services";
@@ -74,6 +78,7 @@ const editorConfiguration = {
     Link,
     List,
     MediaEmbed,
+    OnThisPage,
     Paragraph,
     PasteFromOffice,
     Table,
@@ -96,6 +101,8 @@ const editorConfiguration = {
     "|",
     "undo",
     "redo",
+    "|",
+    "onThisPage",
   ],
   toolbar: {
     items: ["bold", "italic", "link"],
@@ -401,7 +408,9 @@ function ContentEntry() {
                 options={[{ value: "en", label: "English" }]}
                 disabled // TODO: Enable and populate this field when multi-lingual is designed
               />
-              <div>
+              {/* Hide the On This Page checkbox as this functionality is
+              contained in the editor itself now. */}
+              {/* <div>
                 <label htmlFor="on-this-page">On this page: </label>
                 <input
                   id="on-this-page"
@@ -409,7 +418,7 @@ function ContentEntry() {
                   checked={isOnThisPage}
                   onChange={(e) => setIsOnThisPage(!isOnThisPage)}
                 />
-              </div>
+              </div> */}
             </div>
           </LeftPanel>
         ) : (
@@ -577,6 +586,10 @@ function ContentEntry() {
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
               console.log("Editor is ready to use!", editor);
+
+              if (process.env.NODE_ENV === "development") {
+                CKEditorInspector.attach(editor);
+              }
             }}
             onChange={(event, editor) => {
               const data = editor.getData();

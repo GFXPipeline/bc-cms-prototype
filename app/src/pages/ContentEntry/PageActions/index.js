@@ -84,8 +84,11 @@ function PageActions({
           <Button onClick={onClone}>
             <Icon id="fa-copy.svg" />
           </Button>
-          <Button disabled>
+          {/* <Button disabled>
             <Icon id="fa-list.svg" />
+          </Button> */}
+          <Button disabled>
+            <Icon id="fa-link.svg" />
           </Button>
         </>
       ) : (

@@ -11,7 +11,7 @@ const enableCKEWebpackConfigPlugin = (webpackConfig, { env, paths }) => {
   oneOf = webpackConfig.module.rules[ix].oneOf; // Add the SVG and CSS loaders to the oneOf array
   const additions = [
     {
-      test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+      test: /\.svg$/,
       use: ["raw-loader"],
     },
     {
@@ -61,6 +61,7 @@ const enableCKEWebpackConfigPlugin = (webpackConfig, { env, paths }) => {
     /\.json$/,
     /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
     /ckeditor5-[^/\\]+[/\\]theme[/\\].+\.css$/,
+    /.svg$/,
   ]; // Always return a config object.
   return webpackConfig;
 };

@@ -1,0 +1,70 @@
+// OnThisPage/InsertOnThisPageCommand.js
+
+import Command from "@ckeditor/ckeditor5-core/src/command";
+
+export default class InsertOnThisPageCommand extends Command {
+  execute() {
+    const editor = this.editor;
+    const root = editor.model.document.getRoot();
+    const range = editor.model.createRangeIn(root);
+    const headings = [];
+
+    // Iterate through all elements in the document and get H2 headings.
+    // Note that "heading1" in the CKEditor model refers to H2:
+    // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html
+    for (const value of range.getWalker({ ignoreElementEnd: true })) {
+      if (value.item.is("element") && value.item.name.match(/^heading1/)) {
+        headings.unshift({
+          id: value.item.getAttribute("id"),
+          text: value.item.getChild(0)?.data,
+        });
+      }
+    }
+
+    // Insert the On this Page heading and a list of links
+    editor.model.change((writer) => {
+      const onThisPageContainer = writer.createElement("onThisPage");
+      const onThisPageHeading = writer.createElement("onThisPageTitle");
+      writer.appendText("On this page", onThisPageHeading);
+      writer.append(onThisPageHeading, onThisPageContainer);
+      const onThisPageList = writer.createElement("onThisPageList");
+
+      for (const header of headings) {
+        const listItem = writer.createElement("listItem", {
+          listType: "bulleted",
+          listIndent: 0,
+        });
+
+        writer.appendText(
+          header?.text?.toString(),
+          { linkHref: `#${header?.id}` },
+          listItem
+        );
+
+        writer.insert(listItem, onThisPageList);
+      }
+
+      writer.append(onThisPageList, onThisPageContainer);
+      writer.insert(onThisPageContainer, root);
+    });
+  }
+
+  refresh() {
+    const editor = this.editor;
+    const root = editor.model.document.getRoot();
+    const range = editor.model.createRangeIn(root);
+    const headings = [];
+
+    for (const value of range.getWalker({ ignoreElementEnd: true })) {
+      if (value.item.is("element") && value.item.name.match(/^heading1/)) {
+        headings.unshift({
+          id: value.item.getAttribute("id"),
+          text: value.item.getChild(0)?.data,
+        });
+      }
+    }
+
+    // Disable the OnThisPage command if there are no headings in the model
+    this.isEnabled = headings?.length > 0;
+  }
+}

@@ -16,6 +16,7 @@ Project file structure:
 │       ├── _helpers      # Front-end helper functions
 │       ├── _services     # Front-end servers
 │       ├── components    # Front-end components
+|       ├── plugins       # Front-end CKEditor5 plugins
 │       └── index.js      # Front-end entrypoint
 ├── db                    # Database files
 │   ├── index.js          # Knex.js database connection
