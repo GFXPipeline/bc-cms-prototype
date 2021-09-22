@@ -2,11 +2,22 @@
 
 import Plugin from "@ckeditor/ckeditor5-core/src/plugin";
 import ButtonView from "@ckeditor/ckeditor5-ui/src/button/buttonview";
+import {
+  toWidget,
+  toWidgetEditable,
+} from "@ckeditor/ckeditor5-widget/src/utils";
+import Widget from "@ckeditor/ckeditor5-widget/src/widget";
 
 import ListIcon from "../../assets/fa-list.svg";
 
 export default class OnThisPageEditing extends Plugin {
+  static get requires() {
+    return [Widget];
+  }
+
   init() {
+    console.log("OnThisPageEditing#init() got called");
+
     const editor = this.editor;
     const conversion = editor.conversion;
     const schema = editor.model.schema;
@@ -47,7 +58,7 @@ export default class OnThisPageEditing extends Plugin {
         editor.model.change((writer) => {
           if (headers?.length > 0) {
             const onThisPageContainer = writer.createElement("onThisPage");
-            const onThisPageList = writer.createElement("onThisPageList")
+            const onThisPageList = writer.createElement("onThisPageList");
 
             for (const header of headers) {
               const listItem = writer.createElement("listItem", {
@@ -115,27 +126,85 @@ export default class OnThisPageEditing extends Plugin {
   _defineConverters() {
     const conversion = this.editor.conversion;
 
-    conversion.elementToElement({
+    // <onThisPage> converters
+    conversion.for("upcast").elementToElement({
       model: "onThisPage",
       view: {
         name: "section",
         classes: "on-this-page",
       },
     });
+    conversion.for("dataDowncast").elementToElement({
+      model: "onThisPage",
+      view: {
+        name: "section",
+        classes: "on-this-page",
+      },
+    });
+    conversion.for("editingDowncast").elementToElement({
+      model: "onThisPage",
+      view: (modelElement, { writer: viewWriter }) => {
+        const section = viewWriter.createContainerElement("section", {
+          class: "on-this-page",
+        });
 
-    conversion.elementToElement({
+        return toWidget(section, viewWriter, { label: "On this Page Widget" });
+      },
+    });
+
+    // <onThisPageTitle> converters
+    conversion.for("upcast").elementToElement({
       model: "onThisPageTitle",
       view: {
         name: "h2",
         classes: "on-this-page-title",
       },
     });
+    conversion.for("dataDowncast").elementToElement({
+      model: "onThisPageTitle",
+      view: {
+        name: "h2",
+        classes: "on-this-page-title",
+      },
+    });
+    conversion.for("editingDowncast").elementToElement({
+      model: "onThisPageTitle",
+      view: (modelElement, { writer: viewWriter }) => {
+        // Note: You use a more specialized createEditableElement() method here.
+        const h2 = viewWriter.createEditableElement("h2", {
+          class: "on-this-page-title",
+        });
 
-    conversion.elementToElement({
+        // use toWidgetEditable to switch to contentEditable=true
+        return toWidgetEditable(h2, viewWriter);
+      },
+    });
+
+    // <onThisPageList> converters
+    conversion.for("upcast").elementToElement({
       model: "onThisPageList",
       view: {
         name: "div",
         classes: "on-this-page-list",
+      },
+    });
+    conversion.for("dataDowncast").elementToElement({
+      model: "onThisPageList",
+      view: {
+        name: "div",
+        classes: "on-this-page-list",
+      },
+    });
+    conversion.for("editingDowncast").elementToElement({
+      model: "onThisPageList",
+      view: (modelElement, { writer: viewWriter }) => {
+        // Note: You use a more specialized createEditableElement() method here.
+        const div = viewWriter.createEditableElement("div", {
+          class: "on-this-page-list",
+        });
+
+        // use toWidgetEditable to switch to contentEditable=true
+        return toWidgetEditable(div, viewWriter);
       },
     });
   }
