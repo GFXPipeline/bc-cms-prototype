@@ -408,7 +408,9 @@ function ContentEntry() {
                 options={[{ value: "en", label: "English" }]}
                 disabled // TODO: Enable and populate this field when multi-lingual is designed
               />
-              <div>
+              {/* Hide the On This Page checkbox as this functionality is
+              contained in the editor itself now. */}
+              {/* <div>
                 <label htmlFor="on-this-page">On this page: </label>
                 <input
                   id="on-this-page"
@@ -416,7 +418,7 @@ function ContentEntry() {
                   checked={isOnThisPage}
                   onChange={(e) => setIsOnThisPage(!isOnThisPage)}
                 />
-              </div>
+              </div> */}
             </div>
           </LeftPanel>
         ) : (
