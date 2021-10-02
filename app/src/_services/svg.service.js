@@ -4,6 +4,7 @@ import { ReactComponent as arrowDown } from "../assets/ionic-ios-arrow-down.svg"
 import { ReactComponent as arrowForward } from "../assets/ionic-ios-arrow-forward.svg";
 import { ReactComponent as arrowUp } from "../assets/ionic-ios-arrow-up.svg";
 import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
+import { ReactComponent as phone } from "../assets/fa-phone.svg";
 import { ReactComponent as info } from "../assets/noun-info.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
 import { ReactComponent as eye } from "../assets/fa-eye.svg";
@@ -18,6 +19,7 @@ import { ReactComponent as redo } from "../assets/fa-redo-solid.svg";
 const svgIcons = {
   "fa-copy.svg": copy,
   "fa-eye.svg": eye,
+  "fa-phone.svg": phone,
   "fa-link.svg": link,
   "fa-list.svg": list,
   "fa-lock.svg": lock,
