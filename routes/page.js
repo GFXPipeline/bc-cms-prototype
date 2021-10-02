@@ -20,7 +20,7 @@ pageRouter.get("/:id", (req, res) => {
       res.status(200).json(results);
     })
     .catch((error) => {
-      console.log("error in GET /api/pages/all knex call: ", error);
+      console.log(`error in GET /api/page/${req.params.id} knex call: `, error);
       res.status(401).send();
     });
 });

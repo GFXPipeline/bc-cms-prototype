@@ -1,6 +1,4 @@
 const express = require("express");
-const app = express();
-const ENV = process.env.NODE_ENV || "development";
 const fs = require("fs");
 const path = require("path");
 const jwt = require("../_helpers/jwt");
