@@ -100,6 +100,9 @@ function Header() {
         <NavLink activeClassName="active" to="/content">
           Content
         </NavLink>
+        <NavLink activeClassName="active" to="/components">
+          Components
+        </NavLink>
         <NavLink activeClassName="active" to="/assets">
           Assets
         </NavLink>
