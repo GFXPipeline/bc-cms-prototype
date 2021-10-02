@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -33,12 +34,14 @@ import TextTransformation from "@ckeditor/ckeditor5-typing/src/texttransformatio
 import CloudServices from "@ckeditor/ckeditor5-cloud-services/src/cloudservices";
 
 // CKEditor custom plugins
+import ContactUs from "../../plugins/ContactUs/ContactUs";
 import OnThisPage from "../../plugins/OnThisPage/OnThisPage";
 
 // Global components
 import { pageService } from "../../_services";
 import Button from "../../components/Button";
 import ButtonLink from "../../components/ButtonLink";
+import ContactUsBox from "../../components/ContactUs";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
@@ -55,6 +58,9 @@ import CreatePage from "./_actions/CreatePage";
 import DeletePage from "./_actions/DeletePage";
 import CancelEdits from "./_actions/CancelEdits";
 
+// Reusable components input fields
+import ContactUsInput from "./ReusableComponents/ContactUs";
+
 // CKEditor configuration
 const editorConfiguration = {
   plugins: [
@@ -67,6 +73,7 @@ const editorConfiguration = {
     BlockQuote,
     CKFinder,
     CloudServices,
+    ContactUs,
     EasyImage,
     Heading,
     Image,
@@ -122,6 +129,11 @@ const editorConfiguration = {
   },
   // This value must be kept in sync with the language defined in webpack.config.js.
   language: "en",
+  contactUs: {
+    contactUsRenderer: (id, domElement) => {
+      ReactDOM.render(<ContactUsBox id={id} />, domElement);
+    },
+  },
 };
 
 const Page = styled.div`
@@ -156,6 +168,10 @@ const LeftPanel = styled.div`
   flex-grow: 1;
   max-width: 368px;
   overflow: hidden;
+
+  &.scroll {
+    overflow-y: auto;
+  }
 
   div.top {
     label {
@@ -222,14 +238,17 @@ function ContentEntry() {
 
   // Reusable components
   const [isOnThisPage, setIsOnThisPage] = useState(false);
+  const [isContactUsOpen, setIsContactUsOpen] = useState(false);
 
   // Meta
+  const [editor, setEditor] = useState(null);
   const [isError, setIsError] = useState(false);
   const [pages, setPages] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [contactUsId, setContactUsId] = useState(null);
 
   // Modals
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
@@ -337,7 +356,7 @@ function ContentEntry() {
       <Header />
       <ContentContainer>
         {isEditMode ? (
-          <LeftPanel>
+          <LeftPanel className="scroll">
             <div className="top edit">
               <ButtonLink onClick={handleBackToContentList}>
                 ← Back to content page list
@@ -394,6 +413,13 @@ function ContentEntry() {
                 />
               </div> */}
             </div>
+            <ContactUsInput
+              onClick={() => editor?.execute("insertContactUs", contactUsId)}
+              isOpen={isContactUsOpen}
+              setIsOpen={setIsContactUsOpen}
+              contactUsId={contactUsId}
+              setContactUsId={setContactUsId}
+            />
           </LeftPanel>
         ) : (
           <LeftPanel>
@@ -450,6 +476,7 @@ function ContentEntry() {
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
               console.log("Editor is ready to use!", editor);
+              setEditor(editor);
 
               if (process.env.NODE_ENV === "development") {
                 CKEditorInspector.attach(editor);

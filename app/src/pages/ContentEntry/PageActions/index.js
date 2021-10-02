@@ -4,6 +4,7 @@ import Button from "../../../components/Button";
 import Icon from "../../../components/Icon";
 
 const StyledDiv = styled.div`
+  background-color: white;
   border: 1px solid #707070;
   display: flex;
   flex-direction: row;
