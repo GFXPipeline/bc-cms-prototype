@@ -60,12 +60,54 @@ async function getComponentList() {
       headers: authHeader(),
       username: authenticationService.currentUserValue.username,
     };
-    const response = await axios.get(`/api/components/all`, requestOptions);
+    const response = await axios.get(`/api/components`, requestOptions);
 
     console.log("Response in componentService getComponentList: ", response);
     return response?.data;
   } catch (error) {
-    console.log("Error in componentService read: ", error);
+    console.log("Error in componentService getComponentList: ", error);
+    throw error;
+  }
+}
+
+// GET request to /api/components/type/:id to get all components of one type
+async function getComponentsByType(id) {
+  console.log("Inside componentService.getComponentsByType, id: ", id);
+  try {
+    const requestOptions = {
+      headers: authHeader(),
+      username: authenticationService.currentUserValue.username,
+    };
+    const response = await axios.get(
+      `/api/components/type/${id}`,
+      requestOptions
+    );
+
+    console.log("Response in componentService getComponentsByType: ", response);
+    return response?.data;
+  } catch (error) {
+    console.log("Error in componentService getComponentsByType: ", error);
+    throw error;
+  }
+}
+
+// GET request to /api/component-types to get a list of available component types
+async function getComponentTypeList() {
+  console.log("Inside componentService.getComponentTypeList");
+  try {
+    const requestOptions = {
+      headers: authHeader(),
+      username: authenticationService.currentUserValue.username,
+    };
+    const response = await axios.get("/api/component-types", requestOptions);
+
+    console.log(
+      "Response in componentService getComponentTypeList: ",
+      response
+    );
+    return response?.data;
+  } catch (error) {
+    console.log("Error in componentService getComponentTypeList: ", error);
     throw error;
   }
 }
@@ -74,4 +116,6 @@ export const componentService = {
   read,
   update,
   getComponentList,
+  getComponentsByType,
+  getComponentTypeList,
 };
