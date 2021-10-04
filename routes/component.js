@@ -12,8 +12,13 @@ componentRouter.get("/:id", (req, res) => {
   console.log(`GET /api/component/${req.params.id}`);
 
   knex("components")
-    .select("*")
-    .where("id", req.params.id)
+    .join("component_types", "component_types.id", "components.type")
+    .select(
+      "components.*",
+      "component_types.name",
+      "component_types.display_name"
+    )
+    .where("components.id", req.params.id)
     .then((results) => {
       console.log(`results in GET /api/component/${req.params.id}`);
       res.status(200).json(results);

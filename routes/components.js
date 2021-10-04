@@ -7,18 +7,41 @@ const componentsRouter = express.Router();
 componentsRouter.use(jwt());
 componentsRouter.use(errorHandler);
 
-// All pages
-componentsRouter.get("/all", (req, res) => {
-  console.log("GET /api/components/all");
+// Get a list of all components
+componentsRouter.get("/", (req, res) => {
+  console.log("GET /api/components");
 
   knex("components")
-    .select("id", "title")
+    .join("component_types", "component_types.id", "components.type")
+    .select(
+      "components.id",
+      "components.title",
+      "component_types.name",
+      "component_types.display_name"
+    )
     .then((results) => {
       console.log("results: ", results);
       res.status(200).json(results);
     })
     .catch((error) => {
-      console.log("error in GET /api/components/all knex call: ", error);
+      console.log("error in GET /api/components knex call: ", error);
+      res.status(401).send();
+    });
+});
+
+// Get a list of all components of a certain type
+componentsRouter.get("/type/:id", (req, res) => {
+  console.log(`GET /api/components/type/${req?.params?.id}`);
+
+  knex("components")
+    .join("component_types", "component_types.id", "components.type")
+    .select("components.id", "components.title", "component_types.name", "component_types.display_name")
+    .then((results) => {
+      console.log("results: ", results);
+      res.status(200).json(results);
+    })
+    .catch((error) => {
+      console.log(`error in GET /api/components/type/${req?.params?.id} knex call: `, error);
       res.status(401).send();
     });
 });
