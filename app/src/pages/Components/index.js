@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import ButtonLink from "../../components/ButtonLink";
 import Header from "../../components/Header";
 import LoadSpinner from "../../components/LoadSpinner";
+import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
 
 // CKEditor components
@@ -45,6 +46,13 @@ const ComponentsList = styled.div`
   background-color: white;
   margin: 16px;
   min-width: 300px;
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
 `;
 
 const ComponentDetails = styled.div`
@@ -74,33 +82,95 @@ const Controls = styled.div`
 `;
 
 function Components() {
+  // Component types
+  const [types, setTypes] = useState([]);
+  const [selectedType, setSelectedType] = useState("");
+
+  // List of components to choose from
   const [components, setComponents] = useState([]);
-  const [componentId, setComponentId] = useState(null);
+
+  // Single component details
+  const [componentId, setComponentId] = useState("");
   const [componentTitle, setComponentTitle] = useState("");
   const [componentIntro, setComponentIntro] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isError, setIsError] = useState(false);
 
-  function getComponentList() {
+  // Meta
+  const [isLoadingTypes, setIsLoadingTypes] = useState(true);
+  const [isErrorTypes, setIsErrorTypes] = useState(false);
+  const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
+  const [isErrorComponents, setIsErrorComponents] = useState(false);
+  const [isLoadingComponent, setIsLoadingComponent] = useState(false);
+  const [isErrorComponent, setIsErrorComponent] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isErrorSaving, setIsErrorSaving] = useState(false);
+
+  function getComponentTypes() {
     componentService
-      .getComponentList()
-      .then((components) => {
-        setComponents(components);
-        setIsLoading(false);
+      .getComponentTypeList()
+      .then((types) => {
+        const newTypes = [];
+
+        types.forEach((type, index) => {
+          newTypes[index] = {
+            ...type,
+            label: type?.display_name,
+            value: type?.name,
+          };
+        });
+
+        setTypes(newTypes);
+        setIsLoadingTypes(false);
       })
       .catch((error) => {
-        setIsError(true);
-        setIsLoading(false);
+        setIsErrorTypes(true);
+        setIsLoadingTypes(false);
         throw error;
       });
   }
 
+  function getComponents() {
+    if (selectedType === "all") {
+      componentService
+        .getComponentList()
+        .then((components) => {
+          console.log("components: ", components);
+          setComponents(components);
+          setIsLoadingComponentsList(false);
+        })
+        .catch((error) => {
+          setIsErrorComponents(true);
+          setIsLoadingComponentsList(false);
+          throw error;
+        });
+    } else {
+      componentService
+        .getComponentsByType(selectedType)
+        .then((components) => {
+          setIsLoadingComponentsList(false);
+          setComponents(components);
+        })
+        .catch((error) => {
+          setIsLoadingComponentsList(false);
+          setIsErrorComponents(true);
+          throw error;
+        });
+    }
+  }
+
   function getComponentDetails(id) {
-    componentService.read(id).then((component) => {
-      setComponentTitle(component?.title);
-      setComponentIntro(component?.intro);
-    });
+    setIsLoadingComponent(true);
+
+    componentService
+      .read(id)
+      .then((component) => {
+        setIsLoadingComponent(false);
+        setComponentTitle(component?.title);
+        setComponentIntro(component?.intro);
+      })
+      .catch((error) => {
+        setIsLoadingComponent(false);
+        setIsErrorComponent(true);
+      });
   }
 
   function handleSave(id) {
@@ -114,18 +184,30 @@ function Components() {
       })
       .then((success) => {
         setIsSaving(false);
-        getComponentList();
+        getComponents();
       })
       .catch((error) => {
-        setIsError(true);
+        setIsErrorSaving(true);
         setIsSaving(false);
       });
   }
 
-  // Populate component list
+  function handleSelectType(typeId) {
+    setIsLoadingComponentsList(true);
+    setSelectedType(typeId);
+  }
+
+  // Populate component type list
   useEffect(() => {
-    getComponentList();
+    getComponentTypes();
   }, []);
+
+  // Populate components list
+  useEffect(() => {
+    if (selectedType) {
+      getComponents();
+    }
+  }, [selectedType]);
 
   // Get component details
   useEffect(() => {
@@ -141,74 +223,125 @@ function Components() {
         <ComponentsList>
           <h1>Component Library</h1>
           <p>Reusable components for use across many pages.</p>
-          {isLoading && <LoadSpinner />}
-          {components && Array.isArray(components) && components.length > 0 && (
-            <ul>
-              {components?.map((component, index) => {
-                return (
-                  <li key={index}>
-                    <ButtonLink onClick={() => setComponentId(component?.id)}>
-                      {component?.title}
-                    </ButtonLink>
-                  </li>
-                );
-              })}
-            </ul>
+
+          {/* Component types */}
+          {isLoadingTypes ? (
+            <LoadSpinner />
+          ) : (
+            <>
+              <label htmlFor="select-component-type">
+                Select a component type
+              </label>
+              <Select
+                id="select-component-type"
+                name="select-component-type"
+                onChange={handleSelectType}
+                value={selectedType}
+                options={[
+                  { label: " ", disabled: true },
+                  { id: "all", label: "All", value: "all" },
+                  ...types,
+                ]}
+              />
+            </>
           )}
-          {isError && <p className="error">Could not fetch components list.</p>}
+          {isErrorTypes && (
+            <p className="error">Could not fetch component types list.</p>
+          )}
+
+          {/* Components */}
+          {isLoadingComponentsList ? (
+            <LoadSpinner />
+          ) : (
+            components &&
+            Array.isArray(components) &&
+            components.length > 0 && (
+              <>
+                <h2>Components</h2>
+                <ul>
+                  {components?.map((component, index) => {
+                    return (
+                      <li key={index}>
+                        <ButtonLink
+                          onClick={() => setComponentId(component?.id)}
+                        >
+                          {component?.title}
+                        </ButtonLink>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
+            )
+          )}
+          {isErrorComponents && (
+            <p className="error">Could not fetch components list.</p>
+          )}
         </ComponentsList>
         <ComponentDetails>
-          {componentTitle && (
-            <div className="component-field">
-              <label htmlFor="component-title">Title: </label>
-              <TextInput
-                id="component-title"
-                value={componentTitle}
-                onChange={(e) => setComponentTitle(e.target.value)}
-              />
-            </div>
+          {isLoadingComponent ? (
+            <LoadSpinner />
+          ) : (
+            <>
+              {componentTitle && (
+                <div className="component-field">
+                  <label htmlFor="component-title">Title: </label>
+                  <TextInput
+                    id="component-title"
+                    value={componentTitle}
+                    onChange={(e) => setComponentTitle(e.target.value)}
+                  />
+                </div>
+              )}
+              {componentTitle && (
+                <div className="component-field">
+                  <span id="component-id">
+                    <strong>ID:</strong> {componentId}
+                  </span>
+                </div>
+              )}
+              {componentIntro && (
+                <CKEditor
+                  id="editor-contact-us"
+                  editor={ClassicEditor}
+                  config={{
+                    plugins: [Bold, Italic, Link, Paragraph],
+                    toolbar: {
+                      items: ["bold", "italic", "link"],
+                    },
+                    language: "en",
+                  }}
+                  data={componentIntro}
+                  onReady={(editor) => {
+                    console.log("Component editor ready.", editor);
+                  }}
+                  onChange={(event, editor) => {
+                    const intro = editor.getData();
+                    console.log({ event, editor, intro });
+                    setComponentIntro(intro);
+                  }}
+                  onBlur={(event, editor) => {
+                    console.log("Blur.", editor);
+                  }}
+                  onFocus={(event, editor) => {
+                    console.log("Focus.", editor);
+                  }}
+                />
+              )}
+              {componentId && (
+                <Controls>
+                  <Button onClick={() => handleSave(componentId)}>
+                    {isSaving ? "Saving" : "Save"}
+                  </Button>
+                </Controls>
+              )}
+              {isErrorSaving && (
+                <p className="error">Could not save component changes.</p>
+              )}
+            </>
           )}
-          {componentTitle && (
-            <div className="component-field">
-              <span id="component-id">
-                <strong>ID:</strong> {componentId}
-              </span>
-            </div>
-          )}
-          {componentIntro && (
-            <CKEditor
-              id="editor-contact-us"
-              editor={ClassicEditor}
-              config={{
-                plugins: [Bold, Italic, Link, Paragraph],
-                toolbar: {
-                  items: ["bold", "italic", "link"],
-                },
-                language: "en",
-              }}
-              data={componentIntro}
-              onReady={(editor) => {
-                console.log("Component editor ready.", editor);
-              }}
-              onChange={(event, editor) => {
-                const intro = editor.getData();
-                console.log({ event, editor, intro });
-                setComponentIntro(intro);
-              }}
-              onBlur={(event, editor) => {
-                console.log("Blur.", editor);
-              }}
-              onFocus={(event, editor) => {
-                console.log("Focus.", editor);
-              }}
-            />
-          )}
-          {componentId && (
-            <Controls>
-              <Button onClick={() => handleSave(componentId)}>
-                {isSaving ? "Saving" : "Save"}
-              </Button>
-            </Controls>
+          {isErrorComponent && (
+            <p className="error">Could not fetch component details.</p>
           )}
         </ComponentDetails>
       </ContentContainer>
