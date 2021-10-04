@@ -26,7 +26,11 @@ function Select({ id, name, options, value, onChange, disabled, ...props }) {
         options?.length > 0 &&
         options.map((option, index) => {
           return (
-            <option key={`select-${id}-option-${index}`} value={option?.value}>
+            <option
+              key={`select-${id}-option-${index}`}
+              value={option?.value}
+              disabled={option?.disabled}
+            >
               {option?.label}
             </option>
           );
