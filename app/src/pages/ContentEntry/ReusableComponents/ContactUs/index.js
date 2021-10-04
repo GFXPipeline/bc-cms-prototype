@@ -37,16 +37,19 @@ function ContactUsInput({
     setIsError(false);
 
     componentService
-      .getComponentList()
+      .getComponentsByType("d632b0f5-99b8-4a73-a1ac-02f6117388db")
       .then((options) => {
         const newOptions = [];
 
-        options.forEach((option) => {
-          newOptions.push({
-            value: option?.id,
-            label: option?.title,
+        options &&
+          Array.isArray(options) &&
+          options.length > 0 &&
+          options?.forEach((option) => {
+            newOptions.push({
+              value: option?.id,
+              label: option?.title,
+            });
           });
-        });
 
         setOptions(newOptions);
         setIsLoading(false);
@@ -84,7 +87,9 @@ function ContactUsInput({
           </p>
         )}
         {contactUsId && <p>Selected: {contactUsId}</p>}
-        <Button onClick={onClick}>Add to page</Button>
+        <Button onClick={onClick} disabled={!contactUsId}>
+          Add to page
+        </Button>
       </StyledDiv>
     </Accordion>
   );
