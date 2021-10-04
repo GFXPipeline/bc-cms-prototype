@@ -25,6 +25,7 @@ if (ENV === "development") {
 const {
   componentRouter,
   componentsRouter,
+  componentTypesRouter,
   pageRouter,
   pagesRouter,
   userRouter,
@@ -32,6 +33,7 @@ const {
 } = require("./routes");
 app.use("/api/component", componentRouter);
 app.use("/api/components", componentsRouter);
+app.use("/api/component-types", componentTypesRouter);
 app.use("/api/page", pageRouter);
 app.use("/api/pages", pagesRouter);
 app.use("/api/user", userRouter);
