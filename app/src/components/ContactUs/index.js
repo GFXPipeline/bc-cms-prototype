@@ -14,7 +14,7 @@ function ContactUsBox({ id }) {
   const [intro, setIntro] = useState("");
   const [isError, setError] = useState(false);
 
-  function getComponentDetails() {
+  function reloadComponentDetails() {
     setError(false);
 
     componentService
@@ -30,15 +30,30 @@ function ContactUsBox({ id }) {
   }
 
   useEffect(() => {
+    function getComponentDetails() {
+      setError(false);
+
+      componentService
+        .read(id)
+        .then((component) => {
+          setTitle(component?.title);
+          setIntro(component?.intro);
+        })
+        .catch((error) => {
+          console.log(error);
+          setError(true);
+        });
+    }
+
     getComponentDetails();
-  }, []);
+  }, [id]);
 
   return (
     <StyledDiv>
       {title && <h2>{title}</h2>}
       {intro && <div dangerouslySetInnerHTML={{ __html: intro }} />}
       {isError && <p>Could not fetch component data.</p>}
-      <Button onClick={() => getComponentDetails()}>Refresh data</Button>
+      <Button onClick={() => reloadComponentDetails()}>Refresh data</Button>
     </StyledDiv>
   );
 }
