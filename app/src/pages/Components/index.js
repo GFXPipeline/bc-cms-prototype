@@ -86,7 +86,7 @@ function Components() {
       });
   }
 
-  function getComponents() {
+  function reloadComponentsList() {
     if (selectedType === "all") {
       componentService
         .getComponentList()
@@ -150,7 +150,7 @@ function Components() {
       })
       .then((success) => {
         setIsSaving(false);
-        getComponents();
+        reloadComponentsList();
       })
       .catch((error) => {
         setIsErrorSaving(true);
@@ -170,8 +170,36 @@ function Components() {
 
   // Populate components list
   useEffect(() => {
+    function getComponentsList() {
+      if (selectedType === "all") {
+        componentService
+          .getComponentList()
+          .then((components) => {
+            setComponents(components);
+            setIsLoadingComponentsList(false);
+          })
+          .catch((error) => {
+            setIsErrorComponentsList(true);
+            setIsLoadingComponentsList(false);
+            throw error;
+          });
+      } else {
+        componentService
+          .getComponentsByType(selectedType)
+          .then((components) => {
+            setIsLoadingComponentsList(false);
+            setComponents(components);
+          })
+          .catch((error) => {
+            setIsLoadingComponentsList(false);
+            setIsErrorComponentsList(true);
+            throw error;
+          });
+      }
+    }
+
     if (selectedType) {
-      getComponents();
+      getComponentsList();
     }
   }, [selectedType]);
 
