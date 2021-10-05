@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Button from "../../components/Button";
-import ButtonLink from "../../components/ButtonLink";
 import Header from "../../components/Header";
 import LoadSpinner from "../../components/LoadSpinner";
-import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
+import { componentService } from "../../_services/component.service";
 
 // CKEditor components
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -15,7 +14,8 @@ import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Link from "@ckeditor/ckeditor5-link/src/link";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 
-import { componentService } from "../../_services/component.service";
+// Page components
+import ComponentsList from "./ComponentsList";
 
 const Page = styled.div`
   height: 100vh;
@@ -39,19 +39,6 @@ const ContentContainer = styled.div`
     border-radius: 4px;
     color: #a12622;
     padding: 15px;
-  }
-`;
-
-const ComponentsList = styled.div`
-  background-color: white;
-  margin: 16px;
-  min-width: 300px;
-
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 8px;
   }
 `;
 
@@ -98,7 +85,7 @@ function Components() {
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [isErrorTypes, setIsErrorTypes] = useState(false);
   const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
-  const [isErrorComponents, setIsErrorComponents] = useState(false);
+  const [isErrorComponentsList, setIsErrorComponentsList] = useState(false);
   const [isLoadingComponent, setIsLoadingComponent] = useState(false);
   const [isErrorComponent, setIsErrorComponent] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -138,7 +125,7 @@ function Components() {
           setIsLoadingComponentsList(false);
         })
         .catch((error) => {
-          setIsErrorComponents(true);
+          setIsErrorComponentsList(true);
           setIsLoadingComponentsList(false);
           throw error;
         });
@@ -151,7 +138,7 @@ function Components() {
         })
         .catch((error) => {
           setIsLoadingComponentsList(false);
-          setIsErrorComponents(true);
+          setIsErrorComponentsList(true);
           throw error;
         });
     }
@@ -220,64 +207,17 @@ function Components() {
     <Page>
       <Header />
       <ContentContainer>
-        <ComponentsList>
-          <h1>Component Library</h1>
-          <p>Reusable components for use across many pages.</p>
-
-          {/* Component types */}
-          {isLoadingTypes ? (
-            <LoadSpinner />
-          ) : (
-            <>
-              <label htmlFor="select-component-type">
-                Select a component type
-              </label>
-              <Select
-                id="select-component-type"
-                name="select-component-type"
-                onChange={handleSelectType}
-                value={selectedType}
-                options={[
-                  { label: " ", disabled: true },
-                  { id: "all", label: "All", value: "all" },
-                  ...types,
-                ]}
-              />
-            </>
-          )}
-          {isErrorTypes && (
-            <p className="error">Could not fetch component types list.</p>
-          )}
-
-          {/* Components */}
-          {isLoadingComponentsList ? (
-            <LoadSpinner />
-          ) : (
-            components &&
-            Array.isArray(components) &&
-            components.length > 0 && (
-              <>
-                <h2>Components</h2>
-                <ul>
-                  {components?.map((component, index) => {
-                    return (
-                      <li key={index}>
-                        <ButtonLink
-                          onClick={() => setComponentId(component?.id)}
-                        >
-                          {component?.title}
-                        </ButtonLink>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </>
-            )
-          )}
-          {isErrorComponents && (
-            <p className="error">Could not fetch components list.</p>
-          )}
-        </ComponentsList>
+        <ComponentsList
+          types={types}
+          components={components}
+          handleSelectType={handleSelectType}
+          isLoadingTypes={isLoadingTypes}
+          isErrorTypes={isErrorTypes}
+          isLoadingComponentsList={isLoadingComponentsList}
+          isErrorComponentsList={isErrorComponentsList}
+          selectedType={selectedType}
+          setComponentId={setComponentId}
+        />
         <ComponentDetails>
           {isLoadingComponent ? (
             <LoadSpinner />
