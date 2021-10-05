@@ -6,7 +6,7 @@ import Select from "../../components/Select";
 const StyledDiv = styled.div`
   background-color: white;
   margin: 16px;
-  min-width: 300px;
+  width: 450px;
 
   label {
     display: block;

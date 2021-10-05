@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
   background-color: white;
   flex-grow: 1;
   margin: 16px;
-  min-width: 300px;
+  width: calc(100% - 450px);
 
   div.component-field {
     margin: 8px 0;
@@ -36,6 +36,10 @@ const StyledDiv = styled.div`
 const Controls = styled.div`
   background-color: white;
   margin-top: 16px;
+
+  button {
+    margin-right: 8px;
+  }
 `;
 
 function ComponentDetails({
@@ -43,12 +47,14 @@ function ComponentDetails({
   componentIntro,
   componentTitle,
   handleSave,
+  isCancelling,
   isErrorComponent,
   isErrorSaving,
   isLoadingComponent,
   isSaving,
   setComponentIntro,
   setComponentTitle,
+  setModalCancelEditsOpen,
 }) {
   return (
     <StyledDiv>
@@ -97,9 +103,20 @@ function ComponentDetails({
                   console.log("Focus.", editor);
                 }}
               />
+
               <Controls>
-                <Button onClick={() => handleSave(componentId)}>
-                  {isSaving ? "Saving" : "Save"}
+                <Button
+                  onClick={() => handleSave(componentId)}
+                  disabled={isSaving}
+                  primary
+                >
+                  Save
+                </Button>
+                <Button
+                  onClick={() => setModalCancelEditsOpen(true)}
+                  disabled={isCancelling}
+                >
+                  Discard changes
                 </Button>
               </Controls>
             </>

@@ -7,6 +7,9 @@ import { componentService } from "../../_services/component.service";
 import ComponentDetails from "./ComponentsDetails";
 import ComponentsList from "./ComponentsList";
 
+// Page actions
+import CancelEdits from "./_actions/CancelEdits";
+
 const Page = styled.div`
   height: 100vh;
   width: 100%;
@@ -44,6 +47,8 @@ function Components() {
   const [componentId, setComponentId] = useState("");
   const [componentTitle, setComponentTitle] = useState("");
   const [componentIntro, setComponentIntro] = useState("");
+  const [componentTitleOriginal, setComponentTitleOriginal] = useState("");
+  const [componentIntroOriginal, setComponentIntroOriginal] = useState("");
 
   // Meta
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
@@ -54,6 +59,8 @@ function Components() {
   const [isErrorComponent, setIsErrorComponent] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isErrorSaving, setIsErrorSaving] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
   function getComponentTypes() {
     componentService
@@ -84,7 +91,6 @@ function Components() {
       componentService
         .getComponentList()
         .then((components) => {
-          console.log("components: ", components);
           setComponents(components);
           setIsLoadingComponentsList(false);
         })
@@ -116,12 +122,21 @@ function Components() {
       .then((component) => {
         setIsLoadingComponent(false);
         setComponentTitle(component?.title);
+        setComponentTitleOriginal(component?.title);
         setComponentIntro(component?.intro);
+        setComponentIntroOriginal(component?.intro);
       })
       .catch((error) => {
         setIsLoadingComponent(false);
         setIsErrorComponent(true);
       });
+  }
+
+  function handleCancel() {
+    setIsCancelling(true);
+    setComponentTitle(componentTitleOriginal);
+    setComponentIntro(componentIntroOriginal);
+    setIsCancelling(false);
   }
 
   function handleSave(id) {
@@ -186,15 +201,23 @@ function Components() {
           componentId={componentId}
           componentIntro={componentIntro}
           componentTitle={componentTitle}
+          handleCancel={handleCancel}
           handleSave={handleSave}
+          isCancelling={isCancelling}
           isErrorComponent={isErrorComponent}
           isErrorSaving={isErrorSaving}
           isLoadingComponent={isLoadingComponent}
           isSaving={isSaving}
           setComponentIntro={setComponentIntro}
           setComponentTitle={setComponentTitle}
+          setModalCancelEditsOpen={setModalCancelEditsOpen}
         />
       </ContentContainer>
+      <CancelEdits
+        isOpen={modalCancelEditsOpen}
+        setIsOpen={setModalCancelEditsOpen}
+        handleCancel={handleCancel}
+      />
     </Page>
   );
 }
