@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Editor from "./pages/Editor";
 import UserProfile from "./pages/UserProfile";
 import ContentEntry from "./pages/ContentEntry";
+import Components from "./pages/Components";
 import Home from "./pages/Home";
 
 // Components
@@ -31,6 +32,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute path="/content">
           <ContentEntry />
+        </PrivateRoute>
+        <PrivateRoute path="/components">
+          <Components />
         </PrivateRoute>
         <PrivateRoute path="/">
           <Home />

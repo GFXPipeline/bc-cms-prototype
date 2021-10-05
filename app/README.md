@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Webpack configuration is customized in `./craco.config.js` to avoid the one-way `eject` operation.
 
 ## Available Scripts
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -33,13 +34,14 @@ import TextTransformation from "@ckeditor/ckeditor5-typing/src/texttransformatio
 import CloudServices from "@ckeditor/ckeditor5-cloud-services/src/cloudservices";
 
 // CKEditor custom plugins
+import ContactUs from "../../plugins/ContactUs/ContactUs";
 import OnThisPage from "../../plugins/OnThisPage/OnThisPage";
 
 // Global components
 import { pageService } from "../../_services";
 import Button from "../../components/Button";
 import ButtonLink from "../../components/ButtonLink";
-import Dropdown from "../../components/Dropdown";
+import ContactUsBox from "../../components/ContactUs";
 import Header from "../../components/Header";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
@@ -48,12 +50,16 @@ import TextInput from "../../components/TextInput";
 import PageList from "./PageList";
 import NavTabs from "./NavTabs";
 import PageActions from "./PageActions";
+import PageControlToolbar from "./PageControlToolbar";
 
 // Page actions
 import ClonePage from "./_actions/ClonePage";
 import CreatePage from "./_actions/CreatePage";
 import DeletePage from "./_actions/DeletePage";
 import CancelEdits from "./_actions/CancelEdits";
+
+// Reusable components input fields
+import ContactUsInput from "./ReusableComponents/ContactUs";
 
 // CKEditor configuration
 const editorConfiguration = {
@@ -67,6 +73,7 @@ const editorConfiguration = {
     BlockQuote,
     CKFinder,
     CloudServices,
+    ContactUs,
     EasyImage,
     Heading,
     Image,
@@ -122,6 +129,11 @@ const editorConfiguration = {
   },
   // This value must be kept in sync with the language defined in webpack.config.js.
   language: "en",
+  contactUs: {
+    contactUsRenderer: (id, domElement) => {
+      ReactDOM.render(<ContactUsBox id={id} />, domElement);
+    },
+  },
 };
 
 const Page = styled.div`
@@ -156,6 +168,10 @@ const LeftPanel = styled.div`
   flex-grow: 1;
   max-width: 368px;
   overflow: hidden;
+
+  &.scroll {
+    overflow-y: auto;
+  }
 
   div.top {
     label {
@@ -206,32 +222,6 @@ const InputContainer = styled.div`
   max-height: 44px;
 `;
 
-const PageControlToolbar = styled.div`
-  border-top: 1px solid #707070;
-  border-bottom: 1px solid #707070;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    height: 44px;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
-    &:disabled {
-      color: #949494;
-      cursor: not-allowed;
-      text-decoration: none;
-    }
-  }
-`;
-
 const RightPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -248,14 +238,17 @@ function ContentEntry() {
 
   // Reusable components
   const [isOnThisPage, setIsOnThisPage] = useState(false);
+  const [isContactUsOpen, setIsContactUsOpen] = useState(false);
 
   // Meta
+  const [editor, setEditor] = useState(null);
   const [isError, setIsError] = useState(false);
   const [pages, setPages] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [contactUsId, setContactUsId] = useState(null);
 
   // Modals
   const [modalClonePageOpen, setModalClonePageOpen] = useState(false);
@@ -363,7 +356,7 @@ function ContentEntry() {
       <Header />
       <ContentContainer>
         {isEditMode ? (
-          <LeftPanel>
+          <LeftPanel className="scroll">
             <div className="top edit">
               <ButtonLink onClick={handleBackToContentList}>
                 ← Back to content page list
@@ -420,6 +413,13 @@ function ContentEntry() {
                 />
               </div> */}
             </div>
+            <ContactUsInput
+              onClick={() => editor?.execute("insertContactUs", contactUsId)}
+              isOpen={isContactUsOpen}
+              setIsOpen={setIsContactUsOpen}
+              contactUsId={contactUsId}
+              setContactUsId={setContactUsId}
+            />
           </LeftPanel>
         ) : (
           <LeftPanel>
@@ -440,122 +440,12 @@ function ContentEntry() {
                 />
               </InputContainer>
             </div>
-            <PageControlToolbar>
-              <Dropdown
-                id="content-entry-create"
-                label="Create"
-                options={[
-                  {
-                    id: "new-page",
-                    label: "New page",
-                    action: () => {
-                      setModalCreatePageOpen(true);
-                    },
-                  },
-                  {
-                    id: "clone-page",
-                    label: "Clone selected page",
-                    action: () => {
-                      setModalClonePageOpen(true);
-                    },
-                    disabled: selectedPages?.length !== 1,
-                  },
-                  {
-                    id: "clone-page-with-children",
-                    label: "Clone selected page with children",
-                    action: () =>
-                      alert("Clone selected page with children action"),
-                    disabled: selectedPages?.length !== 1,
-                  },
-                  {
-                    id: "new-external-link",
-                    label: "New external link",
-                    action: () => alert("New external link action"),
-                    disabled: true,
-                  },
-                ]}
-              />
-              <Dropdown
-                id="content-entry-lock"
-                disabled={selectedPages?.length === 0}
-                label="Lock"
-                options={[
-                  {
-                    id: "lock-page",
-                    label: "Lock page",
-                    action: () => alert("Lock page action"),
-                    disabled: true,
-                  },
-                  {
-                    id: "unlock-page",
-                    label: "Unlock page",
-                    action: () => alert("Unlock page action"),
-                    disabled: true,
-                  },
-                ]}
-              />
-              <button disabled onClick={() => alert("Move action")}>
-                Move
-              </button>
-              <Dropdown
-                id="content-entry-publish"
-                disabled={selectedPages?.length === 0}
-                label="Publish"
-                options={[
-                  {
-                    id: "publish-left-navigation",
-                    label: "Publish left navigation",
-                    action: () => alert("Publish left navigation action"),
-                    disabled: true,
-                  },
-                  {
-                    id: "publish-selected",
-                    label: "Publish selected",
-                    action: () => alert("Publish selected action"),
-                    disabled: true,
-                  },
-                  {
-                    id: "publish-selected-with-children",
-                    label: "Publish selected with children",
-                    action: () =>
-                      alert("Publish selected with children action"),
-                    disabled: true,
-                  },
-                  {
-                    id: "unpublish-selected",
-                    label: "Unpublish selected",
-                    action: () => alert("Unpublish selected action"),
-                    disabled: true,
-                  },
-                ]}
-              />
-              <Dropdown
-                id="content-entry-tag"
-                label="Tag"
-                disabled={selectedPages?.length === 0}
-                options={[
-                  {
-                    id: "bulk-tag-selected",
-                    label: "Bulk tag selected",
-                    action: () => alert("Bulk tag selected action"),
-                    disabled: true,
-                  },
-                  {
-                    id: "bulk-tag-metadata",
-                    label:
-                      "Bulk tag metadata and terms to selected and their children",
-                    action: () => alert("Bulk tag metadata action"),
-                    disabled: true,
-                  },
-                ]}
-              />
-              <button
-                onClick={() => setModalDeletePageOpen(true)}
-                disabled={selectedPages.length !== 1}
-              >
-                Delete
-              </button>
-            </PageControlToolbar>
+            <PageControlToolbar
+              selectedPages={selectedPages}
+              setModalClonePageOpen={setModalClonePageOpen}
+              setModalCreatePageOpen={setModalCreatePageOpen}
+              setModalDeletePageOpen={setModalDeletePageOpen}
+            />
             <PageList
               isError={isError}
               pages={pages}
@@ -586,6 +476,7 @@ function ContentEntry() {
             onReady={(editor) => {
               // You can store the "editor" and use when it is needed.
               console.log("Editor is ready to use!", editor);
+              setEditor(editor);
 
               if (process.env.NODE_ENV === "development") {
                 CKEditorInspector.attach(editor);
