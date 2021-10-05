@@ -56,57 +56,53 @@ function ComponentDetails({
         <LoadSpinner />
       ) : (
         <>
-          {componentTitle && (
-            <div className="component-field">
-              <label htmlFor="component-title">Title: </label>
-              <TextInput
-                id="component-title"
-                value={componentTitle}
-                onChange={(e) => setComponentTitle(e.target.value)}
+          {componentId && componentIntro && componentTitle && (
+            <>
+              <div className="component-field">
+                <label htmlFor="component-title">Title: </label>
+                <TextInput
+                  id="component-title"
+                  value={componentTitle}
+                  onChange={(e) => setComponentTitle(e.target.value)}
+                />
+              </div>
+              <div className="component-field">
+                <span id="component-id">
+                  <strong>ID:</strong> {componentId}
+                </span>
+              </div>
+              <CKEditor
+                id="editor-contact-us"
+                editor={ClassicEditor}
+                config={{
+                  plugins: [Bold, Italic, Link, Paragraph],
+                  toolbar: {
+                    items: ["bold", "italic", "link"],
+                  },
+                  language: "en",
+                }}
+                data={componentIntro}
+                onReady={(editor) => {
+                  console.log("Component editor ready.", editor);
+                }}
+                onChange={(event, editor) => {
+                  const intro = editor.getData();
+                  console.log({ event, editor, intro });
+                  setComponentIntro(intro);
+                }}
+                onBlur={(event, editor) => {
+                  console.log("Blur.", editor);
+                }}
+                onFocus={(event, editor) => {
+                  console.log("Focus.", editor);
+                }}
               />
-            </div>
-          )}
-          {componentTitle && (
-            <div className="component-field">
-              <span id="component-id">
-                <strong>ID:</strong> {componentId}
-              </span>
-            </div>
-          )}
-          {componentIntro && (
-            <CKEditor
-              id="editor-contact-us"
-              editor={ClassicEditor}
-              config={{
-                plugins: [Bold, Italic, Link, Paragraph],
-                toolbar: {
-                  items: ["bold", "italic", "link"],
-                },
-                language: "en",
-              }}
-              data={componentIntro}
-              onReady={(editor) => {
-                console.log("Component editor ready.", editor);
-              }}
-              onChange={(event, editor) => {
-                const intro = editor.getData();
-                console.log({ event, editor, intro });
-                setComponentIntro(intro);
-              }}
-              onBlur={(event, editor) => {
-                console.log("Blur.", editor);
-              }}
-              onFocus={(event, editor) => {
-                console.log("Focus.", editor);
-              }}
-            />
-          )}
-          {componentId && (
-            <Controls>
-              <Button onClick={() => handleSave(componentId)}>
-                {isSaving ? "Saving" : "Save"}
-              </Button>
-            </Controls>
+              <Controls>
+                <Button onClick={() => handleSave(componentId)}>
+                  {isSaving ? "Saving" : "Save"}
+                </Button>
+              </Controls>
+            </>
           )}
           {isErrorSaving && (
             <p className="error">Could not save component changes.</p>
