@@ -49,6 +49,8 @@ function Components() {
   const [componentIntro, setComponentIntro] = useState("");
   const [componentTitleOriginal, setComponentTitleOriginal] = useState("");
   const [componentIntroOriginal, setComponentIntroOriginal] = useState("");
+  const [contactItems, setContactItems] = useState([]);
+  const [contactItemsOriginal, setContactItemsOriginal] = useState([]);
 
   // Meta
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
@@ -72,7 +74,7 @@ function Components() {
           newTypes[index] = {
             ...type,
             label: type?.display_name,
-            value: type?.name,
+            value: type?.id,
           };
         });
 
