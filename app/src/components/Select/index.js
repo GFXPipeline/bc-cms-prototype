@@ -18,7 +18,7 @@ function Select({ id, name, options, value, onChange, disabled, ...props }) {
       id={id}
       name={name}
       disabled={disabled}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={onChange ? (e) => onChange(e.target.value) : null}
       value={value}
       {...props}
     >
