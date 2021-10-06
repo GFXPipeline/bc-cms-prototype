@@ -12,7 +12,7 @@ componentRouter.get("/:id", (req, res) => {
   console.log(`GET /api/component/${req.params.id}`);
 
   knex("components")
-    .join("component_types", "component_types.id", "components.type")
+    .join("component_types", "component_types.id", "components.type_id")
     .select(
       "components.*",
       "component_types.name",

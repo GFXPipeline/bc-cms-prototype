@@ -5,7 +5,7 @@ exports.up = function (knex) {
       .defaultTo(knex.raw(`gen_random_uuid()`)) // Postgres built-in UUID v4 generator
       .notNullable()
       .primary();
-    table.uuid("type").references("id").inTable("component_types");
+    table.uuid("type_id").references("id").inTable("component_types");
     table.string("title");
     table.text("intro");
     table.boolean("is_marked_for_deletion").defaultTo(false);
