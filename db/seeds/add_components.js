@@ -7,7 +7,7 @@ exports.seed = function (knex) {
       return knex("components").insert([
         {
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Generic contact information",
+          title: "Branch contact information",
           intro: "<p>Add <i>introductory</i> text here if applicable.</p>",
           fields: [
             {

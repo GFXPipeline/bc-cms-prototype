@@ -19,7 +19,7 @@ function Select({ id, name, options, value, onChange, disabled, ...props }) {
       name={name}
       disabled={disabled}
       onChange={onChange ? (e) => onChange(e.target.value) : null}
-      value={value}
+      value={value || ""}
       {...props}
     >
       {Array.isArray(options) &&
