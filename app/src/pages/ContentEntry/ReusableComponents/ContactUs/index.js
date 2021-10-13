@@ -37,7 +37,7 @@ function ContactUsInput({
     setIsError(false);
 
     componentService
-      .getComponentsByType("d632b0f5-99b8-4a73-a1ac-02f6117388db")
+      .getComponentsByType("d632b0f5-99b8-4a73-a1ac-02f6117388db") // Contact information GUID
       .then((options) => {
         const newOptions = [];
 

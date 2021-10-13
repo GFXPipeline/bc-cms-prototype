@@ -12,6 +12,9 @@ import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Link from "@ckeditor/ckeditor5-link/src/link";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 
+// Page components
+import ContactMethods from "./ContactMethods";
+
 const StyledDiv = styled.div`
   background-color: white;
   flex-grow: 1;
@@ -46,6 +49,7 @@ function ComponentDetails({
   componentId,
   componentIntro,
   componentTitle,
+  contactItems,
   handleSave,
   isCancelling,
   isErrorComponent,
@@ -54,6 +58,7 @@ function ComponentDetails({
   isSaving,
   setComponentIntro,
   setComponentTitle,
+  setContactItems,
   setModalCancelEditsOpen,
 }) {
   return (
@@ -103,7 +108,10 @@ function ComponentDetails({
                   console.log("Focus.", editor);
                 }}
               />
-
+              <ContactMethods
+                contactItems={contactItems}
+                setContactItems={setContactItems}
+              />
               <Controls>
                 <Button
                   onClick={() => handleSave(componentId)}

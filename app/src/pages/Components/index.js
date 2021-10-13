@@ -127,6 +127,8 @@ function Components() {
         setComponentTitleOriginal(component?.title);
         setComponentIntro(component?.intro);
         setComponentIntroOriginal(component?.intro);
+        setContactItems(component?.fields);
+        setContactItemsOriginal(component?.fields);
       })
       .catch((error) => {
         setIsLoadingComponent(false);
@@ -138,10 +140,11 @@ function Components() {
     setIsCancelling(true);
     setComponentTitle(componentTitleOriginal);
     setComponentIntro(componentIntroOriginal);
+    setContactItems(contactItemsOriginal);
     setIsCancelling(false);
   }
 
-  function handleSave(id) {
+  function handleSave() {
     setIsSaving(true);
 
     componentService
@@ -149,6 +152,7 @@ function Components() {
         id: componentId,
         intro: componentIntro,
         title: componentTitle,
+        fields: contactItems,
       })
       .then((success) => {
         setIsSaving(false);
@@ -231,6 +235,7 @@ function Components() {
           componentId={componentId}
           componentIntro={componentIntro}
           componentTitle={componentTitle}
+          contactItems={contactItems}
           handleCancel={handleCancel}
           handleSave={handleSave}
           isCancelling={isCancelling}
@@ -240,6 +245,7 @@ function Components() {
           isSaving={isSaving}
           setComponentIntro={setComponentIntro}
           setComponentTitle={setComponentTitle}
+          setContactItems={setContactItems}
           setModalCancelEditsOpen={setModalCancelEditsOpen}
         />
       </ContentContainer>
