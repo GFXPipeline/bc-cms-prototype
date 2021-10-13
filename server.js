@@ -23,6 +23,8 @@ if (ENV === "development") {
 
 // API routes
 const {
+  contactFieldOptionsRouter,
+  contactFieldTypesRouter,
   componentRouter,
   componentsRouter,
   componentTypesRouter,
@@ -31,6 +33,8 @@ const {
   userRouter,
   usersRouter,
 } = require("./routes");
+app.use("/api/contact-field-options", contactFieldOptionsRouter);
+app.use("/api/contact-field-types", contactFieldTypesRouter);
 app.use("/api/component", componentRouter);
 app.use("/api/components", componentsRouter);
 app.use("/api/component-types", componentTypesRouter);
