@@ -112,10 +112,54 @@ async function getComponentTypeList() {
   }
 }
 
+// GET request to /api/contact-field-options to get a list of all available contact fields
+async function getContactFieldOptions() {
+  console.log("Inside componentService.getContactFieldOptions");
+  try {
+    const requestOptions = {
+      headers: authHeader(),
+      username: authenticationService.currentUserValue.username,
+    };
+    const response = await axios.get("/api/contact-field-options", requestOptions);
+
+    console.log(
+      "Response in componentService getContactFieldOptions: ",
+      response
+    );
+    return response?.data;
+  } catch (error) {
+    console.log("Error in componentService getContactFieldOptions: ", error);
+    throw error;
+  }
+}
+
+// GET request to /api/contact-field-types to get a list of available contact type fields
+async function getContactFieldTypes() {
+  console.log("Inside componentService.getContactFieldTypes");
+  try {
+    const requestOptions = {
+      headers: authHeader(),
+      username: authenticationService.currentUserValue.username,
+    };
+    const response = await axios.get("/api/contact-field-types", requestOptions);
+
+    console.log(
+      "Response in componentService getContactFieldTypes: ",
+      response
+    );
+    return response?.data;
+  } catch (error) {
+    console.log("Error in componentService getContactFieldTypes: ", error);
+    throw error;
+  }
+}
+
 export const componentService = {
   read,
   update,
   getComponentList,
   getComponentsByType,
   getComponentTypeList,
+  getContactFieldOptions,
+  getContactFieldTypes,
 };
