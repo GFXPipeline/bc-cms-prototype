@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { componentService } from "../../_services/component.service";
 import Button from "../Button";
+import ButtonLink from "../ButtonLink";
 import Icon from "../Icon";
 
 const StyledDiv = styled.div`
@@ -25,6 +26,12 @@ const StyledDiv = styled.div`
         width: 14px;
       }
     }
+  }
+
+  div.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 `;
 
@@ -115,7 +122,10 @@ function ContactUsBox({ id }) {
         </ul>
       )}
       {isError && <p>Could not fetch component data.</p>}
-      <Button onClick={() => reloadComponentDetails()}>Refresh data</Button>
+      <div className="controls">
+        <Button onClick={() => reloadComponentDetails()}>Refresh data</Button>
+        <ButtonLink>Go to master copy</ButtonLink>
+      </div>
     </StyledDiv>
   );
 }
