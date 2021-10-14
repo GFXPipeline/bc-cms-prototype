@@ -79,7 +79,7 @@ function ContactUsInput({
           disabled={isLoading}
           onChange={setContactUsId}
           value={contactUsId}
-          options={[{ label: "Please select one" }, ...options]}
+          options={[{ label: "Please select one", value: "" }, ...options]}
         />
         {isError && (
           <p>
