@@ -44,12 +44,18 @@ const ContactFieldSelector = styled.div`
 `;
 
 const ContactFieldList = styled.div`
-  span.prefix {
-    font-weight: 700;
-  }
+  div.contact-field {
+    display: flex;
+    flex-direction: row;
 
-  span.content {
-    margin-left: 8px;
+    input[type="text"] {
+      margin-right: 8px;
+    }
+
+    button {
+      padding: 0;
+      width: 44px;
+    }
   }
 `;
 
@@ -98,8 +104,23 @@ function ContactMethods({ contactItems, setContactItems }) {
   const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? "lightgreen" : "lightgrey",
     padding: "8px",
-    width: 400,
+    width: "100%",
   });
+
+  function addItem() {
+    const newItem = {
+      option_id: selectedOption,
+      prefix: "",
+      data: "",
+    };
+    setContactItems([...contactItems, newItem]);
+  }
+
+  function removeItem(index) {
+    const newContactItems = [...contactItems];
+    newContactItems.splice(index, 1);
+    setContactItems(newContactItems);
+  }
 
   function updateContactItems({ index, field, value }) {
     const newContactItems = [...contactItems];
@@ -185,7 +206,7 @@ function ContactMethods({ contactItems, setContactItems }) {
             disabled={!selectedType}
           />
         </div>
-        <Button aria-label="Add" primary>
+        <Button aria-label="Add" onClick={addItem} primary>
           <Icon id="fa-plus.svg" />
         </Button>
       </ContactFieldSelector>
@@ -213,8 +234,8 @@ function ContactMethods({ contactItems, setContactItems }) {
                           snapshot.isDragging,
                           provided.draggableProps.style
                         )}
+                        className="contact-field"
                       >
-                        {/* <span className="prefix">{item?.label_prefix}</span> */}
                         <input
                           type="text"
                           value={item?.label_prefix}
@@ -226,7 +247,6 @@ function ContactMethods({ contactItems, setContactItems }) {
                             });
                           }}
                         />
-                        {/* <span className="content">{item?.data}</span> */}
                         <input
                           type="text"
                           value={item?.data}
@@ -238,6 +258,9 @@ function ContactMethods({ contactItems, setContactItems }) {
                             });
                           }}
                         />
+                        <Button onClick={() => removeItem(index)} primary>
+                          <Icon id="fa-trash.svg" />
+                        </Button>
                       </div>
                     )}
                   </Draggable>
