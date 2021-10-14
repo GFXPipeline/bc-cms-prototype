@@ -259,56 +259,62 @@ function ContactMethods({ contactItems, setContactItems }) {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                {contactItems.map((item, index) => (
-                  <Draggable
-                    key={`contact-field-${index}`}
-                    draggableId={`contact-field-${index}`}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                        className="contact-field"
-                      >
-                        <Icon id="fa-grip-vertical.svg" className="draggable" />
-                        {getItemTypeText(item?.option_id)}
-                        <input
-                          type="text"
-                          className="prefix"
-                          value={item?.label_prefix}
-                          onChange={(e) => {
-                            updateContactItems({
-                              index: index,
-                              field: "label_prefix",
-                              value: e.target.value,
-                            });
-                          }}
-                        />
-                        <input
-                          type="text"
-                          className="value"
-                          value={item?.data}
-                          onChange={(e) => {
-                            updateContactItems({
-                              index: index,
-                              field: "data",
-                              value: e.target.value,
-                            });
-                          }}
-                        />
-                        <Button onClick={() => removeItem(index)} primary>
-                          <Icon id="fa-trash.svg" />
-                        </Button>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                {contactItems &&
+                  Array.isArray(contactItems) &&
+                  contactItems.length > 0 &&
+                  contactItems.map((item, index) => (
+                    <Draggable
+                      key={`contact-field-${index}`}
+                      draggableId={`contact-field-${index}`}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                          className="contact-field"
+                        >
+                          <Icon
+                            id="fa-grip-vertical.svg"
+                            className="draggable"
+                          />
+                          {getItemTypeText(item?.option_id)}
+                          <input
+                            type="text"
+                            className="prefix"
+                            value={item?.label_prefix}
+                            onChange={(e) => {
+                              updateContactItems({
+                                index: index,
+                                field: "label_prefix",
+                                value: e.target.value,
+                              });
+                            }}
+                          />
+                          <input
+                            type="text"
+                            className="value"
+                            value={item?.data}
+                            onChange={(e) => {
+                              updateContactItems({
+                                index: index,
+                                field: "data",
+                                value: e.target.value,
+                              });
+                            }}
+                          />
+                          <Button onClick={() => removeItem(index)} primary>
+                            <Icon id="fa-trash.svg" />
+                          </Button>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
                 {provided.placeholder}
               </div>
             )}
