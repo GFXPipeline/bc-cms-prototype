@@ -132,7 +132,7 @@ function ContactMethods({ contactItems, setContactItems }) {
   function addItem() {
     const newItem = {
       option_id: selectedOption,
-      prefix: "",
+      label_prefix: "",
       data: "",
     };
     setContactItems([...contactItems, newItem]);
