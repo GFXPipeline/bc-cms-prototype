@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import { componentService } from "../../_services/component.service";
 
 // Page components
-import ComponentDetails from "./ComponentsDetails";
+import ComponentDetails from "./ComponentDetails";
 import ComponentsList from "./ComponentsList";
 
 // Page actions

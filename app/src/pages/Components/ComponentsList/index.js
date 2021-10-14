@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import ButtonLink from "../../components/ButtonLink";
-import LoadSpinner from "../../components/LoadSpinner";
-import Select from "../../components/Select";
+import ButtonLink from "../../../components/ButtonLink";
+import LoadSpinner from "../../../components/LoadSpinner";
+import Select from "../../../components/Select";
 
 const StyledDiv = styled.div`
   background-color: white;
