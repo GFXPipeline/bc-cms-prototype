@@ -47,12 +47,28 @@ const ContactFieldList = styled.div`
   div.contact-field {
     display: flex;
     flex-direction: row;
+    align-items: center;
+
+    p.type-and-option {
+      margin: 0;
+      width: 100px;
+    }
 
     input[type="text"] {
+      height: 44px;
       margin-right: 8px;
+
+      &.prefix {
+        width: 150px;
+      }
+
+      &.value {
+        flex-grow: 1;
+      }
     }
 
     button {
+      height: 44px;
       padding: 0;
       width: 44px;
     }
@@ -120,6 +136,24 @@ function ContactMethods({ contactItems, setContactItems }) {
     const newContactItems = [...contactItems];
     newContactItems.splice(index, 1);
     setContactItems(newContactItems);
+  }
+
+  function getItemTypeText(optionId) {
+    const option = fieldOptions.find((option) => optionId === option?.id);
+    const type = fieldTypes.find((type) => option?.type_id === type?.id);
+
+    if (type?.name === "website" || type?.name === "email") {
+      return (
+        <p className="type-and-option">
+          <strong>{type?.display_name}:</strong>
+        </p>
+      );
+    }
+    return (
+      <p className="type-and-option">
+        <strong>{type?.display_name}:</strong> {option?.display_name}
+      </p>
+    );
   }
 
   function updateContactItems({ index, field, value }) {
@@ -236,8 +270,10 @@ function ContactMethods({ contactItems, setContactItems }) {
                         )}
                         className="contact-field"
                       >
+                        {getItemTypeText(item?.option_id)}
                         <input
                           type="text"
+                          className="prefix"
                           value={item?.label_prefix}
                           onChange={(e) => {
                             updateContactItems({
@@ -249,6 +285,7 @@ function ContactMethods({ contactItems, setContactItems }) {
                         />
                         <input
                           type="text"
+                          className="value"
                           value={item?.data}
                           onChange={(e) => {
                             updateContactItems({
