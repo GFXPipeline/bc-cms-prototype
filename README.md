@@ -3,6 +3,7 @@
 A React, Node.js/Express, and PostgreSQL application. The production environment is assumed to be Heroku.
 
 Project file structure:
+
 ```
 .
 ├── README.md
@@ -36,7 +37,6 @@ Using the template in `./.env.sample`, create a `./.env` file to hold environmen
 Run in development mode with: `npm run start:dev`
 
 Create a build (with artifacts placed in `./app/build`) by running: `npm run build`
-
 
 ## Database setup for local development
 
@@ -74,12 +74,11 @@ CREATE DATABASE cms;
 select gen_random_uuid()
 ```
 
-If it's not available, add the pgcrypto dependency:
+If it's not available, add the pgcrypto dependency in the database as a superuser.
 
 ```sql
 CREATE EXTENSION pgcrypto;
 ```
-
 
 ## Initial data seeding
 
@@ -130,7 +129,6 @@ Create a new seed file with the slug `add_hello_world_page` in the file name:
 ```sh
 knex seed:make add_hello_world_page
 ```
-
 
 ## Heroku database usage
 
