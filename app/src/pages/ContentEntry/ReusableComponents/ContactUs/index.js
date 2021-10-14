@@ -78,6 +78,7 @@ function ContactUsInput({
           name="contact-us-select"
           disabled={isLoading}
           onChange={setContactUsId}
+          value={contactUsId}
           options={[{ label: "Please select one" }, ...options]}
         />
         {isError && (
@@ -86,7 +87,6 @@ function ContactUsInput({
             <ButtonLink onClick={getOptionsList}>Refresh</ButtonLink>.
           </p>
         )}
-        {contactUsId && <p>Selected: {contactUsId}</p>}
         <Button onClick={onClick} disabled={!contactUsId}>
           Add to page
         </Button>
