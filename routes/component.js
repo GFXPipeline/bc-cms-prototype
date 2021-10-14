@@ -12,7 +12,7 @@ componentRouter.get("/:id", (req, res) => {
   console.log(`GET /api/component/${req.params.id}`);
 
   knex("components")
-    .join("component_types", "component_types.id", "components.type")
+    .join("component_types", "component_types.id", "components.type_id")
     .select(
       "components.*",
       "component_types.name",
@@ -78,6 +78,7 @@ componentRouter.put("/:id", (req, res) => {
           .update({
             intro: req?.body?.intro,
             title: req?.body?.title,
+            fields: req?.body?.fields,
             last_modified_by_user: userId,
             time_last_updated: knex.fn.now(),
           })

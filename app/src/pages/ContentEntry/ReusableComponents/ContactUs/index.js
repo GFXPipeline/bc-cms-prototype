@@ -37,7 +37,7 @@ function ContactUsInput({
     setIsError(false);
 
     componentService
-      .getComponentsByType("d632b0f5-99b8-4a73-a1ac-02f6117388db")
+      .getComponentsByType("d632b0f5-99b8-4a73-a1ac-02f6117388db") // Contact information GUID
       .then((options) => {
         const newOptions = [];
 
@@ -78,7 +78,8 @@ function ContactUsInput({
           name="contact-us-select"
           disabled={isLoading}
           onChange={setContactUsId}
-          options={[{ label: "Please select one" }, ...options]}
+          value={contactUsId}
+          options={[{ label: "Please select one", value: "" }, ...options]}
         />
         {isError && (
           <p>
@@ -86,7 +87,6 @@ function ContactUsInput({
             <ButtonLink onClick={getOptionsList}>Refresh</ButtonLink>.
           </p>
         )}
-        {contactUsId && <p>Selected: {contactUsId}</p>}
         <Button onClick={onClick} disabled={!contactUsId}>
           Add to page
         </Button>

@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import Button from "../../components/Button";
-import ButtonLink from "../../components/ButtonLink";
 import Header from "../../components/Header";
-import LoadSpinner from "../../components/LoadSpinner";
-import Select from "../../components/Select";
-import TextInput from "../../components/TextInput";
-
-// CKEditor components
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
-import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
-import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
-import Link from "@ckeditor/ckeditor5-link/src/link";
-import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
-
 import { componentService } from "../../_services/component.service";
+
+// Page components
+import ComponentDetails from "./ComponentsDetails";
+import ComponentsList from "./ComponentsList";
+
+// Page actions
+import CancelEdits from "./_actions/CancelEdits";
 
 const Page = styled.div`
   height: 100vh;
@@ -42,45 +35,6 @@ const ContentContainer = styled.div`
   }
 `;
 
-const ComponentsList = styled.div`
-  background-color: white;
-  margin: 16px;
-  min-width: 300px;
-
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-`;
-
-const ComponentDetails = styled.div`
-  background-color: white;
-  flex-grow: 1;
-  margin: 16px;
-  min-width: 300px;
-
-  div.component-field {
-    margin: 8px 0;
-
-    label {
-      display: block;
-      font-size: 16px;
-      font-weight: 700;
-    }
-    input {
-      font-size: 18px;
-      width: 450px;
-    }
-  }
-`;
-
-const Controls = styled.div`
-  background-color: white;
-  margin-top: 16px;
-`;
-
 function Components() {
   // Component types
   const [types, setTypes] = useState([]);
@@ -93,16 +47,22 @@ function Components() {
   const [componentId, setComponentId] = useState("");
   const [componentTitle, setComponentTitle] = useState("");
   const [componentIntro, setComponentIntro] = useState("");
+  const [componentTitleOriginal, setComponentTitleOriginal] = useState("");
+  const [componentIntroOriginal, setComponentIntroOriginal] = useState("");
+  const [contactItems, setContactItems] = useState([]);
+  const [contactItemsOriginal, setContactItemsOriginal] = useState([]);
 
   // Meta
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [isErrorTypes, setIsErrorTypes] = useState(false);
   const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
-  const [isErrorComponents, setIsErrorComponents] = useState(false);
+  const [isErrorComponentsList, setIsErrorComponentsList] = useState(false);
   const [isLoadingComponent, setIsLoadingComponent] = useState(false);
   const [isErrorComponent, setIsErrorComponent] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isErrorSaving, setIsErrorSaving] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
   function getComponentTypes() {
     componentService
@@ -114,7 +74,7 @@ function Components() {
           newTypes[index] = {
             ...type,
             label: type?.display_name,
-            value: type?.name,
+            value: type?.id,
           };
         });
 
@@ -128,17 +88,16 @@ function Components() {
       });
   }
 
-  function getComponents() {
+  function reloadComponentsList() {
     if (selectedType === "all") {
       componentService
         .getComponentList()
         .then((components) => {
-          console.log("components: ", components);
           setComponents(components);
           setIsLoadingComponentsList(false);
         })
         .catch((error) => {
-          setIsErrorComponents(true);
+          setIsErrorComponentsList(true);
           setIsLoadingComponentsList(false);
           throw error;
         });
@@ -151,7 +110,7 @@ function Components() {
         })
         .catch((error) => {
           setIsLoadingComponentsList(false);
-          setIsErrorComponents(true);
+          setIsErrorComponentsList(true);
           throw error;
         });
     }
@@ -165,7 +124,11 @@ function Components() {
       .then((component) => {
         setIsLoadingComponent(false);
         setComponentTitle(component?.title);
+        setComponentTitleOriginal(component?.title);
         setComponentIntro(component?.intro);
+        setComponentIntroOriginal(component?.intro);
+        setContactItems(component?.fields);
+        setContactItemsOriginal(component?.fields);
       })
       .catch((error) => {
         setIsLoadingComponent(false);
@@ -173,7 +136,15 @@ function Components() {
       });
   }
 
-  function handleSave(id) {
+  function handleCancel() {
+    setIsCancelling(true);
+    setComponentTitle(componentTitleOriginal);
+    setComponentIntro(componentIntroOriginal);
+    setContactItems(contactItemsOriginal);
+    setIsCancelling(false);
+  }
+
+  function handleSave() {
     setIsSaving(true);
 
     componentService
@@ -181,10 +152,11 @@ function Components() {
         id: componentId,
         intro: componentIntro,
         title: componentTitle,
+        fields: contactItems,
       })
       .then((success) => {
         setIsSaving(false);
-        getComponents();
+        reloadComponentsList();
       })
       .catch((error) => {
         setIsErrorSaving(true);
@@ -204,8 +176,36 @@ function Components() {
 
   // Populate components list
   useEffect(() => {
+    function getComponentsList() {
+      if (selectedType === "all") {
+        componentService
+          .getComponentList()
+          .then((components) => {
+            setComponents(components);
+            setIsLoadingComponentsList(false);
+          })
+          .catch((error) => {
+            setIsErrorComponentsList(true);
+            setIsLoadingComponentsList(false);
+            throw error;
+          });
+      } else {
+        componentService
+          .getComponentsByType(selectedType)
+          .then((components) => {
+            setIsLoadingComponentsList(false);
+            setComponents(components);
+          })
+          .catch((error) => {
+            setIsLoadingComponentsList(false);
+            setIsErrorComponentsList(true);
+            throw error;
+          });
+      }
+    }
+
     if (selectedType) {
-      getComponents();
+      getComponentsList();
     }
   }, [selectedType]);
 
@@ -220,131 +220,40 @@ function Components() {
     <Page>
       <Header />
       <ContentContainer>
-        <ComponentsList>
-          <h1>Component Library</h1>
-          <p>Reusable components for use across many pages.</p>
-
-          {/* Component types */}
-          {isLoadingTypes ? (
-            <LoadSpinner />
-          ) : (
-            <>
-              <label htmlFor="select-component-type">
-                Select a component type
-              </label>
-              <Select
-                id="select-component-type"
-                name="select-component-type"
-                onChange={handleSelectType}
-                value={selectedType}
-                options={[
-                  { label: " ", disabled: true },
-                  { id: "all", label: "All", value: "all" },
-                  ...types,
-                ]}
-              />
-            </>
-          )}
-          {isErrorTypes && (
-            <p className="error">Could not fetch component types list.</p>
-          )}
-
-          {/* Components */}
-          {isLoadingComponentsList ? (
-            <LoadSpinner />
-          ) : (
-            components &&
-            Array.isArray(components) &&
-            components.length > 0 && (
-              <>
-                <h2>Components</h2>
-                <ul>
-                  {components?.map((component, index) => {
-                    return (
-                      <li key={index}>
-                        <ButtonLink
-                          onClick={() => setComponentId(component?.id)}
-                        >
-                          {component?.title}
-                        </ButtonLink>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </>
-            )
-          )}
-          {isErrorComponents && (
-            <p className="error">Could not fetch components list.</p>
-          )}
-        </ComponentsList>
-        <ComponentDetails>
-          {isLoadingComponent ? (
-            <LoadSpinner />
-          ) : (
-            <>
-              {componentTitle && (
-                <div className="component-field">
-                  <label htmlFor="component-title">Title: </label>
-                  <TextInput
-                    id="component-title"
-                    value={componentTitle}
-                    onChange={(e) => setComponentTitle(e.target.value)}
-                  />
-                </div>
-              )}
-              {componentTitle && (
-                <div className="component-field">
-                  <span id="component-id">
-                    <strong>ID:</strong> {componentId}
-                  </span>
-                </div>
-              )}
-              {componentIntro && (
-                <CKEditor
-                  id="editor-contact-us"
-                  editor={ClassicEditor}
-                  config={{
-                    plugins: [Bold, Italic, Link, Paragraph],
-                    toolbar: {
-                      items: ["bold", "italic", "link"],
-                    },
-                    language: "en",
-                  }}
-                  data={componentIntro}
-                  onReady={(editor) => {
-                    console.log("Component editor ready.", editor);
-                  }}
-                  onChange={(event, editor) => {
-                    const intro = editor.getData();
-                    console.log({ event, editor, intro });
-                    setComponentIntro(intro);
-                  }}
-                  onBlur={(event, editor) => {
-                    console.log("Blur.", editor);
-                  }}
-                  onFocus={(event, editor) => {
-                    console.log("Focus.", editor);
-                  }}
-                />
-              )}
-              {componentId && (
-                <Controls>
-                  <Button onClick={() => handleSave(componentId)}>
-                    {isSaving ? "Saving" : "Save"}
-                  </Button>
-                </Controls>
-              )}
-              {isErrorSaving && (
-                <p className="error">Could not save component changes.</p>
-              )}
-            </>
-          )}
-          {isErrorComponent && (
-            <p className="error">Could not fetch component details.</p>
-          )}
-        </ComponentDetails>
+        <ComponentsList
+          types={types}
+          components={components}
+          handleSelectType={handleSelectType}
+          isLoadingTypes={isLoadingTypes}
+          isErrorTypes={isErrorTypes}
+          isLoadingComponentsList={isLoadingComponentsList}
+          isErrorComponentsList={isErrorComponentsList}
+          selectedType={selectedType}
+          setComponentId={setComponentId}
+        />
+        <ComponentDetails
+          componentId={componentId}
+          componentIntro={componentIntro}
+          componentTitle={componentTitle}
+          contactItems={contactItems}
+          handleCancel={handleCancel}
+          handleSave={handleSave}
+          isCancelling={isCancelling}
+          isErrorComponent={isErrorComponent}
+          isErrorSaving={isErrorSaving}
+          isLoadingComponent={isLoadingComponent}
+          isSaving={isSaving}
+          setComponentIntro={setComponentIntro}
+          setComponentTitle={setComponentTitle}
+          setContactItems={setContactItems}
+          setModalCancelEditsOpen={setModalCancelEditsOpen}
+        />
       </ContentContainer>
+      <CancelEdits
+        isOpen={modalCancelEditsOpen}
+        setIsOpen={setModalCancelEditsOpen}
+        handleCancel={handleCancel}
+      />
     </Page>
   );
 }

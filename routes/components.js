@@ -12,7 +12,7 @@ componentsRouter.get("/", (req, res) => {
   console.log("GET /api/components");
 
   knex("components")
-    .join("component_types", "component_types.id", "components.type")
+    .join("component_types", "component_types.id", "components.type_id")
     .select(
       "components.id",
       "components.title",
@@ -34,14 +34,23 @@ componentsRouter.get("/type/:id", (req, res) => {
   console.log(`GET /api/components/type/${req?.params?.id}`);
 
   knex("components")
-    .join("component_types", "component_types.id", "components.type")
-    .select("components.id", "components.title", "component_types.name", "component_types.display_name")
+    .join("component_types", "component_types.id", "components.type_id")
+    .select(
+      "components.id",
+      "components.title",
+      "component_types.name",
+      "component_types.display_name"
+    )
+    .where("component_types.id", req?.params?.id)
     .then((results) => {
       console.log("results: ", results);
       res.status(200).json(results);
     })
     .catch((error) => {
-      console.log(`error in GET /api/components/type/${req?.params?.id} knex call: `, error);
+      console.log(
+        `error in GET /api/components/type/${req?.params?.id} knex call: `,
+        error
+      );
       res.status(401).send();
     });
 });
