@@ -49,6 +49,12 @@ const ContactFieldList = styled.div`
     flex-direction: row;
     align-items: center;
 
+    svg.draggable {
+      color: #d3d3d3;
+      height: 20px;
+      margin-right: 16px;
+    }
+
     p.type-and-option {
       margin: 0;
       width: 100px;
@@ -270,6 +276,7 @@ function ContactMethods({ contactItems, setContactItems }) {
                         )}
                         className="contact-field"
                       >
+                        <Icon id="fa-grip-vertical.svg" className="draggable" />
                         {getItemTypeText(item?.option_id)}
                         <input
                           type="text"
