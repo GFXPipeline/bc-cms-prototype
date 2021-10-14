@@ -16,6 +16,7 @@ import { ReactComponent as mapMarker } from "../assets/fa-map-marker.svg";
 import { ReactComponent as phone } from "../assets/fa-phone.svg";
 import { ReactComponent as plus } from "../assets/fa-plus.svg";
 import { ReactComponent as redo } from "../assets/fa-redo-solid.svg";
+import { ReactComponent as times } from "../assets/fa-times.svg";
 import { ReactComponent as trash } from "../assets/fa-trash.svg";
 import { ReactComponent as undo } from "../assets/fa-undo-solid.svg";
 
@@ -31,6 +32,7 @@ const svgIcons = {
   "fa-lock.svg": lock,
   "fa-map-marker.svg": mapMarker,
   "fa-plus.svg": plus,
+  "fa-times.svg": times,
   "fa-trash.svg": trash,
   "fa-undo-solid.svg": undo,
   "fa-redo-solid.svg": redo,
