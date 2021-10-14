@@ -36,6 +36,9 @@ const ContentContainer = styled.div`
 `;
 
 function Components() {
+  // Component search
+  const [search, setSearch] = useState("");
+
   // Component types
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
@@ -228,6 +231,8 @@ function Components() {
           isErrorTypes={isErrorTypes}
           isLoadingComponentsList={isLoadingComponentsList}
           isErrorComponentsList={isErrorComponentsList}
+          search={search}
+          setSearch={setSearch}
           selectedType={selectedType}
           setComponentId={setComponentId}
         />

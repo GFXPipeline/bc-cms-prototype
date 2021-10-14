@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ButtonLink from "../../../components/ButtonLink";
 import LoadSpinner from "../../../components/LoadSpinner";
+import SearchBar from "../../../components/SearchBar";
 import Select from "../../../components/Select";
 
 const StyledDiv = styled.div`
@@ -24,13 +25,18 @@ function ComponentsList({
   isErrorTypes,
   isLoadingComponentsList,
   isErrorComponentsList,
+  search,
+  setSearch,
   selectedType,
   setComponentId,
 }) {
   return (
     <StyledDiv>
-      <h1>Component Library</h1>
-      <p>Reusable components for use across many pages.</p>
+      {/* Component search */}
+      <label htmlFor="search-components">
+        Search components by title, status, type, or modified by
+      </label>
+      <SearchBar id="search-components" value={search} setValue={setSearch} />
 
       {/* Component types */}
       {isLoadingTypes ? (
