@@ -1,12 +1,17 @@
 import styled from "styled-components";
+
+// Global components
 import ButtonLink from "../../../components/ButtonLink";
 import LoadSpinner from "../../../components/LoadSpinner";
 import SearchBar from "../../../components/SearchBar";
 import Select from "../../../components/Select";
 
+// Page components
+import FilterMenu from "./FilterMenu";
+
 const StyledDiv = styled.div`
-  background-color: white;
-  margin: 16px;
+  background-color: #f2f2f2;
+  padding: 16px;
   width: 450px;
 
   label {
@@ -37,6 +42,8 @@ function ComponentsList({
         Search components by title, status, type, or modified by
       </label>
       <SearchBar id="search-components" value={search} setValue={setSearch} />
+
+      <FilterMenu />
 
       {/* Component types */}
       {isLoadingTypes ? (
