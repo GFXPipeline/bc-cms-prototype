@@ -7,6 +7,7 @@ import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
 import { ReactComponent as envelope } from "../assets/fa-envelope.svg";
 import { ReactComponent as eye } from "../assets/fa-eye.svg";
+import { ReactComponent as filter } from "../assets/fa-filter.svg";
 import { ReactComponent as gripVertical } from "../assets/fa-grip-vertical.svg";
 import { ReactComponent as info } from "../assets/noun-info.svg";
 import { ReactComponent as link } from "../assets/fa-link.svg";
@@ -25,6 +26,7 @@ const svgIcons = {
   "fa-copy.svg": copy,
   "fa-envelope.svg": envelope,
   "fa-eye.svg": eye,
+  "fa-filter.svg": filter,
   "fa-grip-vertical.svg": gripVertical,
   "fa-phone.svg": phone,
   "fa-link.svg": link,
