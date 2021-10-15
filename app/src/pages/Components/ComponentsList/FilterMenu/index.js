@@ -64,24 +64,36 @@ const StyledDiv = styled.div`
   }
 `;
 
-function FilterMenu() {
+function FilterMenu({ isShowAll, setIsShowAll }) {
+  function handleChange(e) {
+    const { value } = e.target;
+
+    if (value === "all-components") {
+      return setIsShowAll(true);
+    }
+
+    return setIsShowAll(false);
+  }
+
   return (
     <StyledDiv>
-      <div className="radio-group">
+      <div className={isShowAll ? "radio-group selected" : "radio-group"}>
         <input
           type="radio"
           id="all-components"
           name="components"
           value="all-components"
+          onChange={handleChange}
         />
         <label htmlFor="all-components">All</label>
       </div>
-      <div className="radio-group">
+      <div className={!isShowAll ? "radio-group selected" : "radio-group"}>
         <input
           type="radio"
           id="my-components"
           name="components"
           value="my-components"
+          onChange={handleChange}
         />
         <label htmlFor="my-components">My Components</label>
       </div>

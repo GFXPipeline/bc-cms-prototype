@@ -30,7 +30,9 @@ function ComponentsList({
   isErrorTypes,
   isLoadingComponentsList,
   isErrorComponentsList,
+  isShowAll,
   search,
+  setIsShowAll,
   setSearch,
   selectedType,
   setComponentId,
@@ -43,7 +45,7 @@ function ComponentsList({
       </label>
       <SearchBar id="search-components" value={search} setValue={setSearch} />
 
-      <FilterMenu />
+      <FilterMenu isShowAll={isShowAll} setIsShowAll={setIsShowAll} />
 
       {/* Component types */}
       {isLoadingTypes ? (
