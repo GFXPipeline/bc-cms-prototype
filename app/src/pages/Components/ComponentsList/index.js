@@ -8,14 +8,16 @@ import Select from "../../../components/Select";
 
 // Page components
 import FilterMenu from "./FilterMenu";
+import ComponentActions from "../ComponentActions";
 
 const StyledDiv = styled.div`
   background-color: #f2f2f2;
-  padding: 16px;
   width: 450px;
 `;
 
 const Search = styled.div`
+  margin: 16px;
+
   label {
     display: block;
     font-size: 13px;
@@ -50,6 +52,7 @@ function ComponentsList({
       </Search>
 
       <FilterMenu isShowAll={isShowAll} setIsShowAll={setIsShowAll} />
+      <ComponentActions />
 
       {/* Component types */}
       {isLoadingTypes ? (
