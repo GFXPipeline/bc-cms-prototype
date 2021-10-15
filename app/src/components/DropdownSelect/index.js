@@ -37,7 +37,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function Dropdown({ id, disabled = false, label, options }) {
+function DropdownSelect({ id, disabled = false, label, options }) {
   const ref = useRef();
   const [open, setOpen] = useState(false);
 
@@ -80,7 +80,7 @@ function Dropdown({ id, disabled = false, label, options }) {
           options.map((option, index) => {
             return (
               <button
-                key={`dropdown-${id}-option-${index}`}
+                key={`dropdown-select-${id}-option-${index}`}
                 className="option"
                 onClick={() => {
                   option?.action();
@@ -97,4 +97,4 @@ function Dropdown({ id, disabled = false, label, options }) {
   );
 }
 
-export default Dropdown;
+export default DropdownSelect;
