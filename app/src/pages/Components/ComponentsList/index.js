@@ -13,7 +13,9 @@ const StyledDiv = styled.div`
   background-color: #f2f2f2;
   padding: 16px;
   width: 450px;
+`;
 
+const Search = styled.div`
   label {
     display: block;
     font-size: 13px;
@@ -40,10 +42,12 @@ function ComponentsList({
   return (
     <StyledDiv>
       {/* Component search */}
-      <label htmlFor="search-components">
-        Search components by title, status, type, or modified by
-      </label>
-      <SearchBar id="search-components" value={search} setValue={setSearch} />
+      <Search>
+        <label htmlFor="search-components">
+          Search components by title, status, type, or modified by
+        </label>
+        <SearchBar id="search-components" value={search} setValue={setSearch} />
+      </Search>
 
       <FilterMenu isShowAll={isShowAll} setIsShowAll={setIsShowAll} />
 
