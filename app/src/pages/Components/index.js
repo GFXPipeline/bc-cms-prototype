@@ -181,7 +181,8 @@ function Components() {
   // Populate components list
   useEffect(() => {
     function getComponentsList() {
-      if (selectedType === "all") {
+      if (isShowAll) {
+        // Get all components
         componentService
           .getComponentList()
           .then((components) => {
@@ -194,8 +195,9 @@ function Components() {
             throw error;
           });
       } else {
+        // Get components owned by the user
         componentService
-          .getComponentsByType(selectedType)
+          .getComponentsByOwner()
           .then((components) => {
             setIsLoadingComponentsList(false);
             setComponents(components);
@@ -208,10 +210,8 @@ function Components() {
       }
     }
 
-    if (selectedType) {
-      getComponentsList();
-    }
-  }, [selectedType]);
+    getComponentsList();
+  }, [isShowAll]);
 
   // Get component details
   useEffect(() => {
@@ -234,9 +234,9 @@ function Components() {
           isErrorComponentsList={isErrorComponentsList}
           isShowAll={isShowAll}
           search={search}
-          setSearch={setSearch}
           selectedType={selectedType}
           setComponentId={setComponentId}
+          setSearch={setSearch}
           setIsShowAll={setIsShowAll}
         />
         <ComponentDetails

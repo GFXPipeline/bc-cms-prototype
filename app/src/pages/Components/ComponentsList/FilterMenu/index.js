@@ -105,17 +105,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function FilterMenu({ isShowAll, setIsShowAll }) {
-  function handleChange(e) {
-    const { value } = e.target;
-
-    if (value === "all-components") {
-      return setIsShowAll(true);
-    }
-
-    return setIsShowAll(false);
-  }
-
+function FilterMenu({ isShowAll, setIsShowAll, types }) {
   return (
     <StyledDiv>
       <div className={isShowAll ? "radio-group selected" : "radio-group"}>
@@ -124,7 +114,8 @@ function FilterMenu({ isShowAll, setIsShowAll }) {
           id="all-components"
           name="components"
           value="all-components"
-          onChange={handleChange}
+          checked={isShowAll}
+          onChange={() => setIsShowAll(true)}
         />
         <label htmlFor="all-components">All</label>
       </div>
@@ -134,7 +125,8 @@ function FilterMenu({ isShowAll, setIsShowAll }) {
           id="my-components"
           name="components"
           value="my-components"
-          onChange={handleChange}
+          checked={!isShowAll}
+          onChange={() => setIsShowAll(false)}
         />
         <label htmlFor="my-components">My Components</label>
       </div>
@@ -156,38 +148,20 @@ function FilterMenu({ isShowAll, setIsShowAll }) {
         </fieldset>
         <fieldset>
           <legend>Filter by type:</legend>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="accordion" />
-            <label htmlFor="accordion">Accordion</label>
-          </div>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="alert" />
-            <label htmlFor="alert">Alert</label>
-          </div>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="callout" />
-            <label htmlFor="callout">Callout</label>
-          </div>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="contact-us" />
-            <label htmlFor="contact-us">Contact Us</label>
-          </div>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="promo-box" />
-            <label htmlFor="promo-box">Promo Box</label>
-          </div>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="related-links" />
-            <label htmlFor="related-links">Related Links</label>
-          </div>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="table" />
-            <label htmlFor="table">Table</label>
-          </div>
-          <div className="checkbox-option">
-            <input type="checkbox" name="type" id="text" />
-            <label htmlFor="text">Text</label>
-          </div>
+          {types &&
+            Array.isArray(types) &&
+            types.length > 0 &&
+            types.map((type, index) => {
+              return (
+                <div
+                  className="checkbox-option"
+                  key={`checkbox-option-${index}`}
+                >
+                  <input type="checkbox" name="type" id={type?.id} />
+                  <label htmlFor={type?.id}>{type?.display_name}</label>
+                </div>
+              );
+            })}
         </fieldset>
       </DropdownPanel>
     </StyledDiv>
