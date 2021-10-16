@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import { componentService } from "../../_services/component.service";
 
 // Page components
-import ComponentDetails from "./ComponentsDetails";
+import ComponentDetails from "./ComponentDetails";
 import ComponentsList from "./ComponentsList";
 
 // Page actions
@@ -36,6 +36,10 @@ const ContentContainer = styled.div`
 `;
 
 function Components() {
+  // Component search
+  const [search, setSearch] = useState("");
+  const [isShowAll, setIsShowAll] = useState(true);
+
   // Component types
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
@@ -177,7 +181,8 @@ function Components() {
   // Populate components list
   useEffect(() => {
     function getComponentsList() {
-      if (selectedType === "all") {
+      if (isShowAll) {
+        // Get all components
         componentService
           .getComponentList()
           .then((components) => {
@@ -190,8 +195,9 @@ function Components() {
             throw error;
           });
       } else {
+        // Get components owned by the user
         componentService
-          .getComponentsByType(selectedType)
+          .getComponentsByOwner()
           .then((components) => {
             setIsLoadingComponentsList(false);
             setComponents(components);
@@ -204,10 +210,8 @@ function Components() {
       }
     }
 
-    if (selectedType) {
-      getComponentsList();
-    }
-  }, [selectedType]);
+    getComponentsList();
+  }, [isShowAll]);
 
   // Get component details
   useEffect(() => {
@@ -228,8 +232,12 @@ function Components() {
           isErrorTypes={isErrorTypes}
           isLoadingComponentsList={isLoadingComponentsList}
           isErrorComponentsList={isErrorComponentsList}
+          isShowAll={isShowAll}
+          search={search}
           selectedType={selectedType}
           setComponentId={setComponentId}
+          setSearch={setSearch}
+          setIsShowAll={setIsShowAll}
         />
         <ComponentDetails
           componentId={componentId}

@@ -132,7 +132,7 @@ function ContactMethods({ contactItems, setContactItems }) {
   function addItem() {
     const newItem = {
       option_id: selectedOption,
-      prefix: "",
+      label_prefix: "",
       data: "",
     };
     setContactItems([...contactItems, newItem]);
@@ -225,7 +225,7 @@ function ContactMethods({ contactItems, setContactItems }) {
           <Select
             id={"select-contact-field-type"}
             name={"select-contact-field-type"}
-            options={fieldTypes}
+            options={[{ value: "", label: "", disabled: true }, ...fieldTypes]}
             onChange={(newValue) => {
               setSelectedType(newValue);
               setSelectedOption(null);
@@ -238,15 +238,23 @@ function ContactMethods({ contactItems, setContactItems }) {
           <Select
             id={"select-contact-field-option"}
             name={"select-contact-field-option"}
-            options={fieldOptions.filter(
-              (option) => option?.type_id === selectedType
-            )}
+            options={[
+              { value: "", label: "", disabled: true },
+              ...fieldOptions.filter(
+                (option) => option?.type_id === selectedType
+              ),
+            ]}
             onChange={setSelectedOption}
             value={selectedOption}
             disabled={!selectedType}
           />
         </div>
-        <Button aria-label="Add" onClick={addItem} primary>
+        <Button
+          aria-label="Add"
+          onClick={addItem}
+          primary
+          disabled={!selectedOption}
+        >
           <Icon id="fa-plus.svg" />
         </Button>
       </ContactFieldSelector>

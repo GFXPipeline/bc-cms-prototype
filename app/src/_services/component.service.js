@@ -53,7 +53,7 @@ async function update({ id, intro, title, fields }) {
   }
 }
 
-// GET request to /api/components/all
+// GET request to /api/components
 async function getComponentList() {
   console.log("Inside componentService.getComponentList");
   try {
@@ -69,6 +69,11 @@ async function getComponentList() {
     console.log("Error in componentService getComponentList: ", error);
     throw error;
   }
+}
+
+function getComponentsByOwner() {
+  // TODO: Replace this with user-specific component request
+  return getComponentList();
 }
 
 // GET request to /api/components/type/:id to get all components of one type
@@ -191,6 +196,7 @@ export const componentService = {
   read,
   update,
   getComponentList,
+  getComponentsByOwner,
   getComponentsByType,
   getComponentTypeList,
   getContactFieldOptions,

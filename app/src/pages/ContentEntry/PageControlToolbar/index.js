@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Dropdown from "../../../components/Dropdown";
+import DropdownSelect from "../../../components/DropdownSelect";
 
 const StyledDiv = styled.div`
   border-top: 1px solid #707070;
@@ -36,7 +36,7 @@ function PageControlToolbar({
 }) {
   return (
     <StyledDiv>
-      <Dropdown
+      <DropdownSelect
         id="content-entry-create"
         label="Create"
         options={[
@@ -69,7 +69,7 @@ function PageControlToolbar({
           },
         ]}
       />
-      <Dropdown
+      <DropdownSelect
         id="content-entry-lock"
         disabled={selectedPages?.length === 0}
         label="Lock"
@@ -91,7 +91,7 @@ function PageControlToolbar({
       <button disabled onClick={() => alert("Move action")}>
         Move
       </button>
-      <Dropdown
+      <DropdownSelect
         id="content-entry-publish"
         disabled={selectedPages?.length === 0}
         label="Publish"
@@ -122,7 +122,7 @@ function PageControlToolbar({
           },
         ]}
       />
-      <Dropdown
+      <DropdownSelect
         id="content-entry-tag"
         label="Tag"
         disabled={selectedPages?.length === 0}

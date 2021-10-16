@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-import Button from "../../components/Button";
-import LoadSpinner from "../../components/LoadSpinner";
-import TextInput from "../../components/TextInput";
+import Button from "../../../components/Button";
+import LoadSpinner from "../../../components/LoadSpinner";
+import TextInput from "../../../components/TextInput";
 
 // CKEditor components
 import { CKEditor } from "@ckeditor/ckeditor5-react";
