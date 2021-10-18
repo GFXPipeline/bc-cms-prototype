@@ -1,5 +1,5 @@
 exports.up = function (knex) {
-  return knex.schema.createTable("deletions", (table) => {
+  return knex.schema.createTable("page_deletions", (table) => {
     table
       .uuid("id")
       .defaultTo(knex.raw(`gen_random_uuid()`)) // Postgres built-in UUID v4 generator
@@ -26,5 +26,5 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("deletions");
+  return knex.schema.dropTable("page_deletions");
 };

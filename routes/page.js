@@ -302,7 +302,7 @@ pageRouter.delete("/:id", (req, res) => {
           .then((success) => {
             // Page is marked for deletion in pages table,
             // create entry in deletions table.
-            knex("deletions")
+            knex("page_deletions")
               .insert({
                 page_id: req.params.id,
                 is_hard_delete:
