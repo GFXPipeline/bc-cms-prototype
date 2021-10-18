@@ -5,7 +5,7 @@ import { useTable } from "react-table";
 const StyledTable = styled.table`
   border-collapse: collapse;
   border-style: hidden;
-  font-size: 18px;
+  font-size: 16px;
   table-layout: auto;
   width: 100%;
 
@@ -14,6 +14,10 @@ const StyledTable = styled.table`
     th {
       border: 1px solid #707070;
       padding: 14px 16px;
+
+      button {
+        text-align: left;
+      }
     }
   }
 `;

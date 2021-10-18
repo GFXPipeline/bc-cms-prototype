@@ -4,14 +4,20 @@ import styled from "styled-components";
 import ButtonLink from "../../../components/ButtonLink";
 import LoadSpinner from "../../../components/LoadSpinner";
 import SearchBar from "../../../components/SearchBar";
-import Select from "../../../components/Select";
+import Table from "../../../components/Table";
 
 // Page components
 import FilterMenu from "./FilterMenu";
 import ComponentActions from "../ComponentActions";
 
+// Page functions
+import getComponentsTableData from "./getComponentsTableData";
+
 const StyledDiv = styled.div`
   background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   width: 450px;
 `;
 
@@ -35,21 +41,25 @@ const List = styled.ul`
   }
 `;
 
+const TableContainer = styled.div`
+  background-color: #f2f2f2;
+  flex-grow: 1;
+  overflow-x: auto;
+`;
+
 function ComponentsList({
   types,
   components,
-  handleSelectType,
-  isLoadingTypes,
-  isErrorTypes,
   isLoadingComponentsList,
   isErrorComponentsList,
   isShowAll,
   search,
   setIsShowAll,
   setSearch,
-  selectedType,
   setComponentId,
 }) {
+  const { columns, data } = getComponentsTableData(components, setComponentId);
+
   return (
     <StyledDiv>
       {/* Component search, filter, and actions */}
@@ -73,29 +83,13 @@ function ComponentsList({
         components &&
         Array.isArray(components) &&
         components.length > 0 && (
-          <List>
-            {components
-              ?.sort((a, b) => {
-                const titleA = a?.title.toUpperCase();
-                const titleB = b?.title.toUpperCase();
-                if (titleA < titleB) {
-                  return -1;
-                }
-                if (titleA > titleB) {
-                  return 1;
-                }
-                return 0;
-              })
-              ?.map((component, index) => {
-                return (
-                  <li key={index}>
-                    <ButtonLink onClick={() => setComponentId(component?.id)}>
-                      {component?.title}
-                    </ButtonLink>
-                  </li>
-                );
-              })}
-          </List>
+          <TableContainer>
+            <Table
+              id="components-table"
+              tableColumns={columns}
+              tableData={data}
+            />
+          </TableContainer>
         )
       )}
       {isErrorComponentsList && (
