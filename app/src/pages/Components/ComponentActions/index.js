@@ -26,16 +26,20 @@ const StyledDiv = styled.div`
     &:hover {
       text-decoration: underline;
     }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 `;
 
 function ComponentActions() {
   return (
     <StyledDiv>
-      <button>Create</button>
-      <button>Clone</button>
-      <button>Delete</button>
-      <button>Restore</button>
+      <button disabled>Create</button>
+      <button disabled>Clone</button>
+      <button disabled>Delete</button>
+      <button disabled>Restore</button>
     </StyledDiv>
   );
 }
