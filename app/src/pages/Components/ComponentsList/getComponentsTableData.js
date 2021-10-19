@@ -2,49 +2,32 @@ import ButtonLink from "../../../components/ButtonLink";
 
 // Prepares Components list data for display by the Table component
 function getComponentsTableData(components, setComponentId) {
-  const columns = [
-    {
-      Header: "Title",
-      accessor: "title",
-    },
-    {
-      Header: "Status",
-      accessor: "status",
-    },
-    {
-      Header: "Type",
-      accessor: "type",
-    },
-    {
-      Header: "Modified Date",
-      accessor: "modified_date",
-    },
-    {
-      Header: "Modified By",
-      accessor: "modified_by",
-    },
-  ];
-
   const data = [];
 
   components.forEach((component) => {
+    let date = "";
+
+    if (component?.time_last_updated) {
+      const componentDate = new Date(component?.time_last_updated);
+      const offset = componentDate.getTimezoneOffset();
+      const offsetDate = new Date(componentDate.getTime() - offset * 60 * 1000);
+      date = offsetDate.toISOString().split("T")[0];
+    }
+
     data.push({
       title: (
         <ButtonLink onClick={() => setComponentId(component?.id)}>
           {component?.title}
         </ButtonLink>
       ),
-      status: component?.status,
-      type: component?.display_name,
-      modified_date: component?.modified_date,
-      modified_by: component?.modified_by,
+      status: component?.is_published ? "Published" : "Unpublished",
+      type: component?.type_display_name,
+      modified_date: date.toString(),
+      modified_by: component?.last_modified_by_user,
     });
   });
 
-  return {
-    columns,
-    data,
-  };
+  return data;
 }
 
 export default getComponentsTableData;
