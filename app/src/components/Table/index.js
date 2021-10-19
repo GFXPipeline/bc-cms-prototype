@@ -6,14 +6,38 @@ const StyledTable = styled.table`
   border-collapse: collapse;
   border-style: hidden;
   font-size: 16px;
-  table-layout: auto;
+  table-layout: fixed;
   width: 100%;
+
+  colgroup {
+    col {
+      text-align: left;
+
+      &.title {
+        width: 280px;
+      }
+      &.status {
+        width: 120px;
+      }
+      &.type {
+        width: 170px;
+      }
+      &.date {
+        width: 110px;
+      }
+      &.user {
+        width: 140px;
+      }
+    }
+  }
 
   tr {
     td,
     th {
       border: 1px solid #707070;
-      padding: 14px 16px;
+      padding: 8px;
+      text-align: left;
+      width: 200px;
 
       button {
         text-align: left;
@@ -24,7 +48,7 @@ const StyledTable = styled.table`
 
 function Table({ id, tableColumns, tableData }) {
   const columns = useMemo(() => tableColumns, []);
-  const data = useMemo(() => tableData, []);
+  const data = useMemo(() => tableData, [tableData]);
   const tableInstance = useTable({ columns, data });
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -32,14 +56,28 @@ function Table({ id, tableColumns, tableData }) {
 
   return (
     <StyledTable id={id} {...getTableProps()}>
+      <colgroup>
+        <col span="1" className="title" />
+        <col span="1" className="status" />
+        <col span="1" className="type" />
+        <col span="1" className="date" />
+        <col span="1" className="user" />
+      </colgroup>
+
       {/* Table head */}
       <thead>
         {headerGroups.map((headerGroup) => {
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => {
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>;
-            })}
-          </tr>;
+          return (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => {
+                return (
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </th>
+                );
+              })}
+            </tr>
+          );
         })}
       </thead>
 
