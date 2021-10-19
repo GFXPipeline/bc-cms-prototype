@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 // Global components
-import ButtonLink from "../../../components/ButtonLink";
 import LoadSpinner from "../../../components/LoadSpinner";
 import SearchBar from "../../../components/SearchBar";
 import Table from "../../../components/Table";
@@ -58,8 +57,6 @@ function ComponentsList({
   setSearch,
   setComponentId,
 }) {
-  const { columns, data } = getComponentsTableData(components, setComponentId);
-
   return (
     <StyledDiv>
       {/* Component search, filter, and actions */}
@@ -86,8 +83,29 @@ function ComponentsList({
           <TableContainer>
             <Table
               id="components-table"
-              tableColumns={columns}
-              tableData={data}
+              tableColumns={[
+                {
+                  Header: "Title",
+                  accessor: "title",
+                },
+                {
+                  Header: "Status",
+                  accessor: "status",
+                },
+                {
+                  Header: "Type",
+                  accessor: "type",
+                },
+                {
+                  Header: "Modified Date",
+                  accessor: "modified_date",
+                },
+                {
+                  Header: "Modified By",
+                  accessor: "modified_by",
+                },
+              ]}
+              tableData={getComponentsTableData(components, setComponentId)}
             />
           </TableContainer>
         )
