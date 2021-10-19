@@ -93,7 +93,7 @@ function Components() {
   }
 
   function reloadComponentsList() {
-    if (selectedType === "all") {
+    if (isShowAll) {
       componentService
         .getComponentList()
         .then((components) => {
@@ -106,8 +106,9 @@ function Components() {
           throw error;
         });
     } else {
+      // Get components owned by the user
       componentService
-        .getComponentsByType(selectedType)
+        .getComponentsByOwner()
         .then((components) => {
           setIsLoadingComponentsList(false);
           setComponents(components);
