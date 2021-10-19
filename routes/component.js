@@ -15,12 +15,12 @@ componentRouter.get("/:id", (req, res) => {
     .join("component_types", "component_types.id", "components.type_id")
     .select(
       "components.*",
-      "component_types.name",
-      "component_types.display_name"
+      { type_name: "component_types.name" },
+      { type_display_name: "component_types.display_name" }
     )
     .where("components.id", req.params.id)
     .then((results) => {
-      console.log(`results in GET /api/component/${req.params.id}`);
+      console.log(`results in GET /api/component/${req.params.id}: `, results);
       res.status(200).json(results);
     })
     .catch((error) => {
