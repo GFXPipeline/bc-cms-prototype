@@ -6,6 +6,7 @@ import TextInput from "../../../components/TextInput";
 
 // CKEditor components
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import CKEditorInspector from "@ckeditor/ckeditor5-inspector";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
 import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
@@ -95,6 +96,10 @@ function ComponentDetails({
                 data={componentIntro}
                 onReady={(editor) => {
                   console.log("Component editor ready.", editor);
+
+                  if (process.env.NODE_ENV === "development") {
+                    CKEditorInspector.attach(editor);
+                  }
                 }}
                 onChange={(event, editor) => {
                   const intro = editor.getData();
