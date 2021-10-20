@@ -31,15 +31,6 @@ const Search = styled.div`
   }
 `;
 
-const List = styled.ul`
-  list-style: none;
-  padding: 0 8px;
-
-  li {
-    margin: 8px 0;
-  }
-`;
-
 const TableContainer = styled.div`
   background-color: #f2f2f2;
   flex-grow: 1;
