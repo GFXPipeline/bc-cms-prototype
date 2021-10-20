@@ -116,6 +116,7 @@ function ComponentDetails({ id, reloadComponentsList }) {
           setContactItemsInitial(component?.fields);
         })
         .catch((error) => {
+          console.log("error in call to componentService.read: ", error);
           setIsLoading(false);
           setIsErrorLoading(true);
         });
