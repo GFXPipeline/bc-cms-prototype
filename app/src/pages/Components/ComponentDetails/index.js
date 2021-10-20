@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 // Global components & services
 import { componentService } from "../../../_services/component.service";
-import Button from "../../../components/Button";
 import LoadSpinner from "../../../components/LoadSpinner";
 import TextInput from "../../../components/TextInput";
 
@@ -24,9 +23,9 @@ import CancelEdits from "../_actions/CancelEdits";
 
 const StyledDiv = styled.div`
   background-color: white;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  margin: 16px;
-  width: calc(100% - 450px);
 
   div.component-field {
     margin: 8px 0;
@@ -45,11 +44,36 @@ const StyledDiv = styled.div`
 
 const Controls = styled.div`
   background-color: white;
-  margin-top: 16px;
+  border: 1px solid #313132;
+  width: 100%;
 
   button {
+    background-color: white;
+    border-left: none;
+    border-right: none;
+    border-bottom: 5px solid transparent;
+    border-top: 5px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    height: 44px;
     margin-right: 8px;
+    padding: 0 26px;
+
+    &.active {
+      border-bottom: 5px solid #313132;
+    }
+
+    &:hover {
+      background-color: #d6d6d6;
+    }
   }
+`;
+
+const EditPanel = styled.div`
+  flex-grow: 1;
+  height: 1px; // Need explicit height for flex-grow and scroll to work properly
+  overflow-y: auto;
+  padding: 16px;
 `;
 
 function ComponentDetails({ id, reloadComponentsList }) {
@@ -60,6 +84,9 @@ function ComponentDetails({ id, reloadComponentsList }) {
   const [introInitial, setIntroInitial] = useState("");
   const [contactItems, setContactItems] = useState([]);
   const [contactItemsInitial, setContactItemsInitial] = useState([]);
+
+  // Navigation
+  const [tab, setTab] = useState("component");
 
   // Meta
   const [isLoading, setIsLoading] = useState(true);
@@ -129,84 +156,113 @@ function ComponentDetails({ id, reloadComponentsList }) {
 
   return (
     <StyledDiv>
-      {isLoading ? (
-        <LoadSpinner />
-      ) : (
-        <>
-          {title && intro && contactItems && (
-            <>
-              <div className="component-field">
-                <label htmlFor="component-title">Title: </label>
-                <TextInput
-                  id="component-title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-              <div className="component-field">
-                <span id="component-id">
-                  <strong>ID:</strong> {id}
-                </span>
-              </div>
-              <CKEditor
-                id="editor-contact-us"
-                editor={ClassicEditor}
-                config={{
-                  plugins: [Bold, Italic, Link, Paragraph],
-                  toolbar: {
-                    items: ["bold", "italic", "link"],
-                  },
-                  language: "en",
-                }}
-                data={intro}
-                onReady={(editor) => {
-                  console.log("Component editor ready.", editor);
+      <Controls>
+        <button
+          onClick={() => setTab("component")}
+          className={tab === "component" && "active"}
+        >
+          Component
+        </button>
+        <button
+          onClick={() => setTab("details")}
+          className={tab === "details" && "active"}
+        >
+          Details
+        </button>
+        <button
+          onClick={() => setTab("usage")}
+          className={tab === "usage" && "active"}
+        >
+          Usage
+        </button>
+        <button
+          onClick={() => setTab("history")}
+          className={tab === "history" && "active"}
+        >
+          History
+        </button>
+      </Controls>
+      <EditPanel>
+        {isLoading ? (
+          <LoadSpinner />
+        ) : (
+          <>
+            {title && intro && contactItems && (
+              <>
+                <div className="component-field">
+                  <label htmlFor="component-title">Title: </label>
+                  <TextInput
+                    id="component-title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className="component-field">
+                  <span id="component-id">
+                    <strong>ID:</strong> {id}
+                  </span>
+                </div>
+                <CKEditor
+                  id="editor-contact-us"
+                  editor={ClassicEditor}
+                  config={{
+                    plugins: [Bold, Italic, Link, Paragraph],
+                    toolbar: {
+                      items: ["bold", "italic", "link"],
+                    },
+                    language: "en",
+                  }}
+                  data={intro}
+                  onReady={(editor) => {
+                    console.log("Component editor ready.", editor);
 
-                  if (process.env.NODE_ENV === "development") {
-                    CKEditorInspector.attach(editor);
-                  }
-                }}
-                onChange={(event, editor) => {
-                  const intro = editor.getData();
-                  console.log({ event, editor, intro });
-                  setIntro(intro);
-                }}
-                onBlur={(event, editor) => {
-                  console.log("Blur.", editor);
-                }}
-                onFocus={(event, editor) => {
-                  console.log("Focus.", editor);
-                }}
-              />
-              <ContactMethods
-                contactItems={contactItems}
-                setContactItems={setContactItems}
-              />
-              <Controls>
-                <Button
-                  onClick={() => handleSave(id)}
-                  disabled={isSaving}
-                  primary
-                >
-                  Save
-                </Button>
-                <Button
-                  onClick={() => setIsModalCancelOpen(true)}
-                  disabled={isCancelling}
-                >
-                  Discard changes
-                </Button>
-              </Controls>
-            </>
-          )}
-          {isErrorSaving && (
-            <p className="error">Could not save component changes.</p>
-          )}
-        </>
-      )}
-      {isErrorLoading && (
-        <p className="error">Could not fetch component details.</p>
-      )}
+                    if (process.env.NODE_ENV === "development") {
+                      CKEditorInspector.attach(editor);
+                    }
+                  }}
+                  onChange={(event, editor) => {
+                    const intro = editor.getData();
+                    console.log({ event, editor, intro });
+                    setIntro(intro);
+                  }}
+                  onBlur={(event, editor) => {
+                    console.log("Blur.", editor);
+                  }}
+                  onFocus={(event, editor) => {
+                    console.log("Focus.", editor);
+                  }}
+                />
+                <ContactMethods
+                  contactItems={contactItems}
+                  setContactItems={setContactItems}
+                />
+              </>
+            )}
+            {isErrorSaving && (
+              <p className="error">Could not save component changes.</p>
+            )}
+            {isErrorLoading && (
+              <p className="error">Could not fetch component details.</p>
+            )}
+          </>
+        )}
+      </EditPanel>
+      <Controls>
+        <button disabled>Preview</button>
+        <button onClick={() => handleSave(id)} disabled={isSaving}>
+          Save
+        </button>
+        <button disabled>Publish</button>
+        <button disabled>Unpublish</button>
+        <button disabled>Lock</button>
+        <button
+          onClick={() => setIsModalCancelOpen(true)}
+          disabled={isCancelling}
+        >
+          Cancel
+        </button>
+        <button disabled>Delete</button>
+      </Controls>
       <CancelEdits
         isOpen={isModalCancelOpen}
         setIsOpen={setIsModalCancelOpen}

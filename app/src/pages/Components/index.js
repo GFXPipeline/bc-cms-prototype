@@ -7,9 +7,6 @@ import { componentService } from "../../_services/component.service";
 import ComponentDetails from "./ComponentDetails";
 import ComponentsList from "./ComponentsList";
 
-// // Page actions
-// import CancelEdits from "./_actions/CancelEdits";
-
 const Page = styled.div`
   height: 100vh;
   width: 100%;
@@ -21,9 +18,8 @@ const Page = styled.div`
 const ContentContainer = styled.div`
   background-color: white;
   display: flex;
-  flex: 1;
+  flex-grow: 1;
   flex-direction: row;
-  min-height: 0;
   width: 100%;
 
   p.error {
