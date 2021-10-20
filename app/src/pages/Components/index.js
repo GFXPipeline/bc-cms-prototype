@@ -7,8 +7,8 @@ import { componentService } from "../../_services/component.service";
 import ComponentDetails from "./ComponentDetails";
 import ComponentsList from "./ComponentsList";
 
-// Page actions
-import CancelEdits from "./_actions/CancelEdits";
+// // Page actions
+// import CancelEdits from "./_actions/CancelEdits";
 
 const Page = styled.div`
   height: 100vh;
@@ -47,26 +47,14 @@ function Components() {
   // List of components to choose from
   const [components, setComponents] = useState([]);
 
-  // Single component details
+  // Selected component
   const [componentId, setComponentId] = useState("");
-  const [componentTitle, setComponentTitle] = useState("");
-  const [componentIntro, setComponentIntro] = useState("");
-  const [componentTitleOriginal, setComponentTitleOriginal] = useState("");
-  const [componentIntroOriginal, setComponentIntroOriginal] = useState("");
-  const [contactItems, setContactItems] = useState([]);
-  const [contactItemsOriginal, setContactItemsOriginal] = useState([]);
 
   // Meta
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [isErrorTypes, setIsErrorTypes] = useState(false);
   const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
   const [isErrorComponentsList, setIsErrorComponentsList] = useState(false);
-  const [isLoadingComponent, setIsLoadingComponent] = useState(false);
-  const [isErrorComponent, setIsErrorComponent] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isErrorSaving, setIsErrorSaving] = useState(false);
-  const [isCancelling, setIsCancelling] = useState(false);
-  const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
   function getComponentTypes() {
     componentService
@@ -121,34 +109,6 @@ function Components() {
     }
   }
 
-  function handleCancel() {
-    setIsCancelling(true);
-    setComponentTitle(componentTitleOriginal);
-    setComponentIntro(componentIntroOriginal);
-    setContactItems(contactItemsOriginal);
-    setIsCancelling(false);
-  }
-
-  function handleSave() {
-    setIsSaving(true);
-
-    componentService
-      .update({
-        id: componentId,
-        intro: componentIntro,
-        title: componentTitle,
-        fields: contactItems,
-      })
-      .then((success) => {
-        setIsSaving(false);
-        reloadComponentsList();
-      })
-      .catch((error) => {
-        setIsErrorSaving(true);
-        setIsSaving(false);
-      });
-  }
-
   function handleSelectType(typeId) {
     setIsLoadingComponentsList(true);
     setSelectedType(typeId);
@@ -194,33 +154,6 @@ function Components() {
     getComponentsList();
   }, [isShowAll]);
 
-  // Get component details
-  useEffect(() => {
-    function getComponentDetails(id) {
-      setIsLoadingComponent(true);
-
-      componentService
-        .read(id)
-        .then((component) => {
-          setIsLoadingComponent(false);
-          setComponentTitle(component?.title);
-          setComponentTitleOriginal(component?.title);
-          setComponentIntro(component?.intro);
-          setComponentIntroOriginal(component?.intro);
-          setContactItems(component?.fields);
-          setContactItemsOriginal(component?.fields);
-        })
-        .catch((error) => {
-          setIsLoadingComponent(false);
-          setIsErrorComponent(true);
-        });
-    }
-
-    if (componentId) {
-      getComponentDetails(componentId);
-    }
-  }, [componentId]);
-
   return (
     <Page>
       <Header />
@@ -240,29 +173,13 @@ function Components() {
           setSearch={setSearch}
           setIsShowAll={setIsShowAll}
         />
-        <ComponentDetails
-          componentId={componentId}
-          componentIntro={componentIntro}
-          componentTitle={componentTitle}
-          contactItems={contactItems}
-          handleCancel={handleCancel}
-          handleSave={handleSave}
-          isCancelling={isCancelling}
-          isErrorComponent={isErrorComponent}
-          isErrorSaving={isErrorSaving}
-          isLoadingComponent={isLoadingComponent}
-          isSaving={isSaving}
-          setComponentIntro={setComponentIntro}
-          setComponentTitle={setComponentTitle}
-          setContactItems={setContactItems}
-          setModalCancelEditsOpen={setModalCancelEditsOpen}
-        />
+        {componentId && (
+          <ComponentDetails
+            id={componentId}
+            reloadComponentsList={reloadComponentsList}
+          />
+        )}
       </ContentContainer>
-      <CancelEdits
-        isOpen={modalCancelEditsOpen}
-        setIsOpen={setModalCancelEditsOpen}
-        handleCancel={handleCancel}
-      />
     </Page>
   );
 }

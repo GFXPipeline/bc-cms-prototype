@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+// Global components & services
+import { componentService } from "../../../_services/component.service";
 import Button from "../../../components/Button";
 import LoadSpinner from "../../../components/LoadSpinner";
 import TextInput from "../../../components/TextInput";
@@ -15,6 +18,9 @@ import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 
 // Page components
 import ContactMethods from "./ContactMethods";
+
+// Page actions
+import CancelEdits from "../_actions/CancelEdits";
 
 const StyledDiv = styled.div`
   background-color: white;
@@ -46,41 +52,99 @@ const Controls = styled.div`
   }
 `;
 
-function ComponentDetails({
-  componentId,
-  componentIntro,
-  componentTitle,
-  contactItems,
-  handleSave,
-  isCancelling,
-  isErrorComponent,
-  isErrorSaving,
-  isLoadingComponent,
-  isSaving,
-  setComponentIntro,
-  setComponentTitle,
-  setContactItems,
-  setModalCancelEditsOpen,
-}) {
+function ComponentDetails({ id, reloadComponentsList }) {
+  // Component Details
+  const [title, setTitle] = useState("");
+  const [intro, setIntro] = useState("");
+  const [titleInitial, setTitleInitial] = useState("");
+  const [introInitial, setIntroInitial] = useState("");
+  const [contactItems, setContactItems] = useState([]);
+  const [contactItemsInitial, setContactItemsInitial] = useState([]);
+
+  // Meta
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [isErrorLoading, setIsErrorLoading] = useState(false);
+  const [isErrorSaving, setIsErrorSaving] = useState(false);
+  const [isModalCancelOpen, setIsModalCancelOpen] = useState(false);
+
+  // Cancel edits and return component details to original state
+  function handleCancel() {
+    setIsCancelling(true);
+    setTitle(titleInitial);
+    setIntro(introInitial);
+    setContactItems(contactItemsInitial);
+    setIsCancelling(false);
+  }
+
+  // Save changes to the component being edited
+  function handleSave() {
+    setIsSaving(true);
+
+    componentService
+      .update({
+        id: id,
+        intro: intro,
+        title: title,
+        fields: contactItems,
+      })
+      .then((success) => {
+        setIsSaving(false);
+        reloadComponentsList();
+      })
+      .catch((error) => {
+        setIsErrorSaving(true);
+        setIsSaving(false);
+      });
+  }
+
+  // Get component details
+  useEffect(() => {
+    function getComponentDetails(id) {
+      setIsLoading(true);
+
+      componentService
+        .read(id)
+        .then((component) => {
+          setIsLoading(false);
+          setTitle(component?.title);
+          setTitleInitial(component?.title);
+          setIntro(component?.intro);
+          setIntroInitial(component?.intro);
+          setContactItems(component?.fields);
+          setContactItemsInitial(component?.fields);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setIsErrorLoading(true);
+        });
+    }
+
+    if (id) {
+      getComponentDetails(id);
+    }
+  }, [id]);
+
   return (
     <StyledDiv>
-      {isLoadingComponent ? (
+      {isLoading ? (
         <LoadSpinner />
       ) : (
         <>
-          {componentId && componentIntro && componentTitle && (
+          {title && intro && contactItems && (
             <>
               <div className="component-field">
                 <label htmlFor="component-title">Title: </label>
                 <TextInput
                   id="component-title"
-                  value={componentTitle}
-                  onChange={(e) => setComponentTitle(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
               <div className="component-field">
                 <span id="component-id">
-                  <strong>ID:</strong> {componentId}
+                  <strong>ID:</strong> {id}
                 </span>
               </div>
               <CKEditor
@@ -93,7 +157,7 @@ function ComponentDetails({
                   },
                   language: "en",
                 }}
-                data={componentIntro}
+                data={intro}
                 onReady={(editor) => {
                   console.log("Component editor ready.", editor);
 
@@ -104,7 +168,7 @@ function ComponentDetails({
                 onChange={(event, editor) => {
                   const intro = editor.getData();
                   console.log({ event, editor, intro });
-                  setComponentIntro(intro);
+                  setIntro(intro);
                 }}
                 onBlur={(event, editor) => {
                   console.log("Blur.", editor);
@@ -119,14 +183,14 @@ function ComponentDetails({
               />
               <Controls>
                 <Button
-                  onClick={() => handleSave(componentId)}
+                  onClick={() => handleSave(id)}
                   disabled={isSaving}
                   primary
                 >
                   Save
                 </Button>
                 <Button
-                  onClick={() => setModalCancelEditsOpen(true)}
+                  onClick={() => setIsModalCancelOpen(true)}
                   disabled={isCancelling}
                 >
                   Discard changes
@@ -139,9 +203,14 @@ function ComponentDetails({
           )}
         </>
       )}
-      {isErrorComponent && (
+      {isErrorLoading && (
         <p className="error">Could not fetch component details.</p>
       )}
+      <CancelEdits
+        isOpen={isModalCancelOpen}
+        setIsOpen={setIsModalCancelOpen}
+        handleCancel={handleCancel}
+      />
     </StyledDiv>
   );
 }
