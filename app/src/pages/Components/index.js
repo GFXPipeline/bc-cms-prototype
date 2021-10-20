@@ -121,26 +121,6 @@ function Components() {
     }
   }
 
-  function getComponentDetails(id) {
-    setIsLoadingComponent(true);
-
-    componentService
-      .read(id)
-      .then((component) => {
-        setIsLoadingComponent(false);
-        setComponentTitle(component?.title);
-        setComponentTitleOriginal(component?.title);
-        setComponentIntro(component?.intro);
-        setComponentIntroOriginal(component?.intro);
-        setContactItems(component?.fields);
-        setContactItemsOriginal(component?.fields);
-      })
-      .catch((error) => {
-        setIsLoadingComponent(false);
-        setIsErrorComponent(true);
-      });
-  }
-
   function handleCancel() {
     setIsCancelling(true);
     setComponentTitle(componentTitleOriginal);
@@ -216,6 +196,26 @@ function Components() {
 
   // Get component details
   useEffect(() => {
+    function getComponentDetails(id) {
+      setIsLoadingComponent(true);
+
+      componentService
+        .read(id)
+        .then((component) => {
+          setIsLoadingComponent(false);
+          setComponentTitle(component?.title);
+          setComponentTitleOriginal(component?.title);
+          setComponentIntro(component?.intro);
+          setComponentIntroOriginal(component?.intro);
+          setContactItems(component?.fields);
+          setContactItemsOriginal(component?.fields);
+        })
+        .catch((error) => {
+          setIsLoadingComponent(false);
+          setIsErrorComponent(true);
+        });
+    }
+
     if (componentId) {
       getComponentDetails(componentId);
     }
