@@ -27,6 +27,18 @@ exports.seed = function (knex) {
             },
           ],
         },
+        {
+          type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
+          title: "Service BC 100 Mile House",
+          intro: "<p></p>",
+          fields: [
+            {
+              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
+              label_prefix: "Phone",
+              data: "1-250-395-7832",
+            },
+          ],
+        },
       ]);
     });
 };
