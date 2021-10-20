@@ -47,7 +47,7 @@ const StyledTable = styled.table`
 `;
 
 function Table({ id, tableColumns, tableData }) {
-  const columns = useMemo(() => tableColumns, []);
+  const columns = useMemo(() => tableColumns, [tableColumns]);
   const data = useMemo(() => tableData, [tableData]);
   const tableInstance = useTable({ columns, data });
 
