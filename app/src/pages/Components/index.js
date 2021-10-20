@@ -56,30 +56,6 @@ function Components() {
   const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
   const [isErrorComponentsList, setIsErrorComponentsList] = useState(false);
 
-  function getComponentTypes() {
-    componentService
-      .getComponentTypeList()
-      .then((types) => {
-        const newTypes = [];
-
-        types.forEach((type, index) => {
-          newTypes[index] = {
-            ...type,
-            label: type?.display_name,
-            value: type?.id,
-          };
-        });
-
-        setTypes(newTypes);
-        setIsLoadingTypes(false);
-      })
-      .catch((error) => {
-        setIsErrorTypes(true);
-        setIsLoadingTypes(false);
-        throw error;
-      });
-  }
-
   function reloadComponentsList() {
     if (isShowAll) {
       componentService
@@ -116,6 +92,30 @@ function Components() {
 
   // Populate component type list
   useEffect(() => {
+    function getComponentTypes() {
+      componentService
+        .getComponentTypeList()
+        .then((types) => {
+          const newTypes = [];
+
+          types.forEach((type, index) => {
+            newTypes[index] = {
+              ...type,
+              label: type?.display_name,
+              value: type?.id,
+            };
+          });
+
+          setTypes(newTypes);
+          setIsLoadingTypes(false);
+        })
+        .catch((error) => {
+          setIsErrorTypes(true);
+          setIsLoadingTypes(false);
+          throw error;
+        });
+    }
+
     getComponentTypes();
   }, []);
 
