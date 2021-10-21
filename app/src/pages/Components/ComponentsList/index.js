@@ -35,6 +35,10 @@ const TableContainer = styled.div`
   background-color: #f2f2f2;
   flex-grow: 1;
   overflow-x: auto;
+
+  span.highlighted {
+    background-color: #fcba19;
+  }
 `;
 
 function ComponentsList({
@@ -96,7 +100,11 @@ function ComponentsList({
                   accessor: "modified_by",
                 },
               ]}
-              tableData={getComponentsTableData(components, setComponentId)}
+              tableData={getComponentsTableData(
+                components,
+                setComponentId,
+                search
+              )}
             />
           </TableContainer>
         )
