@@ -134,6 +134,12 @@ const EditPanel = styled.div`
   bottom: 10%;
   min-width: 550px;
   z-index: 1;
+
+  div.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 function ComponentDetails({ id, reloadComponentsList }) {
@@ -356,6 +362,21 @@ function ComponentDetails({ id, reloadComponentsList }) {
                           contactItems={contactItems}
                           setContactItems={setContactItems}
                         />
+                        <div className="buttons">
+                          <Button
+                            onClick={() => handleSave(id)}
+                            disabled={isSaving}
+                            primary
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            onClick={() => setIsModalCancelOpen(true)}
+                            disabled={isCancelling}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
                       </>
                     )}
                     {isErrorSaving && (
@@ -375,18 +396,9 @@ function ComponentDetails({ id, reloadComponentsList }) {
       </Body>
       <Controls>
         <button disabled>Preview</button>
-        <button onClick={() => handleSave(id)} disabled={isSaving}>
-          Save
-        </button>
         <button disabled>Publish</button>
         <button disabled>Unpublish</button>
         <button disabled>Lock</button>
-        <button
-          onClick={() => setIsModalCancelOpen(true)}
-          disabled={isCancelling}
-        >
-          Cancel
-        </button>
         <button disabled>Delete</button>
       </Controls>
       <CancelEdits
