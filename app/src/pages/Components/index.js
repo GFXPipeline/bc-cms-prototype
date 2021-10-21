@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+
+// Global components
 import Header from "../../components/Header";
+import { authenticationService } from "../../_services";
 import { componentService } from "../../_services/component.service";
 
 // Page components
@@ -42,6 +45,7 @@ function Components() {
 
   // List of components to choose from
   const [components, setComponents] = useState([]);
+  const [filteredComponents, setFilteredComponents] = useState([]);
 
   // Selected component
   const [componentId, setComponentId] = useState("");
@@ -150,13 +154,59 @@ function Components() {
     getComponentsList();
   }, [isShowAll]);
 
+  // Filter components list
+  useEffect(() => {
+    function filterComponents(components, isShowAll, search) {
+      const setToFilter = isShowAll
+        ? [...components]
+        : [...components].filter((component) => {
+            // Only include "My Components"
+            if (
+              component?.owned_by_user ===
+              authenticationService.currentUser?.username
+            ) {
+              return true;
+            }
+
+            return false;
+          });
+
+      return setToFilter.filter((component) => {
+        // Title
+        if (component?.title?.toLowerCase().includes(search?.toLowerCase())) {
+          return true;
+        }
+        // Type
+        if (
+          component?.type_display_name
+            ?.toLowerCase()
+            .includes(search?.toLowerCase())
+        ) {
+          return true;
+        }
+        // Last modified by
+        if (
+          component?.last_modified_by_user
+            ?.toLowerCase()
+            .includes(search?.toLowerCase())
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+    }
+
+    setFilteredComponents(filterComponents(components, isShowAll, search));
+  }, [components, isShowAll, search]);
+
   return (
     <Page>
       <Header />
       <ContentContainer>
         <ComponentsList
           types={types}
-          components={components}
+          components={filteredComponents}
           handleSelectType={handleSelectType}
           isLoadingTypes={isLoadingTypes}
           isErrorTypes={isErrorTypes}
