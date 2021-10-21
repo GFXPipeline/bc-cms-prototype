@@ -6,7 +6,7 @@ import styled from "styled-components";
 // CKEditor components
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import CKEditorInspector from "@ckeditor/ckeditor5-inspector";
-import BalloonEditor from "@ckeditor/ckeditor5-editor-balloon/src/ballooneditor";
+import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
 import UploadAdapter from "@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter";
 import Autoformat from "@ckeditor/ckeditor5-autoformat/src/autoformat";
@@ -61,8 +61,8 @@ import CancelEdits from "./_actions/CancelEdits";
 // Reusable components input fields
 import ContactUsInput from "./ReusableComponents/ContactUs";
 
-// CKEditor configuration
-const editorConfiguration = {
+// Main CKEditor instance configuration
+const mainEditorConfiguration = {
   plugins: [
     Essentials,
     UploadAdapter,
@@ -92,6 +92,25 @@ const editorConfiguration = {
     TableToolbar,
     TextTransformation,
   ],
+  toolbar: [
+    "heading",
+    "|",
+    "bulletedList",
+    "numberedList",
+    "|",
+    "outdent",
+    "indent",
+    "|",
+    "uploadImage",
+    "blockQuote",
+    "insertTable",
+    "mediaEmbed",
+    "|",
+    "undo",
+    "redo",
+    "|",
+    "onThisPage",
+  ],
   blockToolbar: [
     "heading",
     "|",
@@ -111,6 +130,62 @@ const editorConfiguration = {
     "|",
     "onThisPage",
   ],
+  image: {
+    toolbar: [
+      "imageStyle:inline",
+      "imageStyle:block",
+      "imageStyle:side",
+      "|",
+      "toggleImageCaption",
+      "imageTextAlternative",
+    ],
+  },
+  table: {
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+  },
+  // This value must be kept in sync with the language defined in webpack.config.js.
+  language: "en",
+  contactUs: {
+    contactUsRenderer: (id, domElement) => {
+      ReactDOM.render(<ContactUsBox id={id} />, domElement);
+    },
+  },
+};
+
+// Intro CKEditor instance
+const introEditorConfiguration = {
+  plugins: [
+    Essentials,
+    UploadAdapter,
+    Autoformat,
+    BlockToolbar,
+    Bold,
+    Italic,
+    BlockQuote,
+    CKFinder,
+    CloudServices,
+    ContactUs,
+    EasyImage,
+    Heading,
+    Image,
+    ImageCaption,
+    ImageStyle,
+    ImageToolbar,
+    ImageUpload,
+    Indent,
+    Link,
+    List,
+    MediaEmbed,
+    OnThisPage,
+    Paragraph,
+    PasteFromOffice,
+    Table,
+    TableToolbar,
+    TextTransformation,
+  ],
+  blockToolbar: {
+    items: ["bold", "italic", "link"],
+  },
   toolbar: {
     items: ["bold", "italic", "link"],
   },
@@ -157,6 +232,21 @@ const ContentContainer = styled.div`
 
     &:hover {
       cursor: not-allowed;
+    }
+  }
+
+  div.ck-editor {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    div.ck-editor__main {
+      overflow: hidden;
+
+      div.ck-editor__editable {
+        max-height: 100%;
+        overflow: auto;
+      }
     }
   }
 `;
@@ -376,8 +466,8 @@ function ContentEntry() {
               <label htmlFor="page-intro">Page Intro:</label>
               <CKEditor
                 id="page-intro"
-                editor={BalloonEditor}
-                config={editorConfiguration}
+                editor={ClassicEditor}
+                config={introEditorConfiguration}
                 data={intro}
                 onReady={(editor) => {
                   // You can store the "editor" and use when it is needed.
@@ -469,8 +559,8 @@ function ContentEntry() {
           />
           <CKEditor
             id="main-editor"
-            editor={BalloonEditor}
-            config={editorConfiguration}
+            editor={ClassicEditor}
+            config={mainEditorConfiguration}
             disabled={!isEditMode}
             data={data}
             onReady={(editor) => {
