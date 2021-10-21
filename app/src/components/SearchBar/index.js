@@ -57,7 +57,7 @@ function SearchBar({ disabled, value, setValue, ...props }) {
         {...props}
       />
       {value && (
-        <button onClick={() => setValue("")} primary>
+        <button onClick={() => setValue("")}>
           <Icon id={"fa-times.svg"} />
         </button>
       )}
