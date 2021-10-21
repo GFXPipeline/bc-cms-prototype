@@ -69,6 +69,14 @@ const Controls = styled.div`
     &:hover {
       background-color: #d6d6d6;
     }
+
+    &:disabled {
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: white;
+      }
+    }
   }
 `;
 
