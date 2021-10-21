@@ -19,6 +19,7 @@ componentsRouter.get("/", (req, res) => {
       "components.title",
       "components.time_last_updated",
       "components.is_published",
+      { owned_by_user: "users.username" },
       { last_modified_by_user: "users.username" },
       { type_name: "component_types.name" },
       { type_display_name: "component_types.display_name" }
