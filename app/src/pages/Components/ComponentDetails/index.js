@@ -128,14 +128,13 @@ const EditPanel = styled.div`
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   background-color: white;
   border: 1px solid #313132;
-  max-height: 75vh;
+  max-height: 80vh;
   overflow-y: auto;
   padding: 16px;
   position: absolute;
   right: 60px;
-  top: 10%;
-  bottom: 10%;
-  min-width: 550px;
+  top: 15%;
+  width: 550px;
   z-index: 1;
 
   div.buttons {
