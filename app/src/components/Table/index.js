@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import styled from "styled-components";
-import { useTable } from "react-table";
+import { useSortBy, useTable } from "react-table";
 
 const StyledTable = styled.table`
   border-collapse: collapse;
@@ -49,7 +49,7 @@ const StyledTable = styled.table`
 function Table({ id, tableColumns, tableData }) {
   const columns = useMemo(() => tableColumns, [tableColumns]);
   const data = useMemo(() => tableData, [tableData]);
-  const tableInstance = useTable({ columns, data });
+  const tableInstance = useTable({ columns, data }, useSortBy);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
@@ -71,8 +71,15 @@ function Table({ id, tableColumns, tableData }) {
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => {
                 return (
-                  <th {...column.getHeaderProps()}>
+                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                     {column.render("Header")}
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " ▲"
+                          : " ▼"
+                        : ""}
+                    </span>
                   </th>
                 );
               })}
