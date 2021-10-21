@@ -38,7 +38,7 @@ const StyledDiv = styled.div`
     }
 
     input[type="radio"]:checked + label {
-      border-bottom: 5px solid #323231;
+      border-bottom: 5px solid #313132;
     }
 
     label {

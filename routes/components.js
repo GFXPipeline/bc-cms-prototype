@@ -13,11 +13,15 @@ componentsRouter.get("/", (req, res) => {
 
   knex("components")
     .join("component_types", "component_types.id", "components.type_id")
+    .leftJoin("users", "users.id", "components.last_modified_by_user") // leftJoin to include all components regardless of user status
     .select(
       "components.id",
       "components.title",
-      "component_types.name",
-      "component_types.display_name"
+      "components.time_last_updated",
+      "components.is_published",
+      { last_modified_by_user: "users.username" },
+      { type_name: "component_types.name" },
+      { type_display_name: "component_types.display_name" }
     )
     .then((results) => {
       console.log("results: ", results);

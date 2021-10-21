@@ -9,6 +9,7 @@ exports.up = function (knex) {
     table.string("title");
     table.text("intro");
     table.specificType("fields", "jsonb ARRAY");
+    table.boolean("is_published").defaultTo(false);
     table.boolean("is_marked_for_deletion").defaultTo(false);
     table.uuid("created_by_user").references("id").inTable("users");
     table.uuid("owned_by_user").references("id").inTable("users");

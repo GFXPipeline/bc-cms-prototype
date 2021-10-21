@@ -11,6 +11,7 @@ exports.up = function (knex) {
     table.text("intro");
     table.text("data");
     table.boolean("is_on_this_page").defaultTo(false);
+    table.boolean("is_published").defaultTo(false);
     table.boolean("is_marked_for_deletion").defaultTo(false);
     table.uuid("created_by_user").references("id").inTable("users");
     table.uuid("owned_by_user").references("id").inTable("users");

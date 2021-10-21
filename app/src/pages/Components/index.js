@@ -7,9 +7,6 @@ import { componentService } from "../../_services/component.service";
 import ComponentDetails from "./ComponentDetails";
 import ComponentsList from "./ComponentsList";
 
-// Page actions
-import CancelEdits from "./_actions/CancelEdits";
-
 const Page = styled.div`
   height: 100vh;
   width: 100%;
@@ -21,9 +18,8 @@ const Page = styled.div`
 const ContentContainer = styled.div`
   background-color: white;
   display: flex;
-  flex: 1;
+  flex-grow: 1;
   flex-direction: row;
-  min-height: 0;
   width: 100%;
 
   p.error {
@@ -47,53 +43,17 @@ function Components() {
   // List of components to choose from
   const [components, setComponents] = useState([]);
 
-  // Single component details
+  // Selected component
   const [componentId, setComponentId] = useState("");
-  const [componentTitle, setComponentTitle] = useState("");
-  const [componentIntro, setComponentIntro] = useState("");
-  const [componentTitleOriginal, setComponentTitleOriginal] = useState("");
-  const [componentIntroOriginal, setComponentIntroOriginal] = useState("");
-  const [contactItems, setContactItems] = useState([]);
-  const [contactItemsOriginal, setContactItemsOriginal] = useState([]);
 
   // Meta
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [isErrorTypes, setIsErrorTypes] = useState(false);
   const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
   const [isErrorComponentsList, setIsErrorComponentsList] = useState(false);
-  const [isLoadingComponent, setIsLoadingComponent] = useState(false);
-  const [isErrorComponent, setIsErrorComponent] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isErrorSaving, setIsErrorSaving] = useState(false);
-  const [isCancelling, setIsCancelling] = useState(false);
-  const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
-
-  function getComponentTypes() {
-    componentService
-      .getComponentTypeList()
-      .then((types) => {
-        const newTypes = [];
-
-        types.forEach((type, index) => {
-          newTypes[index] = {
-            ...type,
-            label: type?.display_name,
-            value: type?.id,
-          };
-        });
-
-        setTypes(newTypes);
-        setIsLoadingTypes(false);
-      })
-      .catch((error) => {
-        setIsErrorTypes(true);
-        setIsLoadingTypes(false);
-        throw error;
-      });
-  }
 
   function reloadComponentsList() {
-    if (selectedType === "all") {
+    if (isShowAll) {
       componentService
         .getComponentList()
         .then((components) => {
@@ -106,8 +66,9 @@ function Components() {
           throw error;
         });
     } else {
+      // Get components owned by the user
       componentService
-        .getComponentsByType(selectedType)
+        .getComponentsByOwner()
         .then((components) => {
           setIsLoadingComponentsList(false);
           setComponents(components);
@@ -120,54 +81,6 @@ function Components() {
     }
   }
 
-  function getComponentDetails(id) {
-    setIsLoadingComponent(true);
-
-    componentService
-      .read(id)
-      .then((component) => {
-        setIsLoadingComponent(false);
-        setComponentTitle(component?.title);
-        setComponentTitleOriginal(component?.title);
-        setComponentIntro(component?.intro);
-        setComponentIntroOriginal(component?.intro);
-        setContactItems(component?.fields);
-        setContactItemsOriginal(component?.fields);
-      })
-      .catch((error) => {
-        setIsLoadingComponent(false);
-        setIsErrorComponent(true);
-      });
-  }
-
-  function handleCancel() {
-    setIsCancelling(true);
-    setComponentTitle(componentTitleOriginal);
-    setComponentIntro(componentIntroOriginal);
-    setContactItems(contactItemsOriginal);
-    setIsCancelling(false);
-  }
-
-  function handleSave() {
-    setIsSaving(true);
-
-    componentService
-      .update({
-        id: componentId,
-        intro: componentIntro,
-        title: componentTitle,
-        fields: contactItems,
-      })
-      .then((success) => {
-        setIsSaving(false);
-        reloadComponentsList();
-      })
-      .catch((error) => {
-        setIsErrorSaving(true);
-        setIsSaving(false);
-      });
-  }
-
   function handleSelectType(typeId) {
     setIsLoadingComponentsList(true);
     setSelectedType(typeId);
@@ -175,6 +88,30 @@ function Components() {
 
   // Populate component type list
   useEffect(() => {
+    function getComponentTypes() {
+      componentService
+        .getComponentTypeList()
+        .then((types) => {
+          const newTypes = [];
+
+          types.forEach((type, index) => {
+            newTypes[index] = {
+              ...type,
+              label: type?.display_name,
+              value: type?.id,
+            };
+          });
+
+          setTypes(newTypes);
+          setIsLoadingTypes(false);
+        })
+        .catch((error) => {
+          setIsErrorTypes(true);
+          setIsLoadingTypes(false);
+          throw error;
+        });
+    }
+
     getComponentTypes();
   }, []);
 
@@ -213,13 +150,6 @@ function Components() {
     getComponentsList();
   }, [isShowAll]);
 
-  // Get component details
-  useEffect(() => {
-    if (componentId) {
-      getComponentDetails(componentId);
-    }
-  }, [componentId]);
-
   return (
     <Page>
       <Header />
@@ -239,29 +169,13 @@ function Components() {
           setSearch={setSearch}
           setIsShowAll={setIsShowAll}
         />
-        <ComponentDetails
-          componentId={componentId}
-          componentIntro={componentIntro}
-          componentTitle={componentTitle}
-          contactItems={contactItems}
-          handleCancel={handleCancel}
-          handleSave={handleSave}
-          isCancelling={isCancelling}
-          isErrorComponent={isErrorComponent}
-          isErrorSaving={isErrorSaving}
-          isLoadingComponent={isLoadingComponent}
-          isSaving={isSaving}
-          setComponentIntro={setComponentIntro}
-          setComponentTitle={setComponentTitle}
-          setContactItems={setContactItems}
-          setModalCancelEditsOpen={setModalCancelEditsOpen}
-        />
+        {componentId && (
+          <ComponentDetails
+            id={componentId}
+            reloadComponentsList={reloadComponentsList}
+          />
+        )}
       </ContentContainer>
-      <CancelEdits
-        isOpen={modalCancelEditsOpen}
-        setIsOpen={setModalCancelEditsOpen}
-        handleCancel={handleCancel}
-      />
     </Page>
   );
 }

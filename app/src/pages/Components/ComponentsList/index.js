@@ -1,17 +1,22 @@
 import styled from "styled-components";
 
 // Global components
-import ButtonLink from "../../../components/ButtonLink";
 import LoadSpinner from "../../../components/LoadSpinner";
 import SearchBar from "../../../components/SearchBar";
-import Select from "../../../components/Select";
+import Table from "../../../components/Table";
 
 // Page components
 import FilterMenu from "./FilterMenu";
 import ComponentActions from "../ComponentActions";
 
+// Page functions
+import getComponentsTableData from "./getComponentsTableData";
+
 const StyledDiv = styled.div`
   background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   width: 450px;
 `;
 
@@ -26,28 +31,21 @@ const Search = styled.div`
   }
 `;
 
-const List = styled.ul`
-  list-style: none;
-  padding: 0 8px;
-
-  li {
-    margin: 8px 0;
-  }
+const TableContainer = styled.div`
+  background-color: #f2f2f2;
+  flex-grow: 1;
+  overflow-x: auto;
 `;
 
 function ComponentsList({
   types,
   components,
-  handleSelectType,
-  isLoadingTypes,
-  isErrorTypes,
   isLoadingComponentsList,
   isErrorComponentsList,
   isShowAll,
   search,
   setIsShowAll,
   setSearch,
-  selectedType,
   setComponentId,
 }) {
   return (
@@ -73,29 +71,34 @@ function ComponentsList({
         components &&
         Array.isArray(components) &&
         components.length > 0 && (
-          <List>
-            {components
-              ?.sort((a, b) => {
-                const titleA = a?.title.toUpperCase();
-                const titleB = b?.title.toUpperCase();
-                if (titleA < titleB) {
-                  return -1;
-                }
-                if (titleA > titleB) {
-                  return 1;
-                }
-                return 0;
-              })
-              ?.map((component, index) => {
-                return (
-                  <li key={index}>
-                    <ButtonLink onClick={() => setComponentId(component?.id)}>
-                      {component?.title}
-                    </ButtonLink>
-                  </li>
-                );
-              })}
-          </List>
+          <TableContainer>
+            <Table
+              id="components-table"
+              tableColumns={[
+                {
+                  Header: "Title",
+                  accessor: "title",
+                },
+                {
+                  Header: "Status",
+                  accessor: "status",
+                },
+                {
+                  Header: "Type",
+                  accessor: "type",
+                },
+                {
+                  Header: "Modified Date",
+                  accessor: "modified_date",
+                },
+                {
+                  Header: "Modified By",
+                  accessor: "modified_by",
+                },
+              ]}
+              tableData={getComponentsTableData(components, setComponentId)}
+            />
+          </TableContainer>
         )
       )}
       {isErrorComponentsList && (

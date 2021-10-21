@@ -15,12 +15,12 @@ componentRouter.get("/:id", (req, res) => {
     .join("component_types", "component_types.id", "components.type_id")
     .select(
       "components.*",
-      "component_types.name",
-      "component_types.display_name"
+      { type_name: "component_types.name" },
+      { type_display_name: "component_types.display_name" }
     )
     .where("components.id", req.params.id)
     .then((results) => {
-      console.log(`results in GET /api/component/${req.params.id}`);
+      console.log(`results in GET /api/component/${req.params.id}: `, results);
       res.status(200).json(results);
     })
     .catch((error) => {
@@ -48,6 +48,51 @@ componentRouter.put("/:id", (req, res) => {
       );
       if (rows?.length > 0) {
         userId = rows[0]?.id;
+
+        // Check that submitted component ID exists
+        knex("components")
+          .select("*")
+          .where("id", req.params.id)
+          .then((rows) => {
+            console.log(
+              `rows in PUT /api/component/${req.params.id} check for page: `,
+              rows
+            );
+            if (rows?.length > 0) {
+              // Requested component ID exists, attempt the update
+              knex("components")
+                .where("id", req.params.id)
+                .update({
+                  intro: req?.body?.intro,
+                  title: req?.body?.title,
+                  fields: req?.body?.fields,
+                  last_modified_by_user: userId,
+                  time_last_updated: knex.fn.now(),
+                })
+                .then((success) => {
+                  // Component update success
+                  res.status(200).send("200");
+                })
+                .catch((error) => {
+                  // Component update failure
+                  console.log(
+                    `error in PUT /api/component/${req.params.id} update component: `,
+                    error
+                  );
+                  res.status(500).send("500");
+                });
+            } else {
+              // No component matches the requested ID
+              res.status(404).send("404 component not found");
+            }
+          })
+          .catch((error) => {
+            console.log(
+              `error in PUT /api/component/${req.params.id} check for page: `,
+              error
+            );
+            res.status(500).send("500");
+          });
       } else {
         // Username not in database, return early
         return res.status(404).send("404 user not found");
@@ -60,51 +105,6 @@ componentRouter.put("/:id", (req, res) => {
         error
       );
       return res.status(500).send("500");
-    });
-
-  // Check that submitted component ID exists
-  knex("components")
-    .select("*")
-    .where("id", req.params.id)
-    .then((rows) => {
-      console.log(
-        `rows in PUT /api/component/${req.params.id} check for page: `,
-        rows
-      );
-      if (rows?.length > 0) {
-        // Requested component ID exists, attempt the update
-        knex("components")
-          .where("id", req.params.id)
-          .update({
-            intro: req?.body?.intro,
-            title: req?.body?.title,
-            fields: req?.body?.fields,
-            last_modified_by_user: userId,
-            time_last_updated: knex.fn.now(),
-          })
-          .then((success) => {
-            // Component update success
-            res.status(200).send("200");
-          })
-          .catch((error) => {
-            // Component update failure
-            console.log(
-              `error in PUT /api/component/${req.params.id} update component: `,
-              error
-            );
-            res.status(500).send("500");
-          });
-      } else {
-        // No component matches the requested ID
-        res.status(404).send("404 component not found");
-      }
-    })
-    .catch((error) => {
-      console.log(
-        `error in PUT /api/component/${req.params.id} check for page: `,
-        error
-      );
-      res.status(500).send("500");
     });
 });
 
