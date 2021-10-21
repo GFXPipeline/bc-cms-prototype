@@ -398,7 +398,6 @@ function ComponentDetails({ id, reloadComponentsList }) {
         )}
       </Body>
       <Controls>
-        <button disabled>Preview</button>
         <button disabled>Publish</button>
         <button disabled>Unpublish</button>
         <button disabled>Lock</button>
