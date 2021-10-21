@@ -94,6 +94,9 @@ const ComponentPreview = styled.div`
   width: 100%;
 
   div.component {
+    border: 5px solid #707070;
+    padding: 18px 24px;
+
     ul {
       list-style: none;
       padding-left: 0;
