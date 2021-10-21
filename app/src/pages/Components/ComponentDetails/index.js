@@ -252,25 +252,25 @@ function ComponentDetails({ id, reloadComponentsList }) {
       <Controls>
         <button
           onClick={() => setTab("component")}
-          className={tab === "component" && "active"}
+          className={tab === "component" ? "active" : null}
         >
           Component
         </button>
         <button
           onClick={() => setTab("details")}
-          className={tab === "details" && "active"}
+          className={tab === "details" ? "active" : null}
         >
           Details
         </button>
         <button
           onClick={() => setTab("usage")}
-          className={tab === "usage" && "active"}
+          className={tab === "usage" ? "active" : null}
         >
           Usage
         </button>
         <button
           onClick={() => setTab("history")}
-          className={tab === "history" && "active"}
+          className={tab === "history" ? "active" : null}
         >
           History
         </button>
