@@ -57,6 +57,8 @@ const StyledDiv = styled.div`
     button {
       background: none;
       border: none;
+      border-bottom: 5px solid transparent;
+      border-top: 5px solid transparent;
       cursor: pointer;
       height: 44px;
       margin-left: auto;
@@ -68,6 +70,12 @@ const StyledDiv = styled.div`
 
       svg {
         width: 20px;
+      }
+    }
+
+    &.options-checked {
+      button {
+        border-bottom: 5px solid #313132;
       }
     }
 
@@ -173,7 +181,11 @@ function FilterMenu({
         <label htmlFor="my-components">My Components</label>
       </div>
       <DropdownPanel
-        className={"dropdown"}
+        className={
+          selectedStatuses?.length > 0 || selectedTypes?.length > 0
+            ? "dropdown options-checked"
+            : "dropdown"
+        }
         buttonAriaLabel={"Filters"}
         buttonContent={<Icon id="fa-filter.svg" />}
       >
