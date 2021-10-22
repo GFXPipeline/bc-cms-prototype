@@ -67,6 +67,7 @@ const StyledDiv = styled.div`
     }
 
     div.open {
+      margin-left: -156px;
       padding: 16px;
       width: 200px;
 
