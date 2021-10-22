@@ -10,13 +10,13 @@ import Icon from "../../../../components/Icon";
 import EditPanel from "../EditPanel";
 
 const StyledDiv = styled.div`
+  border: 5px solid #707070;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
 
   div.component {
-    border: 5px solid #707070;
     padding: 18px 24px;
 
     ul {

@@ -26,7 +26,7 @@ const StyledDiv = styled.div`
   overflow-y: auto;
   padding: 16px;
   position: absolute;
-  right: 60px;
+  right: 65px;
   top: 15%;
   width: 550px;
   z-index: 1;
