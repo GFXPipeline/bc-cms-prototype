@@ -42,6 +42,7 @@ function Components() {
   // Component types
   const [types, setTypes] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
 
   // List of components to choose from
   const [components, setComponents] = useState([]);
@@ -151,7 +152,13 @@ function Components() {
 
   // Filter components list
   useEffect(() => {
-    function filterComponents(components, isShowAll, search, selectedTypes) {
+    function filterComponents(
+      components,
+      isShowAll,
+      search,
+      selectedStatuses,
+      selectedTypes
+    ) {
       const setToFilter = isShowAll
         ? [...components]
         : [...components].filter((component) => {
@@ -166,7 +173,30 @@ function Components() {
             return false;
           });
 
-      const filteredByType = setToFilter.filter((component) => {
+      const filteredByStatus = setToFilter.filter((component) => {
+        // If no statuses are selected, include the component
+        if (selectedStatuses?.length === 0) {
+          return true;
+        }
+
+        if (
+          component?.is_published &&
+          selectedStatuses?.includes("published")
+        ) {
+          return true;
+        }
+
+        if (
+          !component?.is_published &&
+          selectedStatuses?.includes("unpublished")
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+
+      const filteredByType = filteredByStatus.filter((component) => {
         // If no types are selected, include the component
         if (selectedTypes?.length === 0) {
           return true;
@@ -207,9 +237,15 @@ function Components() {
     }
 
     setFilteredComponents(
-      filterComponents(components, isShowAll, search, selectedTypes)
+      filterComponents(
+        components,
+        isShowAll,
+        search,
+        selectedStatuses,
+        selectedTypes
+      )
     );
-  }, [components, isShowAll, search, selectedTypes]);
+  }, [components, isShowAll, search, selectedStatuses, selectedTypes]);
 
   return (
     <Page>
@@ -224,9 +260,11 @@ function Components() {
           isErrorComponentsList={isErrorComponentsList}
           isShowAll={isShowAll}
           search={search}
+          selectedStatuses={selectedStatuses}
           selectedTypes={selectedTypes}
           setComponentId={setComponentId}
           setSearch={setSearch}
+          setSelectedStatuses={setSelectedStatuses}
           setSelectedTypes={setSelectedTypes}
           setIsShowAll={setIsShowAll}
         />

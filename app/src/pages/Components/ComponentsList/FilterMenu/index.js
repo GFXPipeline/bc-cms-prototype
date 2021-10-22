@@ -107,11 +107,27 @@ const StyledDiv = styled.div`
 
 function FilterMenu({
   isShowAll,
+  selectedStatuses,
   selectedTypes,
   setIsShowAll,
+  setSelectedStatuses,
   setSelectedTypes,
   types,
 }) {
+  function handleSelectedStatuses(e) {
+    const selected = [...selectedStatuses];
+    const value = e.target.value;
+
+    if (selectedStatuses?.includes(value)) {
+      const index = selectedStatuses.indexOf(value);
+      selected.splice(index, 1);
+    } else {
+      selected.push(value);
+    }
+
+    setSelectedStatuses(selected);
+  }
+
   function handleSelectedTypes(e) {
     const selected = [...selectedTypes];
     const value = e.target.value;
@@ -158,11 +174,25 @@ function FilterMenu({
         <fieldset>
           <legend>Filter by status:</legend>
           <div className="checkbox-option">
-            <input type="checkbox" name="status" id="published" />
+            <input
+              type="checkbox"
+              name="status"
+              id="published"
+              value="published"
+              checked={selectedStatuses?.includes("published")}
+              onChange={handleSelectedStatuses}
+            />
             <label htmlFor="published">Published</label>
           </div>
           <div className="checkbox-option">
-            <input type="checkbox" name="status" id="unpublished" />
+            <input
+              type="checkbox"
+              name="status"
+              id="unpublished"
+              value="unpublished"
+              checked={selectedStatuses?.includes("unpublished")}
+              onChange={handleSelectedStatuses}
+            />
             <label htmlFor="unpublished">Unpublished</label>
           </div>
         </fieldset>
@@ -183,7 +213,7 @@ function FilterMenu({
                     id={type?.id}
                     value={type?.id}
                     checked={selectedTypes?.includes(type?.id)}
-                    onClick={handleSelectedTypes}
+                    onChange={handleSelectedTypes}
                   />
                   <label htmlFor={type?.id}>{type?.display_name}</label>
                 </div>
