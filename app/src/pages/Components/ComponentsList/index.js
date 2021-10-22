@@ -48,8 +48,10 @@ function ComponentsList({
   isErrorComponentsList,
   isShowAll,
   search,
+  selectedTypes,
   setIsShowAll,
   setSearch,
+  setSelectedTypes,
   setComponentId,
 }) {
   return (
@@ -63,7 +65,9 @@ function ComponentsList({
       </Search>
       <FilterMenu
         isShowAll={isShowAll}
+        selectedTypes={selectedTypes}
         setIsShowAll={setIsShowAll}
+        setSelectedTypes={setSelectedTypes}
         types={types}
       />
       <ComponentActions />

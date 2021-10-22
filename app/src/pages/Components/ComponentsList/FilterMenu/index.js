@@ -105,7 +105,27 @@ const StyledDiv = styled.div`
   }
 `;
 
-function FilterMenu({ isShowAll, setIsShowAll, types }) {
+function FilterMenu({
+  isShowAll,
+  selectedTypes,
+  setIsShowAll,
+  setSelectedTypes,
+  types,
+}) {
+  function handleSelectedTypes(e) {
+    const selected = [...selectedTypes];
+    const value = e.target.value;
+
+    if (selectedTypes?.includes(value)) {
+      const index = selectedTypes.indexOf(value);
+      selected.splice(index, 1);
+    } else {
+      selected.push(value);
+    }
+
+    setSelectedTypes(selected);
+  }
+
   return (
     <StyledDiv>
       <div className={isShowAll ? "radio-group selected" : "radio-group"}>
@@ -157,7 +177,14 @@ function FilterMenu({ isShowAll, setIsShowAll, types }) {
                   className="checkbox-option"
                   key={`checkbox-option-${index}`}
                 >
-                  <input type="checkbox" name="type" id={type?.id} />
+                  <input
+                    type="checkbox"
+                    name="type"
+                    id={type?.id}
+                    value={type?.id}
+                    checked={selectedTypes?.includes(type?.id)}
+                    onClick={handleSelectedTypes}
+                  />
                   <label htmlFor={type?.id}>{type?.display_name}</label>
                 </div>
               );

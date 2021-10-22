@@ -41,7 +41,7 @@ function Components() {
 
   // Component types
   const [types, setTypes] = useState([]);
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
   // List of components to choose from
   const [components, setComponents] = useState([]);
@@ -83,11 +83,6 @@ function Components() {
           throw error;
         });
     }
-  }
-
-  function handleSelectType(typeId) {
-    setIsLoadingComponentsList(true);
-    setSelectedType(typeId);
   }
 
   // Populate component type list
@@ -156,7 +151,7 @@ function Components() {
 
   // Filter components list
   useEffect(() => {
-    function filterComponents(components, isShowAll, search) {
+    function filterComponents(components, isShowAll, search, selectedTypes) {
       const setToFilter = isShowAll
         ? [...components]
         : [...components].filter((component) => {
@@ -171,7 +166,21 @@ function Components() {
             return false;
           });
 
-      return setToFilter.filter((component) => {
+      const filteredByType = setToFilter.filter((component) => {
+        // If no types are selected, include the component
+        if (selectedTypes?.length === 0) {
+          return true;
+        }
+
+        // If any types are selected, check for type match
+        if (selectedTypes?.includes(component?.type_id)) {
+          return true;
+        }
+
+        return false;
+      });
+
+      return filteredByType.filter((component) => {
         // Title
         if (component?.title?.toLowerCase().includes(search?.toLowerCase())) {
           return true;
@@ -197,8 +206,10 @@ function Components() {
       });
     }
 
-    setFilteredComponents(filterComponents(components, isShowAll, search));
-  }, [components, isShowAll, search]);
+    setFilteredComponents(
+      filterComponents(components, isShowAll, search, selectedTypes)
+    );
+  }, [components, isShowAll, search, selectedTypes]);
 
   return (
     <Page>
@@ -207,16 +218,16 @@ function Components() {
         <ComponentsList
           types={types}
           components={filteredComponents}
-          handleSelectType={handleSelectType}
           isLoadingTypes={isLoadingTypes}
           isErrorTypes={isErrorTypes}
           isLoadingComponentsList={isLoadingComponentsList}
           isErrorComponentsList={isErrorComponentsList}
           isShowAll={isShowAll}
           search={search}
-          selectedType={selectedType}
+          selectedTypes={selectedTypes}
           setComponentId={setComponentId}
           setSearch={setSearch}
+          setSelectedTypes={setSelectedTypes}
           setIsShowAll={setIsShowAll}
         />
         {componentId && (
