@@ -41,6 +41,11 @@ const StyledDiv = styled.div`
       border-bottom: 5px solid #313132;
     }
 
+    input[type="radio"]:focus + label {
+      outline: 2px solid blue;
+      outline-offset: 2px;
+    }
+
     label {
       font-size: 16px;
     }
