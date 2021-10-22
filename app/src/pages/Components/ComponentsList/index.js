@@ -35,6 +35,10 @@ const TableContainer = styled.div`
   background-color: #f2f2f2;
   flex-grow: 1;
   overflow-x: auto;
+
+  span.highlighted {
+    background-color: #fcba19;
+  }
 `;
 
 function ComponentsList({
@@ -44,8 +48,12 @@ function ComponentsList({
   isErrorComponentsList,
   isShowAll,
   search,
+  selectedStatuses,
+  selectedTypes,
   setIsShowAll,
   setSearch,
+  setSelectedStatuses,
+  setSelectedTypes,
   setComponentId,
 }) {
   return (
@@ -53,13 +61,17 @@ function ComponentsList({
       {/* Component search, filter, and actions */}
       <Search>
         <label htmlFor="search-components">
-          Search components by title, status, type, or modified by
+          Search components by title, type, or modified by
         </label>
         <SearchBar id="search-components" value={search} setValue={setSearch} />
       </Search>
       <FilterMenu
         isShowAll={isShowAll}
+        selectedStatuses={selectedStatuses}
+        selectedTypes={selectedTypes}
         setIsShowAll={setIsShowAll}
+        setSelectedStatuses={setSelectedStatuses}
+        setSelectedTypes={setSelectedTypes}
         types={types}
       />
       <ComponentActions />
@@ -96,7 +108,11 @@ function ComponentsList({
                   accessor: "modified_by",
                 },
               ]}
-              tableData={getComponentsTableData(components, setComponentId)}
+              tableData={getComponentsTableData(
+                components,
+                setComponentId,
+                search
+              )}
             />
           </TableContainer>
         )

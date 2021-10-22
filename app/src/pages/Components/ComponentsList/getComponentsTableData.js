@@ -1,7 +1,8 @@
+import Highlighter from "react-highlight-words";
 import ButtonLink from "../../../components/ButtonLink";
 
 // Prepares Components list data for display by the Table component
-function getComponentsTableData(components, setComponentId) {
+function getComponentsTableData(components, setComponentId, search) {
   const data = [];
 
   components.forEach((component) => {
@@ -17,13 +18,32 @@ function getComponentsTableData(components, setComponentId) {
     data.push({
       title: (
         <ButtonLink onClick={() => setComponentId(component?.id)}>
-          {component?.title}
+          <Highlighter
+            highlightClassName="highlighted"
+            searchWords={[search]}
+            autoEscape={true}
+            textToHighlight={component?.title}
+          />
         </ButtonLink>
       ),
       status: component?.is_published ? "Published" : "Unpublished",
-      type: component?.type_display_name,
+      type: (
+        <Highlighter
+          highlightClassName="highlighted"
+          searchWords={[search]}
+          autoEscape={true}
+          textToHighlight={component?.type_display_name}
+        />
+      ),
       modified_date: date.toString(),
-      modified_by: component?.last_modified_by_user,
+      modified_by: (
+        <Highlighter
+          highlightClassName="highlighted"
+          searchWords={[search]}
+          autoEscape={true}
+          textToHighlight={component?.last_modified_by_user}
+        />
+      ),
     });
   });
 

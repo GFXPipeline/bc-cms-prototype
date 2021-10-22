@@ -41,6 +41,11 @@ const StyledDiv = styled.div`
       border-bottom: 5px solid #313132;
     }
 
+    input[type="radio"]:focus + label {
+      outline: 2px solid blue;
+      outline-offset: 2px;
+    }
+
     label {
       font-size: 16px;
     }
@@ -52,6 +57,8 @@ const StyledDiv = styled.div`
     button {
       background: none;
       border: none;
+      border-bottom: 5px solid transparent;
+      border-top: 5px solid transparent;
       cursor: pointer;
       height: 44px;
       margin-left: auto;
@@ -66,7 +73,14 @@ const StyledDiv = styled.div`
       }
     }
 
+    &.options-checked {
+      button {
+        border-bottom: 5px solid #313132;
+      }
+    }
+
     div.open {
+      margin-left: -156px;
       padding: 16px;
       width: 200px;
 
@@ -105,7 +119,43 @@ const StyledDiv = styled.div`
   }
 `;
 
-function FilterMenu({ isShowAll, setIsShowAll, types }) {
+function FilterMenu({
+  isShowAll,
+  selectedStatuses,
+  selectedTypes,
+  setIsShowAll,
+  setSelectedStatuses,
+  setSelectedTypes,
+  types,
+}) {
+  function handleSelectedStatuses(e) {
+    const selected = [...selectedStatuses];
+    const value = e.target.value;
+
+    if (selectedStatuses?.includes(value)) {
+      const index = selectedStatuses.indexOf(value);
+      selected.splice(index, 1);
+    } else {
+      selected.push(value);
+    }
+
+    setSelectedStatuses(selected);
+  }
+
+  function handleSelectedTypes(e) {
+    const selected = [...selectedTypes];
+    const value = e.target.value;
+
+    if (selectedTypes?.includes(value)) {
+      const index = selectedTypes.indexOf(value);
+      selected.splice(index, 1);
+    } else {
+      selected.push(value);
+    }
+
+    setSelectedTypes(selected);
+  }
+
   return (
     <StyledDiv>
       <div className={isShowAll ? "radio-group selected" : "radio-group"}>
@@ -131,18 +181,36 @@ function FilterMenu({ isShowAll, setIsShowAll, types }) {
         <label htmlFor="my-components">My Components</label>
       </div>
       <DropdownPanel
-        className={"dropdown"}
+        className={
+          selectedStatuses?.length > 0 || selectedTypes?.length > 0
+            ? "dropdown options-checked"
+            : "dropdown"
+        }
         buttonAriaLabel={"Filters"}
         buttonContent={<Icon id="fa-filter.svg" />}
       >
         <fieldset>
           <legend>Filter by status:</legend>
           <div className="checkbox-option">
-            <input type="checkbox" name="status" id="published" />
+            <input
+              type="checkbox"
+              name="status"
+              id="published"
+              value="published"
+              checked={selectedStatuses?.includes("published")}
+              onChange={handleSelectedStatuses}
+            />
             <label htmlFor="published">Published</label>
           </div>
           <div className="checkbox-option">
-            <input type="checkbox" name="status" id="unpublished" />
+            <input
+              type="checkbox"
+              name="status"
+              id="unpublished"
+              value="unpublished"
+              checked={selectedStatuses?.includes("unpublished")}
+              onChange={handleSelectedStatuses}
+            />
             <label htmlFor="unpublished">Unpublished</label>
           </div>
         </fieldset>
@@ -157,7 +225,14 @@ function FilterMenu({ isShowAll, setIsShowAll, types }) {
                   className="checkbox-option"
                   key={`checkbox-option-${index}`}
                 >
-                  <input type="checkbox" name="type" id={type?.id} />
+                  <input
+                    type="checkbox"
+                    name="type"
+                    id={type?.id}
+                    value={type?.id}
+                    checked={selectedTypes?.includes(type?.id)}
+                    onChange={handleSelectedTypes}
+                  />
                   <label htmlFor={type?.id}>{type?.display_name}</label>
                 </div>
               );

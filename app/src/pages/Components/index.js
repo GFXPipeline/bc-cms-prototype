@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+
+// Global components
 import Header from "../../components/Header";
+import { authenticationService } from "../../_services";
 import { componentService } from "../../_services/component.service";
 
 // Page components
@@ -38,10 +41,12 @@ function Components() {
 
   // Component types
   const [types, setTypes] = useState([]);
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [selectedStatuses, setSelectedStatuses] = useState([]);
 
   // List of components to choose from
   const [components, setComponents] = useState([]);
+  const [filteredComponents, setFilteredComponents] = useState([]);
 
   // Selected component
   const [componentId, setComponentId] = useState("");
@@ -79,11 +84,6 @@ function Components() {
           throw error;
         });
     }
-  }
-
-  function handleSelectType(typeId) {
-    setIsLoadingComponentsList(true);
-    setSelectedType(typeId);
   }
 
   // Populate component type list
@@ -150,23 +150,122 @@ function Components() {
     getComponentsList();
   }, [isShowAll]);
 
+  // Filter components list
+  useEffect(() => {
+    function filterComponents(
+      components,
+      isShowAll,
+      search,
+      selectedStatuses,
+      selectedTypes
+    ) {
+      const setToFilter = isShowAll
+        ? [...components]
+        : [...components].filter((component) => {
+          // Only include "My Components"
+          if (
+            component?.owned_by_user ===
+            authenticationService.currentUserValue?.username
+          ) {
+            return true;
+          }
+
+          return false;
+        });
+
+      const filteredByStatus = setToFilter.filter((component) => {
+        // If no statuses are selected, include the component
+        if (selectedStatuses?.length === 0) {
+          return true;
+        }
+
+        if (
+          component?.is_published &&
+          selectedStatuses?.includes("published")
+        ) {
+          return true;
+        }
+
+        if (
+          !component?.is_published &&
+          selectedStatuses?.includes("unpublished")
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+
+      const filteredByType = filteredByStatus.filter((component) => {
+        // If no types are selected, include the component
+        if (selectedTypes?.length === 0) {
+          return true;
+        }
+
+        // If any types are selected, check for type match
+        if (selectedTypes?.includes(component?.type_id)) {
+          return true;
+        }
+
+        return false;
+      });
+
+      return filteredByType.filter((component) => {
+        // Title
+        if (component?.title?.toLowerCase().includes(search?.toLowerCase())) {
+          return true;
+        }
+        // Type
+        if (
+          component?.type_display_name
+            ?.toLowerCase()
+            .includes(search?.toLowerCase())
+        ) {
+          return true;
+        }
+        // Last modified by
+        if (
+          component?.last_modified_by_user
+            ?.toLowerCase()
+            .includes(search?.toLowerCase())
+        ) {
+          return true;
+        }
+
+        return false;
+      });
+    }
+
+    setFilteredComponents(
+      filterComponents(
+        components,
+        isShowAll,
+        search,
+        selectedStatuses,
+        selectedTypes
+      )
+    );
+  }, [components, isShowAll, search, selectedStatuses, selectedTypes]);
+
   return (
     <Page>
       <Header />
       <ContentContainer>
         <ComponentsList
           types={types}
-          components={components}
-          handleSelectType={handleSelectType}
+          components={filteredComponents}
           isLoadingTypes={isLoadingTypes}
           isErrorTypes={isErrorTypes}
           isLoadingComponentsList={isLoadingComponentsList}
           isErrorComponentsList={isErrorComponentsList}
           isShowAll={isShowAll}
           search={search}
-          selectedType={selectedType}
+          selectedStatuses={selectedStatuses}
+          selectedTypes={selectedTypes}
           setComponentId={setComponentId}
           setSearch={setSearch}
+          setSelectedStatuses={setSelectedStatuses}
+          setSelectedTypes={setSelectedTypes}
           setIsShowAll={setIsShowAll}
         />
         {componentId && (
