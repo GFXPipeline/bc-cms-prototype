@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
-import Button from "../../../components/Button";
-import Icon from "../../../components/Icon";
-import Select from "../../../components/Select";
-import { componentService } from "../../../_services/component.service";
+import Button from "../../../../../components/Button";
+import Icon from "../../../../../components/Icon";
+import Select from "../../../../../components/Select";
+import { componentService } from "../../../../../_services/component.service";
 
 const StyledDiv = styled.div`
   margin: 16px 0;
