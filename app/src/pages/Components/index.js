@@ -162,16 +162,16 @@ function Components() {
       const setToFilter = isShowAll
         ? [...components]
         : [...components].filter((component) => {
-            // Only include "My Components"
-            if (
-              component?.owned_by_user ===
-              authenticationService.currentUser?.username
-            ) {
-              return true;
-            }
+          // Only include "My Components"
+          if (
+            component?.owned_by_user ===
+            authenticationService.currentUserValue?.username
+          ) {
+            return true;
+          }
 
-            return false;
-          });
+          return false;
+        });
 
       const filteredByStatus = setToFilter.filter((component) => {
         // If no statuses are selected, include the component
