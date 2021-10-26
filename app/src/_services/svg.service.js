@@ -8,6 +8,7 @@ import { ReactComponent as cog } from "../assets/fa-cog.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
 import { ReactComponent as envelope } from "../assets/fa-envelope.svg";
 import { ReactComponent as eye } from "../assets/fa-eye.svg";
+import { ReactComponent as files } from "../assets/metro-files-empty.svg";
 import { ReactComponent as filter } from "../assets/fa-filter.svg";
 import { ReactComponent as gripVertical } from "../assets/fa-grip-vertical.svg";
 import { ReactComponent as info } from "../assets/noun-info.svg";
@@ -44,6 +45,7 @@ const svgIcons = {
   "ionic-ios-arrow-down.svg": arrowDown,
   "ionic-ios-arrow-forward.svg": arrowForward,
   "ionic-ios-arrow-up.svg": arrowUp,
+  "metro-files-empty.svg": files,
   "noun-calendar.svg": calendar,
   "noun-info.svg": info,
 };
