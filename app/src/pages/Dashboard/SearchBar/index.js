@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "../../../components/Button";
 
 const StyledDiv = styled.div`
-  margin-top: 32px;
+  margin: 30px 0;
   max-width: 1387px;
   min-width: 900px;
 
@@ -27,8 +27,16 @@ function SearchBar() {
       <label htmlFor="dashboard-search">Open item by URL or ID</label>
       <div className="input-field">
         <input type="text" id="dashboard-search" />
-        <Button primary>Open</Button>
-        <Button primary>Advanced Search</Button>
+
+        {/* Open the targeted item */}
+        <Button primary disabled>
+          Open
+        </Button>
+
+        {/* Expand the advanced search panel below the search bar */}
+        <Button primary disabled>
+          Advanced Search
+        </Button>
       </div>
     </StyledDiv>
   );
