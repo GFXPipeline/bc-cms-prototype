@@ -34,6 +34,10 @@ const StyledDiv = styled.div`
     &:hover {
       text-decoration: underline;
     }
+
+    &:disabled {
+      text-decoration: none;
+    }
   }
 `;
 
@@ -50,6 +54,7 @@ function Navigation({ section, setSection }) {
       <button
         className={section === "analytics" ? "active" : null}
         onClick={() => setSection("analytics")}
+        disabled
       >
         <Icon id="fa-chart-line.svg" />
         <span>Analytics</span>
@@ -64,6 +69,7 @@ function Navigation({ section, setSection }) {
       <button
         className={section === "workflow-status" ? "active" : null}
         onClick={() => setSection("workflow-status")}
+        disabled
       >
         <Icon id="fa-cycle.svg" />
         <span>Workflow status</span>
@@ -71,6 +77,7 @@ function Navigation({ section, setSection }) {
       <button
         className={section === "users-and-groups" ? "active" : null}
         onClick={() => setSection("users-and-groups")}
+        disabled
       >
         <Icon id="fa-user.svg" />
         <span>Users and groups</span>
