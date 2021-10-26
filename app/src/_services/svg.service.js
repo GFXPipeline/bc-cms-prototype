@@ -4,6 +4,7 @@ import { ReactComponent as arrowDown } from "../assets/ionic-ios-arrow-down.svg"
 import { ReactComponent as arrowForward } from "../assets/ionic-ios-arrow-forward.svg";
 import { ReactComponent as arrowUp } from "../assets/ionic-ios-arrow-up.svg";
 import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
+import { ReactComponent as chartLine } from "../assets/fa-chart-line.svg";
 import { ReactComponent as cog } from "../assets/fa-cog.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
 import { ReactComponent as envelope } from "../assets/fa-envelope.svg";
@@ -25,6 +26,7 @@ import { ReactComponent as undo } from "../assets/fa-undo-solid.svg";
 
 // Asset map
 const svgIcons = {
+  "fa-chart-line.svg": chartLine,
   "fa-cog.svg": cog,
   "fa-copy.svg": copy,
   "fa-envelope.svg": envelope,
