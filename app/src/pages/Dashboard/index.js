@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 // Page components
 import SearchBar from "./SearchBar";
 import Navigation from "./Navigation";
+import { ContentMaintenance } from "./Sections";
 
 const Page = styled.div`
   display: flex;
@@ -22,6 +23,7 @@ function Dashboard() {
       <Header />
       <SearchBar />
       <Navigation section={section} setSection={setSection} />
+      {section === "content-maintenance" && <ContentMaintenance />}
     </Page>
   );
 }
