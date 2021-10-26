@@ -25,6 +25,7 @@ import { ReactComponent as times } from "../assets/fa-times.svg";
 import { ReactComponent as tools } from "../assets/fa-tools.svg";
 import { ReactComponent as trash } from "../assets/fa-trash.svg";
 import { ReactComponent as undo } from "../assets/fa-undo-solid.svg";
+import { ReactComponent as user } from "../assets/fa-user.svg";
 
 // Asset map
 const svgIcons = {
@@ -46,6 +47,7 @@ const svgIcons = {
   "fa-tools.svg": tools,
   "fa-trash.svg": trash,
   "fa-undo-solid.svg": undo,
+  "fa-user.svg": user,
   "fa-redo-solid.svg": redo,
   "ionic-ios-arrow-back.svg": arrowBack,
   "ionic-ios-arrow-down.svg": arrowDown,
