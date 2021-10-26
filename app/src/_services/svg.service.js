@@ -7,6 +7,7 @@ import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
 import { ReactComponent as chartLine } from "../assets/fa-chart-line.svg";
 import { ReactComponent as cog } from "../assets/fa-cog.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
+import { ReactComponent as cycle } from "../assets/fa-cycle.svg";
 import { ReactComponent as envelope } from "../assets/fa-envelope.svg";
 import { ReactComponent as eye } from "../assets/fa-eye.svg";
 import { ReactComponent as files } from "../assets/metro-files-empty.svg";
@@ -30,6 +31,7 @@ const svgIcons = {
   "fa-chart-line.svg": chartLine,
   "fa-cog.svg": cog,
   "fa-copy.svg": copy,
+  "fa-cycle.svg": cycle,
   "fa-envelope.svg": envelope,
   "fa-eye.svg": eye,
   "fa-filter.svg": filter,
