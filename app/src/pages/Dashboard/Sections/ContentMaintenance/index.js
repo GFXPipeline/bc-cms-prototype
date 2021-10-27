@@ -83,33 +83,6 @@ const StyledDiv = styled.div`
       }
     }
   }
-
-  div.bottom {
-    button {
-      height: 44px;
-      padding: 0 18px;
-
-      &.filter {
-        margin: 0 18px;
-        padding: 0;
-        width: 44px;
-      }
-
-      &.download {
-        svg {
-          margin-right: 16px;
-        }
-      }
-    }
-
-    p.error {
-      background-color: #f2dede;
-      border: 1px solid #ebccd1;
-      border-radius: 4px;
-      color: #a12622;
-      padding: 15px;
-    }
-  }
 `;
 
 function ContentMaintenance({}) {
