@@ -25,10 +25,29 @@ recycleBinRouter.get("/:username/pages", (req, res) => {
         userId = rows[0]?.id;
 
         // Select all page deletions table entries created by or last modified by user
-        knex("page_deletions")
-          .select("*")
-          .where("deleted_by_user", userId)
-          .orWhere("last_modified_by_user", userId)
+        knex("page_deletions AS pd")
+          .leftJoin("pages AS p", "p.id", "pd.page_id")
+          .leftJoin("users AS ud", "ud.id", "pd.deleted_by_user")
+          .leftJoin("users AS um", "um.id", "pd.last_modified_by_user")
+          .select(
+            "pd.id",
+            "pd.page_id",
+            { title: "p.title" },
+            "pd.reason",
+            "pd.is_delete_date_set",
+            "pd.time_to_delete",
+            "pd.is_notification_requested",
+            "pd.is_subscriber_message_set",
+            "pd.subscriber_message",
+            { deleted_by_user_id: "pd.deleted_by_user" },
+            { deleted_by_username: "ud.username" },
+            { last_modified_by_user_id: "pd.last_modified_by_user" },
+            { last_modified_by_username: "um.username" },
+            "pd.time_created",
+            "pd.time_last_updated"
+          )
+          .where("pd.deleted_by_user", userId)
+          .orWhere("pd.last_modified_by_user", userId)
           .then((rows) => {
             console.log(
               `rows in GET /api/recycle-bin/${req?.params?.username}/pages: `,
