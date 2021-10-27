@@ -9,6 +9,7 @@ import { ReactComponent as chartLine } from "../assets/fa-chart-line.svg";
 import { ReactComponent as cog } from "../assets/fa-cog.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
 import { ReactComponent as cycle } from "../assets/fa-cycle.svg";
+import { ReactComponent as download } from "../assets/fa-download.svg";
 import { ReactComponent as envelope } from "../assets/fa-envelope.svg";
 import { ReactComponent as eye } from "../assets/fa-eye.svg";
 import { ReactComponent as fileFind } from "../assets/md-file-find.svg";
@@ -40,6 +41,7 @@ const svgIcons = {
   "fa-cog.svg": cog,
   "fa-copy.svg": copy,
   "fa-cycle.svg": cycle,
+  "fa-download.svg": download,
   "fa-envelope.svg": envelope,
   "fa-eye.svg": eye,
   "fa-filter.svg": filter,
