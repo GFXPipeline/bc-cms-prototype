@@ -36,6 +36,7 @@ const StyledDiv = styled.div`
     }
 
     &:disabled {
+      cursor: not-allowed;
       text-decoration: none;
     }
   }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import Accordion from "../../Accordion";
+import Button from "../../../../components/Button";
 import Icon from "../../../../components/Icon";
 import LoadSpinner from "../../../../components/LoadSpinner";
 
@@ -80,6 +81,25 @@ const StyledDiv = styled.div`
       }
     }
   }
+
+  div.bottom {
+    button {
+      height: 44px;
+      padding: 0 18px;
+
+      &.filter {
+        margin: 0 18px;
+        padding: 0;
+        width: 44px;
+      }
+
+      &.download {
+        svg {
+          margin-right: 16px;
+        }
+      }
+    }
+  }
 `;
 
 function ContentMaintenance({}) {
@@ -137,11 +157,16 @@ function ContentMaintenance({}) {
           children={
             <>
               <div className="controls">
-                <button>Pages</button>
-                <button>Assets</button>
-                <button>Reusable components</button>
-                <button>Filter</button>
-                <button>Download full report</button>
+                <Button primary>Content</Button>
+                <Button>Assets</Button>
+                <Button>Reusable components</Button>
+                <Button className="filter" aria-label="Filter" primary>
+                  <Icon id="fa-filter.svg" />
+                </Button>
+                <Button className="download">
+                  <Icon id="fa-download.svg" />
+                  <span>Download full report</span>
+                </Button>
               </div>
               <div>Table</div>
               <div>Pagination</div>
