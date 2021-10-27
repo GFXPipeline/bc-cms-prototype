@@ -167,11 +167,24 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
               },
             ]}
             tableData={recycleItems.map((item) => {
+              let date = "";
+
+              if (item?.time_created) {
+                const itemDate = new Date(item?.time_created);
+                const datePart = itemDate.toISOString().split("T")[0];
+                const hours = itemDate.getHours();
+                const amPm = hours >= 12 ? "PM" : "AM";
+                const displayHours = hours % 12 ? hours % 12 : 12;
+                const minutes = itemDate.getMinutes();
+                const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+                date = `${datePart} ${displayHours}:${displayMinutes} ${amPm}`;
+              }
+
               return {
                 restore_button: <Button primary>Restore</Button>,
                 page_title: item?.title,
                 deleted_by: item?.deleted_by_username,
-                deleted_date: item?.time_created,
+                deleted_date: date,
                 reason: item?.reason,
                 location: "Root",
               };
