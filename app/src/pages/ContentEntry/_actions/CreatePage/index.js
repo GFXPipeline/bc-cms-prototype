@@ -17,6 +17,10 @@ import PickTemplateInfoBox from "./PickTemplateInfoBox";
 import SelectPageInfoBox from "./SelectPageInfoBox";
 
 const StyledModal = styled(Modal)`
+  .Overlay {
+    z-index: 1;
+  }
+
   .Modal {
     width: 100%;
     max-width: 550px;

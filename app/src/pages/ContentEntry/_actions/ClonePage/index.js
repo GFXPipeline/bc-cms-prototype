@@ -8,6 +8,10 @@ import NumberInput from "../../../../components/NumberInput";
 import TextInput from "../../../../components/TextInput";
 
 const StyledModal = styled(Modal)`
+  .Overlay {
+    z-index: 1;
+  }
+
   .Modal {
     width: 100%;
     max-width: 550px;
