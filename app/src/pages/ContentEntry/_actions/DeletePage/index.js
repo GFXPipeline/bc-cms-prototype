@@ -707,7 +707,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
             Delete
           </Button>
           <Button onClick={handleCleanup} disabled={isSubmitting}>
-            Cancel
+            {isSuccess ? "Close" : "Cancel"}
           </Button>
         </div>
       </form>

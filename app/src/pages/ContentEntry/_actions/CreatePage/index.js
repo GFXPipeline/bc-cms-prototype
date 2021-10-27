@@ -356,11 +356,8 @@ function CreatePage({ isOpen, setIsOpen, onAfterClose }) {
           >
             Create
           </Button>
-          <Button
-            onClick={() => setIsOpen(false)}
-            disabled={isSubmitting || isSuccess}
-          >
-            Cancel
+          <Button onClick={() => setIsOpen(false)} disabled={isSubmitting}>
+            {isSuccess ? "Close" : "Cancel"}
           </Button>
         </div>
       </form>
@@ -369,7 +366,7 @@ function CreatePage({ isOpen, setIsOpen, onAfterClose }) {
         <>
           <p className="success">Successfully created page.</p>
           <Button primary onClick={handleCleanup}>
-            Close
+            Close this dialog
           </Button>
         </>
       )}

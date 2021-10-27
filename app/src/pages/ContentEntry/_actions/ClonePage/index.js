@@ -313,7 +313,7 @@ function ClonePage({ id, isOpen, setIsOpen, onAfterClose }) {
             Clone
           </Button>
           <Button onClick={() => setIsOpen(false)} disabled={isSubmitting}>
-            Cancel
+            {isSuccess ? "Close" : "Cancel"}
           </Button>
         </div>
       </form>

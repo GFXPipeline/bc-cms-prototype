@@ -89,12 +89,19 @@ function CancelEdits({ isOpen, setIsOpen, clearEdits }) {
         >
           Confirm
         </Button>
-        <Button onClick={handleCleanup}>Close</Button>
+        <Button onClick={handleCleanup}>
+          {isSuccess ? "Close" : "Close without cancelling"}
+        </Button>
       </div>
       {isSuccess && (
-        <p className="success">
-          Unsaved edits to this page have been discarded.
-        </p>
+        <>
+          <p className="success">
+            Unsaved edits to this page have been discarded.
+          </p>
+          <Button primary onClick={handleCleanup}>
+            Close this dialog
+          </Button>
+        </>
       )}
       {isError && (
         <p className="error">
