@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Button from "../../../../../components/Button";
 import Icon from "../../../../../components/Icon";
 import LoadSpinner from "../../../../../components/LoadSpinner";
+import Select from "../../../../../components/Select";
 import Table from "../../../../../components/Table";
 import { recycleBinService } from "../../../../../_services/recycle-bin.service";
 
@@ -14,19 +15,25 @@ import Accordion from "../../../Accordion";
 const StyledDiv = styled.div`
   margin: 38px 0;
 
-  button {
-    height: 44px;
-    padding: 0 18px;
+  div.controls {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
 
-    &.filter {
-      margin: 0 18px;
-      padding: 0;
-      width: 44px;
-    }
+    button {
+      height: 44px;
+      padding: 0 18px;
 
-    &.download {
-      svg {
-        margin-right: 16px;
+      &.filter {
+        margin: 0 18px;
+        padding: 0;
+        width: 44px;
+      }
+
+      &.download {
+        svg {
+          margin-right: 16px;
+        }
       }
     }
   }
@@ -48,6 +55,48 @@ const TableContainer = styled.div`
 
     th {
       color: #1a5a96;
+    }
+  }
+`;
+
+const Pagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 24px;
+
+  div.space {
+    flex-grow: 1;
+    width: 200px;
+  }
+
+  div.button-group {
+    button {
+      font-size: 18px;
+      font-weight: 700;
+      padding: 0px 0px;
+      height: 44px;
+      width: 44px;
+    }
+  }
+
+  div.results-per-page {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    width: 200px;
+
+    label {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      margin-left: auto;
+      margin-right: 7px;
+    }
+
+    select {
+      width: 60px;
     }
   }
 `;
@@ -129,7 +178,22 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
             })}
           />
         </TableContainer>
-        {/* <div>Pagination</div> */}
+        <Pagination>
+          <div className="space" />
+          <div className="button-group">
+            <Button disabled>«</Button>
+            <Button disabled>‹</Button>
+            <Button disabled>1</Button>
+            <Button disabled>›</Button>
+            <Button disabled>»</Button>
+          </div>
+          <div className="results-per-page">
+            <label htmlFor="recycle-bin-results-per-page">
+              Results per page:
+            </label>
+            <Select id="recycle-bin-results-per-page" disabled />
+          </div>
+        </Pagination>
       </StyledDiv>
     );
   }
