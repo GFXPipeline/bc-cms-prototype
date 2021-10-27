@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
 
+import Accordion from "../../Accordion";
 import Icon from "../../../../components/Icon";
 import LoadSpinner from "../../../../components/LoadSpinner";
 
 const StyledDiv = styled.div`
-  margin-top: 30px;
+  padding: 30px 85px 50px 85px;
   width: 100%;
 
   div.top {
@@ -82,6 +83,7 @@ const StyledDiv = styled.div`
 `;
 
 function ContentMaintenance({}) {
+  const [isOpenRecycleBin, setIsOpenRecycleBin] = useState(false);
   const [isLoadingRecycleBin, setIsLoadingRecycleBin] = useState(true);
   const [recycleItems, setRecycleItems] = useState([]);
 
@@ -123,23 +125,29 @@ function ContentMaintenance({}) {
         </div>
       </div>
 
-      <div>
-        <div>Content Review Schedule</div>
-        <div>Reading Level Summary</div>
-        <div>Broken Links Report</div>
-        <div>Did You Find Results</div>
-        <div>
-          <div>Recycle Bin</div>
-          <div className="controls">
-            <button>Pages</button>
-            <button>Assets</button>
-            <button>Reusable components</button>
-            <button>Filter</button>
-            <button>Download full report</button>
-          </div>
-        </div>
-        <div>Table</div>
-        <div>Pagination</div>
+      <div className="bottom">
+        <Accordion label="Content Review Schedule" disabled />
+        <Accordion label="Reading Level Summary" disabled />
+        <Accordion label="Broken Links Report" disabled />
+        <Accordion label="Did You Find Results" disabled />
+        <Accordion
+          label="Recycle Bin"
+          open={isOpenRecycleBin}
+          setOpen={setIsOpenRecycleBin}
+          children={
+            <>
+              <div className="controls">
+                <button>Pages</button>
+                <button>Assets</button>
+                <button>Reusable components</button>
+                <button>Filter</button>
+                <button>Download full report</button>
+              </div>
+              <div>Table</div>
+              <div>Pagination</div>
+            </>
+          }
+        />
       </div>
     </StyledDiv>
   );
