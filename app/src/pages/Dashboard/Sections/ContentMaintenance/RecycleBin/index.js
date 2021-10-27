@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Global components
@@ -11,6 +11,8 @@ import { recycleBinService } from "../../../../../_services/recycle-bin.service"
 import Accordion from "../../../Accordion";
 
 const StyledDiv = styled.div`
+  margin: 38px 0;
+
   button {
     height: 44px;
     padding: 0 18px;
@@ -37,7 +39,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function RecycleBin({ isOpen, setIsOpen }) {
+const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
   const [isLoadingRecycleBin, setIsLoadingRecycleBin] = useState(true);
   const [isErrorRecycleBin, setIsErrorRecycleBin] = useState(false);
   const [recycleItems, setRecycleItems] = useState([]);
@@ -108,8 +110,9 @@ function RecycleBin({ isOpen, setIsOpen }) {
       open={isOpen}
       setOpen={setIsOpen}
       children={getRecycleBinAccordion()}
+      ref={forwardRef}
     />
   );
-}
+});
 
 export default RecycleBin;

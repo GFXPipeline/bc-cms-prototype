@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 // Global components
@@ -114,6 +114,19 @@ const StyledDiv = styled.div`
 
 function ContentMaintenance({}) {
   const [isOpenRecycleBin, setIsOpenRecycleBin] = useState(false);
+  const recycleBinRef = useRef(null);
+
+  function handleClick(ref) {
+    if (!ref.current) return;
+
+    switch (ref) {
+      case recycleBinRef:
+        setIsOpenRecycleBin(true);
+        break;
+    }
+
+    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
 
   return (
     <StyledDiv>
@@ -144,7 +157,7 @@ function ContentMaintenance({}) {
             </div>
             <span>Did You Find Results</span>
           </button>
-          <button>
+          <button onClick={() => handleClick(recycleBinRef)}>
             <div className="svg">
               <Icon id="fa-trash-restore.svg" />
             </div>
@@ -158,7 +171,11 @@ function ContentMaintenance({}) {
         <Accordion label="Reading Level Summary" disabled />
         <Accordion label="Broken Links Report" disabled />
         <Accordion label="Did You Find Results" disabled />
-        <RecycleBin isOpen={isOpenRecycleBin} setIsOpen={setIsOpenRecycleBin} />
+        <RecycleBin
+          isOpen={isOpenRecycleBin}
+          setIsOpen={setIsOpenRecycleBin}
+          ref={recycleBinRef}
+        />
       </div>
     </StyledDiv>
   );
