@@ -54,7 +54,8 @@ const BottomControls = styled.div`
     text-decoration: none;
 
     &.active {
-      text-decoration: underline;
+      color: white;
+      font-weight: 700;
     }
 
     &:hover {

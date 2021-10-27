@@ -5,6 +5,7 @@ import Editor from "./pages/Editor";
 import UserProfile from "./pages/UserProfile";
 import ContentEntry from "./pages/ContentEntry";
 import Components from "./pages/Components";
+import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 
 // Components
@@ -18,6 +19,9 @@ function App() {
         <Route path="/login">
           <Login />
         </Route>
+        <PrivateRoute path="/admin">
+          <Home />
+        </PrivateRoute>
         <PrivateRoute path="/edit/:id">
           <Editor />
         </PrivateRoute>
@@ -37,7 +41,7 @@ function App() {
           <Components />
         </PrivateRoute>
         <PrivateRoute path="/">
-          <Home />
+          <Dashboard />
         </PrivateRoute>
       </Switch>
     </BrowserRouter>

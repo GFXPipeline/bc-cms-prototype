@@ -3,11 +3,16 @@ import { ReactComponent as arrowBack } from "../assets/ionic-ios-arrow-back.svg"
 import { ReactComponent as arrowDown } from "../assets/ionic-ios-arrow-down.svg";
 import { ReactComponent as arrowForward } from "../assets/ionic-ios-arrow-forward.svg";
 import { ReactComponent as arrowUp } from "../assets/ionic-ios-arrow-up.svg";
+import { ReactComponent as bookReader } from "../assets/fa-book-reader.svg";
 import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
+import { ReactComponent as chartLine } from "../assets/fa-chart-line.svg";
 import { ReactComponent as cog } from "../assets/fa-cog.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
+import { ReactComponent as cycle } from "../assets/fa-cycle.svg";
 import { ReactComponent as envelope } from "../assets/fa-envelope.svg";
 import { ReactComponent as eye } from "../assets/fa-eye.svg";
+import { ReactComponent as fileFind } from "../assets/md-file-find.svg";
+import { ReactComponent as files } from "../assets/metro-files-empty.svg";
 import { ReactComponent as filter } from "../assets/fa-filter.svg";
 import { ReactComponent as gripVertical } from "../assets/fa-grip-vertical.svg";
 import { ReactComponent as info } from "../assets/noun-info.svg";
@@ -17,15 +22,24 @@ import { ReactComponent as lock } from "../assets/fa-lock.svg";
 import { ReactComponent as mapMarker } from "../assets/fa-map-marker.svg";
 import { ReactComponent as phone } from "../assets/fa-phone.svg";
 import { ReactComponent as plus } from "../assets/fa-plus.svg";
+import { ReactComponent as pushpin } from "../assets/noun-pushpin.svg";
+import { ReactComponent as rateReview } from "../assets/md-rate-review.svg";
 import { ReactComponent as redo } from "../assets/fa-redo-solid.svg";
 import { ReactComponent as times } from "../assets/fa-times.svg";
+import { ReactComponent as tools } from "../assets/fa-tools.svg";
 import { ReactComponent as trash } from "../assets/fa-trash.svg";
+import { ReactComponent as trashRestore } from "../assets/fa-trash-restore.svg";
 import { ReactComponent as undo } from "../assets/fa-undo-solid.svg";
+import { ReactComponent as unlink } from "../assets/metro-unlink.svg";
+import { ReactComponent as user } from "../assets/fa-user.svg";
 
 // Asset map
 const svgIcons = {
+  "fa-book-reader.svg": bookReader,
+  "fa-chart-line.svg": chartLine,
   "fa-cog.svg": cog,
   "fa-copy.svg": copy,
+  "fa-cycle.svg": cycle,
   "fa-envelope.svg": envelope,
   "fa-eye.svg": eye,
   "fa-filter.svg": filter,
@@ -37,15 +51,23 @@ const svgIcons = {
   "fa-map-marker.svg": mapMarker,
   "fa-plus.svg": plus,
   "fa-times.svg": times,
+  "fa-tools.svg": tools,
   "fa-trash.svg": trash,
+  "fa-trash-restore.svg": trashRestore,
   "fa-undo-solid.svg": undo,
+  "fa-user.svg": user,
   "fa-redo-solid.svg": redo,
   "ionic-ios-arrow-back.svg": arrowBack,
   "ionic-ios-arrow-down.svg": arrowDown,
   "ionic-ios-arrow-forward.svg": arrowForward,
   "ionic-ios-arrow-up.svg": arrowUp,
+  "metro-files-empty.svg": files,
+  "metro-unlink.svg": unlink,
+  "md-file-find.svg": fileFind,
+  "md-rate-review.svg": rateReview,
   "noun-calendar.svg": calendar,
   "noun-info.svg": info,
+  "noun-pushpin.svg": pushpin,
 };
 
 function getSvg(id) {
