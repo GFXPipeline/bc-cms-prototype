@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
+// Global components
 import Accordion from "../../Accordion";
-import Button from "../../../../components/Button";
 import Icon from "../../../../components/Icon";
-import LoadSpinner from "../../../../components/LoadSpinner";
-import { recycleBinService } from "../../../../_services/recycle-bin.service";
+
+// Page components
+import RecycleBin from "./RecycleBin";
 
 const StyledDiv = styled.div`
   padding: 30px 85px 50px 85px;
@@ -113,69 +114,6 @@ const StyledDiv = styled.div`
 
 function ContentMaintenance({}) {
   const [isOpenRecycleBin, setIsOpenRecycleBin] = useState(false);
-  const [isLoadingRecycleBin, setIsLoadingRecycleBin] = useState(true);
-  const [isErrorRecycleBin, setIsErrorRecycleBin] = useState(false);
-  const [recycleItems, setRecycleItems] = useState([]);
-
-  function getRecycleBinAccordion() {
-    if (isLoadingRecycleBin) {
-      return <LoadSpinner />;
-    }
-
-    if (isErrorRecycleBin) {
-      return <p className="error">Error fetching recycle bin data.</p>;
-    }
-
-    if (
-      recycleItems &&
-      Array.isArray(recycleItems) &&
-      recycleItems.length === 0
-    ) {
-      return <p>Your recycle bin is empty.</p>;
-    }
-
-    return (
-      <>
-        <div className="controls">
-          <Button primary>Content</Button>
-          <Button>Assets</Button>
-          <Button>Reusable components</Button>
-          <Button className="filter" aria-label="Filter" primary>
-            <Icon id="fa-filter.svg" />
-          </Button>
-          <Button className="download">
-            <Icon id="fa-download.svg" />
-            <span>Download full report</span>
-          </Button>
-        </div>
-        <div>
-          {recycleItems.map((item, index) => {
-            return <p key={index}>{item?.id}</p>;
-          })}
-        </div>
-        <div>Pagination</div>
-      </>
-    );
-  }
-
-  useEffect(() => {
-    function getRecycleBinItems() {
-      recycleBinService
-        .getPagesByUser()
-        .then((items) => {
-          console.log("inside success");
-          setRecycleItems(items);
-          setIsLoadingRecycleBin(false);
-        })
-        .catch((error) => {
-          console.log("inside error");
-          console.log(error);
-          setIsErrorRecycleBin(true);
-        });
-    }
-
-    getRecycleBinItems();
-  }, []);
 
   return (
     <StyledDiv>
@@ -220,12 +158,7 @@ function ContentMaintenance({}) {
         <Accordion label="Reading Level Summary" disabled />
         <Accordion label="Broken Links Report" disabled />
         <Accordion label="Did You Find Results" disabled />
-        <Accordion
-          label="Recycle Bin"
-          open={isOpenRecycleBin}
-          setOpen={setIsOpenRecycleBin}
-          children={getRecycleBinAccordion()}
-        />
+        <RecycleBin isOpen={isOpenRecycleBin} setIsOpen={setIsOpenRecycleBin} />
       </div>
     </StyledDiv>
   );
