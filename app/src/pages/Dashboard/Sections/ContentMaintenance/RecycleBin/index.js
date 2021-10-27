@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Button from "../../../../../components/Button";
 import Icon from "../../../../../components/Icon";
 import LoadSpinner from "../../../../../components/LoadSpinner";
+import Table from "../../../../../components/Table";
 import { recycleBinService } from "../../../../../_services/recycle-bin.service";
 
 // Page components
@@ -36,6 +37,18 @@ const StyledDiv = styled.div`
     border-radius: 4px;
     color: #a12622;
     padding: 15px;
+  }
+`;
+
+const TableContainer = styled.div`
+  margin-top: 24px;
+
+  table {
+    border: 1px solid #d7d7d7;
+
+    th {
+      color: #1a5a96;
+    }
   }
 `;
 
@@ -75,12 +88,48 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
             <span>Download full report</span>
           </Button>
         </div>
-        <div>
-          {recycleItems.map((item, index) => {
-            return <p key={index}>{item?.id}</p>;
-          })}
-        </div>
-        <div>Pagination</div>
+        <TableContainer>
+          <Table
+            id="recycle-bin-table"
+            tableColumns={[
+              {
+                Header: "",
+                accessor: "restore_button",
+              },
+              {
+                Header: "Page title",
+                accessor: "page_title",
+              },
+              {
+                Header: "Deleted by",
+                accessor: "deleted_by",
+              },
+              {
+                Header: "Deleted date",
+                accessor: "deleted_date",
+              },
+              {
+                Header: "Reason for deletion",
+                accessor: "reason",
+              },
+              {
+                Header: "Last page location",
+                accessor: "location",
+              },
+            ]}
+            tableData={recycleItems.map((item) => {
+              return {
+                restore_button: <Button primary>Restore</Button>,
+                page_title: item?.title,
+                deleted_by: item?.deleted_by_username,
+                deleted_date: item?.time_created,
+                reason: item?.reason,
+                location: "Root",
+              };
+            })}
+          />
+        </TableContainer>
+        {/* <div>Pagination</div> */}
       </StyledDiv>
     );
   }
