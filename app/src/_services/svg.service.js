@@ -22,6 +22,7 @@ import { ReactComponent as lock } from "../assets/fa-lock.svg";
 import { ReactComponent as mapMarker } from "../assets/fa-map-marker.svg";
 import { ReactComponent as phone } from "../assets/fa-phone.svg";
 import { ReactComponent as plus } from "../assets/fa-plus.svg";
+import { ReactComponent as pushpin } from "../assets/noun-pushpin.svg";
 import { ReactComponent as rateReview } from "../assets/md-rate-review.svg";
 import { ReactComponent as redo } from "../assets/fa-redo-solid.svg";
 import { ReactComponent as times } from "../assets/fa-times.svg";
@@ -66,6 +67,7 @@ const svgIcons = {
   "md-rate-review.svg": rateReview,
   "noun-calendar.svg": calendar,
   "noun-info.svg": info,
+  "noun-pushpin.svg": pushpin,
 };
 
 function getSvg(id) {
