@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 import Icon from "../../../components/Icon";
@@ -61,38 +62,40 @@ const StyledDiv = styled.div`
   }
 `;
 
-function Accordion({ children, disabled, label, open, setOpen }) {
-  return (
-    <StyledDiv>
-      <div className="label">
-        <div className="grip">
-          <Icon id="fa-grip-vertical.svg" />
+const Accordion = React.forwardRef(
+  ({ children, disabled, label, open, setOpen }, ref) => {
+    return (
+      <StyledDiv ref={ref}>
+        <div className="label">
+          <div className="grip">
+            <Icon id="fa-grip-vertical.svg" />
+          </div>
+          <button
+            className="label"
+            onClick={() => setOpen(!open)}
+            disabled={disabled}
+          >
+            {label}
+          </button>
+          <button className="pin" disabled={disabled}>
+            <Icon id="noun-pushpin.svg" />
+          </button>
+          <button
+            className="button"
+            onClick={() => setOpen(!open)}
+            disabled={disabled}
+          >
+            {open ? (
+              <Icon id={"ionic-ios-arrow-up.svg"} />
+            ) : (
+              <Icon id={"ionic-ios-arrow-down.svg"} />
+            )}
+          </button>
         </div>
-        <button
-          className="label"
-          onClick={() => setOpen(!open)}
-          disabled={disabled}
-        >
-          {label}
-        </button>
-        <button className="pin" disabled={disabled}>
-          <Icon id="noun-pushpin.svg" />
-        </button>
-        <button
-          className="button"
-          onClick={() => setOpen(!open)}
-          disabled={disabled}
-        >
-          {open ? (
-            <Icon id={"ionic-ios-arrow-up.svg"} />
-          ) : (
-            <Icon id={"ionic-ios-arrow-down.svg"} />
-          )}
-        </button>
-      </div>
-      <div className={open ? "body open" : "body closed"}>{children}</div>
-    </StyledDiv>
-  );
-}
+        <div className={open ? "body open" : "body closed"}>{children}</div>
+      </StyledDiv>
+    );
+  }
+);
 
 export default Accordion;

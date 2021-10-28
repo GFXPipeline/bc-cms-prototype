@@ -105,6 +105,10 @@ const editorConfiguration = {
 };
 
 const StyledModal = styled(Modal)`
+  .Overlay {
+    z-index: 1;
+  }
+
   .Modal {
     width: 100%;
     max-width: 550px;
@@ -703,7 +707,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
             Delete
           </Button>
           <Button onClick={handleCleanup} disabled={isSubmitting}>
-            Cancel
+            {isSuccess ? "Close" : "Cancel"}
           </Button>
         </div>
       </form>

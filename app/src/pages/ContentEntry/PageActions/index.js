@@ -63,17 +63,17 @@ function PageActions({
             {isSaving ? <s>Save</s> : "Save"}
           </Button>
           <Button onClick={onCancel}>Cancel</Button>
-          <Button disabled>
+          {/* <Button disabled>
             <Icon id="fa-undo-solid.svg" />
           </Button>
           <Button disabled className="push-left">
             <Icon id="fa-redo-solid.svg" />
-          </Button>
+          </Button> */}
           <Button disabled>View PROD</Button>
           <Button disabled>View QA</Button>
-          <Button disabled>
+          {/* <Button disabled>
             <Icon id="fa-eye.svg" />
-          </Button>
+          </Button> */}
           <Button disabled>Publish</Button>
           <Button disabled>Unpublish</Button>
           <Button onClick={onDelete}>

@@ -1,12 +1,15 @@
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
+// Global components
 import Accordion from "../../Accordion";
 import Icon from "../../../../components/Icon";
-import LoadSpinner from "../../../../components/LoadSpinner";
+
+// Page components
+import RecycleBin from "./RecycleBin";
 
 const StyledDiv = styled.div`
-  padding: 30px 85px 50px 85px;
+  padding: 30px 85px 400px 85px;
   width: 100%;
 
   div.top {
@@ -84,8 +87,19 @@ const StyledDiv = styled.div`
 
 function ContentMaintenance({}) {
   const [isOpenRecycleBin, setIsOpenRecycleBin] = useState(false);
-  const [isLoadingRecycleBin, setIsLoadingRecycleBin] = useState(true);
-  const [recycleItems, setRecycleItems] = useState([]);
+  const recycleBinRef = useRef(null);
+
+  function handleClick(ref) {
+    if (!ref.current) return;
+
+    switch (ref) {
+      case recycleBinRef:
+        setIsOpenRecycleBin(true);
+        break;
+    }
+
+    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  }
 
   return (
     <StyledDiv>
@@ -116,7 +130,7 @@ function ContentMaintenance({}) {
             </div>
             <span>Did You Find Results</span>
           </button>
-          <button>
+          <button onClick={() => handleClick(recycleBinRef)}>
             <div className="svg">
               <Icon id="fa-trash-restore.svg" />
             </div>
@@ -130,23 +144,10 @@ function ContentMaintenance({}) {
         <Accordion label="Reading Level Summary" disabled />
         <Accordion label="Broken Links Report" disabled />
         <Accordion label="Did You Find Results" disabled />
-        <Accordion
-          label="Recycle Bin"
-          open={isOpenRecycleBin}
-          setOpen={setIsOpenRecycleBin}
-          children={
-            <>
-              <div className="controls">
-                <button>Pages</button>
-                <button>Assets</button>
-                <button>Reusable components</button>
-                <button>Filter</button>
-                <button>Download full report</button>
-              </div>
-              <div>Table</div>
-              <div>Pagination</div>
-            </>
-          }
+        <RecycleBin
+          isOpen={isOpenRecycleBin}
+          setIsOpen={setIsOpenRecycleBin}
+          ref={recycleBinRef}
         />
       </div>
     </StyledDiv>

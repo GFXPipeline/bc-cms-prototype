@@ -30,6 +30,7 @@ const {
   componentTypesRouter,
   pageRouter,
   pagesRouter,
+  recycleBinRouter,
   userRouter,
   usersRouter,
 } = require("./routes");
@@ -40,6 +41,7 @@ app.use("/api/components", componentsRouter);
 app.use("/api/component-types", componentTypesRouter);
 app.use("/api/page", pageRouter);
 app.use("/api/pages", pagesRouter);
+app.use("/api/recycle-bin", recycleBinRouter);
 app.use("/api/user", userRouter);
 app.use("/api/users", usersRouter);
 
