@@ -34,9 +34,9 @@ const Search = styled.div`
 const TableContainer = styled.div`
   background-color: #f2f2f2;
   flex-grow: 1;
-  overflow-x: auto;
+  overflow: auto;
 
-  span.highlighted {
+  mark.highlighted {
     background-color: #fcba19;
   }
 `;

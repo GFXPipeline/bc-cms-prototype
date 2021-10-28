@@ -110,9 +110,9 @@ function EditPanel({
             onReady={(editor) => {
               console.log("Component editor ready.", editor);
 
-              if (process.env.NODE_ENV === "development") {
-                CKEditorInspector.attach(editor);
-              }
+              // if (process.env.NODE_ENV === "development") {
+              //   CKEditorInspector.attach(editor);
+              // }
             }}
             onChange={(event, editor) => {
               const intro = editor.getData();
