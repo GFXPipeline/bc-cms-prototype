@@ -6,11 +6,11 @@ import Button from "../../../../../components/Button";
 import Icon from "../../../../../components/Icon";
 import LoadSpinner from "../../../../../components/LoadSpinner";
 import Select from "../../../../../components/Select";
-import Table from "../../../../../components/Table";
 import { recycleBinService } from "../../../../../_services/recycle-bin.service";
 
 // Page components
 import Accordion from "../../../Accordion";
+import Table from "./Table";
 
 const StyledDiv = styled.div`
   margin: 38px 0;
@@ -49,6 +49,7 @@ const StyledDiv = styled.div`
 
 const TableContainer = styled.div`
   margin-top: 24px;
+  overflow-x: auto;
 
   table {
     border: 1px solid #d7d7d7;
