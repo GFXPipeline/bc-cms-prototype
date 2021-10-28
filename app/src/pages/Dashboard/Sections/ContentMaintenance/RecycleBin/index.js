@@ -189,7 +189,7 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
                 deleted_by: item?.deleted_by_username,
                 deleted_date: date,
                 reason: item?.reason,
-                location: "Root",
+                location: "",
               };
             })}
           />
