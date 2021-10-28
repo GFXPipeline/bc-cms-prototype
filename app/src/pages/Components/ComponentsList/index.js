@@ -36,7 +36,7 @@ const TableContainer = styled.div`
   flex-grow: 1;
   overflow-x: auto;
 
-  span.highlighted {
+  mark.highlighted {
     background-color: #fcba19;
   }
 `;
