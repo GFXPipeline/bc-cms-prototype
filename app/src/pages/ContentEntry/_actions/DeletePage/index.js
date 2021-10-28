@@ -434,7 +434,9 @@ const StyledModal = styled(Modal)`
 `;
 
 function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
-  const [deleteType, setDeleteType] = useState("soft-delete");
+  // TODO: Removal deleteType and associated logic when it is determined that
+  //       users cannot perform a soft vs hard delete (only "delete").
+  const [deleteType, setDeleteType] = useState("hard-delete");
   const [reason, setReason] = useState("");
   const [isDateRequired, setIsDateRequired] = useState(false);
   const [date, setDate] = useState(new Date());
@@ -509,7 +511,9 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
     >
       <form id="delete-page">
         <h1>Delete</h1>
-        <fieldset
+        {/* TODO: Remove these fields and associated logic when delete function
+        and data model have matured. */}
+        {/* <fieldset
           className={
             isSubmitting || isSuccess
               ? "radio-delete-type disabled"
@@ -564,7 +568,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
               </p>
             </div>
           </div>
-        </fieldset>
+        </fieldset> */}
         <div className="reason-for-deletion">
           <label>* Reason for deletion</label>
           <textarea
