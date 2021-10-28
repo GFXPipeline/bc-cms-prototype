@@ -568,9 +568,9 @@ function ContentEntry() {
               console.log("Editor is ready to use!", editor);
               setEditor(editor);
 
-              if (process.env.NODE_ENV === "development") {
-                CKEditorInspector.attach(editor);
-              }
+              // if (process.env.NODE_ENV === "development") {
+              //   CKEditorInspector.attach(editor);
+              // }
             }}
             onChange={(event, editor) => {
               const data = editor.getData();
