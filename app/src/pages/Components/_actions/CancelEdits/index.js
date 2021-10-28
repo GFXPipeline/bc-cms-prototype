@@ -5,6 +5,10 @@ import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal";
 
 const StyledModal = styled(Modal)`
+  .Overlay {
+    z-index: 1;
+  }
+
   .Modal {
     width: 100%;
     max-width: 550px;
