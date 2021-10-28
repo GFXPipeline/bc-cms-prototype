@@ -127,13 +127,15 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
     return (
       <StyledDiv>
         <div className="controls">
-          <Button primary>Content</Button>
-          <Button>Assets</Button>
-          <Button>Reusable components</Button>
-          <Button className="filter" aria-label="Filter" primary>
+          <Button disabled primary>
+            Content
+          </Button>
+          <Button disabled>Assets</Button>
+          <Button disabled>Reusable components</Button>
+          <Button disabled className="filter" aria-label="Filter" primary>
             <Icon id="fa-filter.svg" />
           </Button>
-          <Button className="download">
+          <Button disabled className="download">
             <Icon id="fa-download.svg" />
             <span>Download full report</span>
           </Button>
