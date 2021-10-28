@@ -3,9 +3,18 @@ import ButtonLink from "../../../components/ButtonLink";
 
 // Prepares Components list data for display by the Table component
 function getComponentsTableData(components, setComponentId, search) {
+  const alphaComponents = components.sort((a, b) => {
+    const titleA = a?.title?.toLowerCase();
+    const titleB = b?.title?.toLowerCase();
+
+    if (titleA < titleB) return -1;
+    if (titleA > titleB) return 1;
+    return 0;
+  });
+
   const data = [];
 
-  components.forEach((component) => {
+  alphaComponents.forEach((component) => {
     let date = "";
 
     if (component?.time_last_updated) {
