@@ -9,7 +9,7 @@ import Icon from "../../../../components/Icon";
 import RecycleBin from "./RecycleBin";
 
 const StyledDiv = styled.div`
-  padding: 30px 85px 50px 85px;
+  padding: 30px 85px 400px 85px;
   width: 100%;
 
   div.top {
