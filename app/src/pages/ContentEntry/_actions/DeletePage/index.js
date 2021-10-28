@@ -570,7 +570,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
           </div>
         </fieldset> */}
         <div className="reason-for-deletion">
-          <label>* Reason for deletion</label>
+          <label>* Reason for deletion (mandatory)</label>
           <textarea
             value={reason}
             onChange={(e) => setReason(e.target.value)}
@@ -720,10 +720,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
       )}
       {isSuccess && (
         <>
-          <p className="success">
-            Selected page has been marked for{" "}
-            {deleteType === "soft-delete" ? "soft" : "hard"} deletion.{" "}
-          </p>
+          <p className="success">Selected page has been marked for deletion.</p>
           <Button primary onClick={handleCleanup}>
             Close this dialog
           </Button>
