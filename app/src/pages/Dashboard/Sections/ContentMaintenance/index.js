@@ -85,7 +85,7 @@ const StyledDiv = styled.div`
   }
 `;
 
-function ContentMaintenance({}) {
+function ContentMaintenance() {
   const [isOpenRecycleBin, setIsOpenRecycleBin] = useState(false);
   const recycleBinRef = useRef(null);
 
@@ -95,6 +95,8 @@ function ContentMaintenance({}) {
     switch (ref) {
       case recycleBinRef:
         setIsOpenRecycleBin(true);
+        break;
+      default:
         break;
     }
 

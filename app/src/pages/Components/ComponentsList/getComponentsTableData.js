@@ -1,14 +1,14 @@
 import Highlighter from "react-highlight-words";
-import ButtonLink from "../../../components/ButtonLink";
+import { NavLink } from "react-router-dom";
 
 // Prepares Components list data for display by the Table component
-function getComponentsTableData(components, setComponentId, search) {
+function getComponentsTableData(components, search) {
   const alphaComponents = components.sort((a, b) => {
-    const titleA = a?.title?.toLowerCase();
-    const titleB = b?.title?.toLowerCase();
+    const nameA = a?.name?.toLowerCase();
+    const nameB = b?.name?.toLowerCase();
 
-    if (titleA < titleB) return -1;
-    if (titleA > titleB) return 1;
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
     return 0;
   });
 
@@ -25,15 +25,15 @@ function getComponentsTableData(components, setComponentId, search) {
     }
 
     data.push({
-      title: (
-        <ButtonLink onClick={() => setComponentId(component?.id)}>
+      name: (
+        <NavLink to={`/components/${component?.id}`} activeClassName="active">
           <Highlighter
             highlightClassName="highlighted"
             searchWords={[search]}
             autoEscape={true}
-            textToHighlight={component?.title}
+            textToHighlight={component?.name}
           />
-        </ButtonLink>
+        </NavLink>
       ),
       status: component?.is_published ? "Published" : "Unpublished",
       type: (
@@ -50,7 +50,7 @@ function getComponentsTableData(components, setComponentId, search) {
           highlightClassName="highlighted"
           searchWords={[search]}
           autoEscape={true}
-          textToHighlight={component?.last_modified_by_user}
+          textToHighlight={component?.last_modified_by_user || ""}
         />
       ),
     });

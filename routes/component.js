@@ -63,8 +63,9 @@ componentRouter.put("/:id", (req, res) => {
               knex("components")
                 .where("id", req.params.id)
                 .update({
-                  intro: req?.body?.intro,
+                  name: req?.body?.name,
                   title: req?.body?.title,
+                  intro: req?.body?.intro,
                   fields: req?.body?.fields,
                   last_modified_by_user: userId,
                   time_last_updated: knex.fn.now(),

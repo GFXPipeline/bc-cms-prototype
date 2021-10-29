@@ -57,7 +57,7 @@ function Table({ id, tableColumns, tableData }) {
   return (
     <StyledTable id={id} {...getTableProps()}>
       <colgroup>
-        <col span="1" className="title" />
+        <col span="1" className="name" />
         <col span="1" className="status" />
         <col span="1" className="type" />
         <col span="1" className="date" />

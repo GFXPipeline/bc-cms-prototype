@@ -75,6 +75,7 @@ const ContactFieldList = styled.div`
 
     button {
       height: 44px;
+      min-width: 44px;
       padding: 0;
       width: 44px;
     }

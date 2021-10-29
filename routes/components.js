@@ -16,6 +16,7 @@ componentsRouter.get("/", (req, res) => {
     .leftJoin("users", "users.id", "components.last_modified_by_user") // leftJoin to include all components regardless of user status
     .select(
       "components.id",
+      "components.name",
       "components.title",
       "components.time_last_updated",
       "components.is_published",
@@ -43,9 +44,9 @@ componentsRouter.get("/type/:id", (req, res) => {
     .join("component_types", "component_types.id", "components.type_id")
     .select(
       "components.id",
-      "components.title",
-      "component_types.name",
-      "component_types.display_name"
+      { name: "components.name" },
+      { type_name: "component_types.name" },
+      { type_display_name: "component_types.display_name" }
     )
     .where("component_types.id", req?.params?.id)
     .then((results) => {

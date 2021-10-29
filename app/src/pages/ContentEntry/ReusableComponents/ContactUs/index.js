@@ -47,7 +47,7 @@ function ContactUsInput({
           options?.forEach((option) => {
             newOptions.push({
               value: option?.id,
-              label: option?.title,
+              label: option?.name,
             });
           });
 

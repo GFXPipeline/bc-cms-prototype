@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 // Global components
@@ -48,6 +49,9 @@ const SliderButton = styled.button`
 `;
 
 function Components() {
+  // Selected component (id in URL)
+  const { id } = useParams();
+
   // Component search
   const [search, setSearch] = useState("");
   const [isShowAll, setIsShowAll] = useState(true);
@@ -60,9 +64,6 @@ function Components() {
   // List of components to choose from
   const [components, setComponents] = useState([]);
   const [filteredComponents, setFilteredComponents] = useState([]);
-
-  // Selected component
-  const [componentId, setComponentId] = useState("");
 
   // Meta
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
@@ -176,16 +177,16 @@ function Components() {
       const setToFilter = isShowAll
         ? [...components]
         : [...components].filter((component) => {
-          // Only include "My Components"
-          if (
-            component?.owned_by_user ===
-            authenticationService.currentUserValue?.username
-          ) {
-            return true;
-          }
+            // Only include "My Components"
+            if (
+              component?.owned_by_user ===
+              authenticationService.currentUserValue?.username
+            ) {
+              return true;
+            }
 
-          return false;
-        });
+            return false;
+          });
 
       const filteredByStatus = setToFilter.filter((component) => {
         // If no statuses are selected, include the component
@@ -225,8 +226,8 @@ function Components() {
       });
 
       return filteredByType.filter((component) => {
-        // Title
-        if (component?.title?.toLowerCase().includes(search?.toLowerCase())) {
+        // Name
+        if (component?.name?.toLowerCase().includes(search?.toLowerCase())) {
           return true;
         }
         // Type
@@ -266,7 +267,7 @@ function Components() {
       <Header />
       <ContentContainer>
         <ComponentsList
-          className={isComponentListExpanded ? "expanded" : "collapsed" }
+          className={isComponentListExpanded ? "expanded" : "collapsed"}
           types={types}
           components={filteredComponents}
           isLoadingTypes={isLoadingTypes}
@@ -277,7 +278,6 @@ function Components() {
           search={search}
           selectedStatuses={selectedStatuses}
           selectedTypes={selectedTypes}
-          setComponentId={setComponentId}
           setSearch={setSearch}
           setSelectedStatuses={setSelectedStatuses}
           setSelectedTypes={setSelectedTypes}
@@ -293,10 +293,10 @@ function Components() {
         >
           {isComponentListExpanded ? "«" : "»"}
         </SliderButton>
-        {componentId && (
+        {id && (
           <ComponentDetails
-            className={isComponentListExpanded ? "collapsed" : "expanded" }
-            id={componentId}
+            className={isComponentListExpanded ? "collapsed" : "expanded"}
+            id={id}
             reloadComponentsList={reloadComponentsList}
           />
         )}

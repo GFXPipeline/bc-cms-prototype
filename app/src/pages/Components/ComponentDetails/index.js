@@ -80,8 +80,10 @@ const Body = styled.div`
 
 function ComponentDetails({ id, reloadComponentsList, ...props }) {
   // Component Details
+  const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
+  const [nameInitial, setNameInitial] = useState("");
   const [titleInitial, setTitleInitial] = useState("");
   const [introInitial, setIntroInitial] = useState("");
   const [contactItems, setContactItems] = useState([]);
@@ -102,6 +104,7 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
   // Cancel edits and return component details to original state
   function handleCancel() {
     setIsCancelling(true);
+    setName(nameInitial);
     setTitle(titleInitial);
     setIntro(introInitial);
     setContactItems(contactItemsInitial);
@@ -115,8 +118,9 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
     componentService
       .update({
         id: id,
-        intro: intro,
+        name: name,
         title: title,
+        intro: intro,
         fields: contactItems,
       })
       .then((success) => {
@@ -138,6 +142,8 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
         .read(id)
         .then((component) => {
           setIsLoading(false);
+          setName(component?.name);
+          setNameInitial(component?.name);
           setTitle(component?.title);
           setTitleInitial(component?.title);
           setIntro(component?.intro);
@@ -200,10 +206,12 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
                 isEditMode={isEditMode}
                 isErrorSaving={isErrorSaving}
                 isSaving={isSaving}
+                name={name}
                 setContactItems={setContactItems}
                 setIntro={setIntro}
                 setIsEditMode={setIsEditMode}
                 setIsModalCancelOpen={setIsModalCancelOpen}
+                setName={setName}
                 setTitle={setTitle}
                 title={title}
               />

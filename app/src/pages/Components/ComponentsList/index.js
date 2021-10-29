@@ -41,6 +41,20 @@ const TableContainer = styled.div`
   flex-grow: 1;
   overflow: auto;
 
+  a {
+    color: #313132;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.active {
+      ::before {
+        content: "▶ ";
+      }
+    }
+  }
+
   mark.highlighted {
     background-color: #fcba19;
   }
@@ -59,7 +73,6 @@ function ComponentsList({
   setSearch,
   setSelectedStatuses,
   setSelectedTypes,
-  setComponentId,
   ...props
 }) {
   return (
@@ -67,7 +80,7 @@ function ComponentsList({
       {/* Component search, filter, and actions */}
       <Search>
         <label htmlFor="search-components">
-          Search components by title, type, or modified by
+          Search components by name, type, or modified by
         </label>
         <SearchBar id="search-components" value={search} setValue={setSearch} />
       </Search>
@@ -94,8 +107,8 @@ function ComponentsList({
               id="components-table"
               tableColumns={[
                 {
-                  Header: "Title",
-                  accessor: "title",
+                  Header: "Name",
+                  accessor: "name",
                 },
                 {
                   Header: "Status",
@@ -114,11 +127,7 @@ function ComponentsList({
                   accessor: "modified_by",
                 },
               ]}
-              tableData={getComponentsTableData(
-                components,
-                setComponentId,
-                search
-              )}
+              tableData={getComponentsTableData(components, search)}
             />
           </TableContainer>
         )

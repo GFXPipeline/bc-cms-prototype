@@ -37,6 +37,9 @@ function App() {
         <PrivateRoute path="/content">
           <ContentEntry />
         </PrivateRoute>
+        <PrivateRoute path="/components/:id">
+          <Components />
+        </PrivateRoute>
         <PrivateRoute path="/components">
           <Components />
         </PrivateRoute>

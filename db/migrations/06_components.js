@@ -6,6 +6,7 @@ exports.up = function (knex) {
       .notNullable()
       .primary();
     table.uuid("type_id").references("id").inTable("component_types");
+    table.string("name");
     table.string("title");
     table.text("intro");
     table.specificType("fields", "jsonb ARRAY");
