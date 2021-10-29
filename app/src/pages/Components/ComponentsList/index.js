@@ -41,6 +41,20 @@ const TableContainer = styled.div`
   flex-grow: 1;
   overflow: auto;
 
+  a {
+    color: #313132;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.active {
+      ::before {
+        content: "▶ ";
+      }
+    }
+  }
+
   mark.highlighted {
     background-color: #fcba19;
   }
@@ -59,7 +73,6 @@ function ComponentsList({
   setSearch,
   setSelectedStatuses,
   setSelectedTypes,
-  setComponentId,
   ...props
 }) {
   return (
@@ -114,11 +127,7 @@ function ComponentsList({
                   accessor: "modified_by",
                 },
               ]}
-              tableData={getComponentsTableData(
-                components,
-                setComponentId,
-                search
-              )}
+              tableData={getComponentsTableData(components, search)}
             />
           </TableContainer>
         )
