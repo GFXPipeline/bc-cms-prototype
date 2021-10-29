@@ -8,8 +8,9 @@ exports.seed = function (knex) {
         {
           id: "58243bcc-a9d0-405c-8a73-33e81d520ad9",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Government Communications & Public Engagement",
-          intro: "<p>Contact GCPE.</p>",
+          name: "Government Communications & Public Engagement",
+          title: "Contact GCPE",
+          intro: "<p>Contact us by phone or email.</p>",
           fields: [
             {
               option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
@@ -31,7 +32,8 @@ exports.seed = function (knex) {
         {
           id: "531abe08-97ec-434c-b411-555f4f93baf3",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC 100 Mile House",
+          name: "Service BC 100 Mile House",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -44,7 +46,8 @@ exports.seed = function (knex) {
         {
           id: "9173141b-5891-4ad5-9986-9b31f45facf6",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Ashcroft",
+          name: "Service BC Ashcroft",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -62,7 +65,8 @@ exports.seed = function (knex) {
         {
           id: "62572b87-31a2-4fc2-9709-213359d243eb",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Atlin",
+          name: "Service BC Atlin",
+          title: "Contact Information",
           is_published: true,
           intro: "<p></p>",
           fields: [
@@ -81,7 +85,8 @@ exports.seed = function (knex) {
         {
           id: "c9adba08-12bc-44ea-8dcb-c2f07c2a5e05",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Bella Coola",
+          name: "Service BC Bella Coola",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -99,7 +104,8 @@ exports.seed = function (knex) {
         {
           id: "79b6d9d5-5139-434c-866e-20b609ede200",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Burns Lake",
+          name: "Service BC Burns Lake",
+          title: "Contact Information",
           is_published: true,
           intro: "<p></p>",
           fields: [
@@ -118,7 +124,8 @@ exports.seed = function (knex) {
         {
           id: "74ea9f56-c3fe-43c1-a5d7-9ec799d89708",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Campbell River",
+          name: "Service BC Campbell River",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -136,7 +143,8 @@ exports.seed = function (knex) {
         {
           id: "d3cc34bf-4914-4dd5-8c75-53afbf4f1a10",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Chetwynd",
+          name: "Service BC Chetwynd",
+          title: "Contact Information",
           is_published: true,
           intro: "<p></p>",
           fields: [
@@ -155,7 +163,8 @@ exports.seed = function (knex) {
         {
           id: "3f2a90fb-1ada-433d-b0c0-6dae478e0a79",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Chilliwack",
+          name: "Service BC Chilliwack",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -173,7 +182,8 @@ exports.seed = function (knex) {
         {
           id: "8edbd192-d8fc-4166-94cd-a12c06b6bf9e",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Clinton",
+          name: "Service BC Clinton",
+          title: "Contact Information",
           is_published: true,
           intro: "<p></p>",
           fields: [
@@ -192,7 +202,8 @@ exports.seed = function (knex) {
         {
           id: "29d18f24-27e0-4810-95bf-dade5c00bc11",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Courtenay",
+          name: "Service BC Courtenay",
+          title: "Contact Information",
           is_published: true,
           intro: "<p></p>",
           fields: [
@@ -211,7 +222,8 @@ exports.seed = function (knex) {
         {
           id: "bed7dec6-795a-404c-8842-66a5561b4f01",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Cranbrook",
+          name: "Service BC Cranbrook",
+          title: "Contact Information",
           is_published: true,
           intro: "<p></p>",
           fields: [
@@ -230,7 +242,8 @@ exports.seed = function (knex) {
         {
           id: "72c0dbfb-c8f2-4215-98a5-25042e503652",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Creston",
+          name: "Service BC Creston",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -248,7 +261,8 @@ exports.seed = function (knex) {
         {
           id: "cac64ebd-1972-4085-9f95-edceac8a4161",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Dawson Creek",
+          name: "Service BC Dawson Creek",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -266,7 +280,8 @@ exports.seed = function (knex) {
         {
           id: "41c71cd8-b4b7-41c1-95c7-27424ff74f80",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Dease Lake",
+          name: "Service BC Dease Lake",
+          title: "Contact Information",
           intro: "<p></p>",
           fields: [
             {
@@ -284,7 +299,8 @@ exports.seed = function (knex) {
         {
           id: "9de1ab29-1ed1-45a1-aa61-8df5749c6e93",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Service BC Duncan",
+          name: "Service BC Duncan",
+          title: "Contact Information",
           is_published: true,
           intro: "<p></p>",
           fields: [
@@ -303,7 +319,8 @@ exports.seed = function (knex) {
         {
           id: "41d5fad9-931f-456d-be69-664259939dea",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Consumer Taxation",
+          name: "Consumer Taxation",
+          title: "Contact the CTPB",
           is_published: true,
           intro:
             "<p>Our hours of operation are Monday through Friday, 8:30am - 4:30pm.</p>",
@@ -323,7 +340,8 @@ exports.seed = function (knex) {
         {
           id: "83bfe102-4f09-4190-9766-b44d772e52d5",
           type_id: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
-          title: "Speculation and Vacancy Tax",
+          name: "Speculation and Vacancy Tax",
+          title: "Get help with the speculation and vacancy tax",
           is_published: true,
           intro: "<p>If you would like to speak with an agent, call us at:</p>",
           fields: [
