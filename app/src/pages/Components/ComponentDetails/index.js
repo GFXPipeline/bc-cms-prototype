@@ -15,7 +15,11 @@ const StyledDiv = styled.div`
   background-color: white;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  transition: flex-grow 1s ease-in-out;
+
+  &.expanded {
+    flex-grow: 1;
+  }
 
   div.component-field {
     margin: 8px 0;
@@ -74,7 +78,7 @@ const Body = styled.div`
   padding: 16px;
 `;
 
-function ComponentDetails({ id, reloadComponentsList }) {
+function ComponentDetails({ id, reloadComponentsList, ...props }) {
   // Component Details
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
@@ -154,7 +158,7 @@ function ComponentDetails({ id, reloadComponentsList }) {
   }, [id]);
 
   return (
-    <StyledDiv>
+    <StyledDiv {...props}>
       <Controls>
         <button
           onClick={() => setTab("component")}

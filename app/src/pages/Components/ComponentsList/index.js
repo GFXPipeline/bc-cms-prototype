@@ -18,6 +18,11 @@ const StyledDiv = styled.div`
   flex-direction: column;
   height: 100%;
   width: 450px;
+  transition: flex-grow 1s ease-in-out;
+
+  &.expanded {
+    flex-grow: 1;
+  }
 `;
 
 const Search = styled.div`
@@ -55,9 +60,10 @@ function ComponentsList({
   setSelectedStatuses,
   setSelectedTypes,
   setComponentId,
+  ...props
 }) {
   return (
-    <StyledDiv>
+    <StyledDiv {...props}>
       {/* Component search, filter, and actions */}
       <Search>
         <label htmlFor="search-components">
