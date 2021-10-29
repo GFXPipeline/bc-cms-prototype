@@ -86,7 +86,7 @@ function EditPanel({
       {title && intro && contactItems && (
         <>
           <div className="component-field">
-            <label htmlFor="component-name">Name: (must this unique)</label>
+            <label htmlFor="component-name">Name (must this unique)</label>
             <TextInput
               id="component-name"
               value={name}
@@ -94,7 +94,7 @@ function EditPanel({
             />
           </div>
           <div className="component-field">
-            <label htmlFor="component-title">Title: </label>
+            <label htmlFor="component-title">Title </label>
             <TextInput
               id="component-title"
               value={title}
@@ -102,9 +102,7 @@ function EditPanel({
             />
           </div>
           <div className="component-field">
-            <span id="component-id">
-              <strong>ID:</strong> {id}
-            </span>
+            <label htmlFor="editor-contact-us">Intro</label>
           </div>
           <CKEditor
             id="editor-contact-us"
