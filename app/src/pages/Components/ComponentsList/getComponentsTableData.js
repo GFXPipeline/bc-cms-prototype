@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 // Prepares Components list data for display by the Table component
 function getComponentsTableData(components, search) {
   const alphaComponents = components.sort((a, b) => {
-    const titleA = a?.title?.toLowerCase();
-    const titleB = b?.title?.toLowerCase();
+    const nameA = a?.name?.toLowerCase();
+    const nameB = b?.name?.toLowerCase();
 
-    if (titleA < titleB) return -1;
-    if (titleA > titleB) return 1;
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
     return 0;
   });
 
@@ -25,13 +25,13 @@ function getComponentsTableData(components, search) {
     }
 
     data.push({
-      title: (
+      name: (
         <NavLink to={`/components/${component?.id}`} activeClassName="active">
           <Highlighter
             highlightClassName="highlighted"
             searchWords={[search]}
             autoEscape={true}
-            textToHighlight={component?.title}
+            textToHighlight={component?.name}
           />
         </NavLink>
       ),

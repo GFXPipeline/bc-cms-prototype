@@ -226,8 +226,8 @@ function Components() {
       });
 
       return filteredByType.filter((component) => {
-        // Title
-        if (component?.title?.toLowerCase().includes(search?.toLowerCase())) {
+        // Name
+        if (component?.name?.toLowerCase().includes(search?.toLowerCase())) {
           return true;
         }
         // Type

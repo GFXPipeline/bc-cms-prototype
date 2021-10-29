@@ -40,17 +40,19 @@ const StyledDiv = styled.div`
 
 function EditPanel({
   handleSave,
+  contactItems,
   id,
   intro,
   isCancelling,
   isEditMode,
   isErrorSaving,
   isSaving,
-  contactItems,
+  name,
   setContactItems,
   setIntro,
   setIsEditMode,
   setIsModalCancelOpen,
+  setName,
   setTitle,
   title,
 }) {
@@ -83,6 +85,14 @@ function EditPanel({
     <StyledDiv ref={editPanelRef}>
       {title && intro && contactItems && (
         <>
+          <div className="component-field">
+            <label htmlFor="component-name">Name: (must this unique)</label>
+            <TextInput
+              id="component-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
           <div className="component-field">
             <label htmlFor="component-title">Title: </label>
             <TextInput

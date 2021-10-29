@@ -40,6 +40,7 @@ const StyledDiv = styled.div`
 
   button#edit-component {
     height: 44px;
+    min-width: 44px;
     padding: 0;
     width: 44px;
   }
@@ -54,10 +55,12 @@ function ComponentPreview({
   isEditMode,
   isErrorSaving,
   isSaving,
+  name,
   setContactItems,
   setIntro,
   setIsEditMode,
   setIsModalCancelOpen,
+  setName,
   setTitle,
   title,
 }) {
@@ -100,10 +103,12 @@ function ComponentPreview({
           isErrorSaving={isErrorSaving}
           isSaving={isSaving}
           contactItems={contactItems}
+          name={name}
           setContactItems={setContactItems}
           setIntro={setIntro}
           setIsEditMode={setIsEditMode}
           setIsModalCancelOpen={setIsModalCancelOpen}
+          setName={setName}
           setTitle={setTitle}
           title={title}
         />

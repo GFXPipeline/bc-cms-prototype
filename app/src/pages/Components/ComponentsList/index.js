@@ -80,7 +80,7 @@ function ComponentsList({
       {/* Component search, filter, and actions */}
       <Search>
         <label htmlFor="search-components">
-          Search components by title, type, or modified by
+          Search components by name, type, or modified by
         </label>
         <SearchBar id="search-components" value={search} setValue={setSearch} />
       </Search>
@@ -107,8 +107,8 @@ function ComponentsList({
               id="components-table"
               tableColumns={[
                 {
-                  Header: "Title",
-                  accessor: "title",
+                  Header: "Name",
+                  accessor: "name",
                 },
                 {
                   Header: "Status",
