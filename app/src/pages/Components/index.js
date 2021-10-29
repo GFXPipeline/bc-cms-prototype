@@ -35,6 +35,18 @@ const ContentContainer = styled.div`
   }
 `;
 
+const SliderButton = styled.button`
+  background-color: #333333;
+  border: none;
+  color: white;
+  cursor: pointer;
+  width: 20px;
+
+  &:hover {
+    background-color: #6f6f6f;
+  }
+`;
+
 function Components() {
   // Component search
   const [search, setSearch] = useState("");
@@ -57,6 +69,7 @@ function Components() {
   const [isErrorTypes, setIsErrorTypes] = useState(false);
   const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
   const [isErrorComponentsList, setIsErrorComponentsList] = useState(false);
+  const [isComponentListExpanded, setIsComponentListExpanded] = useState(false);
 
   function reloadComponentsList() {
     if (isShowAll) {
@@ -253,6 +266,7 @@ function Components() {
       <Header />
       <ContentContainer>
         <ComponentsList
+          className={isComponentListExpanded ? "expanded" : "collapsed" }
           types={types}
           components={filteredComponents}
           isLoadingTypes={isLoadingTypes}
@@ -269,8 +283,19 @@ function Components() {
           setSelectedTypes={setSelectedTypes}
           setIsShowAll={setIsShowAll}
         />
+        <SliderButton
+          aria-label={
+            isComponentListExpanded
+              ? "Collapse component list"
+              : "Expand component list"
+          }
+          onClick={() => setIsComponentListExpanded(!isComponentListExpanded)}
+        >
+          {isComponentListExpanded ? "«" : "»"}
+        </SliderButton>
         {componentId && (
           <ComponentDetails
+            className={isComponentListExpanded ? "collapsed" : "expanded" }
             id={componentId}
             reloadComponentsList={reloadComponentsList}
           />
