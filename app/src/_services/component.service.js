@@ -27,13 +27,14 @@ async function read(id) {
 }
 
 // PUT request to /api/component/:id to update an existing page
-async function update({ id, intro, title, fields }) {
+async function update({ id, intro, name, title, fields }) {
   console.log("Inside componentService.update, id: ", id);
   try {
     const headers = authHeader();
 
     const updatedComponentData = {
       username: authenticationService.currentUserValue.username,
+      name: name,
       title: title,
       intro: intro,
       fields: fields,
