@@ -13,17 +13,17 @@ const StyledTable = styled.table`
     col {
       text-align: left;
 
-      &.title {
+      &.name {
         width: 280px;
-      }
-      &.status {
-        width: 120px;
       }
       &.type {
         width: 170px;
       }
+      &.status {
+        width: 120px;
+      }
       &.date {
-        width: 110px;
+        width: 120px;
       }
       &.user {
         width: 140px;
@@ -58,8 +58,8 @@ function Table({ id, tableColumns, tableData }) {
     <StyledTable id={id} {...getTableProps()}>
       <colgroup>
         <col span="1" className="name" />
-        <col span="1" className="status" />
         <col span="1" className="type" />
+        <col span="1" className="status" />
         <col span="1" className="date" />
         <col span="1" className="user" />
       </colgroup>

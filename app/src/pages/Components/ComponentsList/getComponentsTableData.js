@@ -1,8 +1,5 @@
-import Highlighter from "react-highlight-words";
-import { NavLink } from "react-router-dom";
-
 // Prepares Components list data for display by the Table component
-function getComponentsTableData(components, search) {
+function getComponentsTableData(components) {
   const alphaComponents = components.sort((a, b) => {
     const nameA = a?.name?.toLowerCase();
     const nameB = b?.name?.toLowerCase();
@@ -15,44 +12,36 @@ function getComponentsTableData(components, search) {
   const data = [];
 
   alphaComponents.forEach((component) => {
+    let datetime = "";
     let date = "";
+    let time = "";
 
     if (component?.time_last_updated) {
       const componentDate = new Date(component?.time_last_updated);
       const offset = componentDate.getTimezoneOffset();
       const offsetDate = new Date(componentDate.getTime() - offset * 60 * 1000);
       date = offsetDate.toISOString().split("T")[0];
+      const hours = offsetDate.getHours();
+      const minutes =
+        offsetDate.getMinutes < 10
+          ? "0" + offsetDate.getMinutes()
+          : offsetDate.getMinutes();
+      const displayHours = hours % 12 || 12;
+      const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+      const amPm = hours >= 12 ? "PM" : "AM";
+      time = `${displayHours}:${displayMinutes} ${amPm}`;
+      datetime = `${date} ${time}`;
     }
 
     data.push({
-      name: (
-        <NavLink to={`/components/${component?.id}`} activeClassName="active">
-          <Highlighter
-            highlightClassName="highlighted"
-            searchWords={[search]}
-            autoEscape={true}
-            textToHighlight={component?.name}
-          />
-        </NavLink>
-      ),
+      id: component?.id,
+      name: component?.name,
       status: component?.is_published ? "Published" : "Unpublished",
-      type: (
-        <Highlighter
-          highlightClassName="highlighted"
-          searchWords={[search]}
-          autoEscape={true}
-          textToHighlight={component?.type_display_name}
-        />
-      ),
-      modified_date: date.toString(),
-      modified_by: (
-        <Highlighter
-          highlightClassName="highlighted"
-          searchWords={[search]}
-          autoEscape={true}
-          textToHighlight={component?.last_modified_by_user || ""}
-        />
-      ),
+      type: component?.type_display_name,
+      modified_date: datetime.toString(),
+      modified_date_date: date.toString(),
+      modified_date_time: time.toString(),
+      modified_by: component?.last_modified_by_user || "",
     });
   });
 

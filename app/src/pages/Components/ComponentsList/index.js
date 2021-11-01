@@ -1,12 +1,14 @@
 import styled from "styled-components";
+import Highlighter from "react-highlight-words";
+import { NavLink } from "react-router-dom";
 
 // Global components
 import LoadSpinner from "../../../components/LoadSpinner";
 import SearchBar from "../../../components/SearchBar";
-import Table from "../../../components/Table";
 
 // Page components
 import FilterMenu from "./FilterMenu";
+import Table from "./Table";
 import ComponentActions from "../ComponentActions";
 
 // Page functions
@@ -57,6 +59,10 @@ const TableContainer = styled.div`
 
   mark.highlighted {
     background-color: #fcba19;
+  }
+
+  span.inline-block {
+    display: inline-block;
   }
 `;
 
@@ -109,25 +115,72 @@ function ComponentsList({
                 {
                   Header: "Name",
                   accessor: "name",
+                  Cell: ({ row }) => {
+                    return (
+                      <NavLink
+                        to={`/components/${row?.original?.id}`}
+                        activeClassName="active"
+                      >
+                        <Highlighter
+                          highlightClassName="highlighted"
+                          searchWords={[search]}
+                          autoEscape={true}
+                          textToHighlight={row?.values?.name}
+                        />
+                      </NavLink>
+                    );
+                  },
+                },
+                {
+                  Header: "Type",
+                  accessor: "type",
+                  Cell: ({ row }) => {
+                    return (
+                      <Highlighter
+                        highlightClassName="highlighted"
+                        searchWords={[search]}
+                        autoEscape={true}
+                        textToHighlight={row?.values?.type}
+                      />
+                    );
+                  },
                 },
                 {
                   Header: "Status",
                   accessor: "status",
                 },
                 {
-                  Header: "Type",
-                  accessor: "type",
-                },
-                {
                   Header: "Modified Date",
                   accessor: "modified_date",
+                  Cell: ({ row }) => {
+                    return (
+                      <>
+                        <span className="inline-block">
+                          {row?.original?.modified_date_date}
+                        </span>{" "}
+                        <span className="inline-block">
+                          {row?.original?.modified_date_time}
+                        </span>
+                      </>
+                    );
+                  },
                 },
                 {
                   Header: "Modified By",
                   accessor: "modified_by",
+                  Cell: ({ row }) => {
+                    return (
+                      <Highlighter
+                        highlightClassName="highlighted"
+                        searchWords={[search]}
+                        autoEscape={true}
+                        textToHighlight={row?.values?.modified_by}
+                      />
+                    );
+                  },
                 },
               ]}
-              tableData={getComponentsTableData(components, search)}
+              tableData={getComponentsTableData(components)}
             />
           </TableContainer>
         )
