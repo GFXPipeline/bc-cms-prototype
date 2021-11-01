@@ -128,10 +128,6 @@ function ComponentsList({
                   },
                 },
                 {
-                  Header: "Status",
-                  accessor: "status",
-                },
-                {
                   Header: "Type",
                   accessor: "type",
                   Cell: ({ row }) => {
@@ -144,6 +140,10 @@ function ComponentsList({
                       />
                     );
                   },
+                },
+                {
+                  Header: "Status",
+                  accessor: "status",
                 },
                 {
                   Header: "Modified Date",
