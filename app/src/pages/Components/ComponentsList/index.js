@@ -60,6 +60,10 @@ const TableContainer = styled.div`
   mark.highlighted {
     background-color: #fcba19;
   }
+
+  span.inline-block {
+    display: inline-block;
+  }
 `;
 
 function ComponentsList({
@@ -148,6 +152,18 @@ function ComponentsList({
                 {
                   Header: "Modified Date",
                   accessor: "modified_date",
+                  Cell: ({ row }) => {
+                    return (
+                      <>
+                        <span className="inline-block">
+                          {row?.original?.modified_date_date}
+                        </span>{" "}
+                        <span className="inline-block">
+                          {row?.original?.modified_date_time}
+                        </span>
+                      </>
+                    );
+                  },
                 },
                 {
                   Header: "Modified By",
@@ -164,7 +180,7 @@ function ComponentsList({
                   },
                 },
               ]}
-              tableData={getComponentsTableData(components, search)}
+              tableData={getComponentsTableData(components)}
             />
           </TableContainer>
         )

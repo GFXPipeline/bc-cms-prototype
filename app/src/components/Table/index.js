@@ -23,7 +23,7 @@ const StyledTable = styled.table`
         width: 120px;
       }
       &.date {
-        width: 110px;
+        width: 120px;
       }
       &.user {
         width: 140px;
