@@ -1,6 +1,3 @@
-import Highlighter from "react-highlight-words";
-import { NavLink } from "react-router-dom";
-
 // Prepares Components list data for display by the Table component
 function getComponentsTableData(components, search) {
   const alphaComponents = components.sort((a, b) => {
@@ -25,34 +22,12 @@ function getComponentsTableData(components, search) {
     }
 
     data.push({
-      name: (
-        <NavLink to={`/components/${component?.id}`} activeClassName="active">
-          <Highlighter
-            highlightClassName="highlighted"
-            searchWords={[search]}
-            autoEscape={true}
-            textToHighlight={component?.name}
-          />
-        </NavLink>
-      ),
+      id: component?.id,
+      name: component?.name,
       status: component?.is_published ? "Published" : "Unpublished",
-      type: (
-        <Highlighter
-          highlightClassName="highlighted"
-          searchWords={[search]}
-          autoEscape={true}
-          textToHighlight={component?.type_display_name}
-        />
-      ),
+      type: component?.type_display_name,
       modified_date: date.toString(),
-      modified_by: (
-        <Highlighter
-          highlightClassName="highlighted"
-          searchWords={[search]}
-          autoEscape={true}
-          textToHighlight={component?.last_modified_by_user || ""}
-        />
-      ),
+      modified_by: component?.last_modified_by_user || "",
     });
   });
 

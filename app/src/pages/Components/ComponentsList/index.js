@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import Highlighter from "react-highlight-words";
+import { NavLink } from "react-router-dom";
 
 // Global components
 import LoadSpinner from "../../../components/LoadSpinner";
@@ -109,6 +111,21 @@ function ComponentsList({
                 {
                   Header: "Name",
                   accessor: "name",
+                  Cell: ({ row }) => {
+                    return (
+                      <NavLink
+                        to={`/components/${row?.original?.id}`}
+                        activeClassName="active"
+                      >
+                        <Highlighter
+                          highlightClassName="highlighted"
+                          searchWords={[search]}
+                          autoEscape={true}
+                          textToHighlight={row?.values?.name}
+                        />
+                      </NavLink>
+                    );
+                  },
                 },
                 {
                   Header: "Status",
@@ -117,6 +134,16 @@ function ComponentsList({
                 {
                   Header: "Type",
                   accessor: "type",
+                  Cell: ({ row }) => {
+                    return (
+                      <Highlighter
+                        highlightClassName="highlighted"
+                        searchWords={[search]}
+                        autoEscape={true}
+                        textToHighlight={row?.values?.type}
+                      />
+                    );
+                  },
                 },
                 {
                   Header: "Modified Date",
@@ -125,6 +152,16 @@ function ComponentsList({
                 {
                   Header: "Modified By",
                   accessor: "modified_by",
+                  Cell: ({ row }) => {
+                    return (
+                      <Highlighter
+                        highlightClassName="highlighted"
+                        searchWords={[search]}
+                        autoEscape={true}
+                        textToHighlight={row?.values?.modified_by}
+                      />
+                    );
+                  },
                 },
               ]}
               tableData={getComponentsTableData(components, search)}
