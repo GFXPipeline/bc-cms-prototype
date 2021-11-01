@@ -119,6 +119,27 @@ async function getComponentTypeList() {
   }
 }
 
+// GET request to /api/component/:id/usage to get pages where a component is used
+async function getComponentUsage(id) {
+  console.log("Inside componentService.getComponentUsage, id: ", id);
+  try {
+    const requestOptions = {
+      headers: authHeader(),
+      username: authenticationService.currentUserValue.username,
+    };
+    const response = await axios.get(
+      `/api/component/${id}/usage`,
+      requestOptions
+    );
+
+    console.log("Response in componentService getComponentUsage: ", response);
+    return response?.data;
+  } catch (error) {
+    console.log("Error in componentService getComponentUsage: ", error);
+    throw error;
+  }
+}
+
 // GET request to /api/contact-field-options to get a list of all available contact fields
 async function getContactFieldOptions() {
   console.log("Inside componentService.getContactFieldOptions");
@@ -200,6 +221,7 @@ export const componentService = {
   getComponentsByOwner,
   getComponentsByType,
   getComponentTypeList,
+  getComponentUsage,
   getContactFieldOptions,
   getContactFieldTypeFromOption,
   getContactFieldTypes,
