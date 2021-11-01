@@ -5,10 +5,10 @@ import { NavLink } from "react-router-dom";
 // Global components
 import LoadSpinner from "../../../components/LoadSpinner";
 import SearchBar from "../../../components/SearchBar";
-import Table from "../../../components/Table";
 
 // Page components
 import FilterMenu from "./FilterMenu";
+import Table from "./Table";
 import ComponentActions from "../ComponentActions";
 
 // Page functions
