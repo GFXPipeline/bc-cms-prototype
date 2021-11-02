@@ -174,10 +174,10 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
           Component
         </button>
         <button
-          onClick={() => setTab("details")}
-          className={tab === "details" ? "active" : null}
+          onClick={() => setTab("settings")}
+          className={tab === "settings" ? "active" : null}
         >
-          Details
+          Settings
         </button>
         <button
           onClick={() => setTab("usage")}
@@ -190,6 +190,12 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
           className={tab === "history" ? "active" : null}
         >
           History
+        </button>
+        <button
+          onClick={() => setTab("translations")}
+          className={tab === "translations" ? "active" : null}
+        >
+          Translations
         </button>
       </Controls>
       <Body>

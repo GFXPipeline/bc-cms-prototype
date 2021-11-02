@@ -222,7 +222,7 @@ function ContactMethods({ contactItems, setContactItems }) {
     <StyledDiv>
       <ContactFieldSelector>
         <div className="new-control-selector">
-          <label htmlFor="select-contact-field-type">Method:</label>
+          <label htmlFor="select-contact-field-type">Contact Method:</label>
           <Select
             id={"select-contact-field-type"}
             name={"select-contact-field-type"}

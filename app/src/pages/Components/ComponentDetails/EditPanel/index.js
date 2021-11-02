@@ -86,7 +86,7 @@ function EditPanel({
       {title && intro && contactItems && (
         <>
           <div className="component-field">
-            <label htmlFor="component-name">Name (must this unique)</label>
+            <label htmlFor="component-name">Name (must be unique)</label>
             <TextInput
               id="component-name"
               value={name}
