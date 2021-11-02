@@ -4,6 +4,9 @@ const jwt = require("../_helpers/jwt");
 const errorHandler = require("../_helpers/error-handler");
 const knex = require("../db");
 
+const getComponentsInHtmlData = require("./functions/getComponentsInHtmlData");
+const updatePageComponentMapping = require("./functions/updatePageComponentMapping");
+
 const pageRouter = express.Router();
 pageRouter.use(jwt());
 pageRouter.use(errorHandler);
@@ -228,7 +231,7 @@ pageRouter.put("/:id", (req, res) => {
     .select("*")
     .where("id", req.params.id)
     .then((rows) => {
-      console.log("rows in PUT /api/page check for page: ", rows);
+      console.log(`Page ID ${req.params.id} found in pages table.`);
       if (rows?.length > 0) {
         // Requested page ID exists, attempt the update
         knex("pages")
@@ -243,8 +246,16 @@ pageRouter.put("/:id", (req, res) => {
             time_last_updated: knex.fn.now(),
           })
           .then((success) => {
-            // Page update success
+            // Send page update success
             res.status(200).send("200");
+
+            if (req?.body?.data) {
+              // Check for component usage
+              const components = getComponentsInHtmlData(req.body.data);
+
+              // Update the page_component_mapping table with current components
+              updatePageComponentMapping(req.params.id, components);
+            }
           })
           .catch((error) => {
             // Page update failure

@@ -7,6 +7,7 @@ import LoadSpinner from "../../../components/LoadSpinner";
 
 // Page components
 import ComponentPreview from "./ComponentPreview";
+import Usage from "./Usage";
 
 // Page actions
 import CancelEdits from "../_actions/CancelEdits";
@@ -216,6 +217,7 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
                 title={title}
               />
             )}
+            {tab === "usage" && <Usage id={id} />}
             {isErrorLoading && (
               <p className="error">Could not fetch component details.</p>
             )}

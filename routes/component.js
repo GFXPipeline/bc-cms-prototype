@@ -109,4 +109,25 @@ componentRouter.put("/:id", (req, res) => {
     });
 });
 
+// Get pages where a component is used
+componentRouter.get("/:id/usage", (req, res) => {
+  console.log(`GET /api/component/${req?.params?.id}/usage`);
+
+  knex("page_component_mapping AS pcm")
+    .join("pages AS p", "p.id", "pcm.page_id")
+    .select(
+      "pcm.*",
+      { page_title: "p.title" },
+    )
+    .where("component_id", req?.params?.id)
+    .then((rows) => {
+      res.status(200).send(rows);
+    })
+    .catch((error) => {
+      // Error connecting to database, return early
+      console.log(`error in GET /api/component/${req?.params?.id}/usage`,
+      error);
+    });
+});
+
 module.exports = componentRouter;

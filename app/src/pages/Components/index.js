@@ -50,7 +50,7 @@ const SliderButton = styled.button`
 
 function Components() {
   // Selected component (id in URL)
-  const { id } = useParams();
+  const { id, tab } = useParams();
 
   // Component search
   const [search, setSearch] = useState("");
@@ -297,6 +297,7 @@ function Components() {
           <ComponentDetails
             className={isComponentListExpanded ? "collapsed" : "expanded"}
             id={id}
+            tab={tab || "component"}
             reloadComponentsList={reloadComponentsList}
           />
         )}
