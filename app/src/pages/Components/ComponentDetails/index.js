@@ -174,10 +174,10 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
           Component
         </button>
         <button
-          onClick={() => setTab("details")}
-          className={tab === "details" ? "active" : null}
+          onClick={() => setTab("settings")}
+          className={tab === "settings" ? "active" : null}
         >
-          Details
+          Settings
         </button>
         <button
           onClick={() => setTab("usage")}
