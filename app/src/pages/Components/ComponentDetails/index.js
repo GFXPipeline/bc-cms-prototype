@@ -191,6 +191,12 @@ function ComponentDetails({ id, reloadComponentsList, ...props }) {
         >
           History
         </button>
+        <button
+          onClick={() => setTab("translations")}
+          className={tab === "translations" ? "active" : null}
+        >
+          Translations
+        </button>
       </Controls>
       <Body>
         {isLoading ? (
