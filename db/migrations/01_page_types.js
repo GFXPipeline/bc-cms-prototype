@@ -7,6 +7,8 @@ exports.up = function (knex) {
       .primary();
     table.string("name").unique().notNullable();
     table.string("display_name").notNullable();
+    table.integer("display_order").notNullable();
+    table.string("description");
     table.json("structure");
     table.uuid("created_by_user").references("id").inTable("users");
     table.uuid("owned_by_user").references("id").inTable("users");
