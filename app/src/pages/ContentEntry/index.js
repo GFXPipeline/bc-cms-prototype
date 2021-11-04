@@ -526,7 +526,12 @@ function ContentEntry() {
                 <Select
                   id="content-list-view"
                   name="content-list-view"
-                  options={[{ id: "view-all", label: "View all" }]}
+                  options={[
+                    { id: "view-all", label: "View all", value: "view-all" },
+                  ]}
+                  onChange={() => {
+                    return; // TODO: Have this set state when other options are available
+                  }}
                 />
               </InputContainer>
             </div>
