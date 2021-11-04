@@ -9,6 +9,7 @@ import { pageService } from "../../../../_services";
 
 // Modal panels
 import PageType from "./PageType";
+import PageTemplate from "./PageTemplate";
 
 const StyledModal = styled(Modal)`
   .Overlay {
@@ -141,15 +142,20 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
 
   // Available options
   const [availablePageTypes, setAvailablePageTypes] = useState([]);
+  const [availablePageTemplates, setAvailablePageTemplates] = useState([]);
 
   // Selected options
-  const [pageType, setPageType] = useState("topic-page");
+  const [pageType, setPageType] = useState("");
+  const [pageTemplate, setPageTemplate] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
   const [isLoadingPageTypes, setIsLoadingPageTypes] = useState(true);
   const [isErrorPageTypes, setIsErrorPageTypes] = useState(false);
+  const [isLoadingPageTemplates, setIsLoadingPageTemplates] = useState(true);
+  const [isErrorPageTemplates, setIsErrorPageTemplates] = useState(false);
 
+  // Get page types
   useEffect(() => {
     pageService
       .getPageTypes()
@@ -159,6 +165,19 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
       })
       .catch((error) => {
         setIsErrorPageTypes(true);
+      });
+  }, []);
+
+  // Get page templates
+  useEffect(() => {
+    pageService
+      .getPageTemplates()
+      .then((pageTemplates) => {
+        setAvailablePageTemplates(pageTemplates);
+        setIsLoadingPageTemplates(false);
+      })
+      .catch((error) => {
+        setIsErrorPageTemplates(true);
       });
   }, []);
 
@@ -211,8 +230,18 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
             <PageType
               availablePageTypes={availablePageTypes}
               isLoadingPageTypes={isLoadingPageTypes}
+              isErrorPageTypes={isErrorPageTypes}
               pageType={pageType}
               setPageType={setPageType}
+            />
+          )}
+          {tab === "page-template" && (
+            <PageTemplate
+              availablePageTemplates={availablePageTemplates}
+              isLoadingPageTemplates={isLoadingPageTemplates}
+              isErrorPageTemplates={isErrorPageTemplates}
+              pageTemplate={pageTemplate}
+              setPageTemplate={setPageTemplate}
             />
           )}
         </div>

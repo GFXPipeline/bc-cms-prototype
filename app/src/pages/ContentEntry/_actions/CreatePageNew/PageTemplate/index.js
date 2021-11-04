@@ -70,38 +70,38 @@ const Option = styled.div`
   }
 `;
 
-function PageType({
-  availablePageTypes,
-  isLoadingPageTypes,
-  pageType,
-  setPageType,
+function PageTemplate({
+  availablePageTemplates,
+  isLoadingPageTemplates,
+  pageTemplate,
+  setPageTemplate,
 }) {
   return (
     <StyledDiv>
-      <h3>Page types</h3>
+      <h3>Page templates</h3>
       <fieldset>
-        {isLoadingPageTypes && <LoadSpinner />}
-        {availablePageTypes &&
-          Array.isArray(availablePageTypes) &&
-          availablePageTypes.length > 0 &&
-          availablePageTypes.map((type, index) => {
+        {isLoadingPageTemplates && <LoadSpinner />}
+        {availablePageTemplates &&
+          Array.isArray(availablePageTemplates) &&
+          availablePageTemplates.length > 0 &&
+          availablePageTemplates.map((template, index) => {
             return (
               <Option
                 key={`option-${index}`}
-                className={pageType === type?.name ? "selected" : null}
+                className={pageTemplate === template?.name ? "selected" : null}
               >
                 <div className="icon"></div>
                 <div className="description">
                   <input
                     type="radio"
-                    id={`page-type-${type?.name}`}
-                    checked={pageType === type?.name}
-                    onChange={() => setPageType(type?.name)}
+                    id={`page-template-${template?.name}`}
+                    checked={pageTemplate === template?.name}
+                    onChange={() => setPageTemplate(template?.name)}
                   />
-                  <label htmlFor={`page-type-${type?.name}`}>
-                    {type?.display_name}
+                  <label htmlFor={`page-template-${template?.name}`}>
+                    {template?.display_name}
                   </label>
-                  <p>{type?.description}</p>
+                  <p>{template?.description}</p>
                 </div>
               </Option>
             );
@@ -111,4 +111,4 @@ function PageType({
   );
 }
 
-export default PageType;
+export default PageTemplate;
