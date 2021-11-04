@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
+// Global components
 import Button from "../../../../components/Button";
 import Modal from "../../../../components/Modal";
 import NumberInput from "../../../../components/NumberInput";
+import { pageService } from "../../../../_services";
+
+// Modal panels
+import PageType from "./PageType";
 
 const StyledModal = styled(Modal)`
   .Overlay {
@@ -21,7 +26,7 @@ const StyledModal = styled(Modal)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 40px 30px 36px 60px;
+    padding: 30px 30px 16px 60px;
 
     h2 {
       font-size: 36px;
@@ -56,7 +61,7 @@ const StyledModal = styled(Modal)`
       align-items: left;
       display: flex;
       flex-direction: column;
-      max-width: 190px;
+      max-width: 200px;
 
       div {
         background-color: white;
@@ -72,6 +77,7 @@ const StyledModal = styled(Modal)`
           flex-grow: 1;
           padding: 22px 25px;
           text-align: left;
+          min-width: 180px;
 
           &:hover {
             text-decoration: underline;
@@ -99,6 +105,8 @@ const StyledModal = styled(Modal)`
       border: 1px solid #707070;
       border-left: none;
       flex-grow: 1;
+      max-height: 660px;
+      overflow-y: auto;
     }
   }
 
@@ -106,7 +114,7 @@ const StyledModal = styled(Modal)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 51px 0 33px 0;
+    margin: 25px 0;
     padding: 0 60px;
 
     fieldset.number-of-pages {
@@ -128,8 +136,31 @@ const StyledModal = styled(Modal)`
 `;
 
 function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
+  // Navigation within modal
   const [tab, setTab] = useState("page-type");
+
+  // Available options
+  const [availablePageTypes, setAvailablePageTypes] = useState([]);
+
+  // Selected options
+  const [pageType, setPageType] = useState("topic-page");
   const [numberOfPages, setNumberOfPages] = useState(1);
+
+  // Meta
+  const [isLoadingPageTypes, setIsLoadingPageTypes] = useState(true);
+  const [isErrorPageTypes, setIsErrorPageTypes] = useState(false);
+
+  useEffect(() => {
+    pageService
+      .getPageTypes()
+      .then((pageTypes) => {
+        setAvailablePageTypes(pageTypes);
+        setIsLoadingPageTypes(false);
+      })
+      .catch((error) => {
+        setIsErrorPageTypes(true);
+      });
+  }, []);
 
   return (
     <StyledModal
@@ -175,7 +206,16 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
           </div>
           <div className="grow" />
         </div>
-        <div className="content"></div>
+        <div className="content">
+          {tab === "page-type" && (
+            <PageType
+              availablePageTypes={availablePageTypes}
+              isLoadingPageTypes={isLoadingPageTypes}
+              pageType={pageType}
+              setPageType={setPageType}
+            />
+          )}
+        </div>
       </div>
       <div className="bottom">
         <fieldset className="number-of-pages">
