@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import Icon from "../../../../../components/Icon";
 import LoadSpinner from "../../../../../components/LoadSpinner";
 
 const StyledDiv = styled.div`
@@ -60,8 +61,18 @@ const Option = styled.div`
   }
 
   div.icon {
+    align-items: center;
     background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     width: 50%;
+
+    svg {
+      color: #3c3c3c;
+      height: 100px;
+      max-width: 100px;
+    }
   }
 
   div.description {
@@ -90,7 +101,9 @@ function PageType({
                 key={`option-${index}`}
                 className={pageType === type?.name ? "selected" : null}
               >
-                <div className="icon"></div>
+                <div className="icon">
+                  <Icon id={type?.icon} />
+                </div>
                 <div className="description">
                   <input
                     type="radio"

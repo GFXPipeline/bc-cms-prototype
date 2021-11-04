@@ -12,6 +12,7 @@ exports.seed = function (knex) {
           display_order: 1,
           description:
             "This is the description of the information page type and when it should be used in web content.",
+          icon: "noun-info.svg",
         },
         {
           id: "cbfa5133-ab18-4788-9c78-275e9d96257a",
@@ -20,6 +21,7 @@ exports.seed = function (knex) {
           display_order: 2,
           description:
             "This is the description of the service page type and when it should be used in web content.",
+          icon: "fa-hands-helping.svg",
         },
         {
           id: "59df13a9-2a9e-434b-aa24-addb612628d2",
@@ -28,6 +30,7 @@ exports.seed = function (knex) {
           display_order: 3,
           description:
             "This is the description of the form page type and when it should be used in web content.",
+          icon: "md-list-box.svg",
         },
         {
           id: "8d7a6086-16f5-478e-af60-db436b0469e1",
@@ -36,6 +39,7 @@ exports.seed = function (knex) {
           display_order: 4,
           description:
             "This is the description of the search page type and when it should be used in web content.",
+          icon: "fa-search.svg",
         },
       ]);
     });
