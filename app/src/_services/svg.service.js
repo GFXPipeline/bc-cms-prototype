@@ -6,6 +6,7 @@ import { ReactComponent as arrowUp } from "../assets/ionic-ios-arrow-up.svg";
 import { ReactComponent as bookReader } from "../assets/fa-book-reader.svg";
 import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
 import { ReactComponent as chartLine } from "../assets/fa-chart-line.svg";
+import { ReactComponent as close } from "../assets/md-close.svg";
 import { ReactComponent as cog } from "../assets/fa-cog.svg";
 import { ReactComponent as copy } from "../assets/fa-copy.svg";
 import { ReactComponent as cycle } from "../assets/fa-cycle.svg";
@@ -70,6 +71,7 @@ const svgIcons = {
   "ionic-ios-arrow-up.svg": arrowUp,
   "metro-files-empty.svg": files,
   "metro-unlink.svg": unlink,
+  "md-close.svg": close,
   "md-file-find.svg": fileFind,
   "md-list-box.svg": listBox,
   "md-rate-review.svg": rateReview,

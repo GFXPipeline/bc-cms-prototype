@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 // Global components
 import Button from "../../../../components/Button";
+import Icon from "../../../../components/Icon";
 import Modal from "../../../../components/Modal";
 import NumberInput from "../../../../components/NumberInput";
 import { pageService } from "../../../../_services";
@@ -39,19 +40,28 @@ const StyledModal = styled(Modal)`
     }
 
     button.close {
+      align-items: center;
       margin-left: auto;
       border: none;
       background-color: white;
       color: #707070;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
       font-size: 48px;
       height: 62px;
+      justify-content: space-around;
       padding: 0px;
       right: 30px;
       width: 62px;
 
       &:hover {
         background-color: #d6d6d6;
+      }
+
+      svg {
+        color: #707070;
+        width: 50px;
       }
     }
   }
@@ -196,7 +206,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
       <div className="top">
         <h2>Create a page</h2>
         <button className="close" onClick={() => setIsOpen(false)}>
-          X
+          <Icon id="md-close.svg" />
         </button>
       </div>
       <div className="middle">
