@@ -16,9 +16,11 @@ import { ReactComponent as fileFind } from "../assets/md-file-find.svg";
 import { ReactComponent as files } from "../assets/metro-files-empty.svg";
 import { ReactComponent as filter } from "../assets/fa-filter.svg";
 import { ReactComponent as gripVertical } from "../assets/fa-grip-vertical.svg";
+import { ReactComponent as handsHelping } from "../assets/fa-hands-helping.svg";
 import { ReactComponent as info } from "../assets/noun-info.svg";
 import { ReactComponent as link } from "../assets/fa-link.svg";
 import { ReactComponent as list } from "../assets/fa-list.svg";
+import { ReactComponent as listBox } from "../assets/md-list-box.svg";
 import { ReactComponent as lock } from "../assets/fa-lock.svg";
 import { ReactComponent as mapMarker } from "../assets/fa-map-marker.svg";
 import { ReactComponent as phone } from "../assets/fa-phone.svg";
@@ -26,6 +28,7 @@ import { ReactComponent as plus } from "../assets/fa-plus.svg";
 import { ReactComponent as pushpin } from "../assets/noun-pushpin.svg";
 import { ReactComponent as rateReview } from "../assets/md-rate-review.svg";
 import { ReactComponent as redo } from "../assets/fa-redo-solid.svg";
+import { ReactComponent as search } from "../assets/fa-search.svg";
 import { ReactComponent as times } from "../assets/fa-times.svg";
 import { ReactComponent as tools } from "../assets/fa-tools.svg";
 import { ReactComponent as trash } from "../assets/fa-trash.svg";
@@ -46,12 +49,14 @@ const svgIcons = {
   "fa-eye.svg": eye,
   "fa-filter.svg": filter,
   "fa-grip-vertical.svg": gripVertical,
+  "fa-hands-helping.svg": handsHelping,
   "fa-phone.svg": phone,
   "fa-link.svg": link,
   "fa-list.svg": list,
   "fa-lock.svg": lock,
   "fa-map-marker.svg": mapMarker,
   "fa-plus.svg": plus,
+  "fa-search.svg": search,
   "fa-times.svg": times,
   "fa-tools.svg": tools,
   "fa-trash.svg": trash,
@@ -66,6 +71,7 @@ const svgIcons = {
   "metro-files-empty.svg": files,
   "metro-unlink.svg": unlink,
   "md-file-find.svg": fileFind,
+  "md-list-box.svg": listBox,
   "md-rate-review.svg": rateReview,
   "noun-calendar.svg": calendar,
   "noun-info.svg": info,
