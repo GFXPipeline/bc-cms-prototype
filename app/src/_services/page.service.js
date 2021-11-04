@@ -180,6 +180,24 @@ async function getPageList() {
   }
 }
 
+// GET request to /api/page-types/
+async function getPageTypes() {
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: "/api/page-types/",
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in page.service getPageTypes: ", error);
+    throw error;
+  }
+}
+
 export const pageService = {
   create,
   clone,
@@ -187,4 +205,5 @@ export const pageService = {
   update,
   markForDeletion,
   getPageList,
+  getPageTypes,
 };
