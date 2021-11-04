@@ -17,6 +17,10 @@ const StyledModal = styled(Modal)`
   }
 
   .Modal {
+    display: flex;
+    flex-direction: column;
+    max-height: 90%;
+    min-height: 80%;
     max-width: 1600px;
     padding: 0px;
     width: 100%;
@@ -55,6 +59,7 @@ const StyledModal = styled(Modal)`
   div.middle {
     display: flex;
     flex-direction: row;
+    flex-grow: 1;
     max-height: 656px;
     padding: 0 60px;
 
