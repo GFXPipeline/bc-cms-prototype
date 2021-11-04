@@ -9,6 +9,7 @@ exports.up = function (knex) {
     table.string("display_name").notNullable();
     table.integer("display_order").notNullable();
     table.string("description");
+    table.string("icon");
     table.text("intro");
     table.text("data");
     table.uuid("created_by_user").references("id").inTable("users");
