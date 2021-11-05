@@ -12,8 +12,9 @@ exports.seed = function (knex) {
           display_order: 1,
           description:
             "This is the description of the base page template and when it should be used in web content.",
-          data: "<p>Base Template</p>",
+          icon: "bc-base-template.svg",
           intro: "<p>Intro to base template</p>",
+          data: "<p>Base Template</p>",
         },
       ]);
     });
