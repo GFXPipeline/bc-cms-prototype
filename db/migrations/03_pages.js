@@ -13,6 +13,7 @@ exports.up = function (knex) {
     table.boolean("is_on_this_page").defaultTo(false);
     table.boolean("is_published").defaultTo(false);
     table.boolean("is_marked_for_deletion").defaultTo(false);
+    table.integer("review_frequency_months");
     table.uuid("created_by_user").references("id").inTable("users");
     table.uuid("owned_by_user").references("id").inTable("users");
     table.uuid("last_modified_by_user").references("id").inTable("users");
