@@ -3,6 +3,7 @@ const componentsRouter = require("./components");
 const componentTypesRouter = require("./component-types");
 const contactFieldOptionsRouter = require("./contact-field-options");
 const contactFieldTypesRouter = require("./contact-field-types");
+const pageReviewRouter = require("./page-review");
 const pageRouter = require("./page");
 const pagesRouter = require("./pages");
 const pageTemplatesRouter = require("./page-templates");
@@ -17,6 +18,7 @@ module.exports = {
   componentRouter,
   componentsRouter,
   componentTypesRouter,
+  pageReviewRouter,
   pageRouter,
   pagesRouter,
   pageTemplatesRouter,

@@ -28,6 +28,7 @@ const {
   componentRouter,
   componentsRouter,
   componentTypesRouter,
+  pageReviewRouter,
   pageRouter,
   pagesRouter,
   pageTemplatesRouter,
@@ -43,6 +44,7 @@ app.use("/api/components", componentsRouter);
 app.use("/api/component-types", componentTypesRouter);
 app.use("/api/page", pageRouter);
 app.use("/api/pages", pagesRouter);
+app.use("/api/page-review", pageReviewRouter);
 app.use("/api/page-templates", pageTemplatesRouter);
 app.use("/api/page-types", pageTypesRouter);
 app.use("/api/recycle-bin", recycleBinRouter);
