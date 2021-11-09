@@ -14,7 +14,7 @@ exports.seed = function (knex) {
             "This is the description of the base page template and when it should be used in web content.",
           icon: "bc-base-template.svg",
           intro: "<p>Intro to base template</p>",
-          data: "<p>Base Template</p>",
+          data: '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
         },
       ]);
     });
