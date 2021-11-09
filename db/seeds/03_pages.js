@@ -31,6 +31,8 @@ exports.seed = function (knex) {
           review_frequency_months: 3,
           created_by_user: null,
           owned_by_user: null,
+          created_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
+          owned_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           last_modified_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
         },
         {
