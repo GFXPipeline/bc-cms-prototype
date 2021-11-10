@@ -17,7 +17,6 @@ const StyledDiv = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
     gap: 25px;
     margin: 0px;
     padding: 0px;
@@ -90,6 +89,7 @@ function PageTemplate({
   return (
     <StyledDiv>
       <h3>Page templates</h3>
+      <p>Choose a page template category. Page templates are...</p>
       <fieldset>
         {isLoadingPageTemplates && <LoadSpinner />}
         {availablePageTemplates &&

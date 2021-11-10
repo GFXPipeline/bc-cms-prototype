@@ -137,6 +137,7 @@ const Option = styled.div`
 
     div.text {
       p {
+        font-size: 14px;
         margin: 10px 0;
 
         &:last-child {
