@@ -223,6 +223,20 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
     event.preventDefault();
     setIsSubmitting(true);
 
+    let months = 0;
+    switch (reviewFrequency) {
+      case "3-months":
+        months = 3;
+        break;
+      case "6-months":
+        months = 6;
+        break;
+      case "12-months":
+      default:
+        months = 12;
+        break;
+    }
+
     pageService
       .create({
         data: "",
@@ -230,6 +244,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
         pageType: pageType,
         template: pageTemplate,
         numberOfCopies: numberOfPages,
+        reviewFrequency: months,
       })
       .then((returnedPageId) => {
         setIsSuccess(true);
