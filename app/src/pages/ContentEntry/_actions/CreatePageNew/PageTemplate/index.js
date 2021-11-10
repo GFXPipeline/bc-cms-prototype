@@ -65,6 +65,7 @@ const Option = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    max-height: 174px;
     width: 50%;
 
     svg {
