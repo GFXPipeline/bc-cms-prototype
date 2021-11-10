@@ -488,7 +488,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
   }
 
   function handleCleanup() {
-    setDeleteType("soft-delete");
+    setDeleteType("hard-delete");
     setReason("");
     setIsDateRequired(false);
     setDate(new Date());
