@@ -11,6 +11,7 @@ import { pageService } from "../../../../_services";
 // Modal panels
 import PageType from "./PageType";
 import PageTemplate from "./PageTemplate";
+import NavigationStyle from "./NavigationStyle";
 
 const StyledModal = styled(Modal)`
   .Overlay {
@@ -158,10 +159,12 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   // Available options
   const [availablePageTypes, setAvailablePageTypes] = useState([]);
   const [availablePageTemplates, setAvailablePageTemplates] = useState([]);
+  const [availableNavStyles, setAvailableNavStyles] = useState([]);
 
   // Selected options
   const [pageType, setPageType] = useState("");
   const [pageTemplate, setPageTemplate] = useState("");
+  const [navStyle, setNavStyle] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
@@ -169,6 +172,8 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   const [isErrorPageTypes, setIsErrorPageTypes] = useState(false);
   const [isLoadingPageTemplates, setIsLoadingPageTemplates] = useState(true);
   const [isErrorPageTemplates, setIsErrorPageTemplates] = useState(false);
+  const [isLoadingNavStyles, setIsLoadingNavStyles] = useState(true);
+  const [isErrorNavStyles, setIsErrorNavStyles] = useState(false);
 
   // Get page types
   useEffect(() => {
@@ -257,6 +262,15 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               isErrorPageTemplates={isErrorPageTemplates}
               pageTemplate={pageTemplate}
               setPageTemplate={setPageTemplate}
+            />
+          )}
+          {tab === "navigation-style" && (
+            <NavigationStyle
+              availableNavStyles={availableNavStyles}
+              isLoading={isLoadingNavStyles}
+              isError={isErrorNavStyles}
+              navStyle={navStyle}
+              setNavStyle={setNavStyle}
             />
           )}
         </div>
