@@ -137,7 +137,7 @@ const Option = styled.div`
 
     div.text {
       p {
-        font-size: 14px;
+        font-size: 15px;
         margin: 10px 0;
 
         &:last-child {
@@ -147,6 +147,10 @@ const Option = styled.div`
 
       ul {
         margin: 10px 0;
+
+        li {
+          font-size: 15px;
+        }
       }
     }
   }
