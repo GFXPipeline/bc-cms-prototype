@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 import Icon from "../../../components/Icon";
 
@@ -6,20 +7,23 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: row;
 
-  button {
+  a {
     align-items: center;
     background-color: white;
     border: none;
+    color: #313132;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     padding: 28px;
+    text-decoration: none;
     width: 250px;
 
     span {
       font-size: 18px;
       font-weight: 700;
       margin-top: 16px;
+      text-align: center;
     }
 
     svg {
@@ -34,55 +38,32 @@ const StyledDiv = styled.div`
     &:hover {
       text-decoration: underline;
     }
-
-    &:disabled {
-      cursor: not-allowed;
-      text-decoration: none;
-    }
   }
 `;
 
-function Navigation({ section, setSection }) {
+function Navigation() {
   return (
     <StyledDiv>
-      <button
-        className={section === "dashboard" ? "active" : null}
-        onClick={() => setSection("dashboard")}
-      >
+      <NavLink activeClassName="active" to="/dashboard">
         <Icon id="metro-files-empty.svg" />
         <span>My dashboard</span>
-      </button>
-      <button
-        className={section === "analytics" ? "active" : null}
-        onClick={() => setSection("analytics")}
-        disabled
-      >
+      </NavLink>
+      <NavLink activeClassName="active" to="/analytics">
         <Icon id="fa-chart-line.svg" />
         <span>Analytics</span>
-      </button>
-      <button
-        className={section === "content-maintenance" ? "active" : null}
-        onClick={() => setSection("content-maintenance")}
-      >
+      </NavLink>
+      <NavLink activeClassName="active" to="/content-maintenance">
         <Icon id="fa-tools.svg" />
         <span>Content maintenance</span>
-      </button>
-      <button
-        className={section === "workflow-status" ? "active" : null}
-        onClick={() => setSection("workflow-status")}
-        disabled
-      >
+      </NavLink>
+      <NavLink activeClassName="active" to="/workflow-status">
         <Icon id="fa-cycle.svg" />
         <span>Workflow status</span>
-      </button>
-      <button
-        className={section === "users-and-groups" ? "active" : null}
-        onClick={() => setSection("users-and-groups")}
-        disabled
-      >
+      </NavLink>
+      <NavLink activeClassName="active" to="/users-and-groups">
         <Icon id="fa-user.svg" />
         <span>Users and groups</span>
-      </button>
+      </NavLink>
     </StyledDiv>
   );
 }
