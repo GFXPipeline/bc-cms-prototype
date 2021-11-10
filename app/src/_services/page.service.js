@@ -10,6 +10,7 @@ async function create({
   navTitle,
   numberOfCopies,
   pageType,
+  reviewFrequency,
   template,
   title,
 }) {
@@ -30,6 +31,7 @@ async function create({
       navTitle: navTitle || "",
       data: data || "",
       isOnThisPage: isOnThisPage || false,
+      reviewFrequencyMonths: reviewFrequency,
     };
 
     const response = await axios({
