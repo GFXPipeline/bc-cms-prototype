@@ -3,7 +3,10 @@ import { ReactComponent as arrowBack } from "../assets/ionic-ios-arrow-back.svg"
 import { ReactComponent as arrowDown } from "../assets/ionic-ios-arrow-down.svg";
 import { ReactComponent as arrowForward } from "../assets/ionic-ios-arrow-forward.svg";
 import { ReactComponent as arrowUp } from "../assets/ionic-ios-arrow-up.svg";
-import { ReactComponent as baseTemplate } from "../assets/bc-base-template.svg";
+import { ReactComponent as baseTemplate1 } from "../assets/bc-base-template-1.svg";
+import { ReactComponent as baseTemplate2 } from "../assets/bc-base-template-2.svg";
+import { ReactComponent as baseTemplate3 } from "../assets/bc-base-template-3.svg";
+import { ReactComponent as baseTemplate4 } from "../assets/bc-base-template-4.svg";
 import { ReactComponent as bookReader } from "../assets/fa-book-reader.svg";
 import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
 import { ReactComponent as chartLine } from "../assets/fa-chart-line.svg";
@@ -41,7 +44,10 @@ import { ReactComponent as user } from "../assets/fa-user.svg";
 
 // Asset map
 const svgIcons = {
-  "bc-base-template.svg": baseTemplate,
+  "bc-base-template-1.svg": baseTemplate1,
+  "bc-base-template-2.svg": baseTemplate2,
+  "bc-base-template-3.svg": baseTemplate3,
+  "bc-base-template-4.svg": baseTemplate4,
   "fa-book-reader.svg": bookReader,
   "fa-chart-line.svg": chartLine,
   "fa-cog.svg": cog,
