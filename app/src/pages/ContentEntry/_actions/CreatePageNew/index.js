@@ -12,6 +12,7 @@ import { pageService } from "../../../../_services";
 import PageType from "./PageType";
 import PageTemplate from "./PageTemplate";
 import NavigationStyle from "./NavigationStyle";
+import ContentReviewSchedule from "./ContentReviewSchedule";
 
 const StyledModal = styled(Modal)`
   .Overlay {
@@ -165,6 +166,9 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   const [pageType, setPageType] = useState("");
   const [pageTemplate, setPageTemplate] = useState("");
   const [navType, setNavType] = useState("");
+  const [reviewFrequency, setReviewFrequency] = useState("");
+  const [contact, setContact] = useState("");
+  const [email, setEmail] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
@@ -284,6 +288,16 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               isError={isErrorNavTypes}
               navType={navType}
               setNavType={setNavType}
+            />
+          )}
+          {tab === "content-review-schedule" && (
+            <ContentReviewSchedule
+              contact={contact}
+              email={email}
+              reviewFrequency={reviewFrequency}
+              setContact={setContact}
+              setEmail={setEmail}
+              setReviewFrequency={setReviewFrequency}
             />
           )}
         </div>
