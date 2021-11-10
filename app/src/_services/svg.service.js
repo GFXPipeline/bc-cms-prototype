@@ -3,7 +3,10 @@ import { ReactComponent as arrowBack } from "../assets/ionic-ios-arrow-back.svg"
 import { ReactComponent as arrowDown } from "../assets/ionic-ios-arrow-down.svg";
 import { ReactComponent as arrowForward } from "../assets/ionic-ios-arrow-forward.svg";
 import { ReactComponent as arrowUp } from "../assets/ionic-ios-arrow-up.svg";
-import { ReactComponent as baseTemplate } from "../assets/bc-base-template.svg";
+import { ReactComponent as baseTemplate1 } from "../assets/bc-base-template-1.svg";
+import { ReactComponent as baseTemplate2 } from "../assets/bc-base-template-2.svg";
+import { ReactComponent as baseTemplate3 } from "../assets/bc-base-template-3.svg";
+import { ReactComponent as baseTemplate4 } from "../assets/bc-base-template-4.svg";
 import { ReactComponent as bookReader } from "../assets/fa-book-reader.svg";
 import { ReactComponent as calendar } from "../assets/noun-calendar.svg";
 import { ReactComponent as chartLine } from "../assets/fa-chart-line.svg";
@@ -25,6 +28,10 @@ import { ReactComponent as list } from "../assets/fa-list.svg";
 import { ReactComponent as listBox } from "../assets/md-list-box.svg";
 import { ReactComponent as lock } from "../assets/fa-lock.svg";
 import { ReactComponent as mapMarker } from "../assets/fa-map-marker.svg";
+import { ReactComponent as navBoxWithDetails } from "../assets/nav-style-box-with-details.svg";
+import { ReactComponent as navBoxWithoutDetails } from "../assets/nav-style-box-without-details.svg";
+import { ReactComponent as navRegularWithDetails } from "../assets/nav-style-regular-with-details.svg";
+import { ReactComponent as navRegularWithoutDetails } from "../assets/nav-style-regular-without-details.svg";
 import { ReactComponent as phone } from "../assets/fa-phone.svg";
 import { ReactComponent as plus } from "../assets/fa-plus.svg";
 import { ReactComponent as pushpin } from "../assets/noun-pushpin.svg";
@@ -41,7 +48,10 @@ import { ReactComponent as user } from "../assets/fa-user.svg";
 
 // Asset map
 const svgIcons = {
-  "bc-base-template.svg": baseTemplate,
+  "bc-base-template-1.svg": baseTemplate1,
+  "bc-base-template-2.svg": baseTemplate2,
+  "bc-base-template-3.svg": baseTemplate3,
+  "bc-base-template-4.svg": baseTemplate4,
   "fa-book-reader.svg": bookReader,
   "fa-chart-line.svg": chartLine,
   "fa-cog.svg": cog,
@@ -77,6 +87,10 @@ const svgIcons = {
   "md-file-find.svg": fileFind,
   "md-list-box.svg": listBox,
   "md-rate-review.svg": rateReview,
+  "nav-style-box-with-details.svg": navBoxWithDetails,
+  "nav-style-box-without-details.svg": navBoxWithoutDetails,
+  "nav-style-regular-with-details.svg": navRegularWithDetails,
+  "nav-style-regular-without-details.svg": navRegularWithoutDetails,
   "noun-calendar.svg": calendar,
   "noun-info.svg": info,
   "noun-pushpin.svg": pushpin,
