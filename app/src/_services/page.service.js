@@ -181,6 +181,25 @@ async function getPageList() {
   }
 }
 
+// GET request to /api/page-navigation-types/
+async function getPageNavigationTypes() {
+  console.log("pageService.getPageNavigationTypes()");
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: "/api/page-navigation-types/",
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in pageService.getPageNavigationTypes: ", error);
+    throw error;
+  }
+}
+
 // GET request to /api/page-templates/
 async function getPageTemplates() {
   console.log("pageService.getPageTemplates()");
@@ -226,6 +245,7 @@ export const pageService = {
   update,
   markForDeletion,
   getPageList,
+  getPageNavigationTypes,
   getPageTemplates,
   getPageTypes,
 };
