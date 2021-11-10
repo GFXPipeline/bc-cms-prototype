@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 // Global components
 import Button from "../../../../components/Button";
 import Icon from "../../../../components/Icon";
+import LoadSpinner from "../../../../components/LoadSpinner";
 import Modal from "../../../../components/Modal";
 import NumberInput from "../../../../components/NumberInput";
 import { pageService } from "../../../../_services";
@@ -13,6 +15,7 @@ import PageType from "./PageType";
 import PageTemplate from "./PageTemplate";
 import NavigationStyle from "./NavigationStyle";
 import ContentReviewSchedule from "./ContentReviewSchedule";
+import PageLocation from "./PageLocation";
 
 const StyledModal = styled(Modal)`
   .Overlay {
@@ -22,6 +25,7 @@ const StyledModal = styled(Modal)`
   .Modal {
     display: flex;
     flex-direction: column;
+    height: 90%;
     max-height: 90%;
     min-height: 80%;
     max-width: 1600px;
@@ -145,6 +149,36 @@ const StyledModal = styled(Modal)`
       }
     }
 
+    div.spinner {
+      height: 25px;
+      position: relative;
+      top: -35px;
+    }
+
+    p {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      height: 44px;
+      margin: 0px;
+
+      &.success {
+        background-color: #dff0d8;
+        border: 1px solid #d6e9c6;
+        border-radius: 4px;
+        color: #2d4821;
+        padding: 0 15px;
+      }
+
+      &.error {
+        background-color: #f2dede;
+        border: 1px solid #ebccd1;
+        border-radius: 4px;
+        color: #a12622;
+        padding: 15px;
+      }
+    }
+
     div.buttons {
       button {
         margin-left: 11px;
@@ -154,6 +188,8 @@ const StyledModal = styled(Modal)`
 `;
 
 function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
+  const history = useHistory();
+
   // Navigation within modal
   const [tab, setTab] = useState("page-type");
 
@@ -169,6 +205,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   const [reviewFrequency, setReviewFrequency] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
+  const [location, setLocation] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
@@ -178,6 +215,53 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   const [isErrorPageTemplates, setIsErrorPageTemplates] = useState(false);
   const [isLoadingNavTypes, setIsLoadingNavTypes] = useState(true);
   const [isErrorNavTypes, setIsErrorNavTypes] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  function handleCreatePage(event) {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    pageService
+      .create({
+        data: "",
+        title: "",
+        pageType: pageType,
+        template: pageTemplate,
+        numberOfCopies: numberOfPages,
+      })
+      .then((returnedPageId) => {
+        setIsSuccess(true);
+        setIsSubmitting(false);
+
+        // Page ID is pulled by useParams() in ContentEntry to grab page data,
+        // no need to use this to set state anywhere.
+        history.push(`/content/${returnedPageId}`);
+      })
+      .catch((error) => {
+        setIsError(true);
+        setIsSubmitting(false);
+        throw error;
+      });
+  }
+
+  // Cancel the dialog and reset state
+  function handleCleanup() {
+    setTab("page-type");
+    setPageType("");
+    setPageTemplate("");
+    setNavType("");
+    setReviewFrequency("");
+    setContact("");
+    setEmail("");
+    setLocation("");
+    setNumberOfPages(1);
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    setIsError(false);
+    setIsOpen(false);
+  }
 
   // Get page types
   useEffect(() => {
@@ -227,7 +311,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
     >
       <div className="top">
         <h2>Create a page</h2>
-        <button className="close" onClick={() => setIsOpen(false)}>
+        <button className="close" onClick={handleCleanup}>
           <Icon id="md-close.svg" />
         </button>
       </div>
@@ -300,6 +384,9 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               setReviewFrequency={setReviewFrequency}
             />
           )}
+          {tab === "page-location" && (
+            <PageLocation location={location} setLocation={setLocation} />
+          )}
         </div>
       </div>
       <div className="bottom">
@@ -313,9 +400,31 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
             onChange={(e) => setNumberOfPages(e.target.value)}
           />
         </fieldset>
+        {isSubmitting && <LoadSpinner className="spinner" />}
+        {isError && <p className="error">Error creating new page.</p>}
+        {isSuccess && <p className="success">New page created.</p>}
         <div className="buttons">
-          <Button primary>Create</Button>
-          <Button>Cancel</Button>
+          <Button
+            primary
+            disabled={
+              isSubmitting ||
+              isSuccess ||
+              !pageType ||
+              !pageTemplate ||
+              !navType ||
+              !reviewFrequency ||
+              !contact ||
+              (contact === "specific-email" && !email) ||
+              // !location || // This can be added when there is logic to set location
+              !numberOfPages
+            }
+            onClick={handleCreatePage}
+          >
+            Create
+          </Button>
+          <Button onClick={handleCleanup}>
+            {isSuccess ? "Close" : "Cancel"}
+          </Button>
         </div>
       </div>
     </StyledModal>
