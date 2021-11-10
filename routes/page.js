@@ -63,6 +63,9 @@ pageRouter.post("/", (req, res) => {
                     intro: row?.[0]?.intro,
                     data: row?.[0]?.data,
                     page_type: newPageTypeId,
+                    review_frequency_months: parseInt(
+                      req?.body?.reviewFrequencyMonths
+                    ),
                     created_by_user: userId,
                     owned_by_user: userId,
                     last_modified_by_user: userId,
