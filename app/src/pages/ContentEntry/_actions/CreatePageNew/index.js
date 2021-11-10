@@ -159,12 +159,12 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   // Available options
   const [availablePageTypes, setAvailablePageTypes] = useState([]);
   const [availablePageTemplates, setAvailablePageTemplates] = useState([]);
-  const [availableNavStyles, setAvailableNavStyles] = useState([]);
+  const [availableNavTypes, setAvailableNavTypes] = useState([]);
 
   // Selected options
   const [pageType, setPageType] = useState("");
   const [pageTemplate, setPageTemplate] = useState("");
-  const [navStyle, setNavStyle] = useState("");
+  const [navType, setNavType] = useState("");
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
@@ -172,8 +172,8 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   const [isErrorPageTypes, setIsErrorPageTypes] = useState(false);
   const [isLoadingPageTemplates, setIsLoadingPageTemplates] = useState(true);
   const [isErrorPageTemplates, setIsErrorPageTemplates] = useState(false);
-  const [isLoadingNavStyles, setIsLoadingNavStyles] = useState(true);
-  const [isErrorNavStyles, setIsErrorNavStyles] = useState(false);
+  const [isLoadingNavTypes, setIsLoadingNavTypes] = useState(true);
+  const [isErrorNavTypes, setIsErrorNavTypes] = useState(false);
 
   // Get page types
   useEffect(() => {
@@ -198,6 +198,19 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
       })
       .catch((error) => {
         setIsErrorPageTemplates(true);
+      });
+  }, []);
+
+  // Get page navigation types
+  useEffect(() => {
+    pageService
+      .getPageNavigationTypes()
+      .then((pageNavigationTypes) => {
+        setAvailableNavTypes(pageNavigationTypes);
+        setIsLoadingNavTypes(false);
+      })
+      .catch((error) => {
+        setIsErrorNavTypes(true);
       });
   }, []);
 
@@ -266,11 +279,11 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
           )}
           {tab === "navigation-style" && (
             <NavigationStyle
-              availableNavStyles={availableNavStyles}
-              isLoading={isLoadingNavStyles}
-              isError={isErrorNavStyles}
-              navStyle={navStyle}
-              setNavStyle={setNavStyle}
+              availableNavTypes={availableNavTypes}
+              isLoading={isLoadingNavTypes}
+              isError={isErrorNavTypes}
+              navType={navType}
+              setNavType={setNavType}
             />
           )}
         </div>
