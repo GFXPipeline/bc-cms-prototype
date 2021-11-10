@@ -6,6 +6,7 @@ import Accordion from "../../Accordion";
 import Icon from "../../../../components/Icon";
 
 // Page components
+import ContentReviewSchedule from "./ContentReviewSchedule";
 import RecycleBin from "./RecycleBin";
 
 const StyledDiv = styled.div`
@@ -86,6 +87,11 @@ const StyledDiv = styled.div`
 `;
 
 function ContentMaintenance() {
+  // Content Review Schedule
+  const [isOpenContent, setIsOpenContent] = useState(false);
+  const contentRef = useRef(null);
+
+  // Recycle Bin
   const [isOpenRecycleBin, setIsOpenRecycleBin] = useState(false);
   const recycleBinRef = useRef(null);
 
@@ -96,6 +102,8 @@ function ContentMaintenance() {
       case recycleBinRef:
         setIsOpenRecycleBin(true);
         break;
+      case contentRef:
+        setIsOpenContent(true);
       default:
         break;
     }
@@ -108,7 +116,7 @@ function ContentMaintenance() {
       <div className="top">
         <h2>Content Maintenance</h2>
         <div className="buttons">
-          <button disabled>
+          <button onClick={() => handleClick(contentRef)}>
             <div className="svg">
               <Icon id="md-rate-review.svg" />
             </div>
@@ -142,7 +150,12 @@ function ContentMaintenance() {
       </div>
 
       <div className="bottom">
-        <Accordion label="Content Review Schedule" disabled />
+        <ContentReviewSchedule
+          label="Content Review Schedule"
+          isOpen={isOpenContent}
+          setIsOpen={setIsOpenContent}
+          ref={contentRef}
+        />
         <Accordion label="Reading Level Summary" disabled />
         <Accordion label="Broken Links Report" disabled />
         <Accordion label="Did You Find Results" disabled />

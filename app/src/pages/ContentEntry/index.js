@@ -55,6 +55,7 @@ import PageControlToolbar from "./PageControlToolbar";
 // Page actions
 import ClonePage from "./_actions/ClonePage";
 import CreatePage from "./_actions/CreatePage";
+import CreatePageNew from "./_actions/CreatePageNew";
 import DeletePage from "./_actions/DeletePage";
 import CancelEdits from "./_actions/CancelEdits";
 
@@ -526,7 +527,12 @@ function ContentEntry() {
                 <Select
                   id="content-list-view"
                   name="content-list-view"
-                  options={[{ id: "view-all", label: "View all" }]}
+                  options={[
+                    { id: "view-all", label: "View all", value: "view-all" },
+                  ]}
+                  onChange={() => {
+                    return; // TODO: Have this set state when other options are available
+                  }}
                 />
               </InputContainer>
             </div>
@@ -611,7 +617,12 @@ function ContentEntry() {
         setIsOpen={setModalClonePageOpen}
         onAfterClose={getUpdatedPageList}
       />
-      <CreatePage
+      {/* <CreatePage
+        isOpen={modalCreatePageOpen}
+        setIsOpen={setModalCreatePageOpen}
+        onAfterClose={getUpdatedPageList}
+      /> */}
+      <CreatePageNew
         isOpen={modalCreatePageOpen}
         setIsOpen={setModalCreatePageOpen}
         onAfterClose={getUpdatedPageList}

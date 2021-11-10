@@ -110,7 +110,6 @@ function ContactUsBox({ id }) {
       {fields && Array.isArray(fields) && fields.length > 0 && (
         <ul>
           {fields.map((field, index) => {
-            console.log("field: ", field);
             return (
               <li key={index}>
                 {getIcon(field?.option_id)}

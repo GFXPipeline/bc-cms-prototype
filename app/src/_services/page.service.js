@@ -10,6 +10,7 @@ async function create({
   navTitle,
   numberOfCopies,
   pageType,
+  reviewFrequency,
   template,
   title,
 }) {
@@ -30,6 +31,7 @@ async function create({
       navTitle: navTitle || "",
       data: data || "",
       isOnThisPage: isOnThisPage || false,
+      reviewFrequencyMonths: reviewFrequency,
     };
 
     const response = await axios({
@@ -164,6 +166,7 @@ async function markForDeletion({
 
 // GET request to /api/pages/all
 async function getPageList() {
+  console.log("pageService.getPageList()");
   try {
     const headers = authHeader();
 
@@ -180,6 +183,63 @@ async function getPageList() {
   }
 }
 
+// GET request to /api/page-navigation-types/
+async function getPageNavigationTypes() {
+  console.log("pageService.getPageNavigationTypes()");
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: "/api/page-navigation-types/",
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in pageService.getPageNavigationTypes: ", error);
+    throw error;
+  }
+}
+
+// GET request to /api/page-templates/
+async function getPageTemplates() {
+  console.log("pageService.getPageTemplates()");
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: "/api/page-templates/",
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in page.service getPageTemplates: ", error);
+    throw error;
+  }
+}
+
+// GET request to /api/page-types/
+async function getPageTypes() {
+  console.log("pageService.getPageTypes()");
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: "/api/page-types/",
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in page.service getPageTypes: ", error);
+    throw error;
+  }
+}
+
 export const pageService = {
   create,
   clone,
@@ -187,4 +247,7 @@ export const pageService = {
   update,
   markForDeletion,
   getPageList,
+  getPageNavigationTypes,
+  getPageTemplates,
+  getPageTypes,
 };

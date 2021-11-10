@@ -28,8 +28,12 @@ const {
   componentRouter,
   componentsRouter,
   componentTypesRouter,
+  pageNavigationTypesRouter,
+  pageReviewRouter,
   pageRouter,
   pagesRouter,
+  pageTemplatesRouter,
+  pageTypesRouter,
   recycleBinRouter,
   userRouter,
   usersRouter,
@@ -41,6 +45,10 @@ app.use("/api/components", componentsRouter);
 app.use("/api/component-types", componentTypesRouter);
 app.use("/api/page", pageRouter);
 app.use("/api/pages", pagesRouter);
+app.use("/api/page-navigation-types", pageNavigationTypesRouter);
+app.use("/api/page-review", pageReviewRouter);
+app.use("/api/page-templates", pageTemplatesRouter);
+app.use("/api/page-types", pageTypesRouter);
 app.use("/api/recycle-bin", recycleBinRouter);
 app.use("/api/user", userRouter);
 app.use("/api/users", usersRouter);

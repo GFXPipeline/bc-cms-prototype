@@ -58,9 +58,9 @@ const LoadSpinnerContainer = styled.div`
   }
 `;
 
-function LoadSpinner() {
+function LoadSpinner({ ...props }) {
   return (
-    <LoadSpinnerContainer>
+    <LoadSpinnerContainer {...props}>
       <div className="loader" />
     </LoadSpinnerContainer>
   );

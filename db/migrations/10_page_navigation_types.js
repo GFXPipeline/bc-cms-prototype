@@ -1,5 +1,5 @@
 exports.up = function (knex) {
-  return knex.schema.createTable("page_types", (table) => {
+  return knex.schema.createTable("page_navigation_types", (table) => {
     table
       .uuid("id")
       .defaultTo(knex.raw(`gen_random_uuid()`)) // Postgres built-in UUID v4 generator
@@ -23,5 +23,5 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTable("page_types");
+  return knex.schema.dropTable("page_navigation_types");
 };
