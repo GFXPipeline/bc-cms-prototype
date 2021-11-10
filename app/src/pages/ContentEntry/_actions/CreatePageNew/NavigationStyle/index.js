@@ -126,8 +126,8 @@ const Option = styled.div`
 
     svg {
       color: #3c3c3c;
-      height: 100px;
-      max-width: 100px;
+      max-height: 180px;
+      width: 220px;
     }
   }
 

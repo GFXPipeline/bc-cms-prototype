@@ -28,6 +28,10 @@ import { ReactComponent as list } from "../assets/fa-list.svg";
 import { ReactComponent as listBox } from "../assets/md-list-box.svg";
 import { ReactComponent as lock } from "../assets/fa-lock.svg";
 import { ReactComponent as mapMarker } from "../assets/fa-map-marker.svg";
+import { ReactComponent as navBoxWithDetails } from "../assets/nav-style-box-with-details.svg";
+import { ReactComponent as navBoxWithoutDetails } from "../assets/nav-style-box-without-details.svg";
+import { ReactComponent as navRegularWithDetails } from "../assets/nav-style-regular-with-details.svg";
+import { ReactComponent as navRegularWithoutDetails } from "../assets/nav-style-regular-without-details.svg";
 import { ReactComponent as phone } from "../assets/fa-phone.svg";
 import { ReactComponent as plus } from "../assets/fa-plus.svg";
 import { ReactComponent as pushpin } from "../assets/noun-pushpin.svg";
@@ -83,6 +87,10 @@ const svgIcons = {
   "md-file-find.svg": fileFind,
   "md-list-box.svg": listBox,
   "md-rate-review.svg": rateReview,
+  "nav-style-box-with-details.svg": navBoxWithDetails,
+  "nav-style-box-without-details.svg": navBoxWithoutDetails,
+  "nav-style-regular-with-details.svg": navRegularWithDetails,
+  "nav-style-regular-without-details.svg": navRegularWithoutDetails,
   "noun-calendar.svg": calendar,
   "noun-info.svg": info,
   "noun-pushpin.svg": pushpin,
