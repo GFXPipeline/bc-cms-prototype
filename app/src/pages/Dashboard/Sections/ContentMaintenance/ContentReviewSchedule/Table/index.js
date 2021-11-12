@@ -69,6 +69,16 @@ function Table({ pages }) {
       {
         Header: "",
         accessor: "edit_button",
+        Cell: ({ row }) => {
+          return (
+            <Button
+              onClick={() => history.push(`/content/${row?.original?.id}`)}
+              primary
+            >
+              Edit
+            </Button>
+          );
+        },
       },
       {
         Header: "Page title",
@@ -85,6 +95,9 @@ function Table({ pages }) {
       {
         Header: "Review frequency",
         accessor: "frequency",
+        Cell: ({ row }) => {
+          return <span>{`${row?.original?.frequency} months`}</span>;
+        },
       },
       {
         Header: "Next review",
@@ -127,18 +140,11 @@ function Table({ pages }) {
         }
 
         return {
-          edit_button: (
-            <Button
-              onClick={() => history.push(`/content/${item?.id}`)}
-              primary
-            >
-              Edit
-            </Button>
-          ),
+          id: item?.id,
           title: item?.title,
           modified_date: dateModified,
           location: "",
-          frequency: `${item?.review_frequency_months} months`,
+          frequency: item?.review_frequency_months,
           next_review: dateNextReview,
         };
       }),
