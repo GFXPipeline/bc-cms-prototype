@@ -155,6 +155,17 @@ function Table({ pages }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     tableInstance;
 
+  function getRowProps(row) {
+    const overdue = new Date() > new Date(row?.original?.next_review);
+
+    return {
+      style: {
+        color: overdue ? "#D8292F" : null,
+        "font-weight": overdue ? "700" : "400",
+      },
+    };
+  }
+
   return (
     <TableContainer>
       <table id="content-review-schedule-table" {...getTableProps()}>
@@ -199,7 +210,7 @@ function Table({ pages }) {
             prepareRow(row);
 
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps(getRowProps(row))}>
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
