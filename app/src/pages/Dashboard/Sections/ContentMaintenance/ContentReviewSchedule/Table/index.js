@@ -36,7 +36,7 @@ const TableContainer = styled.div`
         &.frequency {
           width: 150px;
         }
-        &.next_review {
+        &.next_review_date {
           width: 200px;
         }
       }
@@ -101,7 +101,25 @@ function Table({ pages }) {
       },
       {
         Header: "Next review",
-        accessor: "next_review",
+        accessor: "next_review_date",
+        Cell: ({ row }) => {
+          // After the due date, show "Review due"
+          if (row?.original?.due) {
+            return <span>Review due</span>;
+          }
+
+          const now = Date.parse(new Date());
+          const nextReview = Date.parse(row?.original?.next_review_date);
+
+          // Inside of a week, show "x days"
+          if (nextReview - now < 7 * 24 * 60 * 60 * 1000) {
+            const days = Math.round((nextReview - now) / (1000 * 60 * 60 * 24));
+            return <span>{`${days} ${days === 1 ? "day" : "days"}`}</span>;
+          }
+
+          // Default to showing the full date and time
+          return <span>{row?.original?.next_review_date}</span>;
+        },
       },
     ],
     []
@@ -145,7 +163,8 @@ function Table({ pages }) {
           modified_date: dateModified,
           location: "",
           frequency: item?.review_frequency_months,
-          next_review: dateNextReview,
+          next_review_date: dateNextReview,
+          due: new Date() > new Date(dateNextReview),
         };
       }),
     [pages, history]
@@ -156,12 +175,10 @@ function Table({ pages }) {
     tableInstance;
 
   function getRowProps(row) {
-    const overdue = new Date() > new Date(row?.original?.next_review);
-
     return {
       style: {
-        color: overdue ? "#D8292F" : null,
-        "font-weight": overdue ? "700" : "400",
+        color: row?.original?.due ? "#D8292F" : null,
+        "font-weight": row?.original?.due ? "700" : "400",
       },
     };
   }
@@ -175,7 +192,7 @@ function Table({ pages }) {
           <col span="1" className="modified_date" />
           <col span="1" className="location" />
           <col span="1" className="frequency" />
-          <col span="1" className="next_review" />
+          <col span="1" className="next_review_date" />
         </colgroup>
 
         {/* Table head */}
