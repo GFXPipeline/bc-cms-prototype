@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 // Global components
@@ -49,19 +48,6 @@ const StyledDiv = styled.div`
   }
 `;
 
-const TableContainer = styled.div`
-  margin-top: 24px;
-  overflow-x: auto;
-
-  table {
-    border: 1px solid #d7d7d7;
-
-    th {
-      color: #1a5a96;
-    }
-  }
-`;
-
 const Pagination = styled.div`
   display: flex;
   flex-direction: row;
@@ -106,15 +92,10 @@ const Pagination = styled.div`
 
 const ContentReviewSchedule = React.forwardRef(
   ({ isOpen, setIsOpen }, forwardRef) => {
-    const history = useHistory();
     const username = authenticationService?.currentUserValue?.username;
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const [pages, setPages] = useState([]);
-
-    function handleEditButton(id) {
-      history.push(`/content/${id}`);
-    }
 
     function getAccordionContent() {
       if (isLoading) {
@@ -145,81 +126,7 @@ const ContentReviewSchedule = React.forwardRef(
               <span>Download full report</span>
             </Button>
           </div>
-          <TableContainer>
-            <Table
-              id="content-review-schedule-table"
-              tableColumns={[
-                {
-                  Header: "",
-                  accessor: "edit_button",
-                },
-                {
-                  Header: "Page title",
-                  accessor: "title",
-                },
-                {
-                  Header: "Last modified",
-                  accessor: "modified_date",
-                },
-                {
-                  Header: "Page location",
-                  accessor: "location",
-                },
-                {
-                  Header: "Review frequency",
-                  accessor: "frequency",
-                },
-                {
-                  Header: "Next review",
-                  accessor: "next_review",
-                },
-              ]}
-              tableData={pages?.map((item) => {
-                let dateModified = "";
-                let dateNextReview = "";
-
-                if (item?.time_last_updated) {
-                  const itemDate = new Date(item?.time_last_updated);
-                  const datePart = itemDate.toISOString().split("T")[0];
-                  const hours = itemDate.getHours();
-                  const amPm = hours >= 12 ? "PM" : "AM";
-                  const displayHours = hours % 12 ? hours % 12 : 12;
-                  const minutes = itemDate.getMinutes();
-                  const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
-                  dateModified = `${datePart} ${displayHours}:${displayMinutes} ${amPm}`;
-
-                  if (item?.review_frequency_months) {
-                    const reviewDate = new Date(
-                      itemDate.setMonth(
-                        itemDate.getMonth() + item?.review_frequency_months
-                      )
-                    );
-                    const datePart = reviewDate.toISOString().split("T")[0];
-                    const hours = reviewDate.getHours();
-                    const amPm = hours >= 12 ? "PM" : "AM";
-                    const displayHours = hours % 12 ? hours % 12 : 12;
-                    const minutes = reviewDate.getMinutes();
-                    const displayMinutes =
-                      minutes < 10 ? "0" + minutes : minutes;
-                    dateNextReview = `${datePart} ${displayHours}:${displayMinutes} ${amPm}`;
-                  }
-                }
-
-                return {
-                  edit_button: (
-                    <Button onClick={() => handleEditButton(item?.id)} primary>
-                      Edit
-                    </Button>
-                  ),
-                  title: item?.title,
-                  modified_date: dateModified,
-                  location: "",
-                  frequency: `${item?.review_frequency_months} months`,
-                  next_review: dateNextReview,
-                };
-              })}
-            />
-          </TableContainer>
+          <Table pages={pages} />
           <Pagination>
             <div className="space" />
             <div className="button-group">

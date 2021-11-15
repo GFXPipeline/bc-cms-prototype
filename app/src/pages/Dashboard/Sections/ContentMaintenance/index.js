@@ -104,6 +104,7 @@ function ContentMaintenance() {
         break;
       case contentRef:
         setIsOpenContent(true);
+        break;
       default:
         break;
     }

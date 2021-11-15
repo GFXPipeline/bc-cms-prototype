@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 // Global components
@@ -15,14 +14,12 @@ const Page = styled.div`
   align-items: center;
 `;
 
-function Dashboard() {
-  const [section, setSection] = useState("dashboard");
-
+function Dashboard({ section }) {
   return (
     <Page>
       <Header />
       <SearchBar />
-      <Navigation section={section} setSection={setSection} />
+      <Navigation />
       {section === "content-maintenance" && <ContentMaintenance />}
     </Page>
   );

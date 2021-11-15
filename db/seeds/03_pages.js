@@ -76,6 +76,8 @@ exports.seed = function (knex) {
           created_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           owned_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           last_modified_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
+          time_created: "2019-11-10 12:38:55.199269-08",
+          time_last_updated: "2020-11-10 12:38:55.199269-08",
         },
         {
           id: "5c2edc66-8015-4a86-aeb9-891d0b405074",
@@ -90,6 +92,8 @@ exports.seed = function (knex) {
           created_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           owned_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           last_modified_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
+          time_created: "2019-11-10 12:38:55.199269-08",
+          time_last_updated: "2020-11-10 12:38:55.199269-08",
         },
         {
           id: "29930989-08b0-4280-b2bf-d361a5a8bf1b",
@@ -146,6 +150,8 @@ exports.seed = function (knex) {
           created_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           owned_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           last_modified_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
+          time_created: "2016-11-10 12:38:55.199269-08",
+          time_last_updated: "2018-11-10 12:38:55.199269-08",
         },
         {
           id: "7a9a5e81-05a0-4c99-b667-0eedf9ea801d",
@@ -160,6 +166,8 @@ exports.seed = function (knex) {
           created_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           owned_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           last_modified_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
+          time_created: "2020-11-10 12:38:55.199269-08",
+          time_last_updated: "2020-11-10 12:38:55.199269-08",
         },
         {
           id: "840bcf73-464a-410d-be9b-908424c9931a",
@@ -188,6 +196,8 @@ exports.seed = function (knex) {
           created_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           owned_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           last_modified_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
+          time_created: "2015-11-10 12:38:55.199269-08",
+          time_last_updated: "2019-11-10 12:38:55.199269-08",
         },
         {
           id: "1fcb0579-0145-49c1-b8d0-86e0ce9665ea",
@@ -217,6 +227,8 @@ exports.seed = function (knex) {
           created_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           owned_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
           last_modified_by_user: "15e2f70d-da94-4c5e-a85f-07a9831f319b",
+          time_created: "2014-11-10 12:38:55.199269-08",
+          time_last_updated: "2018-11-10 12:38:55.199269-08",
         },
       ]);
     });

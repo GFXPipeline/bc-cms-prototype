@@ -20,7 +20,7 @@ pageReviewRouter.get("/", (req, res) => {
       "is_marked_for_deletion"
     )
     .whereNot("is_marked_for_deletion", true)
-    .orderBy("time_last_updated", "desc")
+    .orderBy("time_last_updated", "asc")
     .then((results) => {
       console.log("results: ", results);
       res.status(200).json(results);
@@ -58,7 +58,7 @@ pageReviewRouter.get("/:username", (req, res) => {
           last_modified_by_user: userId,
           is_marked_for_deletion: false,
         })
-        .orderBy("time_last_updated", "desc")
+        .orderBy("time_last_updated", "asc")
         .then((results) => {
           console.log("results: ", results);
           res.status(200).json(results);

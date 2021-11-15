@@ -31,20 +31,41 @@ function App() {
         <PrivateRoute path="/user/:username">
           <UserProfile />
         </PrivateRoute>
+
+        {/* Page content */}
         <PrivateRoute path="/content/:id">
           <ContentEntry />
         </PrivateRoute>
         <PrivateRoute path="/content">
           <ContentEntry />
         </PrivateRoute>
+
+        {/* Reusable components */}
         <PrivateRoute path="/components/:id">
           <Components />
         </PrivateRoute>
         <PrivateRoute path="/components">
           <Components />
         </PrivateRoute>
+
+        {/* Dashboard */}
+        <PrivateRoute path="/dashboard">
+          <Dashboard section={"dashboard"} />
+        </PrivateRoute>
+        <PrivateRoute path="/analytics">
+          <Dashboard section={"analytics"} />
+        </PrivateRoute>
+        <PrivateRoute path="/content-maintenance">
+          <Dashboard section={"content-maintenance"} />
+        </PrivateRoute>
+        <PrivateRoute path="/workflow-status">
+          <Dashboard section={"workflow-status"} />
+        </PrivateRoute>
+        <PrivateRoute path="/users-and-groups">
+          <Dashboard section={"users-and-groups"} />
+        </PrivateRoute>
         <PrivateRoute path="/">
-          <Dashboard />
+          <Dashboard section={"dashboard"} />
         </PrivateRoute>
       </Switch>
     </BrowserRouter>
