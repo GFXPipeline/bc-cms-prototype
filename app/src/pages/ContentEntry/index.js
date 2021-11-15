@@ -486,12 +486,13 @@ function ContentEntry() {
                   console.log("Focus.", editor);
                 }}
               />
-              <label htmlFor="language">Language</label>
+              {/* Language select will move from here */}
+              {/* <label htmlFor="language">Language</label>
               <Select
                 id="language"
                 options={[{ value: "en", label: "English" }]}
                 disabled // TODO: Enable and populate this field when multi-lingual is designed
-              />
+              /> */}
               {/* Hide the On This Page checkbox as this functionality is
               contained in the editor itself now. */}
               {/* <div>
