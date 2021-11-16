@@ -122,7 +122,7 @@ function Table({ pages }) {
         },
       },
     ],
-    []
+    [history]
   );
 
   const data = useMemo(
@@ -167,7 +167,7 @@ function Table({ pages }) {
           due: new Date() > new Date(dateNextReview),
         };
       }),
-    [pages, history]
+    [pages]
   );
 
   const tableInstance = useTable({ columns, data }, useSortBy);
