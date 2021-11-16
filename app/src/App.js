@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // Pages
+import About from "./pages/About";
 import Editor from "./pages/Editor";
 import UserProfile from "./pages/UserProfile";
 import ContentEntry from "./pages/ContentEntry";
@@ -18,6 +19,9 @@ function App() {
       <Switch>
         <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/about">
+          <About />
         </Route>
         <PrivateRoute path="/admin">
           <Home />
