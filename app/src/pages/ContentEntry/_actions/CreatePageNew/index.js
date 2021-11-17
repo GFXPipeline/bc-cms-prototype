@@ -128,7 +128,7 @@ const StyledModal = styled(Modal)`
       border-left: none;
       flex-grow: 1;
       max-height: 660px;
-      overflow-y: auto;
+      overflow: hidden;
     }
   }
 
@@ -187,7 +187,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
+function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
   const history = useHistory();
 
   // Navigation within modal
@@ -200,6 +200,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
 
   // Selected options
   const [pageType, setPageType] = useState("");
+  const [pageTemplateType, setPageTemplateType] = useState("");
   const [pageTemplate, setPageTemplate] = useState("");
   const [navType, setNavType] = useState("");
   const [reviewFrequency, setReviewFrequency] = useState("");
@@ -253,6 +254,9 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
         // Page ID is pulled by useParams() in ContentEntry to grab page data,
         // no need to use this to set state anywhere.
         history.push(`/content/${returnedPageId}`);
+        setIsEditMode(true);
+        handleCleanup();
+        setIsOpen(false);
       })
       .catch((error) => {
         setIsError(true);
@@ -265,6 +269,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   function handleCleanup() {
     setTab("page-type");
     setPageType("");
+    setPageTemplateType("");
     setPageTemplate("");
     setNavType("");
     setReviewFrequency("");
@@ -369,6 +374,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               isErrorPageTypes={isErrorPageTypes}
               pageType={pageType}
               setPageType={setPageType}
+              setTab={setTab}
             />
           )}
           {tab === "page-template" && (
@@ -377,7 +383,10 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               isLoadingPageTemplates={isLoadingPageTemplates}
               isErrorPageTemplates={isErrorPageTemplates}
               pageTemplate={pageTemplate}
+              pageTemplateType={pageTemplateType}
               setPageTemplate={setPageTemplate}
+              setPageTemplateType={setPageTemplateType}
+              setTab={setTab}
             />
           )}
           {tab === "navigation-style" && (
@@ -387,6 +396,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               isError={isErrorNavTypes}
               navType={navType}
               setNavType={setNavType}
+              setTab={setTab}
             />
           )}
           {tab === "content-review-schedule" && (
@@ -397,6 +407,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               setContact={setContact}
               setEmail={setEmail}
               setReviewFrequency={setReviewFrequency}
+              setTab={setTab}
             />
           )}
           {tab === "page-location" && (

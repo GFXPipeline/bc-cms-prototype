@@ -20,7 +20,7 @@ exports.seed = function (knex) {
           display_name: "Box style without details",
           display_order: 2,
           description:
-            "<p>Includes:</p><ul><li>Page title</li><li>Coloured bar (optional)</li><li>Image (optional)</li></ul><p>Suitable for all page types</p>",
+            "<p>Includes:</p><ul><li>Page title</li><li>Coloured bar (optional)</li><li>Image (optional)</li></ul><p>Suitable for all page types. Ideal for landing pages.</p>",
           icon: "nav-style-box-without-details.svg",
         },
         {

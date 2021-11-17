@@ -11,14 +11,12 @@ const StyledDiv = styled.div`
   }
 
   div.question-group {
-    padding: 0 30px;
-
     fieldset {
       border: none;
       display: flex;
       flex-direction: column;
       margin: 0px;
-      padding: 22px 30px;
+      padding: 22px 60px;
 
       div.radio-option {
         display: flex;
@@ -72,6 +70,37 @@ const StyledDiv = styled.div`
       }
     }
   }
+
+  div.nav-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 700;
+      height: 44px;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:hover {
+        background-color: #d6d6d6;
+        text-decoration: underline;
+      }
+
+      &.next {
+        margin-left: auto;
+        margin-right: 0px;
+      }
+    }
+  }
 `;
 
 function ContentReviewSchedule({
@@ -81,81 +110,97 @@ function ContentReviewSchedule({
   setContact,
   setEmail,
   setReviewFrequency,
+  setTab,
 }) {
   return (
     <StyledDiv>
       <h3>Content review schedule</h3>
-      <div className="question-group">
-        <label>Content should be review once every:</label>
-        <fieldset>
-          <div className="radio-option">
-            <input
-              type="radio"
-              name="schedule"
-              id="3-months"
-              checked={reviewFrequency === "3-months"}
-              onChange={() => setReviewFrequency("3-months")}
+      <div className="options">
+        <div className="question-group">
+          <label>Content should be review once every:</label>
+          <fieldset>
+            <div className="radio-option">
+              <input
+                type="radio"
+                name="schedule"
+                id="3-months"
+                checked={reviewFrequency === "3-months"}
+                onChange={() => setReviewFrequency("3-months")}
+              />
+              <label htmlFor="3-months">3 months</label>
+            </div>
+            <div className="radio-option">
+              <input
+                type="radio"
+                name="schedule"
+                id="6-months"
+                checked={reviewFrequency === "6-months"}
+                onChange={() => setReviewFrequency("6-months")}
+              />
+              <label htmlFor="6-months">6 months</label>
+            </div>
+            <div className="radio-option">
+              <input
+                type="radio"
+                name="schedule"
+                id="12-months"
+                checked={reviewFrequency === "12-months"}
+                onChange={() => setReviewFrequency("12-months")}
+              />
+              <label htmlFor="12-months">12 months</label>
+            </div>
+          </fieldset>
+        </div>
+        <div className="question-group">
+          <label>
+            Send notification to the following person or email 7 days before
+            content review date:
+          </label>
+          <fieldset>
+            <div className="radio-option">
+              <input
+                type="radio"
+                name="recipient"
+                id="security-group-manager"
+                checked={contact === "security-group-manager"}
+                onChange={() => setContact("security-group-manager")}
+              />
+              <label htmlFor="security-group-manager">
+                Security group manager
+              </label>
+            </div>
+            <div className="radio-option">
+              <input
+                type="radio"
+                name="recipient"
+                id="specific-email"
+                checked={contact === "specific-email"}
+                onChange={() => setContact("specific-email")}
+              />
+              <label htmlFor="specific-email">
+                Specific email (group inbox recommended)
+              </label>
+            </div>
+            <TextInput
+              disabled={contact !== "specific-email"}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <label htmlFor="3-months">3 months</label>
-          </div>
-          <div className="radio-option">
-            <input
-              type="radio"
-              name="schedule"
-              id="6-months"
-              checked={reviewFrequency === "6-months"}
-              onChange={() => setReviewFrequency("6-months")}
-            />
-            <label htmlFor="6-months">6 months</label>
-          </div>
-          <div className="radio-option">
-            <input
-              type="radio"
-              name="schedule"
-              id="12-months"
-              checked={reviewFrequency === "12-months"}
-              onChange={() => setReviewFrequency("12-months")}
-            />
-            <label htmlFor="12-months">12 months</label>
-          </div>
-        </fieldset>
+          </fieldset>
+        </div>
       </div>
-      <div className="question-group">
-        <label>
-          Send notification to the following person or email 7 days before
-          content review date:
-        </label>
-        <fieldset>
-          <div className="radio-option">
-            <input
-              type="radio"
-              name="recipient"
-              id="security-group-manager"
-              checked={contact === "security-group-manager"}
-              onChange={() => setContact("security-group-manager")}
-            />
-            <label htmlFor="security-group-manager">
-              Security group manager
-            </label>
-          </div>
-          <div className="radio-option">
-            <input
-              type="radio"
-              name="recipient"
-              id="specific-email"
-              checked={contact === "specific-email"}
-              onChange={() => setContact("specific-email")}
-            />
-            <label htmlFor="specific-email">
-              Specific email (group inbox recommended)
-            </label>
-          </div>
-          <TextInput
-            disabled={contact !== "specific-email"}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </fieldset>
+      <div className="nav-buttons">
+        <button
+          className="next"
+          onClick={() => setTab("page-location")}
+          disabled={
+            !reviewFrequency ||
+            !contact ||
+            (contact === "specific-email" && !email)
+          }
+        >
+          Next »
+        </button>
       </div>
     </StyledDiv>
   );

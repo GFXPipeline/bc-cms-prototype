@@ -625,6 +625,7 @@ function ContentEntry() {
       /> */}
       <CreatePageNew
         isOpen={modalCreatePageOpen}
+        setIsEditMode={setIsEditMode}
         setIsOpen={setModalCreatePageOpen}
         onAfterClose={getUpdatedPageList}
       />

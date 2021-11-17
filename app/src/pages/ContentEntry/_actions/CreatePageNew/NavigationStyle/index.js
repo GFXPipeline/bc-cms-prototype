@@ -8,7 +8,7 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 24px;
+  padding: 24px 24px 0 24px;
 
   h3 {
     font-size: 30px;
@@ -19,55 +19,53 @@ const StyledDiv = styled.div`
     margin: 0 0 18px 0;
   }
 
-  fieldset {
+  div.options {
     border: none;
+    column-gap: 20px;
+    display: grid;
+    flex-grow: 1;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0px;
+    overflow-y: auto;
+    padding: 0px;
+    row-gap: 20px;
+
+    @media (max-width: 1250px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  div.nav-buttons {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 25px;
-    margin: 0px;
-    padding: 0px;
+    justify-content: space-between;
+    width: 100%;
 
-    div.radio-option {
+    button.no-nav {
       align-items: center;
+      border: 2px solid transparent;
+      cursor: pointer;
       display: flex;
       flex-direction: row;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 27px;
 
-      &:focus-within {
-        outline: 3px solid blue;
+      div.checkbox {
+        border: 3px solid #3c3c3c;
+        border-radius: 2px;
+        content: "";
+        display: inline-block;
+        height: 24px;
+        margin-right: 12px;
+        text-align: center;
+        width: 24px;
       }
 
-      input[type="radio"] {
-        margin: 0px;
-        opacity: 0.01;
-        width: 0.01px;
-      }
+      &.checked {
+        border-color: blue;
 
-      input[type="radio"] + label {
-        align-items: center;
-        cursor: pointer;
-        display: flex;
-        flex-direction: row;
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 27px;
-
-        &::before {
-          border: 3px solid #3c3c3c;
-          border-radius: 2px;
-          content: "";
-          display: inline-block;
-          height: 20px;
-          margin-right: 12px;
-          text-align: center;
-          width: 20px;
-        }
-      }
-
-      input[type="radio"]:checked + label {
-        text-decoration: underline;
-
-        &::before {
+        div.checkbox {
           background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='check' class='svg-inline--fa fa-check fa-w-16' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='currentColor' d='M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z'%3E%3C/path%3E%3C/svg%3E");
           background-position: center;
           background-repeat: no-repeat;
@@ -75,44 +73,49 @@ const StyledDiv = styled.div`
         }
       }
     }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 700;
+      height: 44px;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:hover {
+        background-color: #d6d6d6;
+        text-decoration: underline;
+      }
+
+      &.next {
+        margin-left: auto;
+        margin-right: 0px;
+      }
+    }
   }
 `;
 
-const Option = styled.div`
+const Button = styled.button`
+  align-items: stretch;
   background-color: #f6f6f6;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
+  cursor: pointer;
   display: flex;
   flex-direction: row;
-  max-width: 600px;
   padding: 20px;
-  width: 583px;
-
-  &:focus-within {
-    outline: 2px solid blue;
-  }
 
   &.selected {
-    border-color: #707070;
-  }
-
-  input[type="radio"] {
-    margin: 0px;
-    opacity: 0.01;
-    width: 0px;
-  }
-
-  input[type="radio"]:checked + label {
-    text-decoration: underline;
+    border-color: blue;
   }
 
   label {
     font-size: 16px;
     font-weight: 700;
-
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
   }
 
   div.icon {
@@ -126,13 +129,14 @@ const Option = styled.div`
 
     svg {
       color: #3c3c3c;
-      max-height: 180px;
+      max-height: 190px;
       width: 220px;
     }
   }
 
   div.description {
     margin-left: 16px;
+    text-align: left;
     width: 50%;
 
     div.text {
@@ -154,6 +158,16 @@ const Option = styled.div`
       }
     }
   }
+
+  &:hover {
+    background-color: #e6e6e6;
+
+    div.description {
+      label {
+        text-decoration: underline;
+      }
+    }
+  }
 `;
 
 function NavigationStyle({
@@ -162,6 +176,7 @@ function NavigationStyle({
   isLoading,
   navType,
   setNavType,
+  setTab,
 }) {
   return (
     <StyledDiv>
@@ -170,27 +185,22 @@ function NavigationStyle({
         Choose a navigation style. The navigation style shows how the children
         pages will be displayed.
       </p>
-      <fieldset>
+      <div className="options">
         {isLoading && <LoadSpinner />}
         {availableNavTypes &&
           Array.isArray(availableNavTypes) &&
           availableNavTypes.length > 0 &&
           availableNavTypes.map((style, index) => {
             return (
-              <Option
+              <Button
                 key={`option-${index}`}
+                onClick={() => setNavType(style?.name)}
                 className={navType === style?.name ? "selected" : null}
               >
                 <div className="icon">
                   <Icon id={style?.icon} />
                 </div>
                 <div className="description">
-                  <input
-                    type="radio"
-                    id={`nav-style-${style?.name}`}
-                    checked={navType === style?.name}
-                    onChange={() => setNavType(style?.name)}
-                  />
                   <label htmlFor={`nav-style-${style?.name}`}>
                     {style?.display_name}
                   </label>
@@ -199,19 +209,27 @@ function NavigationStyle({
                     dangerouslySetInnerHTML={{ __html: style?.description }}
                   />
                 </div>
-              </Option>
+              </Button>
             );
           })}
-        <div className="radio-option">
-          <input
-            type="radio"
-            id="nav-style-none"
-            checked={navType === "none"}
-            onChange={() => setNavType("none")}
-          />
-          <label htmlFor="nav-style-none">No navigation</label>
-        </div>
-      </fieldset>
+      </div>
+      <div className="nav-buttons">
+        <button
+          className="no-nav"
+          className={navType === "none" ? "no-nav checked" : "no-nav"}
+          onClick={() => setNavType("none")}
+        >
+          <div className="checkbox" />
+          <span>No navigation</span>
+        </button>
+        <button
+          className="next"
+          onClick={() => setTab("content-review-schedule")}
+          disabled={!navType}
+        >
+          Next »
+        </button>
+      </div>
     </StyledDiv>
   );
 }
