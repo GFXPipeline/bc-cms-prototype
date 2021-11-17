@@ -76,7 +76,7 @@ const Button = styled.button`
     border-color: blue;
   }
 
-  label {
+  span {
     font-size: 16px;
     font-weight: 700;
   }
@@ -106,7 +106,7 @@ const Button = styled.button`
     background-color: #e6e6e6;
 
     div.description {
-      label {
+      span {
         text-decoration: underline;
       }
     }
@@ -143,9 +143,7 @@ function PageType({
                   <Icon id={type?.icon} />
                 </div>
                 <div className="description">
-                  <label htmlFor={`page-type-${type?.name}`}>
-                    {type?.display_name}
-                  </label>
+                  <span>{type?.display_name}</span>
                   <p>{type?.description}</p>
                 </div>
               </Button>

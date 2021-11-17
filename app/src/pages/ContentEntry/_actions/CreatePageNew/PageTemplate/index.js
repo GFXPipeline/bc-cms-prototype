@@ -27,7 +27,7 @@ const StyledDiv = styled.div`
     padding: 0px;
     row-gap: 20px;
 
-    @media (max-width: 1100px) {
+    @media (max-width: 1200px) {
       grid-template-columns: repeat(1, 1fr);
     }
   }
@@ -73,11 +73,15 @@ const Button = styled.button`
   flex-direction: row;
   padding: 20px;
 
+  &.solo {
+    max-height: 200px;
+  }
+
   &.selected {
     border-color: blue;
   }
 
-  label {
+  span {
     font-size: 16px;
     font-weight: 700;
   }
@@ -89,6 +93,7 @@ const Button = styled.button`
     flex-direction: row;
     justify-content: space-around;
     max-height: 174px;
+    overflow: hidden;
     width: 50%;
 
     svg {
@@ -108,7 +113,7 @@ const Button = styled.button`
     background-color: #e6e6e6;
 
     div.description {
-      label {
+      span {
         text-decoration: underline;
       }
     }
@@ -143,16 +148,16 @@ function PageTemplate({
                   id="page-template-type-base"
                   onClick={() => setPageTemplateType("base-template")}
                   className={
-                    pageTemplateType === "base-template" ? "selected" : null
+                    pageTemplateType === "base-template"
+                      ? "selected solo"
+                      : "solo"
                   }
                 >
                   <div className="icon">
                     <Icon id={"bc-base-template-1.svg"} />
                   </div>
                   <div className="description">
-                    <label htmlFor={`page-template-type-base`}>
-                      Base templates
-                    </label>
+                    <span>Base templates</span>
                     <p>
                       This is the description of the base templates and when it
                       should be used in web content.
@@ -196,9 +201,7 @@ function PageTemplate({
                       <Icon id={template?.icon} />
                     </div>
                     <div className="description">
-                      <label htmlFor={`page-template-${template?.name}`}>
-                        {template?.display_name}
-                      </label>
+                      <span>{template?.display_name}</span>
                       <p>{template?.description}</p>
                     </div>
                   </Button>
