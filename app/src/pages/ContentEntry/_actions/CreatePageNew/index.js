@@ -266,6 +266,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
   function handleCleanup() {
     setTab("page-type");
     setPageType("");
+    setPageTemplateType("");
     setPageTemplate("");
     setNavType("");
     setReviewFrequency("");
