@@ -187,7 +187,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
+function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
   const history = useHistory();
 
   // Navigation within modal
@@ -254,6 +254,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
         // Page ID is pulled by useParams() in ContentEntry to grab page data,
         // no need to use this to set state anywhere.
         history.push(`/content/${returnedPageId}`);
+        setIsEditMode(true);
         handleCleanup();
         setIsOpen(false);
       })
