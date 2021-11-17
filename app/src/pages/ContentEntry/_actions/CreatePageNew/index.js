@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import FocusTrap from "focus-trap-react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 
@@ -11,6 +12,7 @@ import NumberInput from "../../../../components/NumberInput";
 import { pageService } from "../../../../_services";
 
 // Modal panels
+import CancelPrompt from "./CancelPrompt";
 import PageType from "./PageType";
 import PageTemplate from "./PageTemplate";
 import NavigationStyle from "./NavigationStyle";
@@ -216,6 +218,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
   const [isErrorPageTemplates, setIsErrorPageTemplates] = useState(false);
   const [isLoadingNavTypes, setIsLoadingNavTypes] = useState(true);
   const [isErrorNavTypes, setIsErrorNavTypes] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -280,6 +283,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
     setIsSubmitting(false);
     setIsSuccess(false);
     setIsError(false);
+    setIsCancelling(false);
     setIsOpen(false);
   }
 
@@ -448,11 +452,17 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
           >
             Create
           </Button>
-          <Button onClick={handleCleanup}>
-            {isSuccess ? "Close" : "Cancel"}
-          </Button>
+          <Button onClick={() => setIsCancelling(true)}>Cancel</Button>
         </div>
       </div>
+      {isCancelling && (
+        <FocusTrap>
+          <CancelPrompt
+            handleCleanup={handleCleanup}
+            setIsCancelling={setIsCancelling}
+          />
+        </FocusTrap>
+      )}
     </StyledModal>
   );
 }
