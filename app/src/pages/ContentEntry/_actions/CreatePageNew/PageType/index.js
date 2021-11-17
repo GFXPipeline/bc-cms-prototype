@@ -5,58 +5,80 @@ import LoadSpinner from "../../../../../components/LoadSpinner";
 
 const StyledDiv = styled.div`
   background-color: #ffffff;
-  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px 24px 0 24px;
 
   h3 {
     font-size: 30px;
     margin-top: 0px;
   }
 
-  fieldset {
+  div.options {
     border: none;
+    column-gap: 20px;
+    display: grid;
+    flex-grow: 1;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0px;
+    overflow-y: auto;
+    padding: 0px;
+    row-gap: 20px;
+
+    @media (max-width: 1100px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  div.nav-buttons {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 25px;
-    margin: 0px;
-    padding: 0px;
+    justify-content: space-between;
+    width: 100%;
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: 700;
+      height: 44px;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &:hover {
+        background-color: #d6d6d6;
+        text-decoration: underline;
+      }
+
+      &.next {
+        margin-left: auto;
+        margin-right: 0px;
+      }
+    }
   }
 `;
 
-const Option = styled.div`
+const Button = styled.button`
+  align-items: stretch;
   background-color: #f6f6f6;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
+  cursor: pointer;
   display: flex;
   flex-direction: row;
-  max-width: 583px;
   padding: 20px;
 
-  &:focus-within {
-    outline: 2px solid blue;
-  }
-
   &.selected {
-    border-color: #707070;
-  }
-
-  input[type="radio"] {
-    margin: 0px;
-    opacity: 0.01;
-    width: 0px;
-  }
-
-  input[type="radio"]:checked + label {
-    text-decoration: underline;
+    border-color: blue;
   }
 
   label {
     font-size: 16px;
     font-weight: 700;
-
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
   }
 
   div.icon {
@@ -76,7 +98,18 @@ const Option = styled.div`
 
   div.description {
     padding: 16px;
+    text-align: left;
     width: 50%;
+  }
+
+  &:hover {
+    background-color: #e6e6e6;
+
+    div.description {
+      label {
+        text-decoration: underline;
+      }
+    }
   }
 `;
 
@@ -85,41 +118,49 @@ function PageType({
   isLoadingPageTypes,
   pageType,
   setPageType,
+  setTab,
 }) {
   return (
     <StyledDiv>
-      <h3>Page types</h3>
-      <p>Choose a page type. Page types are...</p>
-      <fieldset>
+      <div className="intro">
+        <h3>Page types</h3>
+        <p>Choose a page type. Page types are...</p>
+      </div>
+      <div className="options">
         {isLoadingPageTypes && <LoadSpinner />}
         {availablePageTypes &&
           Array.isArray(availablePageTypes) &&
           availablePageTypes.length > 0 &&
           availablePageTypes.map((type, index) => {
+            console.log("type: ", type);
             return (
-              <Option
-                key={`option-${index}`}
+              <Button
+                key={`button-${index}`}
+                onClick={() => setPageType(type?.name)}
                 className={pageType === type?.name ? "selected" : null}
               >
                 <div className="icon">
                   <Icon id={type?.icon} />
                 </div>
                 <div className="description">
-                  <input
-                    type="radio"
-                    id={`page-type-${type?.name}`}
-                    checked={pageType === type?.name}
-                    onChange={() => setPageType(type?.name)}
-                  />
                   <label htmlFor={`page-type-${type?.name}`}>
                     {type?.display_name}
                   </label>
                   <p>{type?.description}</p>
                 </div>
-              </Option>
+              </Button>
             );
           })}
-      </fieldset>
+      </div>
+      <div className="nav-buttons">
+        <button
+          className="next"
+          onClick={() => setTab("page-template")}
+          disabled={!pageType}
+        >
+          Next »
+        </button>
+      </div>
     </StyledDiv>
   );
 }
