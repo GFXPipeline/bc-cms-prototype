@@ -192,7 +192,7 @@ function ContentReviewSchedule({
       <div className="nav-buttons">
         <button
           className="next"
-          onClick={() => setTab("page-template")}
+          onClick={() => setTab("page-location")}
           disabled={
             !reviewFrequency ||
             !contact ||
