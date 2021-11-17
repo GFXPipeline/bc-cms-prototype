@@ -254,6 +254,8 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
         // Page ID is pulled by useParams() in ContentEntry to grab page data,
         // no need to use this to set state anywhere.
         history.push(`/content/${returnedPageId}`);
+        handleCleanup();
+        setIsOpen(false);
       })
       .catch((error) => {
         setIsError(true);
