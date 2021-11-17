@@ -392,6 +392,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               isError={isErrorNavTypes}
               navType={navType}
               setNavType={setNavType}
+              setTab={setTab}
             />
           )}
           {tab === "content-review-schedule" && (
