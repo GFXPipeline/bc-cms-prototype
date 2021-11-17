@@ -403,6 +403,7 @@ function CreatePageNew({ isOpen, setIsOpen, onAfterClose }) {
               setContact={setContact}
               setEmail={setEmail}
               setReviewFrequency={setReviewFrequency}
+              setTab={setTab}
             />
           )}
           {tab === "page-location" && (
