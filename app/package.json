@@ -39,6 +39,7 @@
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.3.0",
     "axios": "0.23.0",
+    "focus-trap-react": "8.8.2",
     "raw-loader": "4.0.2",
     "react": "17.0.2",
     "react-beautiful-dnd": "13.1.0",

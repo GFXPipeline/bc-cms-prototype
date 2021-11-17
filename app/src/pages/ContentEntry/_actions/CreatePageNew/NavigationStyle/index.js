@@ -215,7 +215,6 @@ function NavigationStyle({
       </div>
       <div className="nav-buttons">
         <button
-          className="no-nav"
           className={navType === "none" ? "no-nav checked" : "no-nav"}
           onClick={() => setNavType("none")}
         >
