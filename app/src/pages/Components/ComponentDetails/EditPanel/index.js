@@ -28,7 +28,8 @@ const StyledDiv = styled.div`
   position: absolute;
   right: 65px;
   top: 15%;
-  width: 550px;
+  max-width: 900px;
+  min-width: 550px;
   z-index: 1;
 
   div.buttons {
