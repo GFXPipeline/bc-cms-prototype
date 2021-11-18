@@ -53,6 +53,7 @@ const ContactFieldList = styled.div`
       color: #d3d3d3;
       height: 20px;
       margin-right: 16px;
+      min-width: 10px;
     }
 
     p.type-and-option {
@@ -61,6 +62,7 @@ const ContactFieldList = styled.div`
     }
 
     input[type="text"] {
+      flex-grow: 1;
       height: 44px;
       margin-right: 8px;
 
