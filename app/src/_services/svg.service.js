@@ -16,6 +16,7 @@ import { ReactComponent as copy } from "../assets/fa-copy.svg";
 import { ReactComponent as cycle } from "../assets/fa-cycle.svg";
 import { ReactComponent as download } from "../assets/fa-download.svg";
 import { ReactComponent as envelope } from "../assets/fa-envelope.svg";
+import { ReactComponent as exclamationCircle } from "../assets/bi-exclamation-circle.svg";
 import { ReactComponent as eye } from "../assets/fa-eye.svg";
 import { ReactComponent as fileFind } from "../assets/md-file-find.svg";
 import { ReactComponent as files } from "../assets/metro-files-empty.svg";
@@ -52,6 +53,7 @@ const svgIcons = {
   "bc-base-template-2.svg": baseTemplate2,
   "bc-base-template-3.svg": baseTemplate3,
   "bc-base-template-4.svg": baseTemplate4,
+  "bi-exclamation-circle.svg": exclamationCircle,
   "fa-book-reader.svg": bookReader,
   "fa-chart-line.svg": chartLine,
   "fa-cog.svg": cog,
