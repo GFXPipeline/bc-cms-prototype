@@ -335,7 +335,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
     >
       <div className="top">
         <h2>Create a page</h2>
-        <button className="close" onClick={handleCleanup}>
+        <button className="close" onClick={() => setIsCancelling(true)}>
           <Icon id="md-close.svg" />
         </button>
       </div>

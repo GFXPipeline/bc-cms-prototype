@@ -4,13 +4,8 @@ const StyledDiv = styled.div`
   border: 1px solid #707070;
   display: flex;
   flex-direction: row;
-  min-height: 46px;
-  overflow-x: auto;
+  flex-wrap: wrap;
   width: 100%;
-
-  @media (max-width: 910px) {
-    min-height: 64px;
-  }
 `;
 
 const Tab = styled.button`
@@ -20,8 +15,8 @@ const Tab = styled.button`
   cursor: pointer;
   font-size: 16px;
   font-weight: 700;
-  min-height: 44px;
-  padding: 0 35px;
+  height: 44px;
+  padding: 0 18px;
 
   &.active {
     background-color: #3f3f3f;
@@ -40,8 +35,8 @@ const Tab = styled.button`
     cursor: not-allowed;
   }
 
-  @media (max-width: 1145px) {
-    padding: 0 15px;
+  @media (max-width: 1500px) {
+    padding: 0 12px;
   }
 `;
 

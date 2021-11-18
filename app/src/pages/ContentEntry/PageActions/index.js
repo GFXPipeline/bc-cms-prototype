@@ -8,15 +8,15 @@ const StyledDiv = styled.div`
   border: 1px solid #707070;
   display: flex;
   flex-direction: row;
-  min-height: 86px;
-  overflow-x: auto;
+  flex-wrap: wrap;
   padding: 20px;
+  row-gap: 7px;
 
   button {
     font-size: 16px;
     font-weight: 700;
     margin-right: 7px;
-    min-height: 44px;
+    height: 44px;
     white-space: nowrap;
 
     &:last-child {
@@ -32,8 +32,12 @@ const StyledDiv = styled.div`
     }
   }
 
-  @media (max-width: 1505px) {
+  @media (max-width: 1500px) {
+    padding: 14px;
+
     button {
+      padding: 0 18px;
+
       &:first-child {
         margin-right: auto;
       }
@@ -60,7 +64,7 @@ function PageActions({
       {isEditMode ? (
         <>
           <Button primary onClick={onSave} disabled={isSaving}>
-            {isSaving ? <s>Save</s> : "Save"}
+            Save
           </Button>
           <Button onClick={onCancel}>Cancel</Button>
           {/* <Button disabled>
