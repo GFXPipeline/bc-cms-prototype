@@ -95,16 +95,27 @@ const StyledModal = styled(Modal)`
         padding: 5px 10px;
 
         button {
+          align-items: center;
           background-color: #f6f6f6;
           border: none;
           cursor: pointer;
+          display: flex;
+          flex-direction: row;
           flex-grow: 1;
+          justify-content: space-between;
+          min-height: 64px;
           padding: 22px 25px;
           text-align: left;
           min-width: 180px;
 
           &:hover {
             text-decoration: underline;
+          }
+
+          svg {
+            height: 15px;
+            margin-left: 8px;
+            min-width: 15px;
           }
         }
 
@@ -212,6 +223,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
+  const [visited, setVisited] = useState(["page-type"]);
   const [isLoadingPageTypes, setIsLoadingPageTypes] = useState(true);
   const [isErrorPageTypes, setIsErrorPageTypes] = useState(false);
   const [isLoadingPageTemplates, setIsLoadingPageTemplates] = useState(true);
@@ -280,6 +292,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
     setEmail("");
     setLocation("");
     setNumberOfPages(1);
+    setVisited(["page-type"]);
     setIsSubmitting(false);
     setIsSuccess(false);
     setIsError(false);
@@ -342,16 +355,38 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
       <div className="middle">
         <div className="tabs">
           <div className={tab === "page-type" ? "active" : "inactive"}>
-            <button onClick={() => setTab("page-type")}>Page type</button>
+            <button onClick={() => setTab("page-type")}>
+              Page type
+              {visited.includes("page-template") && !pageType && (
+                <Icon id="bi-exclamation-circle.svg" />
+              )}
+            </button>
           </div>
           <div className={tab === "page-template" ? "active" : "inactive"}>
-            <button onClick={() => setTab("page-template")}>
+            <button
+              onClick={() => {
+                setTab("page-template");
+                setVisited([...visited, "page-template"]);
+              }}
+            >
               Page template
+              {(visited.includes("navigation-style") ||
+                visited.includes("content-review-schedule") ||
+                visited.includes("page-location")) &&
+                !pageTemplate && <Icon id="bi-exclamation-circle.svg" />}
             </button>
           </div>
           <div className={tab === "navigation-style" ? "active" : "inactive"}>
-            <button onClick={() => setTab("navigation-style")}>
+            <button
+              onClick={() => {
+                setTab("navigation-style");
+                setVisited([...visited, "navigation-style"]);
+              }}
+            >
               Navigation style
+              {(visited.includes("content-review-schedule") ||
+                visited.includes("page-location")) &&
+                !navType && <Icon id="bi-exclamation-circle.svg" />}
             </button>
           </div>
           <div
@@ -359,8 +394,19 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
               tab === "content-review-schedule" ? "active" : "inactive"
             }
           >
-            <button onClick={() => setTab("content-review-schedule")}>
+            <button
+              onClick={() => {
+                setTab("content-review-schedule");
+                setVisited([...visited, "content-review-schedule"]);
+              }}
+            >
               Content review schedule
+              {visited.includes("content-review-schedule") &&
+                (!reviewFrequency ||
+                  !contact ||
+                  (contact === "specific-email" && !email)) && (
+                  <Icon id="bi-exclamation-circle.svg" />
+                )}
             </button>
           </div>
           <div className={tab === "page-location" ? "active" : "inactive"}>
