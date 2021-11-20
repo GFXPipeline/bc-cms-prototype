@@ -10,6 +10,7 @@ import { recycleBinService } from "../../../../../_services/recycle-bin.service"
 
 // Page components
 import Accordion from "../../../Accordion";
+import RestorePage from "./_actions/RestorePage";
 import Table from "./Table";
 
 const StyledDiv = styled.div`
@@ -103,16 +104,23 @@ const Pagination = styled.div`
 `;
 
 const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
-  const [isLoadingRecycleBin, setIsLoadingRecycleBin] = useState(true);
-  const [isErrorRecycleBin, setIsErrorRecycleBin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pageId, setPageId] = useState("");
   const [recycleItems, setRecycleItems] = useState([]);
 
+  function handleRestoreButton(id) {
+    setPageId(id);
+    setIsModalOpen(true);
+  }
+
   function getRecycleBinAccordion() {
-    if (isLoadingRecycleBin) {
+    if (isLoading) {
       return <LoadSpinner />;
     }
 
-    if (isErrorRecycleBin) {
+    if (isError) {
       return <p className="error">Error fetching recycle bin data.</p>;
     }
 
@@ -146,7 +154,19 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
             tableColumns={[
               {
                 Header: "",
-                accessor: "restore_button",
+                accessor: "id",
+                Cell: ({ row }) => {
+                  return (
+                    <Button
+                      onClick={() =>
+                        handleRestoreButton(row?.original?.page_id)
+                      }
+                      primary
+                    >
+                      Restore
+                    </Button>
+                  );
+                },
               },
               {
                 Header: "Page title",
@@ -184,7 +204,8 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
               }
 
               return {
-                restore_button: <Button primary>Restore</Button>,
+                id: item?.id,
+                page_id: item?.page_id,
                 page_title: item?.title,
                 deleted_by: item?.deleted_by_username,
                 deleted_date: date,
@@ -210,8 +231,27 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
             <Select id="recycle-bin-results-per-page" disabled />
           </div>
         </Pagination>
+        <RestorePage
+          id={pageId}
+          isOpen={isModalOpen}
+          setIsOpen={setIsModalOpen}
+          onAfterClose={refreshRecycleBin}
+        />
       </StyledDiv>
     );
+  }
+
+  function refreshRecycleBin() {
+    recycleBinService
+      .getPagesByUser()
+      .then((items) => {
+        setRecycleItems(items);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsError(true);
+      });
   }
 
   useEffect(() => {
@@ -219,14 +259,12 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
       recycleBinService
         .getPagesByUser()
         .then((items) => {
-          console.log("inside success");
           setRecycleItems(items);
-          setIsLoadingRecycleBin(false);
+          setIsLoading(false);
         })
         .catch((error) => {
-          console.log("inside error");
           console.log(error);
-          setIsErrorRecycleBin(true);
+          setIsError(true);
         });
     }
 

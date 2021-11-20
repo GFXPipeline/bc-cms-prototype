@@ -178,7 +178,7 @@ function Table({ pages }) {
     return {
       style: {
         color: row?.original?.due ? "#D8292F" : null,
-        "font-weight": row?.original?.due ? "700" : "400",
+        fontWeight: row?.original?.due ? "700" : "400",
       },
     };
   }

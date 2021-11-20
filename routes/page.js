@@ -360,4 +360,63 @@ pageRouter.delete("/:id", (req, res) => {
     });
 });
 
+pageRouter.post("/undelete/:id", (req, res) => {
+  // Check that the user doing the submission exists and store user ID
+  let userId;
+  knex("users")
+    .select("id")
+    .where("username", req?.body?.username)
+    .then((rows) => {
+      console.log("rows in POST /api/page/undelete check for user: ", rows);
+      if (rows?.length > 0) {
+        userId = rows[0]?.id;
+        console.log("userId: ", userId);
+
+        // Check that page exists before attempting undelete
+        knex("pages")
+          .select("*")
+          .where("id", req.params.id)
+          .then((rows) => {
+            console.log(
+              "rows in POST /api/page/undelete check for page: ",
+              rows
+            );
+            if (rows?.length > 0) {
+              // Requested page ID exists, attempt to mark for deletion
+              knex("pages")
+                .where("id", req?.params?.id)
+                .update({
+                  is_marked_for_deletion: false,
+                })
+                .then((success) => {
+                  return res.status(200).send(`Un-deleted ${req?.params?.id}`);
+
+                  // Add an entry to the page_restorations table
+                  // Check for `reason` on body of request, use that to populate page_restorations
+                })
+                .catch((error) => {
+                  return res
+                    .status(500)
+                    .send(`Couldn't un-delete ${req?.params?.id}`);
+                });
+            } else {
+              // Page ID not in database
+              return res.status(404).send("404 page not found");
+            }
+          })
+          .catch((error) => {
+            return res.status(500).send("500");
+          });
+      } else {
+        // Username not in database, return early
+        return res.status(404).send("404 user not found");
+      }
+    })
+    .catch((error) => {
+      // Error getting username from database, return early
+      console.log("error in POST /api/page/undelete check for user: ", error);
+      return res.status(500).send("500");
+    });
+});
+
 module.exports = pageRouter;

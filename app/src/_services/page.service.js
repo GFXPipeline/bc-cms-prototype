@@ -164,6 +164,31 @@ async function markForDeletion({
   }
 }
 
+// POST request to /api/page/undelete/:id
+async function undelete({id, reason}) {
+  console.log("pageService.undelete, id: ", id);
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "POST",
+      url: `/api/page/undelete/${id}`,
+      headers,
+      data: {
+        username: authenticationService.currentUserValue.username,
+        reason: reason,
+      },
+    });
+
+    console.log("response: ", response);
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in pageService undelete: ", error);
+    throw error;
+  }
+}
+
 // GET request to /api/pages/all
 async function getPageList() {
   console.log("pageService.getPageList()");
@@ -246,6 +271,7 @@ export const pageService = {
   read,
   update,
   markForDeletion,
+  undelete,
   getPageList,
   getPageNavigationTypes,
   getPageTemplates,
