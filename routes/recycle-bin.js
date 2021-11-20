@@ -34,6 +34,7 @@ recycleBinRouter.get("/:username/pages", (req, res) => {
             "pd.page_id",
             { title: "p.title" },
             "pd.reason",
+            "p.is_marked_for_deletion",
             "pd.is_delete_date_set",
             "pd.time_to_delete",
             "pd.is_notification_requested",
@@ -46,8 +47,14 @@ recycleBinRouter.get("/:username/pages", (req, res) => {
             "pd.time_created",
             "pd.time_last_updated"
           )
-          .where("pd.deleted_by_user", userId)
-          .orWhere("pd.last_modified_by_user", userId)
+          .where({
+            "p.is_marked_for_deletion": true,
+            "pd.deleted_by_user": userId,
+          })
+          .orWhere({
+            "p.is_marked_for_deletion": true,
+            "pd.last_modified_by_user": userId,
+          })
           .then((rows) => {
             console.log(
               `rows in GET /api/recycle-bin/${req?.params?.username}/pages: `,
