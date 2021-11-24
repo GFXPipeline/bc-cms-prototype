@@ -347,16 +347,6 @@ function ContentEntry() {
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
   const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
-  // function getPageIdForModal() {
-  //   // In edit mode, the page that is loaded into the CKEditor instance is
-  //   // the one users will be acting on by using the lower menu buttons
-  //   if (isEditMode) {
-  //     return id;
-  //   }
-
-  //   return selectedPages.length > 0 ? selectedPages[0] : id;
-  // }
-
   function getPageDetailsForModal() {
     const pageId = isEditMode
       ? id
@@ -366,7 +356,7 @@ function ContentEntry() {
 
     let pageTitle = "";
     pages?.map((page) => {
-      if (page?.id === id) {
+      if (page?.id === pageId) {
         pageTitle = page?.title;
       }
     });
