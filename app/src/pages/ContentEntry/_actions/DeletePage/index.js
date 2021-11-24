@@ -36,6 +36,7 @@ import CloudServices from "@ckeditor/ckeditor5-cloud-services/src/cloudservices"
 import svgCalendar from "../../../../assets/noun-calendar.svg";
 import Modal from "../../../../components/Modal";
 import Button from "../../../../components/Button";
+import TextInput from "../../../../components/TextInput";
 import { pageService } from "../../../../_services";
 
 // Plugins to include in the build.
@@ -116,6 +117,17 @@ const StyledModal = styled(Modal)`
     form {
       h1 {
         margin: 0 0 22px 0;
+      }
+
+      div.page-title {
+        margin: 0 0 16px 0;
+
+        label {
+          display: block;
+          font-size: 13px;
+          font-weight: 700;
+          margin: 0 0 8px 0;
+        }
       }
 
       fieldset {
@@ -433,7 +445,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
+function DeletePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
   // TODO: Removal deleteType and associated logic when it is determined that
   //       users cannot perform a soft vs hard delete (only "delete").
   const [deleteType, setDeleteType] = useState("hard-delete");
@@ -569,6 +581,10 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
             </div>
           </div>
         </fieldset> */}
+        <div className="page-title">
+          <label htmlFor="title">Page title:</label>
+          <TextInput id="title" value={title} disabled />
+        </div>
         <div className="reason-for-deletion">
           <label>* Reason for deletion (mandatory)</label>
           <textarea

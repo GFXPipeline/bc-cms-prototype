@@ -389,10 +389,14 @@ pageRouter.post("/undelete/:id", (req, res) => {
                   is_marked_for_deletion: false,
                 })
                 .then((success) => {
-                  return res.status(200).send(`Un-deleted ${req?.params?.id}`);
+                  res.status(200).send(`Un-deleted ${req?.params?.id}`);
 
-                  // Add an entry to the page_restorations table
                   // Check for `reason` on body of request, use that to populate page_restorations
+                  return knex("page_restorations").insert({
+                    page_id: req?.params?.id,
+                    reason: req?.body?.reason || "",
+                    created_by_user: userId,
+                  });
                 })
                 .catch((error) => {
                   return res
