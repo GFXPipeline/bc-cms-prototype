@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const StyledTextInput = styled.input`
+  background-color: white;
   border-radius: 0px;
   border: 2px solid #3e3e3e;
   font-size: 16px;
@@ -10,6 +11,7 @@ const StyledTextInput = styled.input`
 
   &:disabled {
     border-color: #6f6f6f;
+    background-color: #f9f9f9;
 
     &:hover {
       cursor: not-allowed;
