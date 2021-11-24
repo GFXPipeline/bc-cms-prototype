@@ -5,12 +5,7 @@ exports.up = function (knex) {
       .defaultTo(knex.raw(`gen_random_uuid()`)) // Postgres built-in UUID v4 generator
       .notNullable()
       .primary();
-    table
-      .uuid("page_id")
-      .unique()
-      .notNullable()
-      .references("id")
-      .inTable("pages");
+    table.uuid("page_id").notNullable().references("id").inTable("pages");
     table.boolean("is_hard_delete").defaultTo(false);
     table.text("reason");
     table.boolean("is_delete_date_set").defaultTo(false);
