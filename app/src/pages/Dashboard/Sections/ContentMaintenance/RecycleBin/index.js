@@ -108,10 +108,12 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
   const [isError, setIsError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageId, setPageId] = useState("");
+  const [pageTitle, setPageTitle] = useState("");
   const [recycleItems, setRecycleItems] = useState([]);
 
-  function handleRestoreButton(id) {
+  function handleRestoreButton(id, title) {
     setPageId(id);
+    setPageTitle(title);
     setIsModalOpen(true);
   }
 
@@ -159,7 +161,10 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
                   return (
                     <Button
                       onClick={() =>
-                        handleRestoreButton(row?.original?.page_id)
+                        handleRestoreButton(
+                          row?.original?.page_id,
+                          row?.original?.page_title
+                        )
                       }
                       primary
                     >
@@ -236,6 +241,7 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
           isOpen={isModalOpen}
           setIsOpen={setIsModalOpen}
           onAfterClose={refreshRecycleBin}
+          title={pageTitle}
         />
       </StyledDiv>
     );
@@ -246,10 +252,14 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
       .getPagesByUser()
       .then((items) => {
         setRecycleItems(items);
+        setPageId("");
+        setPageTitle("");
         setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setPageId("");
+        setPageTitle("");
         setIsError(true);
       });
   }

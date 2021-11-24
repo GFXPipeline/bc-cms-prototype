@@ -56,6 +56,7 @@ const StyledModal = styled(Modal)`
         }
 
         &:disabled {
+          background-color: #f9f9f9;
           border-color: #6f6f6f;
           cursor: not-allowed;
         }
@@ -96,7 +97,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function RestorePage({ id, isOpen, setIsOpen, onAfterClose }) {
+function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
   const [reason, setReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -135,19 +136,23 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose }) {
       onAfterClose={onAfterClose}
     >
       <h1>Restore</h1>
-      <label>Restore location: *</label>
+      <label htmlFor="title">Page title:</label>
       <div className="location">
-        <TextInput disabled />
+        <TextInput id="title" disabled value={title} />
+      </div>
+      <label htmlFor="location">Restore location: *</label>
+      <div className="location">
+        <TextInput id="location" disabled />
         <Button primary disabled>
           Browse
         </Button>
       </div>
       <div className="reason">
-        <label>Reason to restore: *</label>
+        <label htmlFor="reason">Reason to restore: *</label>
         <textarea
+          id="reason"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          placeholder={"Enter reason for restoration."}
           rows={3}
           required
           disabled={isSubmitting || isSuccess}

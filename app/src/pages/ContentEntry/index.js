@@ -347,14 +347,34 @@ function ContentEntry() {
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
   const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
-  function getPageIdForModal() {
-    // In edit mode, the page that is loaded into the CKEditor instance is
-    // the one users will be acting on by using the lower menu buttons
-    if (isEditMode) {
-      return id;
-    }
+  // function getPageIdForModal() {
+  //   // In edit mode, the page that is loaded into the CKEditor instance is
+  //   // the one users will be acting on by using the lower menu buttons
+  //   if (isEditMode) {
+  //     return id;
+  //   }
 
-    return selectedPages.length > 0 ? selectedPages[0] : id;
+  //   return selectedPages.length > 0 ? selectedPages[0] : id;
+  // }
+
+  function getPageDetailsForModal() {
+    const pageId = isEditMode
+      ? id
+      : selectedPages?.length > 0
+      ? selectedPages[0]
+      : id;
+
+    let pageTitle = "";
+    pages?.map((page) => {
+      if (page?.id === id) {
+        pageTitle = page?.title;
+      }
+    });
+
+    return {
+      id: pageId,
+      title: pageTitle,
+    };
   }
 
   function getUpdatedPageList() {
@@ -617,10 +637,11 @@ function ContentEntry() {
         />
       )}
       <ClonePage
-        id={getPageIdForModal()}
+        id={getPageDetailsForModal()?.id}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
         onAfterClose={getUpdatedPageList}
+        title={getPageDetailsForModal()?.title}
       />
       {/* <CreatePage
         isOpen={modalCreatePageOpen}
@@ -634,10 +655,11 @@ function ContentEntry() {
         onAfterClose={getUpdatedPageList}
       />
       <DeletePage
-        id={getPageIdForModal()}
+        id={getPageDetailsForModal()?.id}
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}
+        title={getPageDetailsForModal()?.title}
       />
       <CancelEdits
         isOpen={modalCancelEditsOpen}

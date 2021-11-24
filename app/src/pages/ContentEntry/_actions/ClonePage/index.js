@@ -21,6 +21,17 @@ const StyledModal = styled(Modal)`
         margin: 0 0 36px 0;
       }
 
+      div.page-title {
+        margin: 0 0 16px 0;
+
+        label {
+          display: block;
+          font-size: 13px;
+          font-weight: 700;
+          margin: 0 0 8px 0;
+        }
+      }
+
       fieldset {
         border: none;
         margin: 0;
@@ -124,7 +135,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function ClonePage({ id, isOpen, setIsOpen, onAfterClose }) {
+function ClonePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
   const [isWithChildrenPages, setIsWithChildrenPages] = useState(false);
   // const [isLangSelectEnabled, setIsLangSelectEnabled] = useState(false);
   // const [langSelected, setLangSelected] = useState("");
@@ -185,6 +196,10 @@ function ClonePage({ id, isOpen, setIsOpen, onAfterClose }) {
     >
       <form id="clone-page">
         <h1>Clone</h1>
+        <div className="page-title">
+          <label htmlFor="title">Page title:</label>
+          <TextInput id="title" value={title} disabled />
+        </div>
         <fieldset
           className={
             isSubmitting || isSuccess
