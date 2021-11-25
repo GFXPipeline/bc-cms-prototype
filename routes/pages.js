@@ -1,16 +1,7 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
 const jwt = require("../_helpers/jwt");
 const errorHandler = require("../_helpers/error-handler");
 const knex = require("../db");
-
-// Queries
-const getCurrentPages = fs
-  .readFileSync(
-    path.join(__dirname, "..", "db", "queries", "get_current_pages.sql")
-  )
-  .toString();
 
 const pagesRouter = express.Router();
 pagesRouter.use(jwt());
@@ -20,10 +11,11 @@ pagesRouter.use(errorHandler);
 pagesRouter.get("/all", (req, res) => {
   console.log("GET /api/pages/all");
 
-  knex
-    .raw(getCurrentPages)
+  knex("pages")
+    .select("*")
+    .where("is_marked_for_deletion", false)
     .then((results) => {
-      res.status(200).json(results?.rows);
+      res.status(200).json(results);
     })
     .catch((error) => {
       console.log("error in GET /api/pages/all knex call: ", error);
