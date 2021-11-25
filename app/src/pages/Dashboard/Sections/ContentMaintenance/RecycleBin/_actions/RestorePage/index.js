@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 // Global components
@@ -170,7 +171,11 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
           {isSuccess ? "Close" : "Cancel"}
         </Button>
       </div>
-      {isSuccess && <p className="success">Page has been restored.</p>}
+      {isSuccess && (
+        <p className="success">
+          Page has been restored. <Link to={`/content/${id}`}>Go to Edit</Link>
+        </p>
+      )}
       {isError && <p className="error">Error. Page failed to restore.</p>}
     </StyledModal>
   );
