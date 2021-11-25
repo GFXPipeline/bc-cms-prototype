@@ -355,11 +355,14 @@ function ContentEntry() {
       : id;
 
     let pageTitle = "";
-    pages?.map((page) => {
-      if (page?.id === pageId) {
-        pageTitle = page?.title;
-      }
-    });
+    pages &&
+      Array.isArray(pages) &&
+      pages.length > 0 &&
+      pages?.map((page) => {
+        if (page?.id === pageId) {
+          pageTitle = page?.title;
+        }
+      });
 
     return {
       id: pageId,
