@@ -47,6 +47,9 @@ recycleBinRouter.get("/:username/pages", (req, res) => {
             "pd.time_created",
             "pd.time_last_updated"
           )
+          .distinctOn("pd.page_id") // Limit the results to one instance of each page ID
+          .orderBy("pd.page_id", "ASC")
+          .orderBy("pd.time_created", "DESC") // Use the latest instance of a page ID
           .where({
             "p.is_marked_for_deletion": true,
             "pd.deleted_by_user": userId,
