@@ -1,3 +1,7 @@
+-- TODO: This is no longer used in the GET /api/pages/all route, but I'm leaving
+--       it here until the delete function is mature (especially the lack of an
+--       explicit "soft" delete that a user selects).
+
 -- Get current pages for display
 select *
   from pages p
