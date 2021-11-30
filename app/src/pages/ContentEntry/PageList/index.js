@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import PageTree from "./PageTree";
+
 const StyledDiv = styled.div`
   height: 100%;
   flex-grow: 1;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 13px;
 
   div.page-container {
     align-items: center;
@@ -46,7 +47,15 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageList({ isError, pages, selected, setSelected }) {
+function PageList({
+  isError,
+  openPageBranches,
+  pages,
+  pageTree,
+  selected,
+  setOpenPageBranches,
+  setSelected,
+}) {
   function compare(a, b) {
     if (a?.title > b?.title) {
       return 1;
@@ -118,6 +127,18 @@ function PageList({ isError, pages, selected, setSelected }) {
             </div>
           );
         })}
+      {pageTree &&
+        typeof pageTree === "object" &&
+        Object.getOwnPropertyNames(pageTree).length > 0 && (
+          <PageTree
+            data={pageTree}
+            handleSelect={handleSelect}
+            openPageBranches={openPageBranches}
+            selected={selected}
+            setOpenPageBranches={setOpenPageBranches}
+            setSelected={setSelected}
+          />
+        )}
       {isError && <p className="error">Failed to fetch page list.</p>}
     </StyledDiv>
   );
