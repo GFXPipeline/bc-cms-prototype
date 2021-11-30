@@ -6,7 +6,18 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex("pages").insert([
         {
+          id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
+          parent_page_id: null,
+          page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
+          title: "Home",
+          nav_title: "Home",
+          intro:
+            "<p>The official website of the Government of British Columbia.</p>",
+          data: "<p></p>",
+        },
+        {
           id: "0b2a7d41-d67f-4e54-a51f-b5f69967c33e",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Travel and COVID-19",
           nav_title: "Travel",
@@ -21,6 +32,7 @@ exports.seed = function (knex) {
         },
         {
           id: "6d038cb8-d6d7-4a06-b290-5d4a039dfcc2",
+          parent_page_id: "0b2a7d41-d67f-4e54-a51f-b5f69967c33e",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Get your booster dose",
           nav_title: "Vaccine booster doses",
@@ -37,6 +49,7 @@ exports.seed = function (knex) {
         },
         {
           id: "f45c5adc-e727-4870-a324-7cd0fe215707",
+          parent_page_id: "0b2a7d41-d67f-4e54-a51f-b5f69967c33e",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "COVID-19 safe schools",
           nav_title: "K-12 Schools",
@@ -51,6 +64,7 @@ exports.seed = function (knex) {
         },
         {
           id: "e659fca6-332a-472d-b265-8d2404370cde",
+          parent_page_id: "0b2a7d41-d67f-4e54-a51f-b5f69967c33e",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "COVID-19 support for individuals and families",
           nav_title: "Get financial help",
@@ -65,6 +79,7 @@ exports.seed = function (knex) {
         },
         {
           id: "10600817-fcc0-4aa4-b407-674b6568dcc9",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Provincial Sales Tax",
           nav_title: "PST in BC",
@@ -81,6 +96,7 @@ exports.seed = function (knex) {
         },
         {
           id: "5c2edc66-8015-4a86-aeb9-891d0b405074",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Speculation and vacancy tax",
           nav_title: "Spec tax",
@@ -97,6 +113,7 @@ exports.seed = function (knex) {
         },
         {
           id: "29930989-08b0-4280-b2bf-d361a5a8bf1b",
+          parent_page_id: "0b2a7d41-d67f-4e54-a51f-b5f69967c33e",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Post-secondary studies during COVID-19",
           nav_title: "Post-secondary",
@@ -111,6 +128,7 @@ exports.seed = function (knex) {
         },
         {
           id: "5a57ff4a-367c-4eb4-a146-90b24ad4f3fb",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Fire Bans and Restrictions",
           nav_title: "Open Fire, Prohibitions & Restrictions",
@@ -125,6 +143,7 @@ exports.seed = function (knex) {
         },
         {
           id: "925658d3-5674-407f-8ed7-03234002610c",
+          parent_page_id: "0b2a7d41-d67f-4e54-a51f-b5f69967c33e",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Violation tickets for unsafe COVID-19 behaviour",
           nav_title: "Violation tickets",
@@ -139,6 +158,7 @@ exports.seed = function (knex) {
         },
         {
           id: "9e938ca3-61eb-4265-8a7d-5e20235616e3",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Procurement Services",
           nav_title: "Procurement Services",
@@ -155,6 +175,7 @@ exports.seed = function (knex) {
         },
         {
           id: "7a9a5e81-05a0-4c99-b667-0eedf9ea801d",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Asian giant hornet",
           nav_title: "Asian giant hornet",
@@ -171,6 +192,7 @@ exports.seed = function (knex) {
         },
         {
           id: "840bcf73-464a-410d-be9b-908424c9931a",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Community Clean Energy Solutions",
           nav_title: "Community Clean Energy Solutions",
@@ -185,6 +207,7 @@ exports.seed = function (knex) {
         },
         {
           id: "8e15d5e0-c278-4254-baa5-a17f8d47cced",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Harmonized Sales Tax",
           nav_title: "HST Information",
@@ -201,6 +224,7 @@ exports.seed = function (knex) {
         },
         {
           id: "1fcb0579-0145-49c1-b8d0-86e0ce9665ea",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Virtual mental health supports",
           nav_title: "Mental health",
@@ -215,6 +239,7 @@ exports.seed = function (knex) {
         },
         {
           id: "6f1288db-32c2-497d-8fc5-77adf317a1b1",
+          parent_page_id: "4a0f3606-26a1-44e6-ad46-1ff53dd8384f",
           page_type: "34ba5b97-15b0-4393-bd03-7258407c2d8a",
           title: "Mountain Pine Beetle",
           nav_title:
