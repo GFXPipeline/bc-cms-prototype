@@ -335,6 +335,8 @@ function ContentEntry() {
   const [editor, setEditor] = useState(null);
   const [isError, setIsError] = useState(false);
   const [pages, setPages] = useState([]);
+  const [pageTree, setPageTree] = useState({});
+  const [openPageBranches, setOpenPageBranches] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
   const [tab, setTab] = useState("page");
   const [isEditMode, setIsEditMode] = useState(false);
@@ -354,15 +356,16 @@ function ContentEntry() {
       ? selectedPages[0]
       : id;
 
+    // TODO: Re-write title logic for page tree data structure
     let pageTitle = "";
-    pages &&
-      Array.isArray(pages) &&
-      pages.length > 0 &&
-      pages?.map((page) => {
-        if (page?.id === pageId) {
-          pageTitle = page?.title;
-        }
-      });
+    // pages &&
+    //   Array.isArray(pages) &&
+    //   pages.length > 0 &&
+    //   pages?.map((page) => {
+    //     if (page?.id === pageId) {
+    //       pageTitle = page?.title;
+    //     }
+    //   });
 
     return {
       id: pageId,
@@ -370,25 +373,40 @@ function ContentEntry() {
     };
   }
 
-  function getUpdatedPageList() {
+  // function getUpdatedPageList() {
+  //   pageService
+  //     .getPageList()
+  //     .then((pages) => {
+  //       setPages(pages);
+  //     })
+  //     .catch((error) => {
+  //       setIsError(true);
+  //       throw error;
+  //     });
+  // }
+
+  function getPageTree() {
     pageService
-      .getPageList()
-      .then((pages) => {
-        setPages(pages);
+      .getPageTree()
+      .then((pageTree) => {
+        setPageTree(pageTree);
+        setOpenPageBranches([Object.keys(pageTree)[0]]);
       })
       .catch((error) => {
+        console.log("ERROR: Failed to get pageTree");
         setIsError(true);
-        throw error;
       });
   }
 
   function handleBackToContentList() {
-    getUpdatedPageList();
+    // getUpdatedPageList();
+    getPageTree();
     setIsEditMode(false);
   }
 
   function updatePageListAndClearSelections() {
-    getUpdatedPageList();
+    // getUpdatedPageList();
+    getPageTree();
     setSelectedPages([]);
   }
 
@@ -429,8 +447,13 @@ function ContentEntry() {
   }
 
   // Populate page list
+  // useEffect(() => {
+  //   getUpdatedPageList();
+  // }, []);
+
+  // Populate page tree
   useEffect(() => {
-    getUpdatedPageList();
+    getPageTree();
   }, []);
 
   // Get the data for the selected page
@@ -558,8 +581,11 @@ function ContentEntry() {
             />
             <PageList
               isError={isError}
+              openPageBranches={openPageBranches}
               pages={pages}
+              pageTree={pageTree}
               selected={selectedPages}
+              setOpenPageBranches={setOpenPageBranches}
               setSelected={setSelectedPages}
             />
           </LeftPanel>
@@ -633,19 +659,19 @@ function ContentEntry() {
         id={getPageDetailsForModal()?.id}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
-        onAfterClose={getUpdatedPageList}
+        onAfterClose={getPageTree}
         title={getPageDetailsForModal()?.title}
       />
       {/* <CreatePage
         isOpen={modalCreatePageOpen}
         setIsOpen={setModalCreatePageOpen}
-        onAfterClose={getUpdatedPageList}
+        onAfterClose={getPageTree}
       /> */}
       <CreatePageNew
         isOpen={modalCreatePageOpen}
         setIsEditMode={setIsEditMode}
         setIsOpen={setModalCreatePageOpen}
-        onAfterClose={getUpdatedPageList}
+        onAfterClose={getPageTree}
       />
       <DeletePage
         id={getPageDetailsForModal()?.id}

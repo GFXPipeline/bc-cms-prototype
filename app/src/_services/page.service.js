@@ -208,6 +208,33 @@ async function getPageList() {
   }
 }
 
+// GET request to /api/pages/tree
+async function getPageTree() {
+  console.log("pageService.getPageTree()");
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: "/api/pages/tree",
+      headers,
+    });
+
+    if (
+      response?.data &&
+      typeof response?.data === "object"
+      && response.data.hasOwnProperty("tree")
+    ) {
+      return response?.data?.tree;
+    } else {
+      throw new Error("Error in page.service getPageTree: malformed API response");
+    }
+  } catch (error) {
+    console.log("Error in page.service getPageTree: ", error);
+    throw error;
+  }
+}
+
 // GET request to /api/page-navigation-types/
 async function getPageNavigationTypes() {
   console.log("pageService.getPageNavigationTypes()");
@@ -273,6 +300,7 @@ export const pageService = {
   markForDeletion,
   undelete,
   getPageList,
+  getPageTree,
   getPageNavigationTypes,
   getPageTemplates,
   getPageTypes,
