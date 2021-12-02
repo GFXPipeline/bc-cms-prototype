@@ -591,6 +591,7 @@ function ContentEntry() {
           </LeftPanel>
         )}
         <RightPanel>
+          {title && <h1>{title}</h1>}
           <NavTabs
             tabs={[
               { id: "page", label: "Page" },
