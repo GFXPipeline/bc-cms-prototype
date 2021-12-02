@@ -107,8 +107,8 @@ function TreeItem({
         ) : (
           <span className="spacer" />
         )}
-        <Link to={`/content/${page?.id}`} title={page?.title}>
-          {page?.title}
+        <Link to={`/content/${page?.id}`} title={page?.nav_title}>
+          {page?.nav_title}
         </Link>
         <input
           type="checkbox"

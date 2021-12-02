@@ -6,14 +6,14 @@
 with recursive
 pages_from_parents as
 (
-  select id, parent_page_id, title, '{}'::uuid[] as parents, 0 as level
+  select id, parent_page_id, nav_title, '{}'::uuid[] as parents, 0 as level
     from pages
     where parent_page_id is NULL
       and is_marked_for_deletion = false
 
   union all
 
-  select c.id, c.parent_page_id, c.title, parents || c.parent_page_id, level + 1
+  select c.id, c.parent_page_id, c.nav_title, parents || c.parent_page_id, level + 1
     from pages_from_parents p
     join pages c
       on c.parent_page_id = p.id
@@ -27,7 +27,7 @@ maxlvl as (
 ),
 -- Build the page tree from the max level
 page_tree as (
-  select level, title, id, parent_page_id, jsonb '{}' children
+  select level, nav_title, id, parent_page_id, jsonb '{}' children
     from pages_from_parents, maxlvl
     where level = maxlvl
 
@@ -35,7 +35,7 @@ page_tree as (
   (
     select
       (branch_parent).level,
-      (branch_parent).title,
+      (branch_parent).nav_title,
       (branch_parent).id,
       (branch_parent).parent_page_id,
       jsonb_object_agg((branch_child).id, branch_child) as children
@@ -50,7 +50,7 @@ page_tree as (
     union
 
     select
-      c.level, c.title, c.id, c.parent_page_id, jsonb '{}' children
+      c.level, c.nav_title, c.id, c.parent_page_id, jsonb '{}' children
     from pages_from_parents c
     where not exists (
       select 1 from pages_from_parents hypothetical_child
