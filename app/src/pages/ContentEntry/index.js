@@ -556,8 +556,10 @@ function ContentEntry() {
                 Search by page name, ID, or URL
               </label>
               <InputContainer>
-                <TextInput id="content-search" />
-                <Button primary>Search</Button>
+                <TextInput id="content-search" disabled />
+                <Button primary disabled>
+                  Search
+                </Button>
               </InputContainer>
               <label htmlFor="content-list-view">List view</label>
               <InputContainer>
