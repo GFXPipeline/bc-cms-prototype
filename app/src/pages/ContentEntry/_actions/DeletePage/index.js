@@ -464,7 +464,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
   //       time selection (https://reactdatepicker.com/#example-select-time)
   function getDeleteTime() {
     const year = date.getFullYear();
-    const month = date.getMonth();
+    const month = date.getMonth() + 1;
     const dayOfMonth = date.getDate();
     const timeString = `${year}-${month > 9 ? month : `0${month}`}-${
       dayOfMonth > 9 ? dayOfMonth : `0${dayOfMonth}`
