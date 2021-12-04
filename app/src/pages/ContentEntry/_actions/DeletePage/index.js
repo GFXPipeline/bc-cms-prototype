@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import styled from "styled-components";
@@ -445,7 +445,8 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function DeletePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
+function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
+  const [title, setTitle] = useState("(Fetching page title)");
   // TODO: Removal deleteType and associated logic when it is determined that
   //       users cannot perform a soft vs hard delete (only "delete").
   const [deleteType, setDeleteType] = useState("hard-delete");
@@ -513,6 +514,21 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
     setIsError(false);
     setIsOpen(false);
   }
+
+  // Get the data for the selected page
+  useEffect(() => {
+    if (id) {
+      pageService
+        .read(id)
+        .then((response) => {
+          setTitle(response?.title || "");
+        })
+        .catch((error) => {
+          console.log("Error in DeletePage modal: ", error);
+          setTitle("(Error fetching page title)");
+        });
+    }
+  }, [id]);
 
   return (
     <StyledModal

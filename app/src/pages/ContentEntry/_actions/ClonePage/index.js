@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { pageService } from "../../../../_services";
@@ -135,7 +135,8 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function ClonePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
+function ClonePage({ id, isOpen, setIsOpen, onAfterClose }) {
+  const [title, setTitle] = useState("(Fetching page title)");
   const [isWithChildrenPages, setIsWithChildrenPages] = useState(false);
   // const [isLangSelectEnabled, setIsLangSelectEnabled] = useState(false);
   // const [langSelected, setLangSelected] = useState("");
@@ -186,6 +187,21 @@ function ClonePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
     setIsError(false);
     setIsOpen(false);
   }
+
+  // Get the data for the selected page
+  useEffect(() => {
+    if (id) {
+      pageService
+        .read(id)
+        .then((response) => {
+          setTitle(response?.title || "");
+        })
+        .catch((error) => {
+          console.log("Error in ClonePage modal: ", error);
+          setTitle("(Error fetching page title)");
+        });
+    }
+  }, [id]);
 
   return (
     <StyledModal

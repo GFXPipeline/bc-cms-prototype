@@ -349,28 +349,8 @@ function ContentEntry() {
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
   const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
 
-  function getPageDetailsForModal() {
-    const pageId = isEditMode
-      ? id
-      : selectedPages?.length > 0
-      ? selectedPages[0]
-      : id;
-
-    // TODO: Re-write title logic for page tree data structure
-    let pageTitle = "";
-    // pages &&
-    //   Array.isArray(pages) &&
-    //   pages.length > 0 &&
-    //   pages?.map((page) => {
-    //     if (page?.id === pageId) {
-    //       pageTitle = page?.title;
-    //     }
-    //   });
-
-    return {
-      id: pageId,
-      title: pageTitle,
-    };
+  function getPageIdForModal() {
+    return isEditMode ? id : selectedPages?.length > 0 ? selectedPages[0] : id;
   }
 
   // function getUpdatedPageList() {
@@ -659,11 +639,10 @@ function ContentEntry() {
         />
       )}
       <ClonePage
-        id={getPageDetailsForModal()?.id}
+        id={getPageIdForModal()}
         isOpen={modalClonePageOpen}
         setIsOpen={setModalClonePageOpen}
         onAfterClose={getPageTree}
-        title={getPageDetailsForModal()?.title}
       />
       {/* <CreatePage
         isOpen={modalCreatePageOpen}
@@ -677,11 +656,10 @@ function ContentEntry() {
         onAfterClose={getPageTree}
       />
       <DeletePage
-        id={getPageDetailsForModal()?.id}
+        id={getPageIdForModal()}
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}
-        title={getPageDetailsForModal()?.title}
       />
       <CancelEdits
         isOpen={modalCancelEditsOpen}
