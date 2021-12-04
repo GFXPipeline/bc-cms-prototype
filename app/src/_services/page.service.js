@@ -17,18 +17,18 @@ async function create({
   try {
     const headers = authHeader();
 
+    const generatedTitle = `New Page - ${
+      authenticationService.currentUserValue.username
+    } - ${Math.floor(Math.random() * (9999 - 1000 + 1) + 1000)}`;
+
     const newPageData = {
       action: "create",
       username: authenticationService.currentUserValue.username,
       numberOfCopies: numberOfCopies || 1,
       pageType: pageType || "topic",
       template: template || "base-template",
-      title:
-        title ||
-        `New Page - ${
-          authenticationService.currentUserValue.username
-        } - ${Math.floor(Math.random() * (9999 - 1000 + 1) + 1000)}`,
-      navTitle: navTitle || "",
+      title: title || generatedTitle,
+      navTitle: navTitle || generatedTitle,
       data: data || "",
       isOnThisPage: isOnThisPage || false,
       reviewFrequencyMonths: reviewFrequency,
