@@ -160,7 +160,7 @@ pageRouter.post("/:id", (req, res) => {
     .where("id", req?.params?.id)
     .then((rows) => {
       // Attempt the insertion here
-      const { data, intro, navTitle, title } = rows[0];
+      const { parent_page_id, data, intro, nav_title, title } = rows[0];
       const numberOfCopies = parseInt(req?.body?.numberOfCopies || 1);
       let newPageIds = [];
       let newPageRecords = [];
@@ -174,8 +174,9 @@ pageRouter.post("/:id", (req, res) => {
       newPageIds.forEach((id, index) => {
         newPageRecords.push({
           id: id,
+          parent_page_id: parent_page_id,
           title: `${title} - copy ${index + 1}`,
-          nav_title: navTitle,
+          nav_title: `${nav_title} - copy ${index + 1}`,
           intro: intro,
           data: data,
           created_by_user: userId,

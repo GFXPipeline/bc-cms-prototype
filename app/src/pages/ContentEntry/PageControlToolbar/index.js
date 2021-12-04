@@ -38,6 +38,7 @@ function PageControlToolbar({
     <StyledDiv>
       <DropdownSelect
         id="content-entry-create"
+        disabled={selectedPages?.length > 1}
         label="Create"
         options={[
           {
@@ -46,6 +47,7 @@ function PageControlToolbar({
             action: () => {
               setModalCreatePageOpen(true);
             },
+            disabled: selectedPages?.length > 1,
           },
           {
             id: "clone-page",
