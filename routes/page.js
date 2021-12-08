@@ -58,6 +58,7 @@ pageRouter.post("/", (req, res) => {
                 knex("pages")
                   .insert({
                     id: newPageId,
+                    parent_page_id: req?.body?.parentPageId,
                     title: req?.body?.title,
                     nav_title: req?.body?.navTitle,
                     intro: row?.[0]?.intro,
@@ -93,8 +94,10 @@ pageRouter.post("/", (req, res) => {
             knex("pages")
               .insert({
                 id: newPageId,
+                parent_page_id: req?.body?.parentPageId,
                 title: req?.body?.title,
                 nav_title: req?.body?.navTitle,
+                intro: req?.body?.intro,
                 data: req?.body?.data,
                 page_type: newPageTypeId,
                 created_by_user: userId,
