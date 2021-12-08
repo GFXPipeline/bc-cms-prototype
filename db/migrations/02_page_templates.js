@@ -10,8 +10,8 @@ exports.up = function (knex) {
     table.integer("display_order").notNullable();
     table.string("description");
     table.string("icon");
-    table.text("intro");
-    table.text("data");
+    table.text("page_description");
+    table.text("page_data");
     table.uuid("created_by_user").references("id").inTable("users");
     table.uuid("owned_by_user").references("id").inTable("users");
     table.uuid("last_modified_by_user").references("id").inTable("users");
