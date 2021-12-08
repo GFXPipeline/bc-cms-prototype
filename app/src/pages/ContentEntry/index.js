@@ -153,8 +153,8 @@ const mainEditorConfiguration = {
   },
 };
 
-// Intro CKEditor instance
-const introEditorConfiguration = {
+// Description CKEditor instance
+const descriptionEditorConfiguration = {
   plugins: [
     Essentials,
     UploadAdapter,
@@ -325,7 +325,7 @@ function ContentEntry() {
   const [data, setData] = useState(id ? "(Fetching page data)" : "");
   const [title, setTitle] = useState(id ? "(Fetching page title)" : "");
   const [navTitle, setNavTitle] = useState(id ? "(Fetching nav title)" : "");
-  const [intro, setIntro] = useState(id ? "(Fetching page intro)" : "");
+  const [description, setDescription] = useState(id ? "(Fetching page description)" : "");
 
   // Reusable components
   const [isOnThisPage, setIsOnThisPage] = useState(false);
@@ -394,7 +394,7 @@ function ContentEntry() {
     setIsSaving(true);
 
     pageService
-      .update({ id, data, intro, isOnThisPage, title, navTitle })
+      .update({ id, data, description, isOnThisPage, title, navTitle })
       .then((success) => {
         console.log("Success saving page update: ", success);
         setIsSaving(false);
@@ -415,7 +415,7 @@ function ContentEntry() {
       setData(response?.data || "");
       setTitle(response?.title || "");
       setNavTitle(response?.nav_title || "");
-      setIntro(response?.intro || "");
+      setDescription(response?.description || "");
       setIsOnThisPage(response?.is_on_this_page || false);
       setIsEditMode(false);
 
@@ -445,7 +445,7 @@ function ContentEntry() {
           setData(response?.data || "");
           setTitle(response?.title || "");
           setNavTitle(response?.nav_title || "");
-          setIntro(response?.intro || "");
+          setDescription(response?.description || "");
           setIsOnThisPage(response?.is_on_this_page || false);
         })
         .catch((error) => {
@@ -480,20 +480,20 @@ function ContentEntry() {
                 value={navTitle}
                 onChange={(e) => setNavTitle(e.target.value)}
               />
-              <label htmlFor="page-intro">Page Intro:</label>
+              <label htmlFor="page-description">Page Description:</label>
               <CKEditor
-                id="page-intro"
+                id="page-description"
                 editor={ClassicEditor}
-                config={introEditorConfiguration}
-                data={intro}
+                config={descriptionEditorConfiguration}
+                data={description}
                 onReady={(editor) => {
                   // You can store the "editor" and use when it is needed.
                   console.log("Editor is ready to use!", editor);
                 }}
                 onChange={(event, editor) => {
-                  const intro = editor.getData();
-                  console.log({ event, editor, intro });
-                  setIntro(intro);
+                  const description = editor.getData();
+                  console.log({ event, editor, description });
+                  setDescription(description);
                 }}
                 onBlur={(event, editor) => {
                   console.log("Blur.", editor);
