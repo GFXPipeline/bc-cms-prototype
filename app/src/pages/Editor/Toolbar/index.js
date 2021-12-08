@@ -9,7 +9,7 @@ const StyledDiv = styled.div`
   width: 100%;
 `;
 
-function Toolbar({ id, data, intro, isOnThisPage, title, setTitle }) {
+function Toolbar({ id, data, description, isOnThisPage, title, setTitle }) {
   const [isCreateButtonDisabled, setIsCreateButtonDisabled] = useState(false);
   const [isUpdateButtonDisabled, setIsUpdateButtonDisabled] = useState(false);
   const [isDeleteButtonDisabled, setIsDeleteButtonDisabled] = useState(false);
@@ -40,7 +40,7 @@ function Toolbar({ id, data, intro, isOnThisPage, title, setTitle }) {
     setIsUpdateButtonDisabled(true);
 
     pageService
-      .update({ id, intro, isOnThisPage, data, title })
+      .update({ id, description, isOnThisPage, data, title })
       .then((response) => {
         console.log("response in Toolbar handleUpdatePage(): ", response);
         setIsUpdateButtonDisabled(false);
