@@ -52,7 +52,7 @@ pageRouter.post("/", (req, res) => {
           // If request didn't contain page data, get data from template and insert
           if (!req?.body?.data) {
             knex("page_templates")
-              .select("data")
+              .select(["page_description", "page_data"])
               .where("name", newPageTemplate)
               .then((row) => {
                 knex("pages")
@@ -61,8 +61,8 @@ pageRouter.post("/", (req, res) => {
                     parent_page_id: req?.body?.parentPageId,
                     title: req?.body?.title,
                     nav_title: req?.body?.navTitle,
-                    intro: row?.[0]?.intro,
-                    data: row?.[0]?.data,
+                    description: row?.[0]?.page_description,
+                    data: row?.[0]?.page_data,
                     page_type: newPageTypeId,
                     review_frequency_months: parseInt(
                       req?.body?.reviewFrequencyMonths
@@ -97,7 +97,7 @@ pageRouter.post("/", (req, res) => {
                 parent_page_id: req?.body?.parentPageId,
                 title: req?.body?.title,
                 nav_title: req?.body?.navTitle,
-                intro: req?.body?.intro,
+                description: req?.body?.description,
                 data: req?.body?.data,
                 page_type: newPageTypeId,
                 created_by_user: userId,
@@ -163,7 +163,7 @@ pageRouter.post("/:id", (req, res) => {
     .where("id", req?.params?.id)
     .then((rows) => {
       // Attempt the insertion here
-      const { parent_page_id, data, intro, nav_title, title } = rows[0];
+      const { parent_page_id, data, description, nav_title, title } = rows[0];
       const numberOfCopies = parseInt(req?.body?.numberOfCopies || 1);
       let newPageIds = [];
       let newPageRecords = [];
@@ -180,7 +180,7 @@ pageRouter.post("/:id", (req, res) => {
           parent_page_id: parent_page_id,
           title: `${title} - copy ${index + 1}`,
           nav_title: `${nav_title} - copy ${index + 1}`,
-          intro: intro,
+          description: description,
           data: data,
           created_by_user: userId,
           owned_by_user: userId,
@@ -245,7 +245,7 @@ pageRouter.put("/:id", (req, res) => {
           .where("id", req.params.id)
           .update({
             data: req?.body?.data,
-            intro: req?.body?.intro,
+            description: req?.body?.description,
             is_on_this_page: req?.body?.isOnThisPage,
             title: req?.body?.title,
             nav_title: req?.body?.navTitle,
