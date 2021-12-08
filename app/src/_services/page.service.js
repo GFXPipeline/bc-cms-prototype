@@ -6,7 +6,7 @@ import { authenticationService } from "../_services";
 // POST request to /api/page to create a new page
 async function create({
   data,
-  intro,
+  description,
   isOnThisPage,
   navTitle,
   numberOfCopies,
@@ -33,7 +33,7 @@ async function create({
       title: title || generatedTitle,
       navTitle: navTitle || generatedTitle,
       data: data || "",
-      intro: intro || "",
+      description: description || "",
       isOnThisPage: isOnThisPage || false,
       reviewFrequencyMonths: reviewFrequency,
     };
@@ -102,7 +102,14 @@ async function read(id) {
 }
 
 // PUT request to /api/page/:id to update an existing page
-async function update({ id, data, intro, isOnThisPage, navTitle, title }) {
+async function update({
+  id,
+  data,
+  description,
+  isOnThisPage,
+  navTitle,
+  title,
+}) {
   console.log("Inside pageService.update, id: ", id);
   try {
     const headers = authHeader();
@@ -112,7 +119,7 @@ async function update({ id, data, intro, isOnThisPage, navTitle, title }) {
       title: title,
       navTitle: navTitle,
       data: data,
-      intro: intro,
+      description: description,
       isOnThisPage: isOnThisPage,
     };
 
