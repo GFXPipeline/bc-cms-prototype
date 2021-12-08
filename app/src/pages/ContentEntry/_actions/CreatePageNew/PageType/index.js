@@ -132,7 +132,6 @@ function PageType({
           Array.isArray(availablePageTypes) &&
           availablePageTypes.length > 0 &&
           availablePageTypes.map((type, index) => {
-            console.log("type: ", type);
             return (
               <Button
                 key={`button-${index}`}

@@ -6,10 +6,12 @@ import { authenticationService } from "../_services";
 // POST request to /api/page to create a new page
 async function create({
   data,
+  intro,
   isOnThisPage,
   navTitle,
   numberOfCopies,
   pageType,
+  parentPageId,
   reviewFrequency,
   template,
   title,
@@ -24,12 +26,14 @@ async function create({
     const newPageData = {
       action: "create",
       username: authenticationService.currentUserValue.username,
+      parentPageId: parentPageId,
       numberOfCopies: numberOfCopies || 1,
       pageType: pageType || "topic",
       template: template || "base-template",
       title: title || generatedTitle,
       navTitle: navTitle || generatedTitle,
       data: data || "",
+      intro: intro || "",
       isOnThisPage: isOnThisPage || false,
       reviewFrequencyMonths: reviewFrequency,
     };

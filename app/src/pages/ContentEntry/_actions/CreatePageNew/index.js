@@ -200,7 +200,14 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
+function CreatePageNew({
+  parentPageId,
+  isOpen,
+  setIsEditMode,
+  setIsOpen,
+  onAfterClose,
+  ...props
+}) {
   const history = useHistory();
 
   // Navigation within modal
@@ -219,7 +226,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
   const [reviewFrequency, setReviewFrequency] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("(Fetching location)");
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
@@ -230,6 +237,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
   const [isErrorPageTemplates, setIsErrorPageTemplates] = useState(false);
   const [isLoadingNavTypes, setIsLoadingNavTypes] = useState(true);
   const [isErrorNavTypes, setIsErrorNavTypes] = useState(false);
+  const [isErrorLocation, setIsErrorLocation] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -255,6 +263,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
 
     pageService
       .create({
+        parentPageId: parentPageId,
         data: "",
         title: "",
         pageType: pageType,
@@ -290,7 +299,7 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
     setReviewFrequency("");
     setContact("");
     setEmail("");
-    setLocation("");
+    setLocation("(Fetching location)");
     setNumberOfPages(1);
     setVisited(["page-type"]);
     setIsSubmitting(false);
@@ -339,12 +348,27 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
       });
   }, []);
 
+  // Get parent page nav title for location tab
+  useEffect(() => {
+    pageService
+      .read(parentPageId)
+      .then((parentPage) => {
+        console.log("parentPage object in CreateNewPage: ", parentPage);
+        setLocation(parentPage?.nav_title);
+      })
+      .catch((error) => {
+        console.log("error fetching parent page: ", error);
+        setIsErrorLocation(true);
+      });
+  }, []);
+
   return (
     <StyledModal
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       contentLabel={"Create a page"}
       onAfterClose={onAfterClose}
+      {...props}
     >
       <div className="top">
         <h2>Create a page</h2>
@@ -461,7 +485,11 @@ function CreatePageNew({ isOpen, setIsEditMode, setIsOpen, onAfterClose }) {
             />
           )}
           {tab === "page-location" && (
-            <PageLocation location={location} setLocation={setLocation} />
+            <PageLocation
+              isErrorLocation={isErrorLocation}
+              location={location}
+              setLocation={setLocation}
+            />
           )}
         </div>
       </div>
