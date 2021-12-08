@@ -650,6 +650,8 @@ function ContentEntry() {
         onAfterClose={getPageTree}
       /> */}
       <CreatePageNew
+        key={`create-from-parent-${selectedPages?.[0]}`}
+        parentPageId={selectedPages?.[0]}
         isOpen={modalCreatePageOpen}
         setIsEditMode={setIsEditMode}
         setIsOpen={setModalCreatePageOpen}
