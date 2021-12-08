@@ -13,8 +13,9 @@ exports.seed = function (knex) {
           description:
             "This is the description of base template 1 and when it should be used in web content.",
           icon: "bc-base-template-1.svg",
-          intro: "<p>Intro to base template</p>",
-          data: '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
+          page_description: "Page description",
+          page_data:
+            '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
         },
         {
           id: "707e8573-d714-48a3-99fc-c685a4274c73",
@@ -24,8 +25,9 @@ exports.seed = function (knex) {
           description:
             "This is the description of base template 2 and when it should be used in web content.",
           icon: "bc-base-template-2.svg",
-          intro: "<p>Intro to base template</p>",
-          data: '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
+          page_description: "Page description",
+          page_data:
+            '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
         },
         {
           id: "e324a4c4-c716-44f0-affa-9cb5c21556ff",
@@ -35,8 +37,9 @@ exports.seed = function (knex) {
           description:
             "This is the description of base template 3 and when it should be used in web content.",
           icon: "bc-base-template-3.svg",
-          intro: "<p>Intro to base template</p>",
-          data: '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
+          page_description: "Page description",
+          page_data:
+            '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
         },
         {
           id: "7bbfc350-a178-4bc7-a530-e1e09c6cd524",
@@ -46,8 +49,9 @@ exports.seed = function (knex) {
           description:
             "This is the description of base template 4 and when it should be used in web content.",
           icon: "bc-base-template-4.svg",
-          intro: "<p>Intro to base template</p>",
-          data: '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
+          page_description: "Page description",
+          page_data:
+            '<h2 id="first-heading">First heading</h2><p>This is the base template.</p>',
         },
       ]);
     });
