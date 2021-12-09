@@ -153,8 +153,8 @@ const mainEditorConfiguration = {
   },
 };
 
-// Intro CKEditor instance
-const introEditorConfiguration = {
+// Description CKEditor instance
+const descriptionEditorConfiguration = {
   plugins: [
     Essentials,
     UploadAdapter,
@@ -291,6 +291,32 @@ const LeftPanel = styled.div`
         margin: 0 0 13px 0;
       }
 
+      div.page-description-container {
+        display: flex;
+        flex-direction: column;
+        margin: 0 0 13px 0;
+
+        textarea#page-description {
+          border: 2px solid #3e3e3e;
+          border-radius: 0;
+          height: 120px;
+          font-size: 16px;
+          margin: 0px;
+          width: 100%;
+        }
+
+        p.char-count {
+          font-size: 12px;
+          margin: 5px 0px 0px auto;
+
+          span.current {
+            &.max {
+              color: #a12622;
+            }
+          }
+        }
+      }
+
       div.ck.ck-rounded-corners.ck-editor__editable {
         border: 2px solid #3e3e3e;
         border-radius: 0;
@@ -325,7 +351,9 @@ function ContentEntry() {
   const [data, setData] = useState(id ? "(Fetching page data)" : "");
   const [title, setTitle] = useState(id ? "(Fetching page title)" : "");
   const [navTitle, setNavTitle] = useState(id ? "(Fetching nav title)" : "");
-  const [intro, setIntro] = useState(id ? "(Fetching page intro)" : "");
+  const [description, setDescription] = useState(
+    id ? "(Fetching page description)" : ""
+  );
 
   // Reusable components
   const [isOnThisPage, setIsOnThisPage] = useState(false);
@@ -394,7 +422,7 @@ function ContentEntry() {
     setIsSaving(true);
 
     pageService
-      .update({ id, data, intro, isOnThisPage, title, navTitle })
+      .update({ id, data, description, isOnThisPage, title, navTitle })
       .then((success) => {
         console.log("Success saving page update: ", success);
         setIsSaving(false);
@@ -415,7 +443,7 @@ function ContentEntry() {
       setData(response?.data || "");
       setTitle(response?.title || "");
       setNavTitle(response?.nav_title || "");
-      setIntro(response?.intro || "");
+      setDescription(response?.description || "");
       setIsOnThisPage(response?.is_on_this_page || false);
       setIsEditMode(false);
 
@@ -445,7 +473,7 @@ function ContentEntry() {
           setData(response?.data || "");
           setTitle(response?.title || "");
           setNavTitle(response?.nav_title || "");
-          setIntro(response?.intro || "");
+          setDescription(response?.description || "");
           setIsOnThisPage(response?.is_on_this_page || false);
         })
         .catch((error) => {
@@ -480,28 +508,28 @@ function ContentEntry() {
                 value={navTitle}
                 onChange={(e) => setNavTitle(e.target.value)}
               />
-              <label htmlFor="page-intro">Page Intro:</label>
-              <CKEditor
-                id="page-intro"
-                editor={ClassicEditor}
-                config={introEditorConfiguration}
-                data={intro}
-                onReady={(editor) => {
-                  // You can store the "editor" and use when it is needed.
-                  console.log("Editor is ready to use!", editor);
-                }}
-                onChange={(event, editor) => {
-                  const intro = editor.getData();
-                  console.log({ event, editor, intro });
-                  setIntro(intro);
-                }}
-                onBlur={(event, editor) => {
-                  console.log("Blur.", editor);
-                }}
-                onFocus={(event, editor) => {
-                  console.log("Focus.", editor);
-                }}
-              />
+              <label htmlFor="page-description">Page Description:</label>
+              <div className="page-description-container">
+                <textarea
+                  id="page-description"
+                  value={description}
+                  maxLength={512}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+                <p
+                  className="char-count"
+                  aria-label="Page description character count"
+                >
+                  <span
+                    className={
+                      description?.length === 512 ? "current max" : "max"
+                    }
+                  >
+                    {description?.length}
+                  </span>{" "}
+                  / 512 characters
+                </p>
+              </div>
               {/* Language select will move from here */}
               {/* <label htmlFor="language">Language</label>
               <Select

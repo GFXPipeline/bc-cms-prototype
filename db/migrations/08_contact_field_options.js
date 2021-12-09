@@ -10,8 +10,8 @@ exports.up = function (knex) {
       .notNullable()
       .references('id')
       .inTable('contact_field_types');
-    table.string('name').unique().notNullable();
-    table.string('display_name').notNullable();
+    table.text("name").unique().notNullable();
+    table.text("display_name").notNullable();
     table.boolean('is_marked_for_deletion').defaultTo(false);
     table.uuid('created_by_user').references('id').inTable('users');
     table.uuid('owned_by_user').references('id').inTable('users');

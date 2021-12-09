@@ -7,9 +7,9 @@ exports.up = function (knex) {
       .primary();
     table.uuid("parent_page_id").references("id").inTable("pages");
     table.uuid("page_type").references("id").inTable("page_types");
-    table.string("title");
-    table.string("nav_title");
-    table.text("intro");
+    table.text("title");
+    table.text("nav_title");
+    table.text("description");
     table.text("data");
     table.boolean("is_on_this_page").defaultTo(false);
     table.boolean("is_published").defaultTo(false);

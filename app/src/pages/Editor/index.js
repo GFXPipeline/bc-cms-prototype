@@ -95,7 +95,9 @@ function Editor() {
   const [title, setTitle] = useState(
     id ? "(Fetching page title)" : "Page title"
   );
-  const [intro, setIntro] = useState(id ? "(Fetching page intro)" : "");
+  const [description, setDescription] = useState(
+    id ? "(Fetching page description)" : ""
+  );
   const [isOnThisPage, setIsOnThisPage] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -106,7 +108,7 @@ function Editor() {
         .then((response) => {
           setData(response?.data);
           setTitle(response?.title);
-          setIntro(response?.intro);
+          setDescription(response?.description);
           setIsOnThisPage(response?.is_on_this_page);
         })
         .catch((error) => {
@@ -123,7 +125,7 @@ function Editor() {
       <Toolbar
         id={id}
         data={data}
-        intro={intro}
+        description={description}
         isOnThisPage={isOnThisPage}
         title={title}
         setTitle={setTitle}
