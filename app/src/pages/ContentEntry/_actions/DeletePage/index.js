@@ -543,7 +543,7 @@ function DeletePage({
           setTitle("(Error fetching page title)");
         });
     }
-  }, [id]);
+  });
 
   return (
     <StyledModal
