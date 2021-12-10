@@ -446,7 +446,14 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
+function DeletePage({
+  id,
+  isLoadedPageBeingDeleted,
+  isOpen,
+  setIsOpen,
+  onAfterClose,
+  unloadPage,
+}) {
   const [title, setTitle] = useState("(Fetching page title)");
   // TODO: Removal deleteType and associated logic when it is determined that
   //       users cannot perform a soft vs hard delete (only "delete").
@@ -513,6 +520,13 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
     setIsSubmitting(false);
     setIsSuccess(false);
     setIsError(false);
+
+    // Deletion of the loaded page was successful,
+    // so page state should be cleaned up.
+    if (isSuccess && isLoadedPageBeingDeleted) {
+      unloadPage();
+    }
+
     setIsOpen(false);
   }
 
