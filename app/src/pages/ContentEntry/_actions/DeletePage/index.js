@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
 
 // CKEditor components
@@ -445,7 +446,14 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
+function DeletePage({
+  id,
+  isLoadedPageBeingDeleted,
+  isOpen,
+  setIsOpen,
+  onAfterClose,
+  unloadPage,
+}) {
   const [title, setTitle] = useState("(Fetching page title)");
   // TODO: Removal deleteType and associated logic when it is determined that
   //       users cannot perform a soft vs hard delete (only "delete").
@@ -512,6 +520,13 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
     setIsSubmitting(false);
     setIsSuccess(false);
     setIsError(false);
+
+    // Deletion of the loaded page was successful,
+    // so page state should be cleaned up.
+    if (isSuccess && isLoadedPageBeingDeleted) {
+      unloadPage();
+    }
+
     setIsOpen(false);
   }
 
@@ -528,7 +543,7 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
           setTitle("(Error fetching page title)");
         });
     }
-  }, [id]);
+  });
 
   return (
     <StyledModal
@@ -752,7 +767,10 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
       )}
       {isSuccess && (
         <>
-          <p className="success">Selected page has been marked for deletion.</p>
+          <p className="success">
+            This page has been moved to your{" "}
+            <RouterLink to={"/content-maintenance"}>Recycle Bin</RouterLink>.
+          </p>
           <Button primary onClick={handleCleanup}>
             Close this dialog
           </Button>

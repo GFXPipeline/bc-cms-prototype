@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 // CKEditor components
@@ -346,6 +346,8 @@ const RightPanel = styled.div`
 `;
 
 function ContentEntry() {
+  const history = useHistory();
+
   // Open page details
   const { id } = useParams();
   const [data, setData] = useState(id ? "(Fetching page data)" : "");
@@ -452,6 +454,16 @@ function ContentEntry() {
       console.log("error in ContentEntry pageService catch: ", error);
       throw error;
     }
+  }
+
+  function unloadPage() {
+    setData("");
+    setTitle("");
+    setNavTitle("");
+    setDescription("");
+    setIsEditMode(false);
+    // Moving to /content nullifies our `id` URL parameter
+    history.push("/content");
   }
 
   // Populate page list
@@ -687,9 +699,11 @@ function ContentEntry() {
       />
       <DeletePage
         id={getPageIdForModal()}
+        isLoadedPageBeingDeleted={Boolean(id === getPageIdForModal())}
         isOpen={modalDeletePageOpen}
         setIsOpen={setModalDeletePageOpen}
         onAfterClose={updatePageListAndClearSelections}
+        unloadPage={unloadPage}
       />
       <CancelEdits
         isOpen={modalCancelEditsOpen}
