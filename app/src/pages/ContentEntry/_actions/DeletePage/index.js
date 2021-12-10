@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
 
 // CKEditor components
@@ -752,7 +753,10 @@ function DeletePage({ id, isOpen, setIsOpen, onAfterClose }) {
       )}
       {isSuccess && (
         <>
-          <p className="success">Selected page has been marked for deletion.</p>
+          <p className="success">
+            This page has been moved to your{" "}
+            <RouterLink to={"/content-maintenance"}>Recycle Bin</RouterLink>.
+          </p>
           <Button primary onClick={handleCleanup}>
             Close this dialog
           </Button>
