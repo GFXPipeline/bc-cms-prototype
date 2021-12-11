@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-import Icon from "../../../../components/Icon";
+import Icon from "../Icon";
 
 const StyledList = styled.ul`
   background-color: white;
@@ -150,7 +150,13 @@ function PageTree({
   setOpenPageBranches,
   setSelected,
 }) {
-  const rootPageKeys = Object.keys(data);
+  const rootPageKeys = [];
+
+  if (data && typeof data === "object") {
+    Object.keys(data)?.forEach((key) => {
+      rootPageKeys.push(key);
+    });
+  }
 
   return (
     <StyledList className="top">
