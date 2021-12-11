@@ -1,7 +1,10 @@
+import { useState } from "react";
 import styled from "styled-components";
 
 import Button from "../../../../../components/Button";
+import PageLocationSelector from "../../../../../components/PageLocationSelector";
 import TextInput from "../../../../../components/TextInput";
+import { pageService } from "../../../../../_services";
 
 const StyledDiv = styled.div`
   padding: 24px;
@@ -24,7 +27,38 @@ const StyledDiv = styled.div`
   }
 `;
 
-function PageLocation({ location, setLocation }) {
+function PageLocation({
+  location,
+  setLocation,
+  desiredLocation,
+  setDesiredLocation,
+  pageTree,
+}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openPageBranches, setOpenPageBranches] = useState(
+    (pageTree &&
+      typeof pageTree === "object" && [Object.keys(pageTree)?.[0]]) ||
+      []
+  );
+
+  function handleSelect(event) {
+    setDesiredLocation(event.target.value);
+  }
+
+  function handleCleanup() {
+    // Get the selected page's URI path
+    // to set the text for the location field
+    pageService
+      .getPath(desiredLocation)
+      .then((path) => {
+        console.log("path in PageLocation: ", path);
+        setLocation(path);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
     <StyledDiv>
       <h3>Page location</h3>
@@ -36,10 +70,23 @@ function PageLocation({ location, setLocation }) {
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         />
-        <Button primary disabled>
+        <Button primary onClick={() => setIsModalOpen(true)}>
           Browse
         </Button>
       </div>
+      <PageLocationSelector
+        handleSelect={handleSelect}
+        isOpen={isModalOpen}
+        location={location}
+        onAfterClose={handleCleanup}
+        openPageBranches={openPageBranches}
+        pageTree={pageTree}
+        selected={desiredLocation}
+        setIsOpen={setIsModalOpen}
+        setLocation={setLocation}
+        setOpenPageBranches={setOpenPageBranches}
+        title={"Choose a location"}
+      />
     </StyledDiv>
   );
 }

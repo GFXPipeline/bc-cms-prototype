@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import PageTree from "./PageTree";
+import PageTree from "../../../components/PageTree";
 
 const StyledDiv = styled.div`
   height: 100%;
