@@ -427,4 +427,22 @@ pageRouter.post("/undelete/:id", (req, res) => {
     });
 });
 
+// Given a page ID, return it's URI path
+// ex: /gov/content/covid-19
+// TODO: Until we have page path data, send back the title of the page
+//       for display in page location selection fields.
+pageRouter.get("/path/:id", (req, res) => {
+  knex("pages")
+    .select(["id", "title", "nav_title"])
+    .where("id", req.params.id)
+    .then((results) => {
+      console.log(`results in GET /api/page/path/${req.params.id}`);
+      res.status(200).json(results);
+    })
+    .catch((error) => {
+      console.log(`error in GET /api/page/path/${req.params.id} knex call: `, error);
+      res.status(401).send();
+    });
+});
+
 module.exports = pageRouter;
