@@ -227,7 +227,9 @@ function CreatePageNew({
   const [reviewFrequency, setReviewFrequency] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
-  const [location, setLocation] = useState("(Fetching location)");
+  const [location, setLocation] = useState(
+    parentPageId ? "(Fetching location)" : ""
+  );
   const [desiredLocation, setDesiredLocation] = useState([]); // ID of desired parent page
   const [numberOfPages, setNumberOfPages] = useState(1);
 
@@ -301,7 +303,7 @@ function CreatePageNew({
     setReviewFrequency("");
     setContact("");
     setEmail("");
-    setLocation("(Fetching location)");
+    setLocation(parentPageId ? "(Fetching location)" : "");
     setNumberOfPages(1);
     setVisited(["page-type"]);
     setIsSubmitting(false);
@@ -382,10 +384,12 @@ function CreatePageNew({
         <div className="tabs">
           <div className={tab === "page-type" ? "active" : "inactive"}>
             <button onClick={() => setTab("page-type")}>
-              Page type
-              {visited.includes("page-template") && !pageType && (
-                <Icon id="bi-exclamation-circle.svg" />
-              )}
+              1. Page type
+              {(visited.includes("page-template") ||
+                visited.includes("navigation-style") ||
+                visited.includes("content-review-schedule") ||
+                visited.includes("page-location")) &&
+                !pageType && <Icon id="bi-exclamation-circle.svg" />}
             </button>
           </div>
           <div className={tab === "page-template" ? "active" : "inactive"}>
@@ -395,7 +399,7 @@ function CreatePageNew({
                 setVisited([...visited, "page-template"]);
               }}
             >
-              Page template
+              2. Page template
               {(visited.includes("navigation-style") ||
                 visited.includes("content-review-schedule") ||
                 visited.includes("page-location")) &&
@@ -409,7 +413,7 @@ function CreatePageNew({
                 setVisited([...visited, "navigation-style"]);
               }}
             >
-              Navigation style
+              3. Navigation style
               {(visited.includes("content-review-schedule") ||
                 visited.includes("page-location")) &&
                 !navType && <Icon id="bi-exclamation-circle.svg" />}
@@ -426,8 +430,9 @@ function CreatePageNew({
                 setVisited([...visited, "content-review-schedule"]);
               }}
             >
-              Content review schedule
-              {visited.includes("content-review-schedule") &&
+              4. Content review schedule
+              {(visited.includes("content-review-schedule") ||
+                visited.includes("page-location")) &&
                 (!reviewFrequency ||
                   !contact ||
                   (contact === "specific-email" && !email)) && (
@@ -436,8 +441,16 @@ function CreatePageNew({
             </button>
           </div>
           <div className={tab === "page-location" ? "active" : "inactive"}>
-            <button onClick={() => setTab("page-location")}>
-              Page location
+            <button
+              onClick={() => {
+                setTab("page-location");
+                setVisited([...visited, "page-location"]);
+              }}
+            >
+              5. Page location
+              {visited.includes("page-location") && !location && (
+                <Icon id="bi-exclamation-circle.svg" />
+              )}
             </button>
           </div>
           <div className="grow" />
@@ -524,7 +537,7 @@ function CreatePageNew({
               !reviewFrequency ||
               !contact ||
               (contact === "specific-email" && !email) ||
-              // !location || // This can be added when there is logic to set location
+              !location ||
               !numberOfPages
             }
             onClick={handleCreatePage}
