@@ -201,6 +201,7 @@ const StyledModal = styled(Modal)`
 `;
 
 function CreatePageNew({
+  pageTree,
   parentPageId,
   isOpen,
   setIsEditMode,
@@ -227,6 +228,7 @@ function CreatePageNew({
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("(Fetching location)");
+  const [desiredLocation, setDesiredLocation] = useState([]); // ID of desired parent page
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
@@ -486,9 +488,12 @@ function CreatePageNew({
           )}
           {tab === "page-location" && (
             <PageLocation
+              pageTree={pageTree}
               isErrorLocation={isErrorLocation}
               location={location}
               setLocation={setLocation}
+              desiredLocation={desiredLocation}
+              setDesiredLocation={setDesiredLocation}
             />
           )}
         </div>
