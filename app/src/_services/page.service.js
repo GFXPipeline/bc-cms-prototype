@@ -200,6 +200,24 @@ async function undelete({id, reason}) {
   }
 }
 
+// GET request to /app/page/path/:id
+async function getPath(pageId) {
+  console.log(`pageService.getPath(${pageId})`);
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "GET",
+      url: `/api/page/path/${pageId}`,
+      headers,
+    });
+
+    return response?.data?.[0]?.nav_title;
+  } catch (error) {
+    console.log("Error in pageService getPath: ", error);
+  }
+}
+
 // GET request to /api/pages/all
 async function getPageList() {
   console.log("pageService.getPageList()");
@@ -310,6 +328,7 @@ export const pageService = {
   update,
   markForDeletion,
   undelete,
+  getPath,
   getPageList,
   getPageTree,
   getPageNavigationTypes,
