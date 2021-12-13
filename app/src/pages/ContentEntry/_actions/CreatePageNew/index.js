@@ -354,16 +354,18 @@ function CreatePageNew({
 
   // Get parent page nav title for location tab
   useEffect(() => {
-    pageService
-      .read(parentPageId)
-      .then((parentPage) => {
-        console.log("parentPage object in CreateNewPage: ", parentPage);
-        setLocation(parentPage?.nav_title);
-      })
-      .catch((error) => {
-        console.log("error fetching parent page: ", error);
-        setIsErrorLocation(true);
-      });
+    if (parentPageId) {
+      pageService
+        .read(parentPageId)
+        .then((parentPage) => {
+          console.log("parentPage object in CreateNewPage: ", parentPage);
+          setLocationText(parentPage?.nav_title);
+        })
+        .catch((error) => {
+          console.log("error fetching parent page: ", error);
+          setIsErrorLocation(true);
+        });
+    }
   }, []);
 
   return (
