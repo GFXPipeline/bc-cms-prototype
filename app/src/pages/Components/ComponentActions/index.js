@@ -33,10 +33,10 @@ const StyledDiv = styled.div`
   }
 `;
 
-function ComponentActions() {
+function ComponentActions({handleCreate}) {
   return (
     <StyledDiv>
-      <button disabled>Create</button>
+      <button onClick={handleCreate}>Create</button>
       <button disabled>Clone</button>
       <button disabled>Delete</button>
       <button disabled>Restore</button>

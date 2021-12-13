@@ -62,4 +62,33 @@ componentsRouter.get("/type/:id", (req, res) => {
     });
 });
 
+// Get a list of components based on a search parameter
+componentsRouter.post("/search/:search", (req, res) => {
+  console.log(`POST /api/components/search/${req?.params?.search}`);
+
+  knex("components")
+    .join("component_types", "component_types.id", "components.type_id")
+    .select(
+      "components.id",
+      { name: "components.name" },
+      { title: "components.title" },
+      { type_name: "component_types.name" },
+      { type_display_name: "component_types.display_name" }
+    )
+    .where("components.name", "ilike", `%${req?.params?.search}%`)
+    .orWhere("components.title", "ilike", `%${req?.params?.search}%`)
+    .orWhere("component_types.display_name", "ilike", `%${req?.params?.search}%`)
+    .then((results) => {
+      console.log("results: ", results);
+      res.status(200).json(results);
+    })
+    .catch((error) => {
+      console.log(
+        `error in GET /api/components/type/${req?.params?.id} knex call: `,
+        error
+      );
+      res.status(401).send();
+    });
+})
+
 module.exports = componentsRouter;

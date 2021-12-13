@@ -69,6 +69,7 @@ const TableContainer = styled.div`
 function ComponentsList({
   types,
   components,
+  handleCreate,
   isLoadingComponentsList,
   isErrorComponentsList,
   isShowAll,
@@ -99,7 +100,7 @@ function ComponentsList({
         setSelectedTypes={setSelectedTypes}
         types={types}
       />
-      <ComponentActions />
+      <ComponentActions handleCreate={handleCreate} />
 
       {/* Components list */}
       {isLoadingComponentsList ? (

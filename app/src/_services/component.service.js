@@ -77,6 +77,26 @@ function getComponentsByOwner() {
   return getComponentList();
 }
 
+async function getComponentsBySearchTerm(input) {
+  const search = input.trim().toLowerCase();
+  console.log(`getComponentsBySearchTerm(${search}`);
+
+  try {
+    const headers = authHeader();
+
+    const response = await axios({
+      method: "POST",
+      url: `/api/components/search/${search}`,
+      headers: headers,
+    });
+
+    return response?.data;
+  } catch (error) {
+    console.log("Error in componentService.getComponentsBySearchTerm: ", error);
+    throw error;
+  }
+}
+
 // GET request to /api/components/type/:id to get all components of one type
 async function getComponentsByType(id) {
   console.log("Inside componentService.getComponentsByType, id: ", id);
@@ -219,6 +239,7 @@ export const componentService = {
   update,
   getComponentList,
   getComponentsByOwner,
+  getComponentsBySearchTerm,
   getComponentsByType,
   getComponentTypeList,
   getComponentUsage,
