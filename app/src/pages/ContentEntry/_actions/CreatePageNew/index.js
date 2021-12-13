@@ -227,10 +227,10 @@ function CreatePageNew({
   const [reviewFrequency, setReviewFrequency] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
-  const [location, setLocation] = useState(
+  const [locationText, setLocationText] = useState(
     parentPageId ? "(Fetching location)" : ""
   );
-  const [desiredLocation, setDesiredLocation] = useState([]); // ID of desired parent page
+  const [desiredParentPageId, setDesiredParentPageId] = useState(parentPageId);
   const [numberOfPages, setNumberOfPages] = useState(1);
 
   // Meta
@@ -267,7 +267,7 @@ function CreatePageNew({
 
     pageService
       .create({
-        parentPageId: parentPageId,
+        parentPageId: desiredParentPageId,
         data: "",
         title: "",
         pageType: pageType,
@@ -303,7 +303,7 @@ function CreatePageNew({
     setReviewFrequency("");
     setContact("");
     setEmail("");
-    setLocation(parentPageId ? "(Fetching location)" : "");
+    setLocationText(parentPageId ? "(Fetching location)" : "");
     setNumberOfPages(1);
     setVisited(["page-type"]);
     setIsSubmitting(false);
@@ -448,9 +448,11 @@ function CreatePageNew({
               }}
             >
               5. Page location
-              {visited.includes("page-location") && !location && (
-                <Icon id="bi-exclamation-circle.svg" />
-              )}
+              {visited.includes("page-location") &&
+                !desiredParentPageId &&
+                tab !== "page-location" && (
+                  <Icon id="bi-exclamation-circle.svg" />
+                )}
             </button>
           </div>
           <div className="grow" />
@@ -503,10 +505,10 @@ function CreatePageNew({
             <PageLocation
               pageTree={pageTree}
               isErrorLocation={isErrorLocation}
-              location={location}
-              setLocation={setLocation}
-              desiredLocation={desiredLocation}
-              setDesiredLocation={setDesiredLocation}
+              locationText={locationText}
+              setLocationText={setLocationText}
+              desiredParentPageId={desiredParentPageId}
+              setDesiredParentPageId={setDesiredParentPageId}
             />
           )}
         </div>
@@ -537,7 +539,7 @@ function CreatePageNew({
               !reviewFrequency ||
               !contact ||
               (contact === "specific-email" && !email) ||
-              !location ||
+              !desiredParentPageId ||
               !numberOfPages
             }
             onClick={handleCreatePage}
