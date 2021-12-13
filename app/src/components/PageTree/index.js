@@ -74,7 +74,6 @@ function TreeItem({
   openPageBranches,
   selected,
   setOpenPageBranches,
-  setSelected,
 }) {
   const hasChildren = Object.keys(page?.children).length > 0;
   const isOpen = openPageBranches?.includes(page?.id);
@@ -113,7 +112,6 @@ function TreeItem({
         <input
           type="checkbox"
           checked={selected?.includes(page?.id)}
-          value={page?.id}
           id={page?.id}
           onChange={(e) => handleSelect(e)}
         />
@@ -132,7 +130,6 @@ function TreeItem({
                   openPageBranches={openPageBranches}
                   selected={selected}
                   setOpenPageBranches={setOpenPageBranches}
-                  setSelected={setSelected}
                 />
               );
             })}
@@ -148,7 +145,6 @@ function PageTree({
   openPageBranches,
   selected,
   setOpenPageBranches,
-  setSelected,
 }) {
   const rootPageKeys = [];
 
@@ -169,7 +165,6 @@ function PageTree({
             openPageBranches={openPageBranches}
             selected={selected}
             setOpenPageBranches={setOpenPageBranches}
-            setSelected={setSelected}
           />
         );
       })}
