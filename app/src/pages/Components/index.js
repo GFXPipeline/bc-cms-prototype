@@ -11,6 +11,9 @@ import { componentService } from "../../_services/component.service";
 import ComponentDetails from "./ComponentDetails";
 import ComponentsList from "./ComponentsList";
 
+// Modal actions
+import CreateComponent from "./_actions/CreateComponent";
+
 const Page = styled.div`
   height: 100vh;
   width: 100%;
@@ -65,12 +68,19 @@ function Components() {
   const [components, setComponents] = useState([]);
   const [filteredComponents, setFilteredComponents] = useState([]);
 
+  // Modal actions
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+
   // Meta
   const [isLoadingTypes, setIsLoadingTypes] = useState(true);
   const [isErrorTypes, setIsErrorTypes] = useState(false);
   const [isLoadingComponentsList, setIsLoadingComponentsList] = useState(false);
   const [isErrorComponentsList, setIsErrorComponentsList] = useState(false);
   const [isComponentListExpanded, setIsComponentListExpanded] = useState(false);
+
+  function handleCreate() {
+    setIsCreateOpen(true);
+  }
 
   function reloadComponentsList() {
     if (isShowAll) {
@@ -270,6 +280,7 @@ function Components() {
           className={isComponentListExpanded ? "expanded" : "collapsed"}
           types={types}
           components={filteredComponents}
+          handleCreate={handleCreate}
           isLoadingTypes={isLoadingTypes}
           isErrorTypes={isErrorTypes}
           isLoadingComponentsList={isLoadingComponentsList}
@@ -302,6 +313,10 @@ function Components() {
           />
         )}
       </ContentContainer>
+      <CreateComponent
+        isOpen={isCreateOpen}
+        setIsOpen={setIsCreateOpen}
+      />
     </Page>
   );
 }
