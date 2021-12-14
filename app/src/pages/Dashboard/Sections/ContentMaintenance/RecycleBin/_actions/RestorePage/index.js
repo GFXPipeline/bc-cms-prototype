@@ -178,7 +178,7 @@ function RestorePage({
           typeof pageTree === "object" &&
           Object.keys(pageTree)?.length > 0
         ) {
-          setOpenPageBranches(Object.keys(pageTree)?.[0]);
+          setOpenPageBranches([Object.keys(pageTree)?.[0]]);
         }
       })
       .catch((error) => {
