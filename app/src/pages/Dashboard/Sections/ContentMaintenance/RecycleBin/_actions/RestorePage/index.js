@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -98,7 +98,17 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
+function RestorePage({
+  id,
+  isOpen,
+  parentPageId,
+  setIsOpen,
+  onAfterClose,
+  title,
+}) {
+  const [locationText, setLocationText] = useState(
+    parentPageId ? "(Fetching page location)" : ""
+  );
   const [reason, setReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -130,6 +140,20 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
       });
   }
 
+  useEffect(() => {
+    if (parentPageId) {
+      pageService
+        .getPath(parentPageId)
+        .then((path) => {
+          console.log("path in PageLocation: ", path);
+          setLocationText(path);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [parentPageId]);
+
   return (
     <StyledModal
       isOpen={isOpen}
@@ -143,7 +167,7 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
       </div>
       <label htmlFor="location">Restore location: *</label>
       <div className="location">
-        <TextInput id="location" disabled />
+        <TextInput id="location" disabled value={locationText} />
         <Button primary disabled>
           Browse
         </Button>
