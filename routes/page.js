@@ -406,7 +406,8 @@ pageRouter.post("/undelete/:id", (req, res) => {
                   // Check for `reason` on body of request, use that to populate page_restorations
                   return knex("page_restorations").insert({
                     page_id: req?.params?.id,
-                    reason: req?.body?.reason || "",
+                    parent_page_id: req?.body?.parentPageId,
+                    reason: req?.body?.reason,
                     created_by_user: userId,
                   });
                 })
