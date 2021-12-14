@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import Icon from "../Icon";
 import Modal from "../Modal";
 import PageTree from "../PageTree";
 
@@ -14,104 +15,35 @@ const StyledModal = styled(Modal)`
     max-height: 75vh;
     max-width: 600px;
 
-    form {
-      h1 {
-        margin: 0 0 36px 0;
-      }
+    div.top {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
 
-      div.page-title {
-        margin: 0 0 16px 0;
-
-        label {
-          display: block;
-          font-size: 13px;
-          font-weight: 700;
-          margin: 0 0 8px 0;
-        }
-      }
-
-      fieldset {
+      button.close {
+        align-items: center;
+        margin-left: auto;
         border: none;
-        margin: 0;
-        padding: 0;
+        background-color: white;
+        color: #707070;
+        cursor: pointer;
         display: flex;
-        flex-direction: row;
-        margin: 0 0 25px 0;
+        flex-direction: column;
+        font-size: 48px;
+        height: 62px;
+        justify-content: space-around;
+        padding: 0px;
+        right: 30px;
+        width: 62px;
 
-        label {
-          cursor: pointer;
+        &:hover {
+          background-color: #d6d6d6;
         }
 
-        input {
-          cursor: pointer;
-          margin-right: 16px;
-
-          &:disabled {
-            cursor: not-allowed;
-          }
+        svg {
+          color: #707070;
+          width: 50px;
         }
-
-        &.disabled {
-          label {
-            cursor: not-allowed;
-          }
-        }
-
-        &.radio-fieldset {
-          display: flex;
-          flex-direction: column;
-
-          div.radio-group {
-            margin: 0 0 25px 70px;
-
-            input:disabled,
-            label.disabled {
-              cursor: not-allowed;
-            }
-          }
-        }
-
-        &.number-of-copies {
-          display: flex;
-          flex-direction: column;
-
-          label {
-            font-size: 13px;
-            margin-bottom: 8px;
-          }
-
-          input {
-            height: 44px;
-            width: 50px;
-          }
-        }
-
-        &.control-where-to-clone {
-          display: block;
-
-          label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 8px;
-          }
-
-          div.input-container {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-
-            input {
-              height: 44px;
-              margin: 0;
-            }
-          }
-        }
-      }
-
-      div.control-buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
       }
     }
 
@@ -150,7 +82,16 @@ function PageLocationSelector({
       setIsOpen={setIsOpen}
       onAfterClose={onAfterClose}
     >
-      {title && <h1>{title}</h1>}
+      <div className="top">
+        {title && <h1>{title}</h1>}
+        <button
+          label="Close modal"
+          className="close"
+          onClick={() => setIsOpen(false)}
+        >
+          <Icon id="md-close.svg" />
+        </button>
+      </div>
       <PageTree
         data={pageTree}
         handleSelect={handleSelect}
