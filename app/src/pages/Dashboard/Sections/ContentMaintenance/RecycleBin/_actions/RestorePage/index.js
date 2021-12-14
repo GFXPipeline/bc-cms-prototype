@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 // Global components
 import Button from "../../../../../../../components/Button";
+import PageLocationSelector from "../../../../../../../components/PageLocationSelector";
 import Modal from "../../../../../../../components/Modal";
 import TextInput from "../../../../../../../components/TextInput";
 import { pageService } from "../../../../../../../_services";
@@ -109,6 +110,12 @@ function RestorePage({
   const [locationText, setLocationText] = useState(
     parentPageId ? "(Fetching page location)" : ""
   );
+  const [desiredParentPageId, setDesiredParentPageId] = useState(
+    parentPageId ? parentPageId : ""
+  );
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [pageTree, setPageTree] = useState(null);
+  const [openPageBranches, setOpenPageBranches] = useState([]);
   const [reason, setReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -128,6 +135,7 @@ function RestorePage({
     pageService
       .undelete({
         id: id,
+        parentPageId: desiredParentPageId,
         reason: reason,
       })
       .then((success) => {
@@ -140,10 +148,15 @@ function RestorePage({
       });
   }
 
+  function handleSelect(e) {
+    setDesiredParentPageId(e.target.id);
+  }
+
+  // Get parent page page for location text field
   useEffect(() => {
-    if (parentPageId) {
+    if (desiredParentPageId) {
       pageService
-        .getPath(parentPageId)
+        .getPath(desiredParentPageId)
         .then((path) => {
           console.log("path in PageLocation: ", path);
           setLocationText(path);
@@ -152,7 +165,26 @@ function RestorePage({
           console.log(error);
         });
     }
-  }, [parentPageId]);
+  }, [desiredParentPageId]);
+
+  // Get page tree for location modal
+  useEffect(() => {
+    pageService
+      .getPageTree()
+      .then((pageTree) => {
+        setPageTree(pageTree);
+        if (
+          pageTree &&
+          typeof pageTree === "object" &&
+          Object.keys(pageTree)?.length > 0
+        ) {
+          setOpenPageBranches(Object.keys(pageTree)?.[0]);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching page tree");
+      });
+  }, []);
 
   return (
     <StyledModal
@@ -168,7 +200,7 @@ function RestorePage({
       <label htmlFor="location">Restore location: *</label>
       <div className="location">
         <TextInput id="location" disabled value={locationText} />
-        <Button primary disabled>
+        <Button primary onClick={() => setIsLocationOpen(true)}>
           Browse
         </Button>
       </div>
@@ -201,6 +233,16 @@ function RestorePage({
         </p>
       )}
       {isError && <p className="error">Error. Page failed to restore.</p>}
+      <PageLocationSelector
+        handleSelect={handleSelect}
+        isOpen={isLocationOpen}
+        openPageBranches={openPageBranches}
+        pageTree={pageTree}
+        selected={[desiredParentPageId]}
+        setIsOpen={setIsLocationOpen}
+        setOpenPageBranches={setOpenPageBranches}
+        title={"Choose restore location"}
+      />
     </StyledModal>
   );
 }
