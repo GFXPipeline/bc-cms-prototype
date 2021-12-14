@@ -50,24 +50,11 @@ const StyledDiv = styled.div`
 function PageList({
   isError,
   openPageBranches,
-  pages,
   pageTree,
   selected,
   setOpenPageBranches,
   setSelected,
 }) {
-  function compare(a, b) {
-    if (a?.title > b?.title) {
-      return 1;
-    } else if (a?.title < b?.title) {
-      return -1;
-    } else {
-      return 0;
-    }
-  }
-
-  const sortedPages = [...pages].sort(compare);
-
   function handleSelect(event) {
     const id = event.target.id;
     const isAlreadySelected = Boolean(selected.indexOf(id) !== -1);
@@ -102,31 +89,6 @@ function PageList({
 
   return (
     <StyledDiv>
-      {pages?.length > 0 &&
-        sortedPages.map((page, index) => {
-          return (
-            <div
-              key={`page-list-${index}`}
-              className={
-                page?.is_marked_for_deletion
-                  ? "page-container marked-for-deletion"
-                  : "page-container"
-              }
-            >
-              {/* Clicking the page title link loads the page in the editor */}
-              <Link to={`/content/${page?.id}`}>{page.title}</Link>
-
-              {/* Selecting the checkbox(es) determines available actions */}
-              <input
-                type="checkbox"
-                id={page?.id}
-                value={page?.id}
-                checked={selected.indexOf(page?.id) !== -1}
-                onChange={(e) => handleSelect(e)}
-              />
-            </div>
-          );
-        })}
       {pageTree &&
         typeof pageTree === "object" &&
         Object.getOwnPropertyNames(pageTree).length > 0 && (

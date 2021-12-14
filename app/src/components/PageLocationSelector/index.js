@@ -142,7 +142,6 @@ function PageLocationSelector({
   selected,
   setIsOpen,
   setOpenPageBranches,
-  setSelected,
   title,
 }) {
   return (
@@ -158,7 +157,6 @@ function PageLocationSelector({
         openPageBranches={openPageBranches}
         selected={selected}
         setOpenPageBranches={setOpenPageBranches}
-        setSelected={setSelected}
       />
     </StyledModal>
   );

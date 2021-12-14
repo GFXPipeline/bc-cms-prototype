@@ -364,7 +364,6 @@ function ContentEntry() {
   // Meta
   const [editor, setEditor] = useState(null);
   const [isError, setIsError] = useState(false);
-  const [pages, setPages] = useState([]);
   const [pageTree, setPageTree] = useState({});
   const [openPageBranches, setOpenPageBranches] = useState([]);
   const [selectedPages, setSelectedPages] = useState([]);
@@ -383,24 +382,14 @@ function ContentEntry() {
     return isEditMode ? id : selectedPages?.length > 0 ? selectedPages[0] : id;
   }
 
-  // function getUpdatedPageList() {
-  //   pageService
-  //     .getPageList()
-  //     .then((pages) => {
-  //       setPages(pages);
-  //     })
-  //     .catch((error) => {
-  //       setIsError(true);
-  //       throw error;
-  //     });
-  // }
-
-  function getPageTree() {
+  function getPageTree(isResetBranches = false) {
     pageService
       .getPageTree()
       .then((pageTree) => {
         setPageTree(pageTree);
-        setOpenPageBranches([Object.keys(pageTree)[0]]);
+        if (isResetBranches) {
+          setOpenPageBranches([Object.keys(pageTree)[0]]);
+        }
       })
       .catch((error) => {
         console.log("ERROR: Failed to get pageTree");
@@ -409,13 +398,11 @@ function ContentEntry() {
   }
 
   function handleBackToContentList() {
-    // getUpdatedPageList();
     getPageTree();
     setIsEditMode(false);
   }
 
   function updatePageListAndClearSelections() {
-    // getUpdatedPageList();
     getPageTree();
     setSelectedPages([]);
   }
@@ -440,7 +427,7 @@ function ContentEntry() {
     //       saved to a temporary table that the user can review?
 
     try {
-      const response = await pageService.read(id);
+      const response = id ? await pageService.read(id) : null;
 
       setData(response?.data || "");
       setTitle(response?.title || "");
@@ -466,14 +453,9 @@ function ContentEntry() {
     history.push("/content");
   }
 
-  // Populate page list
-  // useEffect(() => {
-  //   getUpdatedPageList();
-  // }, []);
-
   // Populate page tree
   useEffect(() => {
-    getPageTree();
+    getPageTree(true);
   }, []);
 
   // Get the data for the selected page
@@ -542,24 +524,6 @@ function ContentEntry() {
                   / 512 characters
                 </p>
               </div>
-              {/* Language select will move from here */}
-              {/* <label htmlFor="language">Language</label>
-              <Select
-                id="language"
-                options={[{ value: "en", label: "English" }]}
-                disabled // TODO: Enable and populate this field when multi-lingual is designed
-              /> */}
-              {/* Hide the On This Page checkbox as this functionality is
-              contained in the editor itself now. */}
-              {/* <div>
-                <label htmlFor="on-this-page">On this page: </label>
-                <input
-                  id="on-this-page"
-                  type="checkbox"
-                  checked={isOnThisPage}
-                  onChange={(e) => setIsOnThisPage(!isOnThisPage)}
-                />
-              </div> */}
             </div>
             <ContactUsInput
               onClick={() => editor?.execute("insertContactUs", contactUsId)}
@@ -604,7 +568,6 @@ function ContentEntry() {
             <PageList
               isError={isError}
               openPageBranches={openPageBranches}
-              pages={pages}
               pageTree={pageTree}
               selected={selectedPages}
               setOpenPageBranches={setOpenPageBranches}
@@ -684,19 +647,15 @@ function ContentEntry() {
         setIsOpen={setModalClonePageOpen}
         onAfterClose={getPageTree}
       />
-      {/* <CreatePage
-        isOpen={modalCreatePageOpen}
-        setIsOpen={setModalCreatePageOpen}
-        onAfterClose={getPageTree}
-      /> */}
       <CreatePageNew
         key={`create-from-parent-${selectedPages?.[0]}`}
         pageTree={pageTree}
         parentPageId={selectedPages?.[0]}
         isOpen={modalCreatePageOpen}
+        onAfterClose={getPageTree}
+        openPageBranches={openPageBranches}
         setIsEditMode={setIsEditMode}
         setIsOpen={setModalCreatePageOpen}
-        onAfterClose={getPageTree}
       />
       <DeletePage
         id={getPageIdForModal()}

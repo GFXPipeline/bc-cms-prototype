@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Button from "../../../../../components/Button";
@@ -28,48 +28,46 @@ const StyledDiv = styled.div`
 `;
 
 function PageLocation({
-  location,
-  setLocation,
-  desiredLocation,
-  setDesiredLocation,
+  desiredParentPageId,
+  locationText,
+  openPageBranchesFromParent,
   pageTree,
+  setDesiredParentPageId,
+  setLocationText,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openPageBranches, setOpenPageBranches] = useState(
-    (pageTree &&
-      typeof pageTree === "object" && [Object.keys(pageTree)?.[0]]) ||
-      []
+    (openPageBranchesFromParent
+      ? openPageBranchesFromParent
+      : pageTree &&
+        typeof pageTree === "object" && [Object.keys(pageTree)?.[0]]) || []
   );
 
   function handleSelect(event) {
-    setDesiredLocation(event.target.value);
+    setDesiredParentPageId(event.target.id);
   }
 
-  function handleCleanup() {
-    // Get the selected page's URI path
-    // to set the text for the location field
-    pageService
-      .getPath(desiredLocation)
-      .then((path) => {
-        console.log("path in PageLocation: ", path);
-        setLocation(path);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  // Get the selected page's URI path to set the text for the location field
+  useEffect(() => {
+    if (desiredParentPageId) {
+      pageService
+        .getPath(desiredParentPageId)
+        .then((path) => {
+          console.log("path in PageLocation: ", path);
+          setLocationText(path);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [desiredParentPageId]);
 
   return (
     <StyledDiv>
       <h3>Page location</h3>
       <label htmlFor="page-location">Select where to create the page(s):</label>
       <div className="location-input">
-        <TextInput
-          id="page-location"
-          disabled
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+        <TextInput id="page-location" disabled value={locationText} />
         <Button primary onClick={() => setIsModalOpen(true)}>
           Browse
         </Button>
@@ -77,13 +75,11 @@ function PageLocation({
       <PageLocationSelector
         handleSelect={handleSelect}
         isOpen={isModalOpen}
-        location={location}
-        onAfterClose={handleCleanup}
         openPageBranches={openPageBranches}
         pageTree={pageTree}
-        selected={desiredLocation}
+        selected={[desiredParentPageId]}
         setIsOpen={setIsModalOpen}
-        setLocation={setLocation}
+        setLocation={setDesiredParentPageId}
         setOpenPageBranches={setOpenPageBranches}
         title={"Choose a location"}
       />
