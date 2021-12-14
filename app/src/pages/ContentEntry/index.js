@@ -382,12 +382,14 @@ function ContentEntry() {
     return isEditMode ? id : selectedPages?.length > 0 ? selectedPages[0] : id;
   }
 
-  function getPageTree() {
+  function getPageTree(isResetBranches = false) {
     pageService
       .getPageTree()
       .then((pageTree) => {
         setPageTree(pageTree);
-        setOpenPageBranches([Object.keys(pageTree)[0]]);
+        if (isResetBranches) {
+          setOpenPageBranches([Object.keys(pageTree)[0]]);
+        }
       })
       .catch((error) => {
         console.log("ERROR: Failed to get pageTree");
@@ -453,7 +455,7 @@ function ContentEntry() {
 
   // Populate page tree
   useEffect(() => {
-    getPageTree();
+    getPageTree(true);
   }, []);
 
   // Get the data for the selected page
@@ -650,9 +652,10 @@ function ContentEntry() {
         pageTree={pageTree}
         parentPageId={selectedPages?.[0]}
         isOpen={modalCreatePageOpen}
+        onAfterClose={getPageTree}
+        openPageBranches={openPageBranches}
         setIsEditMode={setIsEditMode}
         setIsOpen={setModalCreatePageOpen}
-        onAfterClose={getPageTree}
       />
       <DeletePage
         id={getPageIdForModal()}

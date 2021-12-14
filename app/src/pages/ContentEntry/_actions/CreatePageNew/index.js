@@ -204,9 +204,10 @@ function CreatePageNew({
   pageTree,
   parentPageId,
   isOpen,
+  onAfterClose,
+  openPageBranches,
   setIsEditMode,
   setIsOpen,
-  onAfterClose,
   ...props
 }) {
   const history = useHistory();
@@ -508,6 +509,7 @@ function CreatePageNew({
               pageTree={pageTree}
               isErrorLocation={isErrorLocation}
               locationText={locationText}
+              openPageBranchesFromParent={openPageBranches}
               setLocationText={setLocationText}
               desiredParentPageId={desiredParentPageId}
               setDesiredParentPageId={setDesiredParentPageId}

@@ -28,17 +28,19 @@ const StyledDiv = styled.div`
 `;
 
 function PageLocation({
-  locationText,
-  setLocationText,
   desiredParentPageId,
-  setDesiredParentPageId,
+  locationText,
+  openPageBranchesFromParent,
   pageTree,
+  setDesiredParentPageId,
+  setLocationText,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openPageBranches, setOpenPageBranches] = useState(
-    (pageTree &&
-      typeof pageTree === "object" && [Object.keys(pageTree)?.[0]]) ||
-      []
+    (openPageBranchesFromParent
+      ? openPageBranchesFromParent
+      : pageTree &&
+        typeof pageTree === "object" && [Object.keys(pageTree)?.[0]]) || []
   );
 
   function handleSelect(event) {
