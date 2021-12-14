@@ -386,11 +386,19 @@ pageRouter.post("/undelete/:id", (req, res) => {
               rows
             );
             if (rows?.length > 0) {
-              // Requested page ID exists, attempt to mark for deletion
+              // Requested page ID exists, attempt to mark for deletion.
+
+              // If parent page was supplied in request body, re-assign that
+              // as new parent; otherwise use the existing parent on file.
+              const parentPageId = req?.body?.parentPageId
+                ? req?.body?.parentPageId
+                : rows[0]?.parent_page_id;
+
               knex("pages")
                 .where("id", req?.params?.id)
                 .update({
                   is_marked_for_deletion: false,
+                  parent_page_id: parentPageId,
                 })
                 .then((success) => {
                   res.status(200).send(`Un-deleted ${req?.params?.id}`);
