@@ -440,7 +440,7 @@ function ContentEntry() {
     //       saved to a temporary table that the user can review?
 
     try {
-      const response = await pageService.read(id);
+      const response = id ? await pageService.read(id) : null;
 
       setData(response?.data || "");
       setTitle(response?.title || "");
