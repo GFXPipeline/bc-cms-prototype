@@ -109,11 +109,13 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageId, setPageId] = useState("");
   const [pageTitle, setPageTitle] = useState("");
+  const [parentPageId, setParentPageId] = useState("");
   const [recycleItems, setRecycleItems] = useState([]);
 
-  function handleRestoreButton(id, title) {
+  function handleRestoreButton(id, title, parentPageId) {
     setPageId(id);
     setPageTitle(title);
+    setParentPageId(parentPageId);
     setIsModalOpen(true);
   }
 
@@ -163,7 +165,8 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
                       onClick={() =>
                         handleRestoreButton(
                           row?.original?.page_id,
-                          row?.original?.page_title
+                          row?.original?.page_title,
+                          row?.original?.parent_page_id
                         )
                       }
                       primary
@@ -211,6 +214,7 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
               return {
                 id: item?.id,
                 page_id: item?.page_id,
+                parent_page_id: item?.parent_page_id,
                 page_title: item?.title,
                 deleted_by: item?.deleted_by_username,
                 deleted_date: date,
@@ -241,6 +245,7 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
           isOpen={isModalOpen}
           setIsOpen={setIsModalOpen}
           onAfterClose={refreshRecycleBin}
+          parentPageId={parentPageId}
           title={pageTitle}
         />
       </StyledDiv>
