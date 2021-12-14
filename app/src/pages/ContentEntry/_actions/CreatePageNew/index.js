@@ -208,6 +208,7 @@ function CreatePageNew({
   openPageBranches,
   setIsEditMode,
   setIsOpen,
+  setSelectedPages,
   ...props
 }) {
   const history = useHistory();
@@ -285,6 +286,7 @@ function CreatePageNew({
         history.push(`/content/${returnedPageId}`);
         setIsEditMode(true);
         handleCleanup();
+        setSelectedPages([]);
         setIsOpen(false);
       })
       .catch((error) => {

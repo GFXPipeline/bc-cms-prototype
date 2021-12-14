@@ -176,7 +176,7 @@ async function markForDeletion({
 }
 
 // POST request to /api/page/undelete/:id
-async function undelete({id, reason}) {
+async function undelete({ id, parentPageId = null, reason }) {
   console.log("pageService.undelete, id: ", id);
   try {
     const headers = authHeader();
@@ -187,6 +187,7 @@ async function undelete({id, reason}) {
       headers,
       data: {
         username: authenticationService.currentUserValue.username,
+        parentPageId: parentPageId, // if supplied, move page to new parent
         reason: reason,
       },
     });

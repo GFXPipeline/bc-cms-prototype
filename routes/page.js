@@ -386,11 +386,19 @@ pageRouter.post("/undelete/:id", (req, res) => {
               rows
             );
             if (rows?.length > 0) {
-              // Requested page ID exists, attempt to mark for deletion
+              // Requested page ID exists, attempt to mark for deletion.
+
+              // If parent page was supplied in request body, re-assign that
+              // as new parent; otherwise use the existing parent on file.
+              const parentPageId = req?.body?.parentPageId
+                ? req?.body?.parentPageId
+                : rows[0]?.parent_page_id;
+
               knex("pages")
                 .where("id", req?.params?.id)
                 .update({
                   is_marked_for_deletion: false,
+                  parent_page_id: parentPageId,
                 })
                 .then((success) => {
                   res.status(200).send(`Un-deleted ${req?.params?.id}`);
@@ -398,7 +406,8 @@ pageRouter.post("/undelete/:id", (req, res) => {
                   // Check for `reason` on body of request, use that to populate page_restorations
                   return knex("page_restorations").insert({
                     page_id: req?.params?.id,
-                    reason: req?.body?.reason || "",
+                    parent_page_id: req?.body?.parentPageId,
+                    reason: req?.body?.reason,
                     created_by_user: userId,
                   });
                 })
@@ -432,15 +441,23 @@ pageRouter.post("/undelete/:id", (req, res) => {
 // TODO: Until we have page path data, send back the title of the page
 //       for display in page location selection fields.
 pageRouter.get("/path/:id", (req, res) => {
+  console.log(`GET /api/page/path/${req?.params?.id}`);
+
   knex("pages")
     .select(["id", "title", "nav_title"])
-    .where("id", req.params.id)
+    .where("id", req?.params?.id)
     .then((results) => {
-      console.log(`results in GET /api/page/path/${req.params.id}`);
+      console.log(
+        `results in GET /api/page/path/${req?.params?.id}: `,
+        results
+      );
       res.status(200).json(results);
     })
     .catch((error) => {
-      console.log(`error in GET /api/page/path/${req.params.id} knex call: `, error);
+      console.log(
+        `error in GET /api/page/path/${req?.params?.id} knex call: `,
+        error
+      );
       res.status(401).send();
     });
 });

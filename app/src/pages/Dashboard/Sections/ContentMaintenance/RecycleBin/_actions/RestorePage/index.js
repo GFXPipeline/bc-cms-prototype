@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 // Global components
 import Button from "../../../../../../../components/Button";
+import PageLocationSelector from "../../../../../../../components/PageLocationSelector";
 import Modal from "../../../../../../../components/Modal";
 import TextInput from "../../../../../../../components/TextInput";
 import { pageService } from "../../../../../../../_services";
@@ -98,13 +99,22 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
+function RestorePage({ id, isOpen, setIsOpen, onAfterClose }) {
+  const [title, setTitle] = useState("(Fetching page title)");
+  const [desiredParentPageId, setDesiredParentPageId] = useState("");
+  const [locationText, setLocationText] = useState("(Fetching page location)");
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const [pageTree, setPageTree] = useState(null);
+  const [openPageBranches, setOpenPageBranches] = useState([]);
   const [reason, setReason] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
 
   function handleCleanup() {
+    setTitle("(Fetching page title)");
+    setDesiredParentPageId("");
+    setLocationText("(Fetching page location");
     setReason("");
     setIsSubmitting(false);
     setIsSuccess(false);
@@ -118,6 +128,7 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
     pageService
       .undelete({
         id: id,
+        parentPageId: desiredParentPageId,
         reason: reason,
       })
       .then((success) => {
@@ -129,6 +140,60 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
         setIsError(true);
       });
   }
+
+  // Handle selection of the desired parent page
+  function handleSelect(e) {
+    setDesiredParentPageId(e.target.id);
+  }
+
+  // Get data for the page being restored
+  useEffect(() => {
+    if (id) {
+      pageService
+        .read(id)
+        .then((page) => {
+          setTitle(page?.title);
+          setDesiredParentPageId(page?.parent_page_id);
+        })
+        .catch((error) => {
+          console.log("Error fetching page data");
+          setIsError(true);
+        });
+    }
+  }, [id]);
+
+  // Get parent page path for location text field
+  useEffect(() => {
+    if (desiredParentPageId) {
+      pageService
+        .getPath(desiredParentPageId)
+        .then((path) => {
+          setLocationText(path);
+        })
+        .catch((error) => {
+          console.log("Error fetching parent page path");
+        });
+    }
+  }, [desiredParentPageId]);
+
+  // Get page tree for location modal
+  useEffect(() => {
+    pageService
+      .getPageTree()
+      .then((pageTree) => {
+        setPageTree(pageTree);
+        if (
+          pageTree &&
+          typeof pageTree === "object" &&
+          Object.keys(pageTree)?.length > 0
+        ) {
+          setOpenPageBranches([Object.keys(pageTree)?.[0]]);
+        }
+      })
+      .catch((error) => {
+        console.log("Error fetching page tree");
+      });
+  }, []);
 
   return (
     <StyledModal
@@ -143,8 +208,8 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
       </div>
       <label htmlFor="location">Restore location: *</label>
       <div className="location">
-        <TextInput id="location" disabled />
-        <Button primary disabled>
+        <TextInput id="location" disabled value={locationText} />
+        <Button primary onClick={() => setIsLocationOpen(true)}>
           Browse
         </Button>
       </div>
@@ -177,6 +242,16 @@ function RestorePage({ id, isOpen, setIsOpen, onAfterClose, title }) {
         </p>
       )}
       {isError && <p className="error">Error. Page failed to restore.</p>}
+      <PageLocationSelector
+        handleSelect={handleSelect}
+        isOpen={isLocationOpen}
+        openPageBranches={openPageBranches}
+        pageTree={pageTree}
+        selected={[desiredParentPageId]}
+        setIsOpen={setIsLocationOpen}
+        setOpenPageBranches={setOpenPageBranches}
+        title={"Choose restore location"}
+      />
     </StyledModal>
   );
 }

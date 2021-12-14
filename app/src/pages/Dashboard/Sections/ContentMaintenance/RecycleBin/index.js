@@ -108,12 +108,10 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
   const [isError, setIsError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pageId, setPageId] = useState("");
-  const [pageTitle, setPageTitle] = useState("");
   const [recycleItems, setRecycleItems] = useState([]);
 
-  function handleRestoreButton(id, title) {
+  function handleRestoreButton(id) {
     setPageId(id);
-    setPageTitle(title);
     setIsModalOpen(true);
   }
 
@@ -161,10 +159,7 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
                   return (
                     <Button
                       onClick={() =>
-                        handleRestoreButton(
-                          row?.original?.page_id,
-                          row?.original?.page_title
-                        )
+                        handleRestoreButton(row?.original?.page_id)
                       }
                       primary
                     >
@@ -211,6 +206,7 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
               return {
                 id: item?.id,
                 page_id: item?.page_id,
+                parent_page_id: item?.parent_page_id,
                 page_title: item?.title,
                 deleted_by: item?.deleted_by_username,
                 deleted_date: date,
@@ -238,10 +234,9 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
         </Pagination>
         <RestorePage
           id={pageId}
-          isOpen={isModalOpen}
+          isOpen={Boolean(isModalOpen && pageId)}
           setIsOpen={setIsModalOpen}
           onAfterClose={refreshRecycleBin}
-          title={pageTitle}
         />
       </StyledDiv>
     );
@@ -253,13 +248,11 @@ const RecycleBin = React.forwardRef(({ isOpen, setIsOpen }, forwardRef) => {
       .then((items) => {
         setRecycleItems(items);
         setPageId("");
-        setPageTitle("");
         setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
         setPageId("");
-        setPageTitle("");
         setIsError(true);
       });
   }

@@ -32,6 +32,7 @@ recycleBinRouter.get("/:username/pages", (req, res) => {
           .select(
             "pd.id",
             "pd.page_id",
+            { parent_page_id: "p.parent_page_id" },
             { title: "p.title" },
             "pd.reason",
             "p.is_marked_for_deletion",

@@ -6,6 +6,11 @@ exports.up = function (knex) {
       .notNullable()
       .primary();
     table.uuid("page_id").notNullable().references("id").inTable("pages");
+    table
+      .uuid("parent_page_id")
+      .notNullable()
+      .references("id")
+      .inTable("pages");
     table.text("reason");
     table.uuid("created_by_user").references("id").inTable("users");
     table.dateTime("time_created").notNullable().defaultTo(knex.fn.now());

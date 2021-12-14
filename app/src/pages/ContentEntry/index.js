@@ -656,6 +656,7 @@ function ContentEntry() {
         openPageBranches={openPageBranches}
         setIsEditMode={setIsEditMode}
         setIsOpen={setModalCreatePageOpen}
+        setSelectedPages={setSelectedPages}
       />
       <DeletePage
         id={getPageIdForModal()}
