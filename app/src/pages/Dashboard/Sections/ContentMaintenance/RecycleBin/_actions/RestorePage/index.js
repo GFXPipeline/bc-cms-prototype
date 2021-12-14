@@ -99,20 +99,10 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-function RestorePage({
-  id,
-  isOpen,
-  parentPageId,
-  setIsOpen,
-  onAfterClose,
-  title,
-}) {
-  const [locationText, setLocationText] = useState(
-    parentPageId ? "(Fetching page location)" : ""
-  );
-  const [desiredParentPageId, setDesiredParentPageId] = useState(
-    parentPageId ? parentPageId : ""
-  );
+function RestorePage({ id, isOpen, setIsOpen, onAfterClose }) {
+  const [title, setTitle] = useState("(Fetching page title)");
+  const [desiredParentPageId, setDesiredParentPageId] = useState("");
+  const [locationText, setLocationText] = useState("(Fetching page location)");
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [pageTree, setPageTree] = useState(null);
   const [openPageBranches, setOpenPageBranches] = useState([]);
@@ -122,6 +112,9 @@ function RestorePage({
   const [isError, setIsError] = useState(false);
 
   function handleCleanup() {
+    setTitle("(Fetching page title)");
+    setDesiredParentPageId("");
+    setLocationText("(Fetching page location");
     setReason("");
     setIsSubmitting(false);
     setIsSuccess(false);
@@ -148,21 +141,37 @@ function RestorePage({
       });
   }
 
+  // Handle selection of the desired parent page
   function handleSelect(e) {
     setDesiredParentPageId(e.target.id);
   }
 
-  // Get parent page page for location text field
+  // Get data for the page being restored
+  useEffect(() => {
+    if (id) {
+      pageService
+        .read(id)
+        .then((page) => {
+          setTitle(page?.title);
+          setDesiredParentPageId(page?.parent_page_id);
+        })
+        .catch((error) => {
+          console.log("Error fetching page data");
+          setIsError(true);
+        });
+    }
+  }, [id]);
+
+  // Get parent page path for location text field
   useEffect(() => {
     if (desiredParentPageId) {
       pageService
         .getPath(desiredParentPageId)
         .then((path) => {
-          console.log("path in PageLocation: ", path);
           setLocationText(path);
         })
         .catch((error) => {
-          console.log(error);
+          console.log("Error fetching parent page path");
         });
     }
   }, [desiredParentPageId]);
