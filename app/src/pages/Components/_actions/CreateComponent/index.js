@@ -23,6 +23,7 @@ const Result = styled.div`
 `;
 
 function CreateComponent({ isOpen, setIsOpen, onAfterClose }) {
+  const [name, setName] = useState("");
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 300);
   const [results, setResults] = useState([]);
@@ -30,13 +31,14 @@ function CreateComponent({ isOpen, setIsOpen, onAfterClose }) {
 
   useEffect(() => {
     if (debouncedSearch) {
-      componentService.getComponentsBySearchTerm(debouncedSearch)
+      componentService
+        .getComponentsBySearchTerm(debouncedSearch)
         .then((results) => {
-          setResults(results)
+          setResults(results);
         })
         .catch((error) => {
           setIsError(true);
-        })
+        });
     }
   }, [debouncedSearch]);
 
@@ -47,22 +49,39 @@ function CreateComponent({ isOpen, setIsOpen, onAfterClose }) {
       onAfterClose={onAfterClose}
     >
       <h1>Create component</h1>
-      <TextInput
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      {results && Array.isArray(results) && results?.length > 0 && results.map((result, index) => {
-        return (
-          <Result key={index}>
-            <span className="name"><strong>Name: </strong>{result?.name}</span>
-            <span className="type"><strong>Type: </strong>{result?.type_display_name}</span>
-            <span className="title"><strong>Title: </strong>{result?.title}</span>
-          </Result>
-        )
-      })}
+      <div className="component-field">
+        <label htmlFor="component-name">Name (must be unique)</label>
+        <TextInput
+          id="component-name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <TextInput value={search} onChange={(e) => setSearch(e.target.value)} />
+      {results &&
+        Array.isArray(results) &&
+        results?.length > 0 &&
+        results.map((result, index) => {
+          return (
+            <Result key={index}>
+              <span className="name">
+                <strong>Name: </strong>
+                {result?.name}
+              </span>
+              <span className="type">
+                <strong>Type: </strong>
+                {result?.type_display_name}
+              </span>
+              <span className="title">
+                <strong>Title: </strong>
+                {result?.title}
+              </span>
+            </Result>
+          );
+        })}
       {isError && <p>Error getting results</p>}
     </StyledModal>
-  )
+  );
 }
 
 export default CreateComponent;
