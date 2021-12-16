@@ -24,6 +24,7 @@ const Result = styled.div`
 
 function CreateComponent({ isOpen, setIsOpen, onAfterClose }) {
   const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 300);
   const [results, setResults] = useState([]);
@@ -50,11 +51,19 @@ function CreateComponent({ isOpen, setIsOpen, onAfterClose }) {
     >
       <h1>Create component</h1>
       <div className="component-field">
-        <label htmlFor="component-name">Name (must be unique)</label>
+        <label htmlFor="component-name">Name * (must be unique)</label>
         <TextInput
           id="component-name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div className="component-field">
+        <label htmlFor="component-title">Title *</label>
+        <TextInput
+          id="component-name"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </div>
       <TextInput value={search} onChange={(e) => setSearch(e.target.value)} />
