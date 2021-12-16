@@ -15,6 +15,9 @@ import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
 import Link from "@ckeditor/ckeditor5-link/src/link";
 import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 
+// Sub-components
+import ContactMethods from "./ContactMethods";
+
 const Result = styled.div`
   background-color: #f0f0f0;
   border-radius: 8px;
@@ -32,6 +35,7 @@ const Result = styled.div`
 function ContactInformation() {
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
+  const [contactItems, setContactItems] = useState([]);
   const [isReusable, setIsReusable] = useState(false);
   const [name, setName] = useState("");
   const debouncedNameSearch = useDebounce(name, 300);
@@ -93,6 +97,10 @@ function ContactInformation() {
         onFocus={(event, editor) => {
           console.log("Focus.", editor);
         }}
+      />
+      <ContactMethods
+        contactItems={contactItems}
+        setContactItems={setContactItems}
       />
       <div className="component-field">
         <input
