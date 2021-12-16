@@ -16,18 +16,11 @@ function ContactInformation() {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [intro, setIntro] = useState("");
+  const [isReusable, setIsReusable] = useState(false);
 
   return (
     <>
       <h1>Contact information</h1>
-      <div className="component-field">
-        <label htmlFor="component-name">Name * (must be unique)</label>
-        <TextInput
-          id="component-name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </div>
       <div className="component-field">
         <label htmlFor="component-title">Title *</label>
         <TextInput
@@ -69,6 +62,25 @@ function ContactInformation() {
           console.log("Focus.", editor);
         }}
       />
+      <div className="component-field">
+        <input
+          id="save-as-reusable"
+          type="checkbox"
+          checked={isReusable}
+          onChange={() => setIsReusable(!isReusable)}
+        />
+        <label htmlFor="save-as-reusable">Save as a reusable component</label>
+      </div>
+      {isReusable && (
+        <div className="component-field">
+          <label htmlFor="component-name">Name * (must be unique)</label>
+          <TextInput
+            id="component-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+      )}
     </>
   );
 }
