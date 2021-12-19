@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Global components & services
+import Button from "../../../../../../components/Button";
 import TextInput from "../../../../../../components/TextInput";
 import { useDebounce } from "../../../../../../hooks/useDebounce";
 import { componentService } from "../../../../../../_services/component.service";
@@ -17,6 +18,15 @@ import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
 
 // Sub-components
 import ContactMethods from "./ContactMethods";
+
+const StyledDiv = styled.div`
+  div.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+`;
 
 const Result = styled.div`
   background-color: #f0f0f0;
@@ -41,6 +51,24 @@ function AddNew() {
   const debouncedNameSearch = useDebounce(name, 300);
   const [nameResults, setNameResults] = useState([]);
 
+  function handleSubmit() {
+    componentService
+      .create({
+        fields: contactItems,
+        intro: intro,
+        isReusable: isReusable,
+        name: name,
+        title: title,
+        type: "d632b0f5-99b8-4a73-a1ac-02f6117388db",
+      })
+      .then((newComponentId) => {
+        console.log("newComponentId: ", newComponentId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   useEffect(() => {
     if (debouncedNameSearch) {
       componentService
@@ -55,7 +83,7 @@ function AddNew() {
   }, [debouncedNameSearch]);
 
   return (
-    <>
+    <StyledDiv>
       <div className="component-field">
         <label htmlFor="component-title">Title *</label>
         <TextInput
@@ -141,7 +169,21 @@ function AddNew() {
             </Result>
           );
         })}
-    </>
+      <div className="controls">
+        <Button
+          primary
+          onClick={handleSubmit}
+          disabled={
+            !title ||
+            contactItems?.length === 0 ||
+            (isReusable && !name)
+          }
+        >
+          Create
+        </Button>
+        <Button>Cancel</Button>
+      </div>
+    </StyledDiv>
   );
 }
 
