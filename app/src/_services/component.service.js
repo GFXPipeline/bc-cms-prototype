@@ -3,7 +3,36 @@ import axios from "axios";
 import { authHeader } from "../_helpers";
 import { authenticationService } from "../_services";
 
-// GET request to /api/page/:id to read details of a single page
+// POST request to /api/component/ to create a new component
+async function create({ fields, intro, name, title, type, }) {
+  console.log("componentService.create()");
+  try {
+    const headers = authHeader();
+
+    const newComponentData = {
+      username: authenticationService.currentUserValue.username,
+      type,
+      title,
+      intro,
+      fields,
+      name,
+    }
+
+    const response = await axios({
+      method: "POST",
+      url: "/api/component",
+      headers,
+      data: newComponentData
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in componentService.create(): ");
+    throw error;
+  }
+}
+
+// GET request to /api/component/:id to read details of a single page
 async function read(id) {
   console.log("Inside componentService.read, id: ", id);
   try {
@@ -235,6 +264,7 @@ async function getContactFieldTypes() {
 }
 
 export const componentService = {
+  create,
   read,
   update,
   getComponentList,
