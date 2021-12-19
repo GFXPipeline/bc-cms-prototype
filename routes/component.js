@@ -1,4 +1,5 @@
 const express = require("express");
+const { v4: uuidv4 } = require("uuid");
 const jwt = require("../_helpers/jwt");
 const errorHandler = require("../_helpers/error-handler");
 const knex = require("../db");
@@ -6,6 +7,50 @@ const knex = require("../db");
 const componentRouter = express.Router();
 componentRouter.use(jwt());
 componentRouter.use(errorHandler);
+
+// Create component
+componentRouter.post("/", (req, res) => {
+  console.log("POST /api/component");
+
+  // Check that the user doing the submission exists and store user ID
+  knex("users")
+    .select("id")
+    .where("username", req?.body?.username)
+    .then((rows) => {
+      console.log(`rows in POST /api/component/ check for user: `, rows);
+      if (rows?.length > 0) {
+        const userId = rows[0]?.id;
+        const newComponentId = uuidv4();
+
+        knex("components")
+          .insert({
+            id: newComponentId,
+            type_id: req?.body?.type,
+            name: req?.body?.name,
+            title: req?.body?.title,
+            intro: req?.body?.intro,
+            fields: req?.body?.fields,
+            created_by_user: userId,
+            owned_by_user: userId,
+            last_modified_by_user: userId,
+          })
+          .then((success) => {
+            res.status(200).send(newComponentId);
+          })
+          .catch((error) => {
+            console.log(
+              "error in POST /api/component knex action to insert component: ",
+              error
+            );
+            res.status(404).send();
+          });
+      }
+    })
+    .catch((error) => {
+      // No user found
+      res.status(401).send();
+    })
+})
 
 // Read component
 componentRouter.get("/:id", (req, res) => {
