@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import { componentService } from "../../_services/component.service";
 import Button from "../Button";
-import ButtonLink from "../ButtonLink";
 import Icon from "../Icon";
 
 const StyledDiv = styled.div`
@@ -123,7 +122,9 @@ function ContactUsBox({ id }) {
       {isError && <p>Could not fetch component data.</p>}
       <div className="controls">
         <Button onClick={() => reloadComponentDetails()}>Refresh data</Button>
-        <ButtonLink>Go to master copy</ButtonLink>
+        <Button onClick={() => window.open(`/components/${id}`, "_blank")}>
+          Go to master copy
+        </Button>
       </div>
     </StyledDiv>
   );
