@@ -43,6 +43,7 @@ import Button from "../../components/Button";
 import ButtonLink from "../../components/ButtonLink";
 import ContactUsBox from "../../components/ContactUs";
 import Header from "../../components/Header";
+import Icon from "../../components/Icon";
 import Select from "../../components/Select";
 import TextInput from "../../components/TextInput";
 
@@ -346,6 +347,52 @@ const RightPanel = styled.div`
   width: calc(100% - 368px);
 `;
 
+const PluginsToolbar = styled.div`
+  align-items: center;
+  background-color: #fafafa;
+  border: 1px solid #c4c4c4;
+  border-bottom: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: 38px;
+  padding: 4px;
+
+  button {
+    align-items: center;
+    background-color: inherit;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    color: #333;
+    display: flex;
+    flex-direction: row;
+    font-family: Helvetica, Arial, Tahoma, Verdana, sans-serif;
+    font-size: 13px;
+    height: 24px;
+    margin: 4px 4px 4px 0;
+    padding: 2px 8px;
+    transition: box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:hover {
+      background-color: #e6e6e6;
+
+      &:disabled {
+        background-color: inherit;
+      }
+    }
+
+    svg {
+      color: #333;
+      height: 20px;
+      margin-right: 3px;
+    }
+  }
+`;
+
 function ContentEntry() {
   const history = useHistory();
 
@@ -595,6 +642,15 @@ function ContentEntry() {
             currentTab={tab}
             setCurrentTab={setTab}
           />
+          <PluginsToolbar>
+            <button
+              disabled={!isEditMode}
+              onClick={() => setModalInsertContactOpen(true)}
+            >
+              <Icon id="fa-phone.svg" />
+              <span>Contact Us</span>
+            </button>
+          </PluginsToolbar>
           <CKEditor
             id="main-editor"
             editor={ClassicEditor}
