@@ -58,6 +58,7 @@ import CreatePage from "./_actions/CreatePage";
 import CreatePageNew from "./_actions/CreatePageNew";
 import DeletePage from "./_actions/DeletePage";
 import CancelEdits from "./_actions/CancelEdits";
+import InsertContact from "./_actions/InsertContact";
 
 // Reusable components input fields
 import ContactUsInput from "./ReusableComponents/ContactUs";
@@ -377,6 +378,7 @@ function ContentEntry() {
   const [modalCreatePageOpen, setModalCreatePageOpen] = useState(false);
   const [modalDeletePageOpen, setModalDeletePageOpen] = useState(false);
   const [modalCancelEditsOpen, setModalCancelEditsOpen] = useState(false);
+  const [modalInsertContactOpen, setModalInsertContactOpen] = useState(false);
 
   function getPageIdForModal() {
     return isEditMode ? id : selectedPages?.length > 0 ? selectedPages[0] : id;
@@ -670,6 +672,11 @@ function ContentEntry() {
         isOpen={modalCancelEditsOpen}
         setIsOpen={setModalCancelEditsOpen}
         clearEdits={clearEdits}
+      />
+      <InsertContact
+        editor={editor}
+        isOpen={modalInsertContactOpen}
+        setIsOpen={setModalInsertContactOpen}
       />
     </Page>
   );
