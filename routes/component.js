@@ -29,7 +29,7 @@ componentRouter.post("/", (req, res) => {
             name: req?.body?.name,
             title: req?.body?.title,
             intro: req?.body?.intro,
-            fields: req?.body?.fields,
+            fields: req?.body?.fields, // TODO: Need to insert fields first, get IDs, use to populate this array
             created_by_user: userId,
             owned_by_user: userId,
             last_modified_by_user: userId,

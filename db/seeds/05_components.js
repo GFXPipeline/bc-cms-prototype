@@ -12,21 +12,9 @@ exports.seed = function (knex) {
           title: "Contact GCPE",
           intro: "<p>Contact us by phone or email.</p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Office",
-              data: "1-250-387-1337",
-            },
-            {
-              option_id: "ecc76fca-f04d-40e9-93f8-f8d317d76128",
-              label_prefix: "Email example",
-              data: "victoria@example.com",
-            },
-            {
-              option_id: "d3c9186d-d781-49f0-aa15-dc2c6547220a",
-              label_prefix: "Web",
-              data: "https://example.com",
-            },
+            "c8cfe440-9600-4b12-91f4-b19bca25799c",
+            "3a2d7d83-a389-447f-8bef-b3d5e5c7dc90",
+            "95d54030-8490-45c6-b3c7-1d73519427e4",
           ],
         },
         {
@@ -36,11 +24,7 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-395-7832",
-            },
+            "1847ce36-db21-43d9-8e5e-daba0f9eff6d",
           ],
         },
         {
@@ -50,16 +34,8 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-453-2412",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-453-9622",
-            },
+            "839d9886-482d-47b8-89e9-00572eba13ba",
+            "766ffd04-10a4-46c4-a986-cfb481bc1353",
           ],
         },
         {
@@ -70,16 +46,8 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-651-7595",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-651-7707",
-            },
+            "c3448389-c1a2-450c-ab3f-4c71e64c8f3f",
+            "f7d7008b-7cfc-4263-bb5a-c3b950320250",
           ],
         },
         {
@@ -89,16 +57,8 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-799-5361",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-799-5450",
-            },
+            "c070f50c-ad91-41a6-88d6-59ce82048d7c",
+            "029f8565-e9ba-48ec-81fc-293de01b6751",
           ],
         },
         {
@@ -109,16 +69,8 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-692-2528",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-692-2530",
-            },
+            "bd4e484d-9b58-49e2-9f52-0b5308bbf965",
+            "97e8f1af-5a1c-4322-8309-e08f49fadefe",
           ],
         },
         {
@@ -128,16 +80,8 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-286-7555",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-286-7573",
-            },
+            "09a2f697-0690-483b-b7d9-4ee3f4eeda94",
+            "f945b75c-0622-4c29-82e1-a1d005b37666",
           ],
         },
         {
@@ -148,16 +92,8 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-788-2239",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-788-3802",
-            },
+            "fd0655ae-b77c-4cb2-90ca-59f32107dc50",
+            "08ba4f75-5ef6-4c8f-8b24-0bcee0ce967e",
           ],
         },
         {
@@ -167,16 +103,8 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-604-795-8415",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-604-795-8408",
-            },
+            "ff4f4f0e-e32b-4ea5-bd75-98b71733cf78",
+            "40f8da83-7a73-4e4e-87a1-f253870812f5",
           ],
         },
         {
@@ -187,16 +115,8 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-459-2268",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-459-7082",
-            },
+            "1754d080-c62d-4a28-b92d-71934616ae9e",
+            "b0fd9dbc-797d-4a12-94b3-365a3104dad3",
           ],
         },
         {
@@ -207,16 +127,8 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-897-7500",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-334-1209",
-            },
+            "d5d43496-59e0-4199-bd3a-f30a8ce16517",
+            "28dc54b1-deab-479b-a830-e4a4765f420d",
           ],
         },
         {
@@ -227,16 +139,8 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-417-6100",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-426-1253",
-            },
+            "c355ddb1-78d2-479c-b7e0-f395a00e679e",
+            "b9d4ad44-773b-45dd-8fb2-1f362247aa06",
           ],
         },
         {
@@ -246,16 +150,8 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-428-3212",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-428-3211",
-            },
+            "203d7ae6-2000-48b5-a1f5-b5b39454653e",
+            "d1df218d-c43b-447f-9074-50f8e8ddfc2d",
           ],
         },
         {
@@ -265,16 +161,8 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-784-2224",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-784-2211",
-            },
+            "f2bd30f4-7f24-44d1-94ec-1e491ba4fbf2",
+            "5a7f4cf5-c1f8-4937-8c4b-4bf901a0f031",
           ],
         },
         {
@@ -284,16 +172,8 @@ exports.seed = function (knex) {
           title: "Contact Information",
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-771-3700",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-771-3702",
-            },
+            "d0c4c752-279a-4696-a088-123dbf09f925",
+            "a5be2ad8-bad6-45b8-a19f-4d8768081b3a",
           ],
         },
         {
@@ -304,16 +184,8 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p></p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Phone",
-              data: "1-250-746-1400",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Fax",
-              data: "1-250-746-1401",
-            },
+            "f0cc7bda-8663-4e6c-a49b-2616d87c9357",
+            "962477b1-533a-4949-80d2-56becaf6d01f",
           ],
         },
         {
@@ -325,16 +197,8 @@ exports.seed = function (knex) {
           intro:
             "<p>Our hours of operation are Monday through Friday, 8:30am - 4:30pm.</p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Toll Free",
-              data: "1-877-388-4440",
-            },
-            {
-              option_id: "ecc76fca-f04d-40e9-93f8-f8d317d76128",
-              label_prefix: "Email",
-              data: "CTBTaxQuestions@gov.bc.ca",
-            },
+            "161bd13d-4f86-4377-90a1-3c6bcb00a54b",
+            "6a5acf91-689f-4386-a37a-15295e80e7fe",
           ],
         },
         {
@@ -345,21 +209,9 @@ exports.seed = function (knex) {
           is_published: true,
           intro: "<p>If you would like to speak with an agent, call us at:</p>",
           fields: [
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Toll Free",
-              data: "1-833-554-2323",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Outside North America",
-              data: "1-604-660-2421",
-            },
-            {
-              option_id: "2336e5ba-3ea7-407e-967b-13d1841396cf",
-              label_prefix: "Telephone Device for the Deaf (TDD)",
-              data: "711",
-            },
+            "7e58b21f-9dce-4dc9-b816-42be78f6c082",
+            "da41fe07-319b-4c10-92a0-8b3fc25bd506",
+            "2cc872b8-574e-4dd1-a029-0b6b4e3d6856",
           ],
         },
       ]);
